@@ -24,16 +24,16 @@
   ],
   "items": [
     {
-      "id": "zibas-clasicas",
-      "name": "Ziba's Clásicas",
-      "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-clasicas-2.webp",
+      "id": "ranchitas-pizza",
+      "name": "Nacho Pizza",
+      "image": "/images/es/products/npizza.png",
       "background_color": "#FDE820",
       "header_color": "#FDE820",
       "text_color":"#FDE820",
       "header_background": "#FDE820",
       "header_text_color": "#5B3F2E",
       "color_button": "#FDE820",
-      "description": "Hojuelas de Papa Fritas con sabor a Queso.",
+      "description": "Tortillas de maíz crujientes con sabor a pizza",
       "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
       "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
       "sizes": [
@@ -51,16 +51,15 @@
       ]
     },
     {
-      "id": "zibas-chile-toreado",
-      "name": "Ziba's Chile Toreado",
-      "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-chile-toreado-2.webp",
+      "id": "ranchitas-excitante",
+      "name": "Nacho Excitante",
+      "image": "/images/es/products/nexcitante.png",
       "background_color": "#147a2f",  
       "header_color": "#FFFFFF",
       "text_color":"#147a2f",
       "header_background": "#147a2f",
-      "header_color": "#FFFFFF",
       "color_button": "#147a2f",
-      "description": "Hojuelas de Papa Fritas con sabor a Queso.",
+      "description": "Papas fritas crujientes con sabor a nachos picante",
       "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
       "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
       "sizes": [
@@ -78,16 +77,16 @@
       ]
     },
     {
-      "id": "zibas-queso",
-      "name": "Ziba's Queso",
-      "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-queso-2.webp",
+      "id": "ranchitas-queso",
+      "name": "Nacho Queso",
+      "image": "/images/es/products/nqueso.png",
       "background_color": "#FE5A00",
       "header_color": "#FFFFFF",
       "text_color":"#FE5A00",
       "header_background": "#FE5A00",
       "header_text_color": "#FFFFFF",
       "color_button": "#FE5A00",
-      "description": "Hojuelas de Papa Fritas con sabor a Queso.",
+      "description": "Tortillas fritas de maíz con sabor a queso.",
       "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
       "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
       "sizes": [
@@ -105,43 +104,16 @@
       ]
     },
     {
-      "id": "zibas-crema-y-especias",
-      "name": "Ziba's Crema y Especias",
-      "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-crema-y-especias-2.webp",
+      "id": "ranchitas-extremo",
+      "name": "Nacho Extremo",
+      "image": "/images/es/products/nextremo.png",
       "background_color": "#BEDE89",
       "header_color": "#1C1C1C",
       "text_color":"#BEDE89",
       "header_background": "#BEDE89",
       "header_text_color": "#1C1C1C",
       "color_button": "#BEDE89",
-      "description": "Hojuelas de Papa Fritas con sabor a Queso.",
-      "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
-      "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
-      "sizes": [
-        {
-          "value": "150",
-          "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-clasicas-2.webp"
-        }
-      ],
-      "weight": [
-        "23g",
-        "26g",
-        "40g",
-        "80g",
-        "190g"
-      ]
-    },
-    {
-      "id": "zibas-miel-mostaza",
-      "name": "Ziba's Miel Mostaza",
-      "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-miel-mostasa-2.webp",
-      "background_color": "#0167F7",
-      "header_color": "#FFFFFF",
-      "text_color":"#FFFFFF",
-      "header_background": "#0167F7",
-      "header_text_color": "#FFFFFF",
-      "color_button": "#0167F7",
-      "description": "Hojuelas de Papa Fritas con sabor a Queso.",
+      "description": "Tortillas de maíz con sabor a chiles toreados.",
       "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
       "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
       "sizes": [

@@ -4,6 +4,7 @@ interface Product {
   id: string;
   slug: string;
   name: string;
+  description: string;
   image: string;
   imageMobile?: string;
   background_color?: string;
@@ -23,13 +24,6 @@ export interface Props {
 
 const {
   products = [],
-  className = '',
-  autoplay = true,
-  speed = 5000,
-  slidesPerView = 3,
-  spaceBetween = 30,
-  loop = true,
-  color = '#F08C00'
 } = Astro.props;
 
 const currentLang = Astro.url.pathname.split('/')[1] === 'es' ? 'es' : 'en';
@@ -45,256 +39,56 @@ const texts = {
 };
 
 const currentTexts = texts[currentLang as keyof typeof texts];
-
-// Asegurarse de que products es un array
 const productsItems = Array.isArray(products) ? products : [];
 
 import LazyImage from '../LazyImage.astro';
 ---
 
-<div class={`products-carousel ${className}`} data-autoplay={autoplay} data-speed={speed}>
-  
-  <div class="swiper-container">
-    <div class="swiper-wrapper">
-      {productsItems.map((product) => (
-        <div class="swiper-slide">
-          <div class="product-card rounded-[50px] border border-indigo-300 bg-[#0f5fcd]">
-            <div class="product-image-container">
-             
+<div class="bg-orange py-9 px-0 rounded-l-[50px] overflow-hidden ml-[80px]">
+  <div class="products-carousel">
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        {productsItems.map((product) => (
+          <div class="swiper-slide">
+            <div class="product-card-container flex items-center gap-0 w-full max-w-[900px]">
+
+              <!-- Imagen -->
+              <div class="product-image-wrapper flex-shrink-0 -mr-16 z-10">
+                <LazyImage 
+                  src={product.imageMobile || product.image} 
+                  alt={product.name}
+                  class="product-image w-[200px] h-[198.46px] object-contain"
+                />
+              </div>
               
-              <LazyImage 
-                src={product.imageMobile || product.image} 
-                alt={product.name}
-                class="product-image z-20 md:mt-[0px] -mt-[35px]"
-                width={300}
-                height={400}
-              />
-            </div>
-            
-            <div class="absolute bottom-0 left-0 right-0 p-6 text-left text-white">
-              <h4 class="text-left text-4xl">
-                ZIBA'S
-              </h4>
-              <h3 class="text-2xl md:text-4xl font-bold uppercase mb-4 tracking-wide" style={`color: ${product.text_color || '#10b981'}`}>
-                {product.name.split(' ').slice(1).join(' ')}
-              </h3>
-              
-              <a 
-                href={`/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}/${product.id}`}
-                style={`background-color: #004AB2`}  
-                class="flex w-full max-w-[310px] h-[58px] text-2xl px-[10px] py-5 justify-center items-center gap-[10px] shrink-0 rounded-[100px] border border-blue bg-blue text-white font-semibold hover:shadow-lg uppercase"
-                data-no-swipe="true"
-                data-no-animation="true"
-              >
-                {currentTexts.viewMore}
-              </a>
-             
+              <!-- Tarjeta más ancha -->
+              <div class="bg-white rounded-[10px] pt-[16px] pb-8 pl-12 flex-1 min-w-[305px] h-[150px]">
+                <h3 class="text-[22px] font-bold text-black ">
+                  {product.name}
+                </h3>
+
+                <p class="text-gray-700 text-[14px] leading-relaxed w-[230px] h-[54px] pt-2">
+                  {product.description}
+                </p>
+
+                <a 
+                  href={`/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}/${product.id}`}
+                  class="inline-flex items-center text-[#F86509] font-bold text-lg hover:underline"
+                  data-no-swipe="true"
+                  data-no-animation="true"
+                >
+                  {currentTexts.viewMore}
+                </a>
+              </div>
+
             </div>
           </div>
-        </div>
-      ))}
-    </div>
-    
-    <!-- Navegación -->
-    <div class="swiper-button-next !text-white !bg-blue-500/80 !w-12 !h-12 !rounded-full hover:!bg-blue-600/90 transition-all duration-300 !border-2 !border-white/30 backdrop-blur-sm">
-      
-    </div>
-    <div class="swiper-button-prev !text-white !bg-blue-500/80 !w-12 !h-12 !rounded-full hover:!bg-blue-600/90 transition-all duration-300 !border-2 !border-white/30 backdrop-blur-sm">
-      
+        ))}
+      </div>
     </div>
   </div>
 </div>
 
-<style>
-  .products-carousel {
-    width: 100%;
-    padding: 1rem 0; /* Reducir padding vertical */
-    overflow: visible; /* Cambiar a visible para permitir que las imágenes se muestren completamente */
-    padding-top: 180px; /* Reducir el espacio superior */
-  }
-
-  .swiper-container {
-    position: relative;
-    width: 100%;
-    padding: 0 40px;
-    overflow: visible; /* Cambiar a visible para permitir overflow */
-  }
-
-  .swiper-wrapper {
-    display: flex;
-    align-items: stretch;
-    overflow: visible; /* Asegurar que el wrapper también tenga overflow visible */
-  }
-
-  .swiper-slide {
-    height: auto;
-    display: flex;
-    flex-shrink: 0;
-    width: auto;
-    padding-top: 0; /* Remover padding extra si existe */
-    overflow: visible; /* Permitir overflow en las slides también */
-  }
-
-  .product-card {
-    width: 100%;
-    padding: 2rem; /* Aumentar padding interno */
-    min-height: 500px; /* Aumentar altura de la tarjeta */
-    position: relative;
-    overflow: visible; /* Cambiar a visible para que la imagen pueda salir del contenedor */
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-  }
-
-  .product-image-container {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    
-    margin-top: -75px; /* Aumentar mucho más el overflow */
-  }
-
-  .product-image-container img {
-    width: 300px !important; /* Aumentar ancho de imagen */
-    height: 400px !important; /* Aumentar altura de imagen */
-    object-fit: contain !important;
-    border-radius: 50px !important;
-    background: transparent !important; /* Eliminar background, solo la card lo tiene */
-    flex-shrink: 0 !important;
-  }
-
-  .product-card .product-image-container img {
-    width: 300px !important; /* Aumentar ancho de imagen */
-    height: 400px !important; /* Aumentar altura de imagen */
-    object-fit: contain !important;
-    border-radius: 50px !important;
-    background-color: transparent !important; /* Eliminar background, solo la card lo tiene */
-    flex-shrink: 0 !important;
-  }
-
-  /* Estilos específicos para LazyImage */
-  .product-image-container .product-image {
-    width: 300px !important; /* Aumentar ancho de imagen */
-    height: 400px !important; /* Aumentar altura de imagen */
-    object-fit: contain !important;
-    border-radius: 50px !important;
-    background: transparent !important; /* Eliminar background, solo la card lo tiene */
-    flex-shrink: 0 !important;
-    max-width: none !important;
-    max-height: none !important;
-  }
-
-  .product-card .absolute.bottom-0 {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 1.5rem;
-    text-align: left; /* Cambiar de center a left */
-    color: white;
-  }
-
-  .product-card h3 {
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 1rem;
-  }
-
-  .product-card a {
-    background-color: #F08C00;
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border-radius: 50px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.3s ease;
-  }
-
-  .product-card a:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* Prevent animation glitches during navigation */
-  .product-card a[data-no-animation] {
-    transition: box-shadow 0.3s ease;
-    transform: none !important;
-  }
-
-  /* Estilos responsive para el botón ViewMore */
-  .product-card a {
-    max-width: 100%;
-    min-width: 200px;
-  }
-
-  /* Responsive */
-  @media (max-width: 768px) {
-    .products-carousel {
-      padding-top: 150px; /* Reducir para tablet */
-    }
-    
-    .swiper-container {
-      padding: 0 30px;
-    }
-
-    .product-card {
-      min-height: 480px; /* Aumentar altura en tablet */
-      padding: 1.5rem;
-    }
-
-    .product-image-container {
-      margin-top: -120px; /* Ajustar overflow para tablet */
-    }
-
-    .product-image-container img,
-    .product-image-container .product-image {
-      width: 280px !important; /* Más grande en tablet */
-      height: 380px !important;
-    }
-
-    /* Ajustar botón en tablet */
-    .product-card a {
-      max-width: 280px !important;
-      width: 100% !important;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .products-carousel {
-      padding-top: 120px; /* Reducir para móvil */
-    }
-    
-    .swiper-container {
-      padding: 0 20px;
-    }
-
-    .product-card {
-      min-height: 420px; /* Aumentar altura en móvil */
-      padding: 1rem;
-    }
-
-    .product-image-container {
-      margin-top: -100px; /* Ajustar overflow para móvil */
-    }
-
-    .product-image-container img,
-    .product-image-container .product-image {
-      width: 220px !important; /* Más grande en móvil */
-      height: 320px !important;
-    }
-
-    /* Ajustar botón en móvil */
-    .product-card a {
-      max-width: 240px !important;
-      width: 100% !important;
-      height: 50px !important;
-      font-size: 14px !important;
-      padding: 16px 8px !important;
-    }
-  }
-</style>
 
 <script>
   import Swiper from 'swiper';
@@ -326,11 +120,9 @@ import LazyImage from '../LazyImage.astro';
       
       if (!swiperContainer) return;
 
-      // Add event listeners to prevent swiper from handling link clicks
       const productLinks = swiperContainer.querySelectorAll('a[data-no-swipe]');
       productLinks.forEach(link => {
         link.addEventListener('click', (e) => {
-          // Stop propagation to prevent Swiper from handling the click
           e.stopPropagation();
         });
       });
@@ -338,7 +130,7 @@ import LazyImage from '../LazyImage.astro';
       this.swiper = new Swiper(swiperContainer, {
         modules: [Navigation, Autoplay],
         slidesPerView: this.options.slidesPerView || 3,
-        spaceBetween: this.options.spaceBetween || 30,
+        spaceBetween: this.options.spaceBetween || 50,
         loop: this.options.loop !== false,
         autoplay: this.options.autoplay ? {
           delay: this.options.speed || 5000,
@@ -351,25 +143,23 @@ import LazyImage from '../LazyImage.astro';
         breakpoints: {
           320: {
             slidesPerView: 1,
-            spaceBetween: 20,
+            spaceBetween: 350,
           },
           768: {
             slidesPerView: 2,
-            spaceBetween: 30,
+            spaceBetween: 350,
           },
           1024: {
             slidesPerView: this.options.slidesPerView || 3,
-            spaceBetween: this.options.spaceBetween || 30,
+            spaceBetween: 100,
           },
         },
-        // Prevent swiper from handling clicks on links with data-no-animation
         preventClicksPropagation: true,
         preventClicks: false,
         noSwiping: true,
         noSwipingClass: 'swiper-no-swiping',
       });
 
-      // Add swiper-no-swiping class to all links with data-no-swipe attribute
       productLinks.forEach(link => {
         link.classList.add('swiper-no-swiping');
       });
@@ -383,16 +173,13 @@ import LazyImage from '../LazyImage.astro';
     }
   }
 
-  // Variable global para almacenar instancias
   let carouselInstances: ProductsCarousel[] = [];
 
-  // Función para limpiar instancias existentes
   function cleanupCarousels() {
     carouselInstances.forEach(instance => instance.destroy());
     carouselInstances = [];
   }
 
-  // Función para inicializar carruseles
   function initializeCarousels() {
     cleanupCarousels();
     
@@ -403,7 +190,7 @@ import LazyImage from '../LazyImage.astro';
           autoplay: element.dataset.autoplay !== 'false',
           speed: parseInt(element.dataset.speed || '5000', 10),
           slidesPerView: 3,
-          spaceBetween: 30,
+          spaceBetween: 50,
           loop: true,
         });
         carouselInstances.push(instance);
@@ -411,11 +198,8 @@ import LazyImage from '../LazyImage.astro';
     });
   }
 
-  // Inicializar en DOMContentLoaded
   document.addEventListener('DOMContentLoaded', initializeCarousels);
-  // Reinicializar en navegaciones parciales
   document.addEventListener('astro:page-load', initializeCarousels);
   document.addEventListener('astro:after-swap', initializeCarousels);
-  // Limpiar antes del swap de Astro
   document.addEventListener('astro:before-swap', cleanupCarousels);
-</script> 
+</script>

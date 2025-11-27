@@ -95,35 +95,33 @@ const featuredLabel = currentLang==='es' ? 'DESTACADOS' : 'FEATURED';
     
     <!-- Sección de Productos Zibas -->
     {zibasProducts.length > 0 && (
-      <section id="products" class="w-full py-4 bg-blue pt-16">
-        <div class="container mx-auto px-4">
-          {brandsAssets.home?.title && (
-          <div class="text-center mb-2 relative z-20" >
-            <h2 class="text-3xl md:text-4xl italic font-bold mb-3" style={`color: white`}>
-              {brandsAssets.home?.title}
-            </h2>
-            {brandsAssets.home?.subtitle && (
-              <h1 class="text-6xl md:text-9xl italic font-bold " style={`color: white`}>
-                {brandsAssets.home?.subtitle}
-              </h1>
-            )}
-          </div>
-        )}
+      <section 
+        id="products" 
+        class="w-full relative"
+        style="background: linear-gradient(to bottom, #FAF0D5 0%, #FAF0D5 25%, white 25%, white 100%);"
+      >
+        <div class="relative z-30">
           <ProductsCarousel 
             products={products}
             color={'white'}
             autoplay={true}
             speed={4000}
             slidesPerView={3}
-            spaceBetween={30}
+            spaceBetween={50}
             loop={true}
-            className="max-w-7xl mx-auto mb-8"
           />
+        </div>
+    
+        {/* SVG posicionado abajo a la derecha */}
+        <div class="absolute bottom-0 top-[50px] right-0 pointer-events-none z-20">
+          <svg width="427" height="375" viewBox="0 0 427 375" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M427 0L427 374.5C416.5 322 394 261 364 243C334 225 329 219.5 312.5 209.5C285.26 188.395 254 143 239 105.5C224 68 218.5 65 205 55.5C191.5 46 94.8911 48.0193 0 0L427 0Z" fill="#FAF0D5"/>
+          </svg>
         </div>
       </section>
     )}
     <!-- Sección de recetas con carrusel -->
-    <section id="recipes" class="w-full py-12" transition:animate="slide">
+    <section id="recipes" class="w-full py-12 !bg-white" transition:animate="slide">
       <div class="container mx-auto px-4">
         {recipesAssets.home?.title && (
           <div class="text-center mb-16 relative z-20" >
@@ -163,122 +161,82 @@ const featuredLabel = currentLang==='es' ? 'DESTACADOS' : 'FEATURED';
 
 
     <!-- Sección News -->
-      <section id="news" class="bg-yellow w-full py-12 hidden" transition:animate="slide">
-  <div class="container mx-auto px-4">
-    {newsAssets.home.title && (
-      <div class="text-center mb-16 relative z-20 overflow-hidden" >
-          <div class="absolute left-0 top-0 w-[100%] h-[100%] -z-10 pointer-events-none -ml-[250px]">
-            <PixelGrid
-               pixelSize={20}
-               density={0.7}
-               introDuration={800}
-               loopInterval={1100}
-               mutateAmount={50}
-             />
-          </div>
-        <h2 class="text-3xl md:text-4xl italic font-bold mb-4 text-brown relative z-10">
-          {newsAssets.home.title}
-        </h2>
-        {newsAssets.home.subtitle && (
-          <h1 class="text-6xl md:text-9xl italic font-bold mb-4 text-brown relative z-10 flex items-center justify-center">
+    <section id="news" class="bg-yellow w-full py-12 hidden" transition:animate="slide">
+      <div class="container mx-auto px-4">
+        {newsAssets.home.title && (
+          <div class="text-center mb-16 relative z-20 overflow-hidden" >
+              <div class="absolute left-0 top-0 w-[100%] h-[100%] -z-10 pointer-events-none -ml-[250px]">
+                <PixelGrid
+                  pixelSize={20}
+                  density={0.7}
+                  introDuration={800}
+                  loopInterval={1100}
+                  mutateAmount={50}
+                />
+              </div>
+            <h2 class="text-3xl md:text-4xl italic font-bold mb-4 text-brown relative z-10">
+              {newsAssets.home.title}
+            </h2>
+            {newsAssets.home.subtitle && (
+              <h1 class="text-6xl md:text-9xl italic font-bold mb-4 text-brown relative z-10 flex items-center justify-center">
+                
+                <span class="font-title pl-2 relative z-10">{newsAssets.home.subtitle}</span>
+              </h1>
             
-            <span class="font-title pl-2 relative z-10">{newsAssets.home.subtitle}</span>
-          </h1>
-        
+            )}
+          </div>
+        )}
+
+        {latestBlogPosts.length === 0 ? (
+          <div class="max-w-5xl mx-auto text-center py-12">
+            <p class="text-brown text-lg md:text-xl font-semibold">{noNewsText}</p>
+          </div>
+        ) : (
+          <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 items-start">
+              <!-- Columna izquierda: 3 más recientes -->
+              <div class="md:col-span-2">
+                <div class="flex items-center justify-between mb-4">
+                  <h3 class="text-brown font-title text-lg md:text-xl font-bold uppercase tracking-wide">{topNewsLabel}</h3>
+                  <div class="flex-1 ml-4 border-b border-brown/40"></div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                  {latestBlogPosts.slice(0,3).map((post) => (
+                    <BlogCard
+                      image={post.image || '/images/blog/placeholder.jpg'}
+                      title={post.title}
+                      id={post.id}
+                      slug={post.slug}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              <!-- Columna derecha: destacados (posiciones 3 y 4) -->
+              <div class="md:col-span-1">
+                <div class="flex items-center justify-between mb-4">
+                  <h3 class="text-brown font-title text-lg md:text-xl font-bold uppercase tracking-wide">{featuredLabel}</h3>
+                  <div class="flex-1 ml-4 border-b border-brown/40"></div>
+                </div>
+                <div class="grid grid-cols-1 gap-6">
+                  {latestBlogPosts.slice(3,5).map((post) => (
+                    <BlogCard
+                      image={post.image || '/images/blog/placeholder.jpg'}
+                      title={post.title}
+                      id={post.id}
+                      slug={post.slug}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div class="flex justify-center mt-10">
+              <a href={`/${currentLang}/blog`} class="border-2 border-brown text-brown py-2 px-8 rounded-full text-center text-sm md:text-base font-medium hover:bg-brown hover:text-white transition-colors">
+                {currentLang==='es' ? 'Ver más' : 'View more'}
+              </a>
+            </div>
+          </div>
         )}
       </div>
-    )}
-
-    {latestBlogPosts.length === 0 ? (
-      <div class="max-w-5xl mx-auto text-center py-12">
-        <p class="text-brown text-lg md:text-xl font-semibold">{noNewsText}</p>
-      </div>
-    ) : (
-      <div class="max-w-7xl mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 items-start">
-          <!-- Columna izquierda: 3 más recientes -->
-          <div class="md:col-span-2">
-            <div class="flex items-center justify-between mb-4">
-              <h3 class="text-brown font-title text-lg md:text-xl font-bold uppercase tracking-wide">{topNewsLabel}</h3>
-              <div class="flex-1 ml-4 border-b border-brown/40"></div>
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-              {latestBlogPosts.slice(0,3).map((post) => (
-                <BlogCard
-                  image={post.image || '/images/blog/placeholder.jpg'}
-                  title={post.title}
-                  id={post.id}
-                  slug={post.slug}
-                />
-              ))}
-            </div>
-          </div>
-
-          <!-- Columna derecha: destacados (posiciones 3 y 4) -->
-          <div class="md:col-span-1">
-            <div class="flex items-center justify-between mb-4">
-              <h3 class="text-brown font-title text-lg md:text-xl font-bold uppercase tracking-wide">{featuredLabel}</h3>
-              <div class="flex-1 ml-4 border-b border-brown/40"></div>
-            </div>
-            <div class="grid grid-cols-1 gap-6">
-              {latestBlogPosts.slice(3,5).map((post) => (
-                <BlogCard
-                  image={post.image || '/images/blog/placeholder.jpg'}
-                  title={post.title}
-                  id={post.id}
-                  slug={post.slug}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-        <div class="flex justify-center mt-10">
-          <a href={`/${currentLang}/blog`} class="border-2 border-brown text-brown py-2 px-8 rounded-full text-center text-sm md:text-base font-medium hover:bg-brown hover:text-white transition-colors">
-            {currentLang==='es' ? 'Ver más' : 'View more'}
-          </a>
-        </div>
-      </div>
-    )}
-  </div>
-</section>
-
-
-    <!-- Sección Abaout -->
-<!-- <section id="about" class="bg-red w-full py-12" transition:animate="slide">
-  <div class="container mx-auto px-4">
-    <div class="text-center mb-8">
-      {aboutAssets.title && (
-        <div class="text-center mb-16 relative z-20" >
-          <h2 class="text-3xl md:text-4xl italic font-bold mb-4 text-white">
-            {aboutAssets.title}
-          </h2>
-          {aboutAssets.subtitle && (
-            <h1 class="text-6xl md:text-9xl italic font-bold mb-4 text-white">
-              {aboutAssets.subtitle}
-            </h1>
-          )}
-        </div>
-      )}
-    </div>
-    <div class="flex flex-col md:flex-row items-center justify-center gap-8">
-      <div>
-        <h4 class="md:text-4xl text-lg font-bold text-white font-title">LOREM IPSUM DOLOR</h4>
-        <p class="text-white font-sans  text-xl leading-relaxed w-100%">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec metus vel ante bibendum finibus. Nullam nec metus vel ante bibendum finibus.</p>
-      </div>
-      <div>
-        <LazyImage src="https://snack.yummiespromociones.com/zibas/gallery16.webp" class="py-4" alt="Ziba's" />
-      </div>
-      <div>
-        <LazyImage src="https://snack.yummiespromociones.com/zibas/gallery15.webp" class="py-4" alt="Ziba's" />
-        <h4 class="md:text-4xl text-lg font-bold text-white font-title">LOREM IPSUM DOLOR</h4>
-        <p class="text-white font-sans text-xl  leading-relaxed w-100%">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec metus vel ante bibendum finibus. Nullam nec metus vel ante bibendum finibus.</p>
-      </div>
-    </div>
-  </div>
-</section> -->
-
-
-
-
-
+    </section>
   </main>

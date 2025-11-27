@@ -48,9 +48,9 @@ const menuItems = t('menu_items', { namespace: 'common', locale: currentLang }) 
       </a>
     ))}
   </div>
-
   <!-- Right section: Button + User -->
   <div class="flex items-center space-x-4">
+    <LanguageSwitcher activeLocale={currentLang} headerColorConfig={headerColorConfig} />
     <a 
       href="/donde-comprar"
       class="bg-red text-white px-[50px] py-3 rounded-full font-semibold 
