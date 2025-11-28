@@ -44,7 +44,7 @@ const productsItems = Array.isArray(products) ? products : [];
 import LazyImage from '../LazyImage.astro';
 ---
 
-<div class="bg-orange py-9 px-0 rounded-l-[50px] overflow-hidden ml-[80px]">
+<div class="bg-orange py-9 px-0 rounded-l-[50px] overflow-hidden lg:ml-[80px] ml-[20px]">
   <div class="products-carousel">
     <div class="swiper-container">
       <div class="swiper-wrapper">
@@ -57,17 +57,17 @@ import LazyImage from '../LazyImage.astro';
                 <LazyImage 
                   src={product.imageMobile || product.image} 
                   alt={product.name}
-                  class="product-image w-[200px] h-[198.46px] object-contain"
+                  class="product-image lg:w-[200px] md:w-[150px] lg:h-[198.46px] md:h-[120px] w-[120px] h-[120px] object-contain"
                 />
               </div>
-              
+
               <!-- Tarjeta más ancha -->
-              <div class="bg-white rounded-[10px] pt-[16px] pb-8 pl-12 flex-1 min-w-[305px] h-[150px]">
-                <h3 class="text-[22px] font-bold text-black ">
+              <div class="bg-white rounded-[10px] pt-[16px] pb-4 md:pb-6 lg:pb-8 lg:pl-12 md:pl-12 pl-16 flex-1 min-w-[305px] lg:h-[150px] md:h-[100px] h-[100px]">
+                <h3 class="text-[16px] lg:text-[22px] md:text-[16px] font-bold text-black ">
                   {product.name}
                 </h3>
 
-                <p class="text-gray-700 text-[14px] leading-relaxed w-[230px] h-[54px] pt-2">
+                <p class="text-gray-700 text-[14px] leading-relaxed w-[230px] lg:h-[54px] md:h-[20px] lg:pt-2">
                   {product.description}
                 </p>
 
@@ -147,7 +147,7 @@ import LazyImage from '../LazyImage.astro';
           },
           768: {
             slidesPerView: 2,
-            spaceBetween: 350,
+            spaceBetween: 100,
           },
           1024: {
             slidesPerView: this.options.slidesPerView || 3,

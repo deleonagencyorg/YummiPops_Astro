@@ -113,9 +113,15 @@ const featuredLabel = currentLang==='es' ? 'DESTACADOS' : 'FEATURED';
         </div>
     
         {/* SVG posicionado abajo a la derecha */}
-        <div class="absolute bottom-0 top-[50px] right-0 pointer-events-none z-20">
+        <div class="lg:block hidden absolute bottom-0 top-[50px] right-0 pointer-events-none z-20">
           <svg width="427" height="375" viewBox="0 0 427 375" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M427 0L427 374.5C416.5 322 394 261 364 243C334 225 329 219.5 312.5 209.5C285.26 188.395 254 143 239 105.5C224 68 218.5 65 205 55.5C191.5 46 94.8911 48.0193 0 0L427 0Z" fill="#FAF0D5"/>
+          </svg>
+        </div>
+
+        <div class="lg:hidden block absolute bottom-0 top-[45px] right-0 pointer-events-none z-20">
+          <svg width="393" height="375" viewBox="0 0 393 375" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M393 0L393 375C383.336 322.43 362.628 261.348 335.016 243.324C307.405 225.3 302.803 219.793 287.617 209.78C262.546 188.647 233.775 143.191 219.97 105.641C206.164 68.0908 201.102 65.0868 188.677 55.5741C176.252 46.0614 87.3354 48.0834 0 0L393 0Z" fill="#FAF0D5"/>
           </svg>
         </div>
       </section>
