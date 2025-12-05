@@ -359,7 +359,7 @@ const options = dynamicOptions[locale];
       // Add template field based on contact reason
       const template = getTemplateByContactReason(formData.contactReason);
       multipartData.append('template', template);
-      multipartData.append('site', "Ziba's");
+      multipartData.append('site', "Ranchitas");
       // Add all form fields according to the API structure
       Object.entries(formData).forEach(([key, value]) => {
         if (value !== undefined && value !== null && value !== '') {

@@ -1,6 +1,6 @@
 {
-  "title": "Ziba's Creators Categories",
-  "description": "Discover all available categories to participate in Ziba's creativity contest",
+  "title": "Ranchitas Creators Categories",
+  "description": "Discover all available categories to participate in Ranchitas creativity contest",
   "categories": [
     {
       "id": "audiovisual",
@@ -76,7 +76,7 @@
     }
   ],
   "meta": {
-    "title": "Categories - Ziba's Creators",
-    "description": "Explore all available categories to participate in Ziba's creativity contest. From audiovisual to artificial intelligence, find your passion."
+    "title": "Categories - Ranchitas Creators",
+    "description": "Explore all available categories to participate in Ranchitas creativity contest. From audiovisual to artificial intelligence, find your passion."
   }
 }

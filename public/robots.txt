@@ -24,4 +24,4 @@ Disallow: /en/menu
 Disallow: /api/
 Disallow: /_astro/
 
-Sitemap: https://zibaspapas.com/sitemap.xml
+Sitemap: https://ranchitas.com/sitemap.xml

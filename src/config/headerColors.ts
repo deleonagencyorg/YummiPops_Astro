@@ -118,7 +118,7 @@ export const headerColors: HeaderColors = {
     showMessageCarousel: true,
   },
 
-  // Configuración para Ziba's Creators
+  // Configuración para Ranchitas Creators
   zibas_creators: {
     textColor: 'text-white',
     backgroundColor: 'bg-orange-500',
