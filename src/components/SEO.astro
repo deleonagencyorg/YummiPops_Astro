@@ -20,7 +20,7 @@ const socialMedia = t('social_media', { namespace: 'common', locale: currentLang
 const pageTitle = title || meta.home.title;
 const pageDescription = description || meta.home.description;
 const pageImage = imageUrl || 'https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-logo-3.webp';
-const pageUrl = canonicalUrl || `https://zibaspapas.com/${currentLang}`;
+const pageUrl = canonicalUrl || `https://ranchitas.com/${currentLang}`;
 
 // Social media URLs
 const facebookUrl = socialMedia?.facebook?.url || '';
@@ -67,8 +67,8 @@ const twitterUrl = socialMedia?.twitter?.url || '';
 <script type="application/ld+json" set:html={JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Organization",
-  "name": "Ziba's",
-  "url": "https://zibaspapas.com",
+  "name": "Ranchitas",
+  "url": "https://ranchitas.com",
   "logo": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-logo-3.webp",
   "sameAs": [
     socialMedia.facebook?.url,
@@ -86,7 +86,7 @@ const twitterUrl = socialMedia?.twitter?.url || '';
       "@type": "ListItem",
       "position": 1,
       "name": currentLang === 'es' ? 'Inicio' : 'Home',
-      "item": `https://zibaspapas.com/${currentLang}`
+      "item": `https://ranchitas.com/${currentLang}`
     }
   ]
 })}></script>
