@@ -1,0 +1,78 @@
+---
+// RecipeCardSmall.astro - Tarjeta pequeña para lista de recetas
+import { getLocale } from '../../i18n/i18n';
+
+interface Props {
+  image: string;
+  title: string;
+  id: string;
+  product?: string;
+  category?: string;
+}
+
+const { 
+  image, 
+  title, 
+  id,
+  product = "Nacho Queso",
+  category = "Almuerzo"
+} = Astro.props;
+
+const currentLocale = getLocale();
+const recipeLink = `/${currentLocale}/${currentLocale === 'es' ? 'recetas' : 'recipes'}/${id}`;
+const viewRecipeText = currentLocale === 'es' ? 'Ver receta' : 'View recipe';
+
+// Traducir categorías
+const categoryTranslations: Record<string, string> = {
+  'breakfast': currentLocale === 'es' ? 'Desayuno' : 'Breakfast',
+  'brunch': 'Brunch',
+  'lunch': currentLocale === 'es' ? 'Almuerzo' : 'Lunch',
+  'dinner': currentLocale === 'es' ? 'Cena' : 'Dinner',
+  'snack': currentLocale === 'es' ? 'Snack' : 'Snack'
+};
+
+const displayCategory = categoryTranslations[category.toLowerCase()] || category;
+---
+
+<a 
+  href={recipeLink} 
+  class="flex items-start gap-4 p-3 bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 group h-[150px]"
+>
+  <!-- Imagen circular con badge -->
+  <div class="relative flex-shrink-0">
+    <div class="w-[160px] h-[120px] rounded-xl overflow-hidden">
+      <img 
+        src={image} 
+        alt={title}
+        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+      />
+    </div>
+    
+    <!-- Badge de categoría -->
+    <div class="absolute top-2 left-2 bg-[#F04F00] text-white px-3 py-1 rounded-full text-xs font-bold shadow-md">
+      {displayCategory}
+    </div>
+  </div>
+  
+  <!-- Contenido -->
+  <div class="flex-1 min-w-0 py-1 flex flex-col justify-between">
+    <!-- Título en itálica -->
+    <div>
+      <h3 class="text-xl font-bold text-black mb-1 leading-tight italic line-clamp-2">
+        {title}
+      </h3>
+      
+      <!-- Producto -->
+      {product && (
+        <p class="text-gray-500 text-sm font-normal">
+          {currentLocale === 'es' ? 'Con' : 'With'} {product}
+        </p>
+      )}
+    </div>
+    
+    <!-- Ver receta link -->
+    <div class="flex items-center text-[#F04F00] font-bold text-sm group-hover:translate-x-2 transition-transform">
+      {viewRecipeText} →
+    </div>
+  </div>
+</a>
