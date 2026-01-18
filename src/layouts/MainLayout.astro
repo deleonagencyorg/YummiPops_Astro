@@ -1,9 +1,7 @@
 ---
 import GoogleTagManager from '../components/common/GoogleTagManager.astro';
 import Favicon from '../components/Favicon.astro';
-// import GoogleTagManager from './i18n/GoogleTagManager.astro';
-// import GoogleTagManagerNoScript from './i18n/GoogleTagManagerNoScript.astro';
-import { type Locale } from '../i18n/i18n'; // t is not used, Locale type might be needed
+import { type Locale } from '../i18n/i18n';
 import Header from '../components/common/Header/index.astro';
 import Footer from '../components/common/Footer/index.astro';
 import MobileMenu from '../components/common/MobileMenu/index.astro';
@@ -12,7 +10,6 @@ import { routesConfig } from '../config/routes';
 import { getHeaderColors } from '../config/headerColors';
 import { ViewTransitions } from 'astro:transitions';
 import "../styles/global.css";
-import { head } from 'framer-motion/m';
 
 export interface Props {
   title?: string;
@@ -26,23 +23,22 @@ export interface Props {
 
 const { title, description, class: className, headerColors } = Astro.props;
 
-// Determine language for <html lang=...> and for key prop from the URL
 const pathSegments = Astro.url.pathname.split('/');
 const langFromUrl = pathSegments[1] as Locale;
 const validLocales: Locale[] = ['es', 'en'];
-const currentLang = validLocales.includes(langFromUrl) ? langFromUrl : 'es'; // Default to 'es'
-// Obtener configuración de colores basada en la ruta actual
+const currentLang = validLocales.includes(langFromUrl) ? langFromUrl : 'es';
+
 const { pathname } = Astro.url;
+const shouldHideHeader = pathname.startsWith('/es/resultados') || pathname.startsWith('/en/results');
+
 const headerColorConfig = getHeaderColors(pathname);
 
-// Si se pasan colores de header específicos (por ejemplo, desde un producto), 
-// crear una configuración personalizada
 let customHeaderConfig = headerColorConfig;
 if (headerColors) {
   customHeaderConfig = {
     ...headerColorConfig,
     backgroundColor: headerColors.backgroundColor ? `bg-[${headerColors.backgroundColor}]` : headerColorConfig.backgroundColor,
-    textColor: headerColors.textColor ? headerColors.textColor : headerColorConfig.textColor, // Mantener el textColor original de getHeaderColors
+    textColor: headerColors.textColor ? headerColors.textColor : headerColorConfig.textColor,
   };
 }
 ---
@@ -57,21 +53,25 @@ if (headerColors) {
     {description && <meta name="description" content={description} />}
     <ViewTransitions />
     <slot name="head" />
-    {/* <GoogleTagManager /> */}
   </head>
   <body class={`font-sans min-h-screen flex flex-col ${className || ''}`}>
-    {/* <GoogleTagManagerNoScript /> */}
     <I18nProvider>
-      <slot name="header">
-        <Header currentLang={currentLang} headerColors={headerColors} />
-      </slot>
+      {!shouldHideHeader && (
+        <slot name="header">
+          <Header currentLang={currentLang} headerColors={headerColors} />
+        </slot>
+      )}
+      
       <main transition:animate="slide" class="flex-1 flex flex-col overflow-hidden">
         <slot />
       </main>
-      <Footer currentLang={currentLang} />
+      {!shouldHideHeader && (
+        <slot name="footer">
+        <Footer currentLang={currentLang} />
+        </slot>
+      )}
     </I18nProvider>
     
-    <!-- Menú móvil al final del body para máximo z-index -->
     <MobileMenu currentLang={currentLang} headerColorConfig={customHeaderConfig} />
   </body>
 </html>

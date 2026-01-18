@@ -1,67 +1,78 @@
 ---
-import LazyImage from '../common/LazyImage.astro';
+// RecipeCardLarge.astro - Tarjeta grande para recetas destacadas
 import { getLocale } from '../../i18n/i18n';
-import { Image } from 'astro:assets';
-import { fade } from 'astro:transitions';
 
 interface Props {
   image: string;
   title: string;
   time?: string;
   id: string;
-  textColor?: string;
-  iconColor?: string;
-  hoverImage?: string;
   difficulty?: string;
-  servings?: number;
-  rating?: number;
   product?: string;
+  category?: string;
 }
 
 const { 
   image, 
   title, 
-  time = "---", 
+  time = "15 min", 
   id,
-  textColor = 'text-blue-900',
-  iconColor = 'text-blue-900',
-  hoverImage = image,
   difficulty = "Fácil",
-  servings = 0,
-  rating = 0,
-  product = "Ranchitas Naturales"
+  product = "Ranchitas Naturales",
+  category = "Cena"
 } = Astro.props;
 
 const currentLocale = getLocale();
 const recipeLink = `/${currentLocale}/${currentLocale === 'es' ? 'recetas' : 'recipes'}/${id}`;
 const viewRecipeText = currentLocale === 'es' ? 'Ver receta' : 'View recipe';
+
+// Traducir categorías
+const categoryTranslations: Record<string, string> = {
+  'breakfast': currentLocale === 'es' ? 'Desayuno' : 'Breakfast',
+  'brunch': 'Brunch',
+  'lunch': currentLocale === 'es' ? 'Almuerzo' : 'Lunch',
+  'dinner': currentLocale === 'es' ? 'Cena' : 'Dinner',
+  'snack': currentLocale === 'es' ? 'Snack' : 'Snack'
+};
+
+const displayCategory = categoryTranslations[category.toLowerCase()] || category;
 ---
 
 <a 
   href={recipeLink} 
   class="block group overflow-hidden rounded-[2.5rem] bg-white shadow-lg hover:shadow-2xl transition-all duration-300"
-  transition:animate="fade"
 >
   <!-- Imagen principal -->
-  <div class="relative h-[250px] overflow-hidden">
-    <LazyImage
-      src={image}
+  <div class="relative h-[400px] lg:h-[500px] overflow-hidden">
+    <img 
+      src={image} 
       alt={title}
       class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-      transition:name={`recipe-image-${id}`}
     />
+    
+    <!-- Badge de categoría (Cena, Almuerzo, etc) -->
+    <div class="absolute top-6 left-6 bg-[#F04F00] text-white px-5 py-2 rounded-full text-sm font-bold shadow-md">
+      {displayCategory}
+    </div>
+    
+    <!-- Badge de tiempo -->
+    {time && (
+      <div class="absolute top-6 right-6 bg-white text-gray-800 px-5 py-2 rounded-full text-sm font-bold shadow-md">
+        {time}
+      </div>
+    )}
   </div>
   
   <!-- Contenido inferior -->
-  <div class="p-6 bg-white">
+  <div class="p-8 bg-white">
     <!-- Título -->
-    <h3 class="text-2xl font-bold text-black mb-3 leading-tight">
+    <h3 class="text-3xl font-bold text-black mb-4 leading-tight">
       {title}
     </h3>
     
-    <!-- Dificultad y Producto en línea horizontal -->
+    <!-- Dificultad y Producto en líneas separadas -->
     <div class="flex items-center gap-3 mb-4">
-      <span class="text-[#F04F00] font-bold text-base">
+      <span class="text-[#F04F00] font-bold text-lg">
         {difficulty}
       </span>
       {product && (

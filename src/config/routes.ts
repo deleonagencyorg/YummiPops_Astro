@@ -44,6 +44,13 @@ export const routesConfig: RouteConfig[] = [
     metaDescriptionKey: 'meta.products.description',
   },
   {
+    id: 'results',
+    slugs: { es: 'resultados', en: 'results' },
+    contentComponent: '@/views/Results/index.astro',
+    metaTitleKey: 'meta.results.title',
+    metaDescriptionKey: 'meta.results.description',
+  },
+  {
     id: 'brands',
     slugs: { es: 'marcas', en: 'brands' },
     contentComponent: '@/views/Brands/index.astro',

@@ -33,7 +33,15 @@ module.exports = {
       },
       animation: {
         'spin-slow': 'spin 5s linear infinite',
-      }
+      },
+      screens: {
+        'xs': '320px',
+        'sm': '640px',
+        'md': '768px',
+        'lg': '900px',
+        'xl': '1280px',
+        '2xl': '1536px',
+      },
     }
   },
   plugins: [

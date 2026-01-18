@@ -22,16 +22,16 @@ const {
 } = Astro.props;
 ---
 
-<section class="hidden md:block lg:block w-full py-6 md:py-12 px-4 md:px-8 lg:mt-12 md:mt-6">
+<section class="hidden md:block xl:block w-full py-6 md:py-12 px-4 md:px-8 xl:mt-12 md:mt-6">
     <div class="max-w-7xl mx-auto">
         <div
-            class="bg-[#FEFEFE] rounded-[20px] md:rounded-[40px] shadow-xl p-6 md:p-8 lg:p-12"
+            class="bg-[#FEFEFE] rounded-[20px] md:rounded-[40px] shadow-xl p-6 md:p-8 xl:p-12"
         >
             <div
-                class="flex flex-col lg:flex-row items-center gap-6 md:gap-8 lg:gap-12"
+                class="flex flex-col xl:flex-row items-center gap-6 md:gap-8 xl:gap-12"
             >
                 <!-- Video Container -->
-                <div class="w-full lg:w-1/2">
+                <div class="w-full xl:w-1/2">
                     <div
                         class="rounded-[20px] md:rounded-[40px] flex items-center justify-center shadow-lg overflow-hidden aspect-video"
                         style={`background-color: ${cardVideo.backgroundColor}`}
@@ -51,7 +51,7 @@ const {
                 </div>
 
                 <!-- Contenido de texto -->
-                <div class="w-full lg:w-1/2 space-y-4 md:space-y-6">
+                <div class="w-full xl:w-1/2 space-y-4 md:space-y-6">
                     <!-- Badge naranja -->
                     <div class="inline-block mt-6 mb-6">
                         <span
@@ -71,14 +71,14 @@ const {
 
                     <!-- Descripción párrafo 1 -->
                     <p
-                        class="text-gray-700 text-sm md:text-base lg:text-lg leading-relaxed"
+                        class="text-gray-700 text-sm md:text-base xl:text-lg leading-relaxed"
                     >
                         {cardVideo.description1}
                     </p>
 
                     <!-- Descripción párrafo 2 -->
                     <p
-                        class="text-gray-700 text-sm md:text-base lg:text-lg leading-relaxed"
+                        class="text-gray-700 text-sm md:text-base xl:text-lg leading-relaxed"
                     >
                         {cardVideo.description2}
                     </p>

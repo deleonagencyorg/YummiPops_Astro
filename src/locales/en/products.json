@@ -33,7 +33,8 @@
       "header_background": "#FDE820",
       "header_text_color": "#5B3F2E",
       "color_button": "#FDE820",
-      "description": "Crunchy corn tortillas with pizza flavor",
+      "description": "Crispy corn tortillas with a pizza flavor, perfect for sharing at parties. An explosion of flavor in every bite that will transport you straight to your favorite pizzeria.",
+      "short_description": "Crunchy corn tortillas with pizza flavor",
       "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
       "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
       "sizes": [
@@ -43,11 +44,10 @@
         }
       ],
       "weight": [
+        "18g",
         "23g",
-        "26g",
-        "40g",
-        "80g",
-        "190g"
+        "25g",
+        "150g"
       ]
     },
     {
@@ -60,6 +60,7 @@
       "header_background": "#147a2f",
       "color_button": "#147a2f",
       "description": "Crunchy fried potato chips with spicy nacho flavor",
+      "short_description": "Crunchy fried potato chips with spicy nacho flavor",
       "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
       "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
       "sizes": [
@@ -69,11 +70,10 @@
         }
       ],
       "weight": [
+        "18g",
         "23g",
-        "26g",
-        "40g",
-        "80g",
-        "190g"
+        "25g",
+        "150g"
       ]
     },
     {
@@ -87,6 +87,7 @@
       "header_text_color": "#FFFFFF",
       "color_button": "#FE5A00",
       "description": "Crispy fried corn tortillas with cheese flavor.",
+      "short_description": "Crispy fried corn tortillas with cheese flavor.",
       "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
       "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
       "sizes": [
@@ -96,11 +97,10 @@
         }
       ],
       "weight": [
+        "18g",
         "23g",
-        "26g",
-        "40g",
-        "80g",
-        "190g"
+        "25g",
+        "150g"
       ]
     },
     {
@@ -114,6 +114,7 @@
       "header_text_color": "#1C1C1C",
       "color_button": "#BEDE89",
       "description": "Corn tortillas with charred chili flavor.",
+      "short_description": "Corn tortillas with charred chili flavor.",
       "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
       "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
       "sizes": [
@@ -123,11 +124,10 @@
         }
       ],
       "weight": [
+        "18g",
         "23g",
-        "26g",
-        "40g",
-        "80g",
-        "190g"
+        "25g",
+        "150g"
       ]
     }
   ]

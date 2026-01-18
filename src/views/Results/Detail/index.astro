@@ -1,0 +1,337 @@
+---
+// src/views/Products/Detail/index.astro
+import { t } from '../../../i18n/i18n';
+import type { Locale } from '../../../i18n/i18n';
+import './styles.css';
+import LocalizedImage from '../../../components/common/LazyImage.astro';
+import { logos } from '../../../config/assets';
+import RecipesCarousel from '../../../components/recipes/RecipesCarousel.astro';
+
+
+// Interfaces locales
+const logosData = logos;
+interface ProductSize {
+  value: string;
+  image: string;
+}
+
+interface Stockist {
+  id: string;
+  name: string;
+  icon: string;
+  link: string;
+}
+
+interface Product {
+  id: string;
+  name: string;
+  image: string;
+  available?: string;
+  background_image: string;
+  background_color: string;
+  header_text_color: string;
+  color_button: string;
+  sizes: ProductSize[];
+  description?: string;
+  short_description?: string;
+  presentaciones?: Array<{
+    value: string;
+    icono: string;
+  }>;
+  // relatedProducts es opcional ya que no existe en la estructura actual
+  relatedProducts?: string[];
+  weight?: string[];
+}
+
+const { currentLang, productId } = Astro.props;
+
+// Obtener datos desde traducciones
+const products = t('items', { namespace: 'products', locale: currentLang as Locale }) || [];
+const product = products.find((item: Product) => item.id === productId);
+const recipesAssets = t('', { namespace: 'recipes', locale: currentLang }) || {};
+
+// Si el producto no existe, lanzar error
+if (!product || Object.keys(product).length === 0) {
+  throw new Error(t('errors.product_not_found', { locale: currentLang }));
+}
+
+// Asegurar que todas las propiedades necesarias existan
+const safeProduct: Product = {
+  id: product.id || '',
+  name: product.name || '',
+  image: product.image || '',
+  background_image: product.background_color || '',
+  background_color: product.background_color || '',
+  header_text_color: product.header_text_color || '#000000',
+  color_button: product.color_button || '#000000',
+  sizes: Array.isArray(product.sizes) ? product.sizes : [],
+  available: product.available || '',
+  description: product.description || '',
+  weight: Array.isArray(product.weight) ? product.weight : [],
+  
+};
+
+// Obtener todos los productos como un array
+const productsData = t('items', { locale: currentLang, namespace: 'products' }) || [];
+const allProductsArray = Array.isArray(productsData) ? productsData : [];
+
+// Filtrar productos relacionados - simplificado para evitar errores
+let relatedProducts: any[] = [];
+// Solo usar productos de la misma categoría si hay más de 1 producto
+if (allProductsArray.length > 1) {
+  relatedProducts = allProductsArray
+    .filter((p: any) => p.id !== productId)
+    .slice(0, 3);
+}
+
+
+---
+
+{safeProduct.background_color && (
+  <nav class="hidden md:flex lg:flex xl:flex bg-[#0041CD]  flex-row justify-between items-center justify-center">
+    <a 
+      class="px-[17px] py-[12px] bg-white rounded-full mt-[40px] mb-[20px] ml-[40px] inline-block cursor-pointer" 
+      href={`/${currentLang}/`}
+    >
+      <div class="flex flex-row items-center justify-center gap-2 w-[140px]">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12.5 17.5V10.8333C12.5 10.6123 12.4122 10.4004 12.2559 10.2441C12.0996 10.0878 11.8877 10 11.6667 10H8.33333C8.11232 10 7.90036 10.0878 7.74408 10.2441C7.5878 10.4004 7.5 10.6123 7.5 10.8333V17.5" stroke="#F86509" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M2.5 8.33333C2.49994 8.09089 2.55278 7.85135 2.65482 7.63143C2.75687 7.41151 2.90566 7.2165 3.09083 7.06L8.92417 2.06C9.22499 1.80576 9.60613 1.66627 10 1.66627C10.3939 1.66627 10.775 1.80576 11.0758 2.06L16.9092 7.06C17.0943 7.2165 17.2431 7.41151 17.3452 7.63143C17.4472 7.85135 17.5001 8.09089 17.5 8.33333V15.8333C17.5 16.2754 17.3244 16.6993 17.0118 17.0118C16.6993 17.3244 16.2754 17.5 15.8333 17.5H4.16667C3.72464 17.5 3.30072 17.3244 2.98816 17.0118C2.67559 16.6993 2.5 16.2754 2.5 15.8333V8.33333Z" stroke="#F86509" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="text-[#F86509] text-[16px] !font-bold">
+          {currentLang === 'es' ? 'Ir a Homepage' : 'Go to Homepage'}
+        </span>
+      </div>
+    </a>
+    <div class="logo-container mt-[20px]">
+        <a href={`/${currentLang}/`} class="flex-shrink-0">
+          <LocalizedImage
+            src="/images/es/logo/logobanner.png" 
+            alt={logosData.principal.alt || "Ranchitas Logo"}
+            class="h-[28px] w-[120px] md:h-[38px] md:w-[187px] w-auto object-contain"
+            loading="eager"
+            priority={true}
+          />
+        </a>
+      </div>
+
+      <button class="px-[17px] py-[12px] bg-white rounded-full mt-[40px] mb-[20px] mr-[40px]">
+        <div class="flex flex-row items-center justify-center gap-2 w-[140px]">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2.5 10C2.5 11.4834 2.93987 12.9334 3.76398 14.1668C4.58809 15.4001 5.75943 16.3614 7.12987 16.9291C8.50032 17.4968 10.0083 17.6453 11.4632 17.3559C12.918 17.0665 14.2544 16.3522 15.3033 15.3033C16.3522 14.2544 17.0665 12.918 17.3559 11.4632C17.6453 10.0083 17.4968 8.50032 16.9291 7.12987C16.3614 5.75943 15.4001 4.58809 14.1668 3.76398C12.9334 2.93987 11.4834 2.5 10 2.5C7.90329 2.50789 5.89081 3.32602 4.38333 4.78333L2.5 6.66667" stroke="#F86509" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M2.5 2.5V6.66667H6.66667" stroke="#F86509" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        <span class="text-[#F86509] text-[16px] !font-bold">{currentLang === 'es' ? 'Repetir Quiz' : 'Repeat the quiz'} </span>
+        </div>
+    </button>
+  </nav>
+  <nav class="flex flex-col md:hidden lg:hidden xl:hidden bg-[#0041CD] justify-center items-center">
+     <div class="logo-container mt-[40px] bg-[#F86509] rounded-[15px] border-[1px] border-[#F86509] w-[90%] mr-[10px] flex items-center justify-center py-[20px]">
+        <a href={`/${currentLang}/`} class="flex-shrink-0">
+          <LocalizedImage
+            src="/images/es/logo/logobanner.png" 
+            alt={logosData.principal.alt || "Ranchitas Logo"}
+            class="h-[28px] w-[120px] md:h-[38px] md:w-[187px] w-auto object-contain"
+            loading="eager"
+            priority={true}
+          />
+        </a>
+      </div>
+    <div class="flex flex-row justify-between gap-2 ml-[5px]">
+      <a 
+        class="px-[17px] py-[12px] bg-white rounded-full mt-[40px] mb-[20px] inline-block cursor-pointer" 
+        href={`/${currentLang}/`}
+      >
+        <div class="flex flex-row items-center justify-center gap-2 w-[140px]">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12.5 17.5V10.8333C12.5 10.6123 12.4122 10.4004 12.2559 10.2441C12.0996 10.0878 11.8877 10 11.6667 10H8.33333C8.11232 10 7.90036 10.0878 7.74408 10.2441C7.5878 10.4004 7.5 10.6123 7.5 10.8333V17.5" stroke="#F86509" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M2.5 8.33333C2.49994 8.09089 2.55278 7.85135 2.65482 7.63143C2.75687 7.41151 2.90566 7.2165 3.09083 7.06L8.92417 2.06C9.22499 1.80576 9.60613 1.66627 10 1.66627C10.3939 1.66627 10.775 1.80576 11.0758 2.06L16.9092 7.06C17.0943 7.2165 17.2431 7.41151 17.3452 7.63143C17.4472 7.85135 17.5001 8.09089 17.5 8.33333V15.8333C17.5 16.2754 17.3244 16.6993 17.0118 17.0118C16.6993 17.3244 16.2754 17.5 15.8333 17.5H4.16667C3.72464 17.5 3.30072 17.3244 2.98816 17.0118C2.67559 16.6993 2.5 16.2754 2.5 15.8333V8.33333Z" stroke="#F86509" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="text-[#F86509] text-[16px] !font-bold">
+            {currentLang === 'es' ? 'Ir a Homepage' : 'Go to Homepage'}
+          </span>
+        </div>
+      </a>
+   
+
+      <button class="px-[17px] py-[12px] bg-white rounded-full mt-[40px] mb-[20px] ">
+          <div class="flex flex-row items-center justify-center gap-2 w-[140px]">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2.5 10C2.5 11.4834 2.93987 12.9334 3.76398 14.1668C4.58809 15.4001 5.75943 16.3614 7.12987 16.9291C8.50032 17.4968 10.0083 17.6453 11.4632 17.3559C12.918 17.0665 14.2544 16.3522 15.3033 15.3033C16.3522 14.2544 17.0665 12.918 17.3559 11.4632C17.6453 10.0083 17.4968 8.50032 16.9291 7.12987C16.3614 5.75943 15.4001 4.58809 14.1668 3.76398C12.9334 2.93987 11.4834 2.5 10 2.5C7.90329 2.50789 5.89081 3.32602 4.38333 4.78333L2.5 6.66667" stroke="#F86509" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M2.5 2.5V6.66667H6.66667" stroke="#F86509" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          <span class="text-[#F86509] text-[16px] !font-bold">{currentLang === 'es' ? 'Repetir Quiz' : 'Repeat the quiz'} </span>
+          </div>
+      </button>
+    </div>
+  </nav>
+  <article
+    id="product-detail"
+    class="product-detail pt-12 md:pt-29 pb-32 bg-cover bg-center relative bg-[#0041cd]"
+    transition:animate="slide"
+  >
+    <div class="relative z-0">
+      <svg class="hidden md:block lg:block absolute md:-top-[95px] lg:-top-[95px] left-0" width="117" height="117" viewBox="0 0 117 117" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g opacity="0.2" filter="url(#filter0_f_2344_519)">
+          <path d="M16 58.23C16 34.907 34.907 16 58.23 16C81.553 16 100.46 34.907 100.46 58.23C100.46 81.553 81.553 100.46 58.23 100.46C34.907 100.46 16 81.553 16 58.23Z" fill="#FFDF20"/>
+          </g>
+          <defs>
+          <filter id="filter0_f_2344_519" x="0" y="0" width="116.46" height="116.46" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+          <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+          <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+          <feGaussianBlur stdDeviation="8" result="effect1_foregroundBlur_2344_519"/>
+          </filter>
+          </defs>
+      </svg>
+    </div>
+
+    <div class="relative z-0 ">
+      <svg class="hidden md:block lg:block absolute md:top-[80px] lg:top-[80px] xl:left-[120px] lg:left-[160px] md:left-[90px]" height="112" viewBox="0 0 167 112" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g opacity="0.08">
+          <path d="M35.309 101.819L25.5929 76.2266L0.000151224 85.9426L9.71621 111.535L35.309 101.819ZM123.54 -7.0557e-06L72.3546 19.4321L75.5933 27.963L67.0623 31.2017L70.301 39.7326L61.7701 42.9713L68.2475 60.0332L51.1857 66.5105L60.9017 92.1033L86.4945 82.3872L83.2558 73.8563L91.7867 70.6176L85.3093 53.5558L93.8402 50.3171L90.6015 41.7862L124.725 28.8314L137.68 62.9551L129.149 66.1938L132.388 74.7247L123.857 77.9634L130.334 95.0252L155.927 85.3092L152.688 76.7782L161.219 73.5396L157.98 65.0086L166.511 61.77L147.079 10.5845L138.548 13.8231L135.31 5.29222L126.779 8.53091L123.54 -7.0557e-06Z" fill="#0F0F0F"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="relative z-0 ">
+      <svg class="hidden md:block lg:block absolute md:top-[240px] lg:top-[240px] xl:left-[0px] lg:left-[0px] md:left-[0px]" width="66" height="57" viewBox="0 0 66 57" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0.176972 38.7523L6.61341 49.6134L-4.24766 56.0498L-10.6841 45.1888L0.176972 38.7523ZM62.26 36.2036L40.5378 49.0765L38.3924 45.4561L34.772 47.6016L32.6265 43.9812L29.0062 46.1267L24.7152 38.886L17.4745 43.1769L11.038 32.3159L21.8991 25.8794L24.0446 29.4998L27.665 27.3543L31.9559 34.595L35.5763 32.4495L37.7218 36.0699L52.2032 27.488L43.6213 13.0066L40.0009 15.152L37.8554 11.5317L34.2351 13.6772L29.9441 6.43644L40.8052 4.85593e-06L42.9507 3.62036L46.571 1.47488L48.7165 5.09524L52.3369 2.94976L65.2097 24.6719L61.5894 26.8174L63.7349 30.4377L60.1145 32.5832L62.26 36.2036Z" fill="#0F0F0F" fill-opacity="0.17"/>
+      </svg>
+    </div>
+
+    <div class="relative z-0">
+      <svg class="hidden md:hidden lg:hidden xl:block absolute xl:left-[800px]" width="34" height="58" viewBox="0 0 34 58" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17.0807 48.1841L26.0972 46.3231L27.9582 55.3396L18.9417 57.2006L17.0807 48.1841ZM30.0549 4.77035L33.7769 22.8033L30.7714 23.4237L31.3917 26.4292L28.3862 27.0495L29.0065 30.055L22.9955 31.2956L24.2362 37.3066L15.2197 39.1676L13.3587 30.1511L16.3642 29.5308L15.7439 26.5253L21.7549 25.2846L21.1346 22.2791L24.1401 21.6588L21.6587 9.63683L9.63675 12.1181L10.2571 15.1236L7.25158 15.744L7.87191 18.7495L1.86091 19.9901L-6.91937e-05 10.9736L3.00543 10.3533L2.3851 7.34779L5.3906 6.72746L4.77028 3.72196L22.8033 2.50222e-06L23.4236 3.0055L26.4291 2.38517L27.0494 5.39067L30.0549 4.77035Z" fill="#0F0F0F" fill-opacity="0.17"/>
+      </svg>
+    </div>
+
+    <div class="relative z-0">
+      <svg class="hidden md:hidden lg:hidden xl:block absolute top-[90px] xl:right-[160px]" width="55" height="77" viewBox="0 0 55 77" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5.10341 59.4388L16.6509 64.5422L11.5475 76.0897L-6.31666e-05 70.9863L5.10341 59.4388ZM54.1627 21.3076L43.9557 44.4026L40.1065 42.7015L38.4054 46.5507L34.5562 44.8495L32.8551 48.6987L25.1567 45.2964L21.7544 52.9947L10.2069 47.8912L15.3103 36.3437L19.1595 38.0449L20.8607 34.1957L28.559 37.598L30.2602 33.7488L34.1094 35.45L40.914 20.0533L25.5173 13.2487L23.8161 17.0979L19.967 15.3967L18.2658 19.2459L10.5675 15.8436L15.6709 4.29603L19.5201 5.99719L21.2213 2.14802L25.0704 3.84917L26.7716 3.14205e-07L49.8666 10.2069L48.1655 14.0561L52.0146 15.7573L50.3135 19.6064L54.1627 21.3076Z" fill="#0F0F0F" fill-opacity="0.17"/>
+      </svg>
+    </div>
+
+    <div class="relative z-0">
+      <svg class="hidden md:hidden lg:hidden xl:block absolute top-[130px] xl:right-[10px]"  width="92" height="165" viewBox="0 0 92 165" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M27.375 136.875H54.75V164.25H27.375V136.875ZM91.25 18.25V73H82.125V82.125H73V91.25H54.75V109.5H27.375V82.125H36.5V73H54.75V63.875H63.875V27.375H27.375V36.5H18.25V45.625H0V18.25H9.125V9.125H18.25V0H73V9.125H82.125V18.25H91.25Z" fill="#0F0F0F" fill-opacity="0.17"/>
+      </svg>
+
+    </div>
+
+    <div class="md:mt-[0] container mx-auto px-6 py-5 flex flex-col xl:flex-row gap-4 items-center lg:justify-center xl:justify-start">
+      {/* Contenedor de la imagen del lado izquierdo */}
+      <div class="xl:w-[600px] md:w-[600px] lg:w-[600px] w-[300px] bg-[#1a54d2] rounded-[40px] shadow-xl flex flex-col items-center p-6">
+        
+        {/* Contenedor gris con bordes redondeados */}
+        <div class="bg-[#1543a8] w-full h-[350px] rounded-[40px] flex items-center justify-center overflow-hidden">
+          <img
+            src={product.image}
+            alt={product.name}
+            class="md:max-w-[280px] lg:max-w-[280px] xl:max-w-[280px] max-w-[200px] h-auto"
+          />
+        </div>
+  
+        {/* Botón naranja */}
+        <button class="mt-6 w-[95%] bg-[#F86509] text-white font-semibold text-xl py-4 rounded-full hover:bg-[#ff7519] transition-all duration-300">
+          Ranchitas {product.name}
+        </button>
+      </div>
+      
+      {/* Contenido del lado derecho */}
+      <div class="w-full xl:w-1/2  h-auto xl:-mt-[70px] xl:mr-[50px]">
+        <h1 
+          class="font-title lg:text-[24px] font-bold  text-center text-white"
+         >
+         {currentLang === 'es' ? 'Tu resultado:' : 'Your result'}
+        </h1>
+        <h2 
+          class="font-title text-[24px] font-bold gap-30 py-5 text-center text-white"
+         
+        >
+            {currentLang === 'es' ? 'El Creativo Único 🎨' : 'The Unique Creative 🎨'}
+        </h2>
+
+        <div class="bg-[#1a54d2] rounded-[24px] border-[1px] border-[#3164d1] lg:w-[80%] md:w-[80%] md:ml-[70px] lg:ml-[100px] xl:w-[95%] xl:ml-[50px]">
+          <p class="text-white pt-[33px] pb-[33px] pl-[33px] pr-[33px]">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eres original y te gusta destacar del resto. Tu personalidad es única y siempre encuentras formas creativas de expresarte y sorprender a los demás.</p>
+        </div>
+
+        <div class="bg-[#1a54d2] rounded-[24px] border-[1px] border-[#3164d1] lg:w-[80%] md:w-[80%] md:ml-[70px] lg:ml-[100px] xl:w-[95%] xl:ml-[50px] mt-[20px]">
+          <div class="mt-[20px] xl:ml-[14px] lg:ml-[14px] md:ml-[18px] lg:w-[98%] xl:w-[98%] md:w-[97%] w-[90%] ml-[12px]">
+            <div class="flex flex-row gap-4">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 6.66666C16.3807 6.66666 17.5 5.54737 17.5 4.16666C17.5 2.78594 16.3807 1.66666 15 1.66666C13.6193 1.66666 12.5 2.78594 12.5 4.16666C12.5 5.54737 13.6193 6.66666 15 6.66666Z" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M5 12.5C6.38071 12.5 7.5 11.3807 7.5 10C7.5 8.61929 6.38071 7.5 5 7.5C3.61929 7.5 2.5 8.61929 2.5 10C2.5 11.3807 3.61929 12.5 5 12.5Z" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M15 18.3333C16.3807 18.3333 17.5 17.2141 17.5 15.8333C17.5 14.4526 16.3807 13.3333 15 13.3333C13.6193 13.3333 12.5 14.4526 12.5 15.8333C12.5 17.2141 13.6193 18.3333 15 18.3333Z" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M7.1582 11.2583L12.8499 14.575" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12.8415 5.42502L7.1582 8.74168" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <p class="text-white text-[16px]">Comparte en redes:</p>
+            </div>
+            <div class="flex flex-col md:flex-row lg:flex-row xl:flex-row lg:gap-4 xl:gap-4 md:gap-2">
+              <button class="px-[17px] py-[12px] bg-[#1877F2] rounded-[8px] mt-[20px]">
+                <div class="flex flex-row items-center justify-center gap-4 xl:w-[140px] lg:w-[170px] md:w-[140px]">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_2344_603)">
+                    <path d="M16 8.04865C16 3.63065 12.418 0.048645 8 0.048645C3.582 0.048645 0 3.63065 0 8.04865C0 12.042 2.92533 15.3513 6.75 15.9513V10.3613H4.71867V8.04798H6.75V6.28665C6.75 4.28198 7.94467 3.17398 9.772 3.17398C10.6467 3.17398 11.5627 3.33065 11.5627 3.33065V5.29931H10.5533C9.55933 5.29931 9.24933 5.91598 9.24933 6.54865V8.04865H11.468L11.1133 10.362H9.24933V15.952C13.0747 15.3513 16 12.0413 16 8.04865Z" fill="white"/>
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_2344_603">
+                    <rect width="16" height="16" fill="white"/>
+                    </clipPath>
+                    </defs>
+                  </svg>
+                  <span class="text-white text-[16px]">Facebook</span>
+                </div>
+              </button>
+              <button class="px-[17px] py-[12px] bg-[#000000] rounded-[8px] mt-[20px]">
+                <div class="flex flex-row items-center justify-center gap-4 xl:w-[140px] lg:w-[170px] md:w-[140px]">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12.1628 1.5H14.3681L9.55012 7.00667L15.2181 14.5H10.7801L7.30412 9.95533L3.32678 14.5H1.12012L6.27345 8.61L12.1628 1.5ZM11.3888 13.18H12.6108L4.72278 2.75067H3.41145L11.3888 13.18Z" fill="white"/>
+                  </svg>
+                  <span class="text-white text-[16px] ">x</span>
+                </div>
+              </button>
+              <button class="px-[17px] py-[12px] rounded-[8px] mt-[20px]
+                bg-[linear-gradient(90deg,#AD46FF_0%,#F6339A_50%,#FF6900_100%)]">
+                
+                <div class="flex flex-row items-center justify-center gap-4 xl:w-[140px] lg:w-[170px] md:w-[140px]">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 1.442C10.136 1.442 10.3893 1.45 11.2333 1.48867C13.4013 1.58733 14.414 2.616 14.5127 4.768C14.5513 5.61133 14.5587 5.86467 14.5587 8.00067C14.5587 10.1373 14.5507 10.39 14.5127 11.2333C14.4133 13.3833 13.4033 14.414 11.2333 14.5127C10.3893 14.5513 10.1373 14.5593 8 14.5593C5.864 14.5593 5.61067 14.5513 4.76733 14.5127C2.594 14.4133 1.58667 13.38 1.488 11.2327C1.44933 10.3893 1.44133 10.1367 1.44133 8C1.44133 5.864 1.45 5.61133 1.488 4.76733C1.58733 2.616 2.59733 1.58667 4.76733 1.488C5.61133 1.45 5.864 1.442 8 1.442ZM8 0C5.82733 0 5.55533 0.00933333 4.702 0.048C1.79667 0.181333 0.182 1.79333 0.0486667 4.70133C0.00933333 5.55533 0 5.82733 0 8C0 10.1727 0.00933333 10.4453 0.048 11.2987C0.181333 14.204 1.79333 15.8187 4.70133 15.952C5.55533 15.9907 5.82733 16 8 16C10.1727 16 10.4453 15.9907 11.2987 15.952C14.2013 15.8187 15.82 14.2067 15.9513 11.2987C15.9907 10.4453 16 10.1727 16 8C16 5.82733 15.9907 5.55533 15.952 4.702C15.8213 1.79933 14.2073 0.182 11.2993 0.0486667C10.4453 0.00933333 10.1727 0 8 0ZM8 3.892C5.73133 3.892 3.892 5.73133 3.892 8C3.892 10.2687 5.73133 12.1087 8 12.1087C10.2687 12.1087 12.108 10.2693 12.108 8C12.108 5.73133 10.2687 3.892 8 3.892ZM8 10.6667C6.52733 10.6667 5.33333 9.47333 5.33333 8C5.33333 6.52733 6.52733 5.33333 8 5.33333C9.47267 5.33333 10.6667 6.52733 10.6667 8C10.6667 9.47333 9.47267 10.6667 8 10.6667ZM12.2707 2.77C11.74 2.77 11.31 3.2 11.31 3.73C11.31 4.26 11.74 4.69 12.2707 4.69C12.8007 4.69 13.23 4.26 13.23 3.73C13.23 3.2 12.8007 2.77 12.2707 2.77Z" fill="white"/>
+                  </svg>
+
+                  <span class="text-white text-[16px]">Instagram</span>
+                </div>
+
+              </button>
+
+            </div>
+            <button class="px-[17px] py-[12px] bg-[#000000] rounded-[8px] xl:mt-[10px] lg:mt-[10px] md:mt-[10px] mt-[20px] mb-[20px] xl:w-[98%] lg:w-[97%] md:w-[98%] w-full">
+                <div class="flex flex-row items-center justify-center gap-4 ">
+                  <svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10.9273 3.12667C10.2627 2.98053 9.66154 2.62762 9.21 2.11859C8.75846 1.60957 8.47978 0.970581 8.41395 0.293333V0H6.11395V9.11333C6.11442 9.51771 5.98764 9.91198 5.75158 10.2403C5.51552 10.5686 5.18213 10.8143 4.79866 10.9427C4.41518 11.071 4.00106 11.0754 3.61494 10.9552C3.22882 10.8351 2.89028 10.5966 2.64728 10.2733C2.42958 9.98723 2.29628 9.64592 2.26244 9.288C2.2286 8.93008 2.29558 8.56983 2.4558 8.248C2.61603 7.92616 2.8631 7.65558 3.16909 7.46684C3.47508 7.2781 3.82777 7.17874 4.18728 7.18C4.38611 7.17886 4.58395 7.20809 4.77395 7.26667V4.93333C4.55284 4.90595 4.33002 4.89481 4.10728 4.9C3.28682 4.92192 2.49056 5.18262 1.81601 5.65018C1.14145 6.11773 0.617878 6.77185 0.309402 7.53243C0.000925819 8.293 -0.0790636 9.12703 0.0792287 9.93237C0.237521 10.7377 0.627224 11.4794 1.20062 12.0667C1.78827 12.6641 2.54028 13.0734 3.36108 13.2425C4.18188 13.4116 5.03443 13.3329 5.81039 13.0164C6.58635 12.6999 7.25071 12.1598 7.71904 11.4648C8.18737 10.7699 8.43853 9.95137 8.44062 9.11333V4.44667C9.36826 5.1093 10.4806 5.46376 11.6206 5.46V3.19333C11.3967 3.19426 11.1733 3.17192 10.954 3.12667H10.9273Z" fill="white"/>
+                  </svg>
+                  <span class="text-white text-[16px] ">TikTok</span>
+                </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+    <div class="relative z-10 mx-auto px-4 mb-0">
+        <RecipesCarousel 
+          title={recipesAssets.home?.title || 'DESCUBRE NUEVOS SABORES CON NUESTRAS'}
+          textButton={recipesAssets.home?.view_more || 'Ver Todas'}
+          detail={true}
+        />
+    </div>
+  </article>
+)}
+
+<script>
+  // Este script se ejecuta solo en el navegador
+  import { initProductDetail } from './scripts.js';
+  document.addEventListener('DOMContentLoaded', () => {
+    initProductDetail();
+  });
+</script>

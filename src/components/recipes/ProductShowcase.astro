@@ -1,0 +1,98 @@
+---
+// src/components/products/ProductShowcase.astro
+import { getLocale } from '../../i18n/i18n';
+
+interface Props {
+  productName?: string;
+  productVariant?: string;
+  productImage?: string;
+  productDescription?: string;
+  productLink?: string;
+}
+
+const {
+  productName = 'Ranchitas',
+  productVariant = 'Naturales',
+  productImage,
+  productDescription,
+  productLink
+} = Astro.props;
+
+const currentLang = getLocale();
+
+const defaultDescription = currentLang === 'es'
+  ? 'El sabor perfecto para esta receta. Con su crunch inconfundible y sabor auténtico, Ranchitas Nacho Queso es el ingrediente estrella que hace la diferencia. Disponible en diferentes tamaños para que disfrutes en cualquier ocasión.'
+  : 'The perfect flavor for this recipe. With its unmistakable crunch and authentic taste, Ranchitas Nacho Queso is the star ingredient that makes the difference. Available in different sizes so you can enjoy on any occasion.';
+
+const finalDescription = productDescription || defaultDescription;
+const finalLink = productLink || `/${currentLang}/productos`;
+---
+
+<section class="py-16 px-8 bg-primaryCream rounded-[40px]">
+  <div class="max-w-7xl mx-auto">
+    <!-- Title -->
+    <div class="text-center mb-12">
+      <h2 class="text-4xl md:text-5xl font-bold text-black mb-4">
+        {currentLang === 'es' ? 'El secreto está en' : 'The secret is in'}
+      </h2>
+      <div class="w-24 h-1 bg-[#F86509] mx-auto"></div>
+    </div>
+
+    <!-- Product Card -->
+    <div class="bg-white rounded-[3rem] shadow-xl p-8 md:p-12 max-w-5xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+        <!-- Product Image -->
+        <div class="flex justify-center">
+            <img 
+              src={`/images/${currentLang}/products/naturales.png`}
+              alt={`${productName} ${productVariant}`}
+              class="w-[400px] h-[300px] max-w-md object-contain hover:scale-105 transition-transform duration-300"
+            />
+        </div>
+
+        <!-- Product Info -->
+        <div class="flex flex-col gap-6">
+          <div>
+            <h3 class="text-4xl md:text-5xl font-bold text-black leading-tight">
+              {productName}
+            </h3>
+            <h4 class="text-4xl md:text-5xl font-bold text-[#F86509] leading-tight">
+              {productVariant}
+            </h4>
+          </div>
+
+          <p class="text-gray-700 text-base md:text-lg leading-relaxed">
+            {finalDescription}
+          </p>
+
+          <div class="mt-2">
+            <a 
+              href={finalLink}
+              class="inline-flex items-center gap-2 bg-[#F86509] text-white font-bold px-8 py-4 rounded-full hover:bg-[#d54500] transition-all hover:shadow-lg transform hover:-translate-y-1"
+            >
+              {currentLang === 'es' ? 'Ver producto' : 'View product'} →
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  section {
+    animation: fadeIn 0.6s ease-out;
+  }
+</style>

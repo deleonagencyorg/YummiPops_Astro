@@ -27,13 +27,14 @@
       "id": "ranchitas-pizza",
       "name": "Nacho Pizza",
       "image": "/images/es/products/npizza.png",
-      "background_color": "#FDE820",
+      "background_color": "#0041CD",
       "header_color": "#FDE820",
-      "text_color":"#FDE820",
+      "text_color":"#FFFFFF",
       "header_background": "#FDE820",
       "header_text_color": "#5B3F2E",
-      "color_button": "#FDE820",
-      "description": "Tortillas de maíz crujientes con sabor a pizza",
+      "color_button": "#FFFFFF",
+      "description":  "Tortillas de maíz crujientes con sabor a pizza, perfectas para compartir en fiestas. Una explosión de sabor en cada mordida que te transportará directo a tu pizzería favorita.",
+      "short_description": "Tortillas de maíz crujientes con sabor a pizza.",
       "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
       "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
       "sizes": [
@@ -43,23 +44,23 @@
         }
       ],
       "weight": [
+        "18g",
         "23g",
-        "26g",
-        "40g",
-        "80g",
-        "190g"
+        "25g",
+        "150g"
       ]
     },
     {
       "id": "ranchitas-excitante",
       "name": "Nacho Excitante",
       "image": "/images/es/products/nexcitante.png",
-      "background_color": "#147a2f",  
+      "background_color": "#E82E30",  
       "header_color": "#FFFFFF",
-      "text_color":"#147a2f",
-      "header_background": "#147a2f",
-      "color_button": "#147a2f",
+      "text_color":"#FFFFFF",
+      "header_background": "#E82E30",
+      "color_button": "#FFFFFF",
       "description": "Papas fritas crujientes con sabor a nachos picante",
+      "short_description": "Papas fritas crujientes con sabor a nachos picante",
       "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
       "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
       "sizes": [
@@ -69,24 +70,24 @@
         }
       ],
       "weight": [
+        "18g",
         "23g",
-        "26g",
-        "40g",
-        "80g",
-        "190g"
+        "25g",
+        "150g"
       ]
     },
     {
       "id": "ranchitas-queso",
       "name": "Nacho Queso",
       "image": "/images/es/products/nqueso.png",
-      "background_color": "#FE5A00",
+      "background_color": "#EE710A",
       "header_color": "#FFFFFF",
-      "text_color":"#FE5A00",
+      "text_color":"#FFFFFF",
       "header_background": "#FE5A00",
       "header_text_color": "#FFFFFF",
-      "color_button": "#FE5A00",
+      "color_button": "#FFFFFF",
       "description": "Tortillas fritas de maíz con sabor a queso.",
+      "short_description": "Tortillas fritas de maíz con sabor a queso.",
       "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
       "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
       "sizes": [
@@ -96,24 +97,24 @@
         }
       ],
       "weight": [
+        "18g",
         "23g",
-        "26g",
-        "40g",
-        "80g",
-        "190g"
+        "25g",
+        "150g"
       ]
     },
     {
       "id": "ranchitas-extremo",
       "name": "Nacho Extremo",
       "image": "/images/es/products/nextremo.png",
-      "background_color": "#BEDE89",
+      "background_color": "#EFEFEF",
       "header_color": "#1C1C1C",
-      "text_color":"#BEDE89",
+      "text_color":"#0F0F0F",
       "header_background": "#BEDE89",
       "header_text_color": "#1C1C1C",
-      "color_button": "#BEDE89",
+      "color_button": "#F86509",
       "description": "Tortillas de maíz con sabor a chiles toreados.",
+      "short_description": "Tortillas de maíz con sabor a chiles toreados.",
       "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
       "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
       "sizes": [
@@ -123,11 +124,10 @@
         }
       ],
       "weight": [
+        "18g",
         "23g",
-        "26g",
-        "40g",
-        "80g",
-        "190g"
+        "25g",
+        "150g"
       ]
     }
   ]

@@ -9,6 +9,9 @@ import LazyImage from '../../../components/common/LazyImage.astro';
 import { div } from 'framer-motion/m';
 import IngredientsCarousel from '../../../components/recipes/IngredientsCarousel.astro';
 import ShareModal from '../../../components/common/ShareModal.astro';
+import ProductShowcase from '../../../components/recipes/ProductShowcase.astro';
+import RecipeCommentsSection from '../../../components/recipes/RecipeCommentsSection.astro';
+import RecipesSidebar from '../../../components/recipes/RecipesSidebar.astro';
 
 interface RecipeItem {
   id: string;
@@ -18,6 +21,8 @@ interface RecipeItem {
   instructions: string[];
   preparation_time: number;
   servings: number;
+  difficulty?: string;
+  category?: string;
   image?: string;
   tags?: string[];
   product_image?: string;
@@ -29,7 +34,7 @@ const { currentLang, recipeId } = Astro.props;
 const recipeModules = import.meta.glob<{ default: RecipeItem }>("../../../locales/*/recipes/*.json");
 const allRecipes: RecipeItem[] = [];
 for (const path in recipeModules) {
-  const lang = path.split('/') [4];
+  const lang = path.split('/')[4];
   if (lang === currentLang) {
     const mod = await recipeModules[path]();
     allRecipes.push(mod.default);
@@ -41,8 +46,7 @@ const recipe = allRecipes.find((item: RecipeItem) => item.id === recipeId);
 
 // Get related recipes (filter current and limit to 3)
 const relatedRecipes = allRecipes
-  .filter((item: RecipeItem) => item.id !== recipeId)
-  .slice(0, 3);
+  .filter((item: RecipeItem) => item.id !== recipeId);
 
 if (!recipe) {
   throw new Error(`Recipe with id ${recipeId} not found`);
@@ -50,10 +54,24 @@ if (!recipe) {
 
 // Load shared recipe assets (titles, labels etc)
 const recipesAssets = {
-  recipes: currentLang === 'es' ? 'Ingredientes' : 'Ingredients',
-  preparation: currentLang === 'es' ? 'Preparación' : 'Preparation',
+  ingredients: currentLang === 'es' ? 'Ingredientes' : 'Ingredients',
+  procedure: currentLang === 'es' ? 'Procedimiento' : 'Procedure',
+  time: currentLang === 'es' ? 'Tiempo' : 'Time',
+  difficulty: currentLang === 'es' ? 'Dificultad' : 'Difficulty',
+  servings: currentLang === 'es' ? 'Porciones' : 'Servings',
   related_recipes: currentLang === 'es' ? 'Recetas relacionadas' : 'Related recipes'
 };
+
+// Traducir categorías
+const categoryTranslations: Record<string, string> = {
+  'breakfast': currentLang === 'es' ? 'Desayuno' : 'Breakfast',
+  'brunch': 'Brunch',
+  'lunch': currentLang === 'es' ? 'Almuerzo' : 'Lunch',
+  'dinner': currentLang === 'es' ? 'Cena' : 'Dinner',
+  'snack': currentLang === 'es' ? 'Snack' : 'Snack'
+};
+
+const displayCategory = recipe.category ? (categoryTranslations[recipe.category.toLowerCase()] || recipe.category) : 'Receta';
 
 function formatTime(minutes: number): string {
   const hours = Math.floor(minutes / 60);
@@ -62,146 +80,255 @@ function formatTime(minutes: number): string {
   if (currentLang === 'es') {
     return hours > 0 
       ? `${hours}h ${mins}min` 
-      : `${mins}min`;
+      : `${mins} min`;
   } else {
     return hours > 0 
       ? `${hours}h ${mins}m` 
-      : `${mins}m`;
+      : `${mins} min`;
   }
 }
+
+// Sample comments (replace with actual data from your backend)
+const comments = [
+  {
+    id: '1',
+    author: 'María González',
+    date: '3 Nov 2024',
+    content: '¡Increíble receta! La hice para mi familia y todos quedaron encantados. El toque de Ranchitas le da un sabor único que no esperábamos. Definitivamente la voy a preparar seguido.'
+  },
+  {
+    id: '2',
+    author: 'Carlos Méndez',
+    date: '1 Nov 2024',
+    content: 'Perfecta para las reuniones con amigos. Fácil de hacer y el resultado es espectacular. Las Ranchitas le dan ese crunch que la hace especial.'
+  }
+];
 ---
-<div style="background-image: url('https://snack.yummiespromociones.com/SnacksyummiesAssets/bgcontactzibas.webp'); background-size: cover; background-position: center; background-repeat: no-repeat;" class="pb-0 overflow-hidden">
-  <div class="w-full max-w-6xl mx-auto px-4 pt-4">
-    <Breadcrumb 
-    bgColor="bg-transparent" textColor="text-white" hoverColor="hover:text-white" />
+
+<div class="bg-primaryCream min-h-screen">
+  <!-- Back button -->
+  <div class="pt-8 pl-8 md:pl-16">
+    <a href={`/${currentLang}/recetas`} class="inline-flex items-center gap-2 text-[#F86509] hover:text-[#d55507] transition-colors">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10.0003 15.8333L4.16699 10L10.0003 4.16667" stroke="currentColor" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M15.8337 10H4.16699" stroke="currentColor" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="font-medium">{currentLang === 'es' ? 'Volver a recetas' : 'Back to recipes'}</span>
+    </a>
   </div>
-<section id="hero" class="flex flex-col pt-8 md:pt-12 md:flex-row justify-center items-center  pb-8" transition:animate="slide">
-  <div class="w-full max-w-6xl flex flex-col md:flex-row items-center justify-center gap-8">
-    <div class="w-[80%] md:w-1/2 flex flex-col gap-4 md:p-8 p-4 rounded-lg">
-      <h1 class=" font-title md:text-6xl text-5xl font-bold text-white mb-2 text-center md:text-left uppercase italic">{recipe.title}</h1>
-      <div class="flex items-center justify-center md:justify-start">
-        <svg 
-          xmlns="http://www.w3.org/2000/svg" 
-          class="h-5 w-5 md:h-6 md:w-6 text-white" 
-          fill="none" 
-          viewBox="0 0 24 24" 
-          stroke="currentColor"
-        >
-          <path 
-            stroke-linecap="round" 
-            stroke-linejoin="round" 
-            stroke-width="2" 
-            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" 
-          />
-        </svg>
-        <span class="ml-2 md:ml-5 text-white font-title text-base md:text-xl">
-          {formatTime(recipe.preparation_time)}
-        </span>
-      </div>
 
-      <!-- Share button opens modal -->
-      <div class="mt-3 md:mt-4">
-        <button type="button" class="flex items-center gap-2 bg-white text-primary font-bold px-4 py-2 rounded-full hover:opacity-90 transition" onclick="window.showShareModal && window.showShareModal('shareModal-recipe')">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M18 8a3 3 0 1 0-2.83-4H15a3 3 0 0 0 0 6c.38 0 .74-.07 1.07-.21l-6.1 3.05a3 3 0 1 0 0 2.32l6.1 3.05A3 3 0 1 0 18 16a2.99 2.99 0 0 0-2.93 2.41l-6.1-3.05A3 3 0 0 0 6 12c0-.86.36-1.64.94-2.19l6.13-3.07C13.03 6.5 14 7 15 7c.38 0 .74-.07 1.07-.21C16.39 6.93 17.17 7 18 7z"/>
-          </svg>
-          {currentLang === 'es' ? 'Compartir' : 'Share'}
-        </button>
-      </div>
-    </div>
-   {recipe.image && (
-      <div class="w-full md:w-1/2 flex justify-center">
-        <div class="relative rounded-2xl overflow-hidden h-80 lg:h-96 w-80 max-w-lg">
-          <LazyImage
-            src={recipe.image} 
-            alt={recipe.title}
-            class="w-full h-full object-cover"
-            onerror="this.onerror=null;this.src='/images/recipes/placeholder.jpg';"
-            transition:name={`recipe-image-${recipe.id}`}
-          />
-        </div>
-      </div>
-    )}
-    
-
-  </div>
-</section>
-
-<section id="ingredients" class=" flex flex-col justify-center items-center    mb-4 py-4 ">
-  <div class="w-full max-w-6xl px-4">
-    <h2 class="font-title font-bold md:text-4xl text-2xl text-white text-left  uppercase italic ">
-      {recipesAssets.recipes}
-    </h2>
-    
-    <div class="flex flex-col md:flex-row items-center justify-center gap-8">
-      <!-- {recipe.image && (
-        <div class="w-full md:w-1/2 flex justify-center">
-          <div class="relative rounded-lg overflow-hidden h-80 lg:h-96 w-80 max-w-lg">
-            <img 
-              src={recipe.product_image} 
+  <!-- Main Content -->
+  <section class="px-8 py-12 bg-white">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+      
+      <!-- Left Column: Image -->
+      <div class="flex flex-col gap-6">
+        {recipe.image && (
+          <div class="relative rounded-[2.5rem] overflow-hidden w-full aspect-square max-w-[600px]">
+            <LazyImage
+              src={recipe.image} 
               alt={recipe.title}
               class="w-full h-full object-cover"
               onerror="this.onerror=null;this.src='/images/recipes/placeholder.jpg';"
+              transition:name={`recipe-image-${recipe.id}`}
             />
           </div>
+        )}
+
+        <!-- Social Share Buttons -->
+        <div class="flex items-center justify-center gap-3">
+          <button class="w-12 h-12 rounded-xl bg-[#F04F00] text-white flex items-center justify-center hover:bg-[#d54500] transition-colors" aria-label="Pinterest">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 01.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/>
+            </svg>
+          </button>
+          <button class="w-12 h-12 rounded-xl bg-[#F04F00] text-white flex items-center justify-center hover:bg-[#d54500] transition-colors" aria-label="Facebook">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+          </button>
+          <button class="w-12 h-12 rounded-xl bg-[#F04F00] text-white flex items-center justify-center hover:bg-[#d54500] transition-colors" aria-label="X (Twitter)">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </button>
+          <button class="w-12 h-12 rounded-xl bg-[#F04F00] text-white flex items-center justify-center hover:bg-[#d54500] transition-colors" aria-label="Copy">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+            </svg>
+          </button>
+          <button class="w-12 h-12 rounded-xl bg-[#F04F00] text-white flex items-center justify-center hover:bg-[#d54500] transition-colors" aria-label="Print">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+            </svg>
+          </button>
         </div>
-      )} -->
-      
-      <div class="w-full md:w-full flex flex-col gap-4 md:p-8 p-4 rounded-lg text-white">
-       
-        <section class="mb-8 text-white">
-          <IngredientsCarousel items={recipe.ingredients.map((txt: string) => ({ text: txt }))} />
-        </section>
+      </div>
+
+      <!-- Right Column: Recipe Info -->
+      <div class="flex flex-col gap-6">
+        <!-- Category Badge -->
+        <div>
+          <span class="inline-block bg-[#F04F00] text-white px-6 py-2 rounded-full font-bold text-sm">
+            {displayCategory}
+          </span>
+        </div>
+
+        <!-- Title -->
+        <h1 class="text-4xl md:text-5xl font-bold italic">
+          {recipe.title}
+        </h1>
+
+        <!-- Description -->
+        <p class="text-gray-700 text-base leading-relaxed">
+          {recipe.description}
+        </p>
+
+        <!-- Info Cards -->
+        <div class="grid grid-cols-3 gap-4">
+          <!-- Time -->
+          <div class="bg-[#F5EDD8] rounded-2xl p-6 flex flex-col items-center justify-center gap-3">
+            <svg class="w-10 h-10 text-[#F04F00]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <div class="text-center">
+              <div class="font-bold text-xl">{formatTime(recipe.preparation_time)}</div>
+              <div class="text-sm text-gray-600">{recipesAssets.time}</div>
+            </div>
+          </div>
+
+          <!-- Difficulty -->
+          <div class="bg-[#F5EDD8] rounded-2xl p-6 flex flex-col items-center justify-center gap-3">
+            <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M25.0038 31.6734C25.4458 31.6734 25.8698 31.4978 26.1823 31.1853C26.4949 30.8727 26.6705 30.4488 26.6705 30.0068V21.0901C26.6705 20.3284 27.1972 19.6834 27.8822 19.3551C29.3004 18.6785 30.4342 17.5227 31.0832 16.0916C31.7322 14.6605 31.8549 13.0461 31.4295 11.5333C31.0041 10.0206 30.0581 8.70676 28.7583 7.82366C27.4585 6.94056 25.8885 6.54499 24.3255 6.70675C23.6818 5.21043 22.6136 3.93558 21.2531 3.03981C19.8926 2.14405 18.2994 1.66666 16.6705 1.66666C15.0416 1.66666 13.4484 2.14405 12.0879 3.03981C10.7274 3.93558 9.65921 5.21043 9.01549 6.70675C7.45312 6.54612 5.88422 6.94226 4.58538 7.82531C3.28654 8.70837 2.34117 10.0216 1.91596 11.5336C1.49075 13.0455 1.613 14.6591 2.26116 16.0897C2.90932 17.5203 4.04176 18.6761 5.45882 19.3534C6.14382 19.6834 6.67049 20.3284 6.67049 21.0884V30.0068C6.67049 30.4488 6.84608 30.8727 7.15864 31.1853C7.4712 31.4978 7.89512 31.6734 8.33715 31.6734H25.0038Z" stroke="#F86509" stroke-width="3.33333" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              
+            <div class="text-center">
+              <div class="font-bold text-xl">{recipe.difficulty || 'Fácil'}</div>
+              <div class="text-sm text-gray-600">{recipesAssets.difficulty}</div>
+            </div>
+          </div>
+
+          <!-- Servings -->
+          <div class="bg-[#F5EDD8] rounded-2xl p-6 flex flex-col items-center justify-center gap-3">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M26.6669 3.33334L22.8336 7.16668C21.9174 8.10132 21.4043 9.35791 21.4043 10.6667C21.4043 11.9754 21.9174 13.232 22.8336 14.1667L25.8336 17.1667C26.7682 18.0828 28.0248 18.596 29.3336 18.596C30.6423 18.596 31.8989 18.0828 32.8336 17.1667L36.6669 13.3333" stroke="#F86509" stroke-width="3.33333" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M25.0004 25L5.50043 5.49997C4.83524 6.15173 4.30678 6.92967 3.94601 7.78822C3.58524 8.64678 3.39941 9.56869 3.39941 10.5C3.39941 11.4312 3.58524 12.3532 3.94601 13.2117C4.30678 14.0703 4.83524 14.8482 5.50043 15.5L17.6671 27.6666C18.8338 28.8333 21.0004 28.8333 22.3338 27.6666L25.0004 25ZM25.0004 25L36.6671 36.6666" stroke="#F86509" stroke-width="3.33333" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M3.5 36.3333L14.1667 25.8333" stroke="#F86509" stroke-width="3.33333" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M31.6667 8.33334L20 20" stroke="#F86509" stroke-width="3.33333" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              
+            <div class="text-center">
+              <div class="font-bold text-xl">{recipe.servings}</div>
+              <div class="text-sm text-gray-600">{recipesAssets.servings}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="flex gap-2">
+          <button 
+            id="ingredientsTab"
+            class="flex-1 py-3 px-6 rounded-full font-bold transition-colors bg-[#F04F00] text-white"
+            onclick="showTab('ingredients')"
+          >
+            {recipesAssets.ingredients}
+          </button>
+          <button 
+            id="procedureTab"
+            class="flex-1 py-3 px-6 rounded-full font-bold transition-colors bg-[#F5EDD8] text-gray-700"
+            onclick="showTab('procedure')"
+          >
+            {recipesAssets.procedure}
+          </button>
+        </div>
+
+        <!-- Tab Content -->
+        <div id="ingredientsContent" class="bg-[#F04F00] rounded-2xl p-8">
+          <ul class="space-y-4 text-white">
+            {recipe.ingredients.map((ingredient: string) => (
+              <li class="flex items-start gap-3">
+                <span class="w-2 h-2 rounded-full bg-white mt-2 flex-shrink-0"></span>
+                <span class="text-base">{ingredient}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div id="procedureContent" class="hidden bg-[#F5EDD8] rounded-2xl p-8">
+          <ol class="space-y-4 text-gray-800 list-decimal list-inside">
+            {recipe.instructions.map((instruction: string, index: number) => (
+              <li class="text-base leading-relaxed">
+                <span class="font-bold">{currentLang === 'es' ? 'Paso' : 'Step'} {index + 1}:</span> {instruction}
+              </li>
+            ))}
+          </ol>
+        </div>
       </div>
     </div>
-  </div>
-</section>
-
-<section id="instructions" class=" flex flex-col justify-center items-center    mb-8  -mt-[1rem] ">
-
-  <div class="w-full max-w-6xl flex flex-col md:flex-row items-center justify-center gap-8">
-    <div class="w-full max-w-6xl px-4">
-      <h2 class="font-title font-bold md:text-4xl text-2xl text-white text-left mb-8 uppercase italic ">
-        {recipesAssets.preparation}
-      </h2>
-      <section class="mb-8 text-white">
-        <ul class="list-disc list-inside space-y-2 text-white">
-          {recipe.instructions.map((instruction: string) => (
-            <li class="text-white text-lg">
-              {instruction}
-            </li>
-          ))}
-        </ul>
-      </section>
+    
+    <!-- Product Showcase -->
+    <div class="mt-[40px] rounded-[40px]">
+      <ProductShowcase 
+        productName="Ranchitas"
+        productVariant="Naturales"
+        productImage={recipe.product_image}
+      />
     </div>
-  </div>
-</section>
-<div id="suggestions_related" class="mt-[-2rem] flex flex-col justify-center items-center pt-12 pb-16 " transition:animate="fade">
-  <div class="w-full max-w-6xl px-4">
-    <h2 class="text-3xl md:text-6xl font-bold text-white mb-8 text-center font-title italic">
-      {currentLang === 'es' ? 'DESCUBRE MÁS RECETAS' : 'Discover More Recipes'}
-    </h2>
-    <h2 class="pb-8 text-3xl md:text-9xl font-bold text-white mb-8 text-center font-title italic">
-      {currentLang === 'es' ? 'SIMILARES' : 'SIMILAR'}
-    </h2>
-    <!-- Carousel reutilizable con la lista de recetas sugeridas (usa RecipeCard) -->
-    <div class="w-full">
-      {relatedRecipes.length > 0 && (
-        <RelatedRecipesCarousel items={relatedRecipes} />
-      )}
+  </section>
+
+  <!-- Comments and Sidebar Section -->
+  <section class="px-8 py-16 bg-white">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Comments Section (2/3 width) -->
+      <div class="lg:col-span-2">
+        <RecipeCommentsSection 
+          recipeId={recipe.id}
+          comments={comments}
+        />
+      </div>
+
+      <!-- Sidebar (1/3 width) -->
+      <div class="lg:col-span-1">
+        <RecipesSidebar 
+          recipes={allRecipes}
+        />
+      </div>
     </div>
-  </div>
-</div>
-
-
-<!-- Close background wrapper -->
+  </section>
 </div>
 
 <script>
-  // Este script se ejecuta solo en el navegador
+  // Tab functionality
+  function showTab(tabName: string) {
+    const ingredientsTab = document.getElementById('ingredientsTab');
+    const procedureTab = document.getElementById('procedureTab');
+    const ingredientsContent = document.getElementById('ingredientsContent');
+    const procedureContent = document.getElementById('procedureContent');
+
+    if (tabName === 'ingredients') {
+      ingredientsTab?.classList.add('bg-[#F04F00]', 'text-white');
+      ingredientsTab?.classList.remove('bg-[#F5EDD8]', 'text-gray-700');
+      procedureTab?.classList.add('bg-[#F5EDD8]', 'text-gray-700');
+      procedureTab?.classList.remove('bg-[#F04F00]', 'text-white');
+      ingredientsContent?.classList.remove('hidden');
+      procedureContent?.classList.add('hidden');
+    } else {
+      procedureTab?.classList.add('bg-[#F04F00]', 'text-white');
+      procedureTab?.classList.remove('bg-[#F5EDD8]', 'text-gray-700');
+      ingredientsTab?.classList.add('bg-[#F5EDD8]', 'text-gray-700');
+      ingredientsTab?.classList.remove('bg-[#F04F00]', 'text-white');
+      procedureContent?.classList.remove('hidden');
+      ingredientsContent?.classList.add('hidden');
+    }
+  }
+
+  // Make function available globally
+  (window as any).showTab = showTab;
+
+  // Image error handling
   document.addEventListener('DOMContentLoaded', () => {
-    // Manejo de imágenes que fallan al cargar
-    document.querySelectorAll('.recipe-detail img').forEach(img => {
+    document.querySelectorAll('img').forEach(img => {
       if (!img.hasAttribute('onerror')) {
         img.addEventListener('error', function(this: HTMLImageElement) {
           this.onerror = null;

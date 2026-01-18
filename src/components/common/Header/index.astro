@@ -58,13 +58,13 @@ if (headerColors) {
 {headerColorConfig.showMessageCarousel && <MessageCarousel currentLang={currentLang} />}
   <div>
     <!-- Navbar de Desktop (solo en pantallas lg y superiores) -->
-    <div class="hidden lg:block">
+    <div class="hidden xl:block">
       <DesktopNavbar currentLang={currentLang} headerColorConfig={customHeaderConfig} />
     </div>
 
     <!-- Navegación Móvil -->
     <nav 
-      class={`lg:hidden mobile-nav flex justify-between items-center bg-orange mt-6 py-4 px-6 rounded-[25px]`}
+      class={`xl:hidden mobile-nav flex justify-between items-center bg-orange mt-6 py-4 px-6 rounded-[25px]`}
     >
       <!-- Logo para Móvil -->
       <!-- src={logosData.principal.url} -->

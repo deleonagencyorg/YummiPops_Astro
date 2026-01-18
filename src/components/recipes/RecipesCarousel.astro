@@ -25,6 +25,7 @@ export interface Props {
   description?: string;
   textButton?: string;
   items?: any[];
+  detail?: boolean;
 }
 
 const {
@@ -34,7 +35,8 @@ const {
     ? 'Fusiona sabores universales y el cronch de Ranchitas, con estas opciones deliciosas y fáciles de preparar.'
     : 'Combine universal flavors and the crunch of Ranchitas with these delicious and easy-to-prepare options.',
   textButton = currentLang === 'es' ? 'Descubrir más' : 'Discover more',
-  items
+  items,
+  detail = false
 } = Astro.props;
 
 let recipeItems: Recipe[] = Array.isArray(items) ? (items as unknown as Recipe[]) : [];
@@ -58,31 +60,31 @@ if (!recipeItems.length) {
       <div class="w-full lg:w-1/3 space-y-6">
         <!-- Badge verde -->
         <div class="inline-block">
-          <span class="font-mohave font-bold text-[20px] text-[#7FBB00] uppercase leading-none tracking-normal">
+          <span class=`font-mohave font-bold text-[20px] ${detail ? 'text-[#F86509]' : 'text-[#7FBB00]'} uppercase leading-none tracking-normal`>
             {title}
           </span>
         </div>
 
         <!-- Título principal -->
-        <h2 class="text-[50px] md:text-5xl lg:text-6xl font-bold text-black leading-none">
+        <h2 class=`text-[50px] md:text-5xl lg:text-6xl font-bold ${detail ? 'text-white' : 'text-black'}  leading-none`>
           {subtitle}
         </h2>
 
         <!-- Descripción -->
-        <p class="text-gray-700 text-base md:text-lg">
+        <p class=`${detail ? 'text-white' : 'text-gray-700'}  text-base md:text-lg`>
           {description}
         </p>
 
         <!-- Botón -->
         <a 
           href={`/${currentLang}/${currentLang === 'es' ? 'recetas' : 'recipes'}`}
-          class="md:inline-block lg:inline-block hidden bg-[#84BC00] text-white py-[10px] px-[60px] rounded-full font-bold text-lg hover:bg-[#6da000] transition-colors"
+          class=`md:inline-block lg:inline-block hidden ${detail ? 'bg-[#F86509] ' : 'bg-[#84BC00] '}  text-white py-[10px] px-[60px] rounded-full font-bold text-lg hover:bg-[#6da000] transition-colors`
         >
           {textButton}
         </a>
         <a 
           href={`/${currentLang}/${currentLang === 'es' ? 'recetas' : 'recipes'}`}
-          class="md:hidden lg:hidden inline-block bg-[#84BC00] text-white w-full flex p-[10px] items-center justify-center rounded-full font-bold text-lg hover:bg-[#6da000] transition-colors"
+          class=`md:hidden lg:hidden inline-block ${detail ? 'bg-[#F86509] ' : 'bg-[#84BC00] '}  text-white w-full flex p-[10px] items-center justify-center rounded-full font-bold text-lg hover:bg-[#6da000] transition-colors`
         >
           {textButton}
         </a>
@@ -103,7 +105,7 @@ if (!recipeItems.length) {
                 >
                   <a 
                     href={`/${currentLang}/${currentLang === 'es' ? 'recetas' : 'recipes'}/${recipe.id}`}
-                    class="block bg-[#84BC00] rounded-[20px] overflow-hidden shadow-xl hover:shadow-2xl transition-shadow h-full"
+                    class={`block ${detail ? 'bg-[#F86509] ' : 'bg-[#84BC00] '} rounded-[20px] overflow-hidden shadow-xl hover:shadow-2xl transition-shadow h-full`}
                   >
                     <!-- Imagen -->
                     <div class="p-6 pb-0">

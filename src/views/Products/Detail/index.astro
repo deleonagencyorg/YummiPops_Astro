@@ -4,8 +4,8 @@ import { t } from '../../../i18n/i18n';
 import type { Locale } from '../../../i18n/i18n';
 import './styles.css';
 import { initProductDetail } from './scripts.js';
-import ProductsCarousel from '../../../components/common/ProductsCarousel/index.astro';
-import LazyImage from '../../../components/common/LazyImage.astro';
+import CardQuiz from '../../../components/common/cardQuiz/index.astro';
+
 
 
 // Interfaces locales
@@ -53,6 +53,7 @@ const brandsAssets = t('', { namespace: 'brands', locale: currentLang }) || {};
 const newsAssets =  t('', { namespace: 'news', locale: currentLang }) || {};
 const brandsList = brandsAssets.brands || [];
 const zibasBrand = brandsList.find((brand: any) => brand.id === 'zibas');
+const cardQuizAssets = t('cardQuiz', { namespace: 'common', locale: currentLang }) || {};
 const zibasProducts = (zibasBrand?.products || []).filter((product: any) => product.id !== productId);
 
 // Si el producto no existe, lanzar error
@@ -95,129 +96,189 @@ if (allProductsArray.length > 1) {
 {safeProduct.background_color && (
   <article
     id="product-detail"
-    class="product-detail pt-12 md:pt-29 pb-32 bg-cover bg-center relative"
-    style={{ backgroundColor: safeProduct.background_color }}
+    class="product-detail pt-12 md:pt-29 pb-32 bg-cover bg-center relative bg-primaryCream"
     transition:animate="slide"
   >
-    <div class="md:mt-[0] container mx-auto px-6 py-5 flex flex-col lg:flex-row gap-5">
-      {/* Contenedor de la imagen del lado izquierdo */}
-      <div class="relative flex justify-center items-center w-full lg:w-[605px] p-4 lg:px-28 lg:py-8 rounded-[85px] gap-2 cursor-pointer overflow-hidden group" style={{ backgroundColor: safeProduct.color_button }}>
-        {/* Overlay para el efecto de oscurecimiento */}
-        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 rounded-[85px]"></div>
-        <img id="product-image" class="relative z-10 max-w-full h-auto transition-transform duration-300 group-hover:scale-110" src={safeProduct.image} alt={safeProduct.name} transition:name={`product-image-${safeProduct.id}`} />
+    <div class="md:mt-[0] container mx-auto px-6 py-5 flex flex-col xl:flex-row gap-24">
+      <div class="relative flex justify-center items-center w-full xl:w-[605px] p-4 xl:px-28 xl:py-8 rounded-[30px] gap-2 cursor-pointer overflow-hidden group bg-white xl:h-[593px] md:h-[593px] lg:h-[593px] h-[450px]">
+        <div class="absolute inset-0 bg-black bg-opacity-0  transition-all duration-300 rounded-[85px]"></div>
+        <img id="product-image" 
+          class="relative z-10 xl:max-w-full xl:h-auto lg:max-w-[400px] md:max-w-[400px]" 
+            src={safeProduct.image} alt={safeProduct.name} 
+            transition:name={`product-image-${safeProduct.id}`} />
       </div>
       
       {/* Contenido del lado derecho */}
-      <div class="w-full lg:w-1/2  h-auto">
-        <div class="flex justify-between items-center mb-6">
-          <h1 class="lg:text-6xl text-6xl font-bold uppercase italic" style={{ color: safeProduct.header_text_color }}>{safeProduct.name}</h1>
-      
+      <div class="w-full xl:w-1/2  h-auto">
+        <h1 
+          class="font-title  text-[18px] font-medium py-4 text-[#F86509]"
+        >
+         {currentLang === 'es' ? 'Sabor Intenso' : 'Intense flavor'}
+        </h1>
+        <div class="flex justify-between items-center mb-8">
+          <h1 class="lg:text-6xl text-6xl font-bold italic">{safeProduct.name}</h1>
         </div>
         <h1 
-          class="uppercase italic font-title lg:text-4xl text-xl  font-medium text-[${safeProduct.header_text_color}] py-4"
-          style={{ color: safeProduct.header_text_color }}>
-         {currentLang === 'es' ? 'DESCRIPCIÓN' : 'DESCRIPTION'}
-        </h1>
-        <h2 
-          class=" lg:text-3xl text-2xl italic font-text font-medium gap-30 py-5"
-          style={{ color: safeProduct.header_text_color }}
+          class="font-title text-[24px] font-medium py-0"
         >
-            {safeProduct.description}
-        </h2>
-
-        <h1 
-          class="uppercase italic font-title lg:text-4xl text-xl  font-medium text-[${safeProduct.header_text_color}] py-4"
-          style={{ color: safeProduct.header_text_color }}>
-          {currentLang === 'es' ? 'PRESENTACIONES' : 'PRESENTATIONS'}
+          {currentLang === 'es' ? 'Tamaños disponibles:' : 'Available sizes:'}
         </h1>
-        <h2 
-          class=" lg:text-3xl text-2xl italic font-text font-medium py-5"
-          style={{ color: safeProduct.header_text_color }}
-        >
-            {currentLang === 'es' ? 'Tamaño por presentación varía de acuerdo al país.​' : 'The size of the presentation varies according to the country.'}
-        </h2>
-
         {safeProduct.weight && safeProduct.weight.length > 0 && (
           <div class="my-4 max-w-full">
-            <div class="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
-              {safeProduct.weight.map((weight) => (
+            <div class="grid grid-cols-2 gap-2 md:grid-cols-6 lg:grid-cols-5 xl:grid-cols-5">
+              {safeProduct.weight.map((weight, index) => (
                 <div class="w-full min-w-0">
-                  <span class="block w-full h-[60px] md:h-[70px] px-4 lg:px-5 py-3 md:py-4 text-center rounded-[15px] border text-base md:text-xl font-bold"
-                        style={{ color: safeProduct.header_text_color, borderColor: safeProduct.header_text_color, backgroundColor: safeProduct.color_button }}>
+                  <button 
+                    class="weight-option block w-[90.7px] h-[52px] px-4 lg:px-5 text-center rounded-[50px] border-2 border-[#F86509] text-base md:text-xl font-bold bg-white hover:bg-[#F86509] hover:text-white cursor-pointer transition-all duration-300"
+                    data-weight={weight}
+                    data-index={index}
+                  >
                     {weight}
-                  </span>
+                  </button>
                 </div>
               ))}
             </div>
           </div>
         )}
+        <div class="w-full h-[58px] bg-white rounded-[15px] p-1 flex gap-1 my-8" id="product-tabs">
+          <button 
+            class="tab-button flex-1 h-[49px] rounded-[12px] flex items-center justify-center px-2 transition-all duration-300"
+            data-tab="description"
+          >
+            <span class="text-[16px] font-medium leading-6">
+              {currentLang === 'es' ? 'Descripción General' : 'General Description'}
+            </span>
+          </button>
+          
+          <button 
+            class="tab-button flex-1 h-[49px] rounded-[12px] flex items-center justify-center px-2 transition-all duration-300"
+            data-tab="nutrition"
+          >
+            <span class="text-[16px] font-medium leading-6">
+              {currentLang === 'es' ? 'Tabla de Nutrición' : 'Nutrition Table'}
+            </span>
+          </button>
+        </div>
 
-        {/* Sección de Stockists */}
-        {stockists && stockists.length > 0 && (
-          <div class="stockists-section mt-8 mb-4">
-            <h1 
-              class="uppercase italic font-title lg:text-4xl text-xl font-medium py-2"
-              style={{ color: safeProduct.header_text_color }}>
-              {currentLang === 'es' ? productsAssets.product_available || 'DISPONIBLE EN' : 'AVAILABLE AT'}
-            </h1>
-            <div class="flex flex-wrap gap-4 my-4 mb-8">
-              {stockists.map((stockist: Stockist) => (
-                <div 
-                  class="flex items-center justify-center h-[100px] w-[100px] p-2 rounded-[15px] border hover:scale-105 transition-transform"
-                  style={{ borderColor: safeProduct.header_text_color, backgroundColor: safeProduct.color_button }}
-                >
-                  <a href={stockist.link} target="_blank" rel="noopener noreferrer">  
-                  <LazyImage
-                    src={stockist.icon} 
-                    alt={stockist.name}
-                    color={['#FDE820', '#BEDE89'].includes(safeProduct.background_color) ? 'black' : 'white'}
-                    class="w-full h-full object-contain"
-                    title={stockist.name}
-                  />
-                  </a>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-     
+        <div class="bg-white rounded-[20px] w-full">
+          <p class="text-black pt-[33px] pb-[33px] pl-[33px] pr-[33px]">{safeProduct.description}</p>
+        </div>
+
+        <button class="bg-[#D61F2C] text-white rounded-[50px] w-full h-[52px] mt-[20px] text-start pl-[20px]">
+          {currentLang === 'es' ? '¿Dónde comprar?' : 'Where buy?'}
+        </button>
       </div>
     </div>
+
+    <div class="hidden  xl:block absolute bottom-0 top-[809px] right-0 pointer-events-none z-20">
+          <svg width="427" height="375" viewBox="0 0 427 375" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M427 0L427 374.5C416.5 322 394 261 364 243C334 225 329 219.5 312.5 209.5C285.26 188.395 254 143 239 105.5C224 68 218.5 65 205 55.5C191.5 46 94.8911 48.0193 0 0L427 0Z" fill="#FAF0D5"/>
+          </svg>
+    </div>
+    {/* Sección de Productos Relacionados */}
+
   </article>
+  <section class="z-30 mb-32 mt-8">
+    <div class="container mx-auto px-6">
+      {/* Título y subtítulo */}
+      <div class="mb-12">
+        <h2 class="text-5xl md:text-6xl font-bold italic mb-4">
+          {currentLang === 'es' ? 'Sabores que te encantarán' : 'Flavors you will love'}
+        </h2>
+        <p class="text-xl md:text-2xl italic">
+          {currentLang === 'es' ? 'Descubre otros sabores que también te encantarán' : 'Discover other flavors that you will also love'}
+        </p>
+      </div>
+        {/* Grid de productos */}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {relatedProducts.slice(0, 3).map((product: any, index: number) => {
+            // Colores de fondo rotativos
+            return (
+              <div 
+              class="rounded-[30px] p-8 flex flex-col items-center justify-between xl:h-[410px] md:h-[410px] lg:h-[435px] h-[450px] transition-transform duration-300 hover:scale-105"
+              style={{ backgroundColor: product.background_color }}
+            >
+              {/* Imagen del producto */}
+              <div class="w-full flex justify-center items-center flex-1 mb-6">
+                <img 
+                  src={product.image} 
+                  alt={product.name}
+                  class="max-w-[408px] h-[235px] object-contain"
+                />
+              </div>
+              {/* Información del producto */}
+              <div class="w-full text-start">
+                <h3 
+                  class="text-3xl font-bold mb-2"
+                  style={{ color: product.text_color }}
+                >
+                  {product.name}
+                </h3>
+                <p 
+                  class="text-lg italic mb-2"
+                  style={{ color: product.text_color }}
+                >
+                  {product.short_description }
+                </p>
+                <a 
+                  href={`/${currentLang}/productos/${product.id}`}
+                  class="inline-block rounded-full font-bold transition-all duration-300 hover:opacity-80"
+                  style={{ 
+                    color: product.color_button
+                  }}
+                >
+                  {currentLang === 'es' ? 'Ver más' : 'See more'}
+                </a>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+  <div class="relative z-30">
+    <CardQuiz 
+      cardQuiz={cardQuizAssets}
+    />
+  </div>
 )}
-<!-- Sección de Productos Ranchitas -->
-    {products.length > 0 && (
-      <section class="w-full py-16 bg-blue">
-        <div class="container mx-auto px-4">
-          {brandsAssets.home?.title && (
-          <div class="text-center mb-8 relative z-20" >
-            <h2 class="text-3xl md:text-4xl italic font-bold mb-4" style={`color: white`}>
-              {brandsAssets.home?.title}
-            </h2>
-            {brandsAssets.home?.subtitle && (
-              <h1 class="text-6xl md:text-9xl italic font-bold mb-4" style={`color: white`}>
-                {brandsAssets.home?.subtitle}
-              </h1>
-            )}
-          </div>
-        )}
-          <ProductsCarousel 
-            products={products}
-            color={'white'}
-            autoplay={true}
-            speed={4000}
-            slidesPerView={3}
-            spaceBetween={30}
-            loop={true}
-            className="max-w-7xl mx-auto"
-          />
-        </div>
-      </section>
-    )}
+
 <script>
-  // Este script se ejecuta solo en el navegador
   import { initProductDetail } from './scripts.js';
-  document.addEventListener('DOMContentLoaded', () => {
+  
+  document.addEventListener('astro:page-load', () => {
+    // Inicializar producto
     initProductDetail();
+    
+    // Weight options
+    const weightOptions = document.querySelectorAll<HTMLButtonElement>('.weight-option');
+    weightOptions.forEach(option => {
+      option.addEventListener('click', () => {
+        weightOptions.forEach(opt => {
+          opt.classList.remove('bg-[#F86509]', 'text-white');
+          opt.classList.add('bg-white');
+        });
+        option.classList.add('bg-[#F86509]', 'text-white');
+        option.classList.remove('bg-white');
+        console.log('Peso seleccionado:', option.dataset.weight);
+      });
+    });
+    weightOptions[0]?.click();
+    
+    // Tabs
+    const tabs = document.querySelectorAll('.tab-button');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => {
+          t.classList.remove('bg-[#F86509]');
+          t.querySelector('span')?.classList.remove('text-white');
+          t.querySelector('span')?.classList.add('text-[#0A0A0A]');
+        });
+        tab.classList.add('bg-[#F86509]');
+        tab.querySelector('span')?.classList.add('text-white');
+        tab.querySelector('span')?.classList.remove('text-[#0A0A0A]');
+      });
+    });
+    (tabs[0] as HTMLElement)?.click();
   });
 </script>

@@ -1,0 +1,43 @@
+---
+// src/pages/[lang]/productos/[productId].astro
+import { t, setLocale, type Locale } from '../../../i18n/i18n';
+import MainLayout from '../../../layouts/MainLayout.astro';
+import ResultsDetail from '../../../views/Results/Detail/index.astro';
+
+export function getStaticPaths() {
+  // Obtener todos los idiomas y productos disponibles
+  const locales = ['en'];
+  const paths = [];
+
+  for (const locale of locales) {
+    // Obtener productos para este idioma
+    const products = t('items', { namespace: 'products', locale: locale as Locale }) || [];
+    
+    // Para cada producto, crear una ruta
+    for (const product of products) {
+      paths.push({
+        params: { lang: locale, productId: product.id },
+        props: { product, currentLang: locale }
+      });
+    }
+  }
+
+  console.log(`Generadas ${paths.length} rutas de productos en español`);
+  return paths;
+}
+
+const { product, currentLang } = Astro.props;
+const { lang, productId } = Astro.params;
+
+// Establecer el idioma para las traducciones
+setLocale(lang as Locale);
+
+const headerColors = {
+  backgroundColor: product.background_color,
+  textColor: product.header_text_color
+};
+---
+
+<MainLayout title={product.name} headerColors={headerColors}>
+  <ResultsDetail currentLang={currentLang} productId={productId} />
+</MainLayout>

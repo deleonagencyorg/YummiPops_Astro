@@ -104,7 +104,7 @@ const options = dynamicOptions[locale];
   }
 </style>
 
-<div class="bg-[#F04F00] rounded-2xl p-8" transition:name="contact-form">
+<div class="bg-orange rounded-2xl p-8" transition:name="contact-form">
   <h2 class="text-white text-center md:text-2xl uppercase font-sans text-2xl font-bold mb-6">
     {contact.form.title}
   </h2>
@@ -121,7 +121,7 @@ const options = dynamicOptions[locale];
         name="contactReason" 
         id="contactReasonSelect"
         required
-        class="w-full font-semibold uppercase flex justify-center text-white items-center gap-5 p-[15px_20px] border-[1.5px] border-white rounded-full bg-[#F04F00] focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+        class="w-full font-semibold uppercase flex justify-center text-white items-center gap-5 p-[15px_20px] border-[1.5px] border-white rounded-full bg-orange focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
       >
         <option value="">{contactReasonPlaceholder}</option>
         {locale === 'es' ? (
@@ -150,7 +150,7 @@ const options = dynamicOptions[locale];
         name="country" 
         id="countrySelect"
         required
-        class="w-full font-semibold uppercase flex justify-center text-white items-center gap-5 p-[15px_20px] border-[1.5px] border-white rounded-full bg-[#F04F00] focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+        class="w-full font-semibold uppercase flex justify-center text-white items-center gap-5 p-[15px_20px] border-[1.5px] border-white rounded-full bg-orange focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
       >
         <option value="">{countryPlaceholder}</option>
       </select>
@@ -169,7 +169,7 @@ const options = dynamicOptions[locale];
         id="departmentSelect"
         required
         disabled
-        class="w-full font-semibold uppercase flex justify-center text-white items-center gap-5 p-[15px_20px] border-[1.5px] border-white rounded-full bg-[#F04F00] focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+        class="w-full font-semibold uppercase flex justify-center text-white items-center gap-5 p-[15px_20px] border-[1.5px] border-white rounded-full bg-orange focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
       >
         <option value="">{departmentPlaceholder}</option>
       </select>
@@ -185,7 +185,7 @@ const options = dynamicOptions[locale];
         name="name" 
         required
         placeholder={contact.form.fullName.placeholder}
-        class="w-full font-semibold uppercase placeholder:text-white flex justify-center text-white items-center gap-5 p-[15px_20px] border-[1.5px] border-white rounded-full bg-[#F04F00] focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+        class="w-full font-semibold uppercase placeholder:text-white flex justify-center text-white items-center gap-5 p-[15px_20px] border-[1.5px] border-white rounded-full bg-orange focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
       />
     </div>
   </div>
@@ -202,7 +202,7 @@ const options = dynamicOptions[locale];
         name="email" 
         required
         placeholder={contact.form.email.placeholder}
-        class="w-full px-4 py-3 placeholder:text-white bg-[#F04F00] text-white uppercase border-[1.5px] border-white rounded-full focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+        class="w-full px-4 py-3 placeholder:text-white bg-orange text-white uppercase border-[1.5px] border-white rounded-full focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
       />
     </div>
     
@@ -215,7 +215,7 @@ const options = dynamicOptions[locale];
         type="number" 
         name="phone" 
         placeholder={contact.form.phone.placeholder}
-        class="w-full px-4 py-3 border-[1.5px] border-white rounded-full placeholder:text-white bg-[#F04F00] text-white focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+        class="w-full px-4 py-3 border-[1.5px] border-white rounded-full placeholder:text-white bg-orange text-white focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
       />
     </div>
   </div>
@@ -231,7 +231,7 @@ const options = dynamicOptions[locale];
         required
         rows="4"
         placeholder={contact.form.message.placeholder}
-        class="w-full px-4 py-3 border-[1.5px] border-white rounded-2xl bg-[#F04F00] text-white placeholder:text-white focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"
+        class="w-full px-4 py-3 border-[1.5px] border-white rounded-2xl bg-orange text-white placeholder:text-white focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"
       ></textarea>
     </div>
   </div>
@@ -246,7 +246,7 @@ const options = dynamicOptions[locale];
     <button 
       type="submit"
       id="submitButton"
-      class="w-full py-3 px-6 bg-[#FE5A00] text-white rounded-xl uppercase font-bold text-2xl hover:bg-primary-dark transition-all"
+      class="w-full py-3 px-6 bg-white text-orange rounded-xl font-bold text-2xl hover:bg-primary-dark transition-all"
     >
       {contact.form.submit}
     </button>

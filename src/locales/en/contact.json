@@ -1,7 +1,8 @@
 {
-  "title": "Contact Us",
-  "subtitle": "Get in Touch",
-  "description": "We'd love to hear from you. Send us a message and we'll respond as soon as possible.",
+  "title": "Contact",
+  "subtitle": "Is there any",
+  "subtitleTwo": "question?",
+  "description": "Send us your questions or comments by filling out the form on the right, or contact us via email or phone.",
   "email": "info@yummies.com",
   "phone": "+504 2275-3370",
   "form": {

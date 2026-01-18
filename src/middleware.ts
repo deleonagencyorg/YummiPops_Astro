@@ -5,6 +5,7 @@ import { routesConfig, findRouteBySlug } from './config/routes';
 // Mapeo de rutas que necesitan redirección
 const routeMappings = {
   'products': { es: 'productos', en: 'products' },
+  'results': { es: 'resultados', en: 'results'},
   'news': { es: 'noticias', en: 'news' },
   'recipes': { es: 'recetas', en: 'recipes' },
   'yummiesone': { es: 'yummiesone', en: 'yummiesone' }

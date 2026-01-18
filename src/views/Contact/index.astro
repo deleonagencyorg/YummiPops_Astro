@@ -36,7 +36,7 @@ const title = contact.title;
 const metaDescription = contact.description;
 console.log('headerColorConfig in Contact:', headerColorConfig);
 const headerColors = {
-  backgroundColor: '#FE5A00',
+  backgroundColor: '#FAF0D5',
   textColor: '#FFFFFF'
 };
 ---
@@ -46,15 +46,20 @@ const headerColors = {
     
 
     <!-- Main Contact Section -->
-    <div class="flex flex-col justify-center px-4 items-start lg:flex-row gap-12 py-12" style="background-image: url('https://snack.yummiespromociones.com/SnacksyummiesAssets/bgcontactzibas.webp'); background-size: cover; background-position: center;">
+    <div class="flex flex-col justify-center px-4 items-start lg:flex-row gap-12 py-12 bg-primaryCream">
       
       <!-- Left Column - Contact Info -->
-    <div class="w-[100%] lg:w-[40%] pl-8 lg:pl-16 flex flex-col justify-center h-[100%] lg:h-[600px]">
-        <h1 class="text-white font-title text-7xl uppercase md:text-6xl lg:text-7xl font-bold mb-6">
+   
+    <div class="w-[100%] lg:w-[50%] pl-8 lg:pl-2 flex flex-col justify-center h-[100%] lg:h-[600px] ">
+        <div class="text-[#F99F33] pb-4 text-[20px]">
           {contact.title}
+        </div>
+        <h1 class="text-black font-title text-7xl uppercase md:text-6xl lg:text-[85px] font-bold mb-6 italic">
+          {contact.subtitle}
+          {contact.subtitleTwo}
         </h1>
         
-        <p class="text-white font-bold text-2xl lg:text-2xl mb-8 leading-relaxed ">
+        <p class="text-black font-bold text-2xl lg:text-2xl mb-8 leading-relaxed ">
           {contact.description}
         </p>
      
@@ -65,72 +70,79 @@ const headerColors = {
         <FormContact currentLang={locale} />
       </div>
     </div>
-    
+    <div class="relative z-0">
+      <svg class=" md:block lg:block absolute md:top-[0px] lg:top-[0px] right-[0px]" width="427" height="375" viewBox="0 0 427 375" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M427 0L427 374.5C416.5 322 394 261 364 243C334 225 329 219.5 312.5 209.5C285.26 188.395 254 143 239 105.5C224 68 218.5 65 205 55.5C191.5 46 94.8911 48.0193 0 0L427 0Z" fill="#FAF0D5"/>
+      </svg>
+    </div>
     <!-- Offices Section -->
-    <div class="mx-auto bg-blue p-8">
-      <h3 class="text-white md:text-4xl text-4xl italic font-title uppercase font-bold mb-4 flex items-center justify-center gap-1">
+    <div class="mx-auto bg-blue p-8 z-30 relative">
+
+      <h3 class="text-black md:text-4xl text-[45px] italic font-title uppercase font-bold mb-4 gap-1 pl-[40px]">
         <span class="font-title">{contact.offices.title.split(' ')[0]} {contact.offices.title.split(' ')[1]}</span>
       </h3>
-      <h1 class="text-white md:text-9xl text-12xl italic font-title uppercase font-bold mb-4 flex items-center justify-center gap-1">
+      <h1 class="text-black md:text-4xl text-[45px] italic font-title uppercase font-bold mb-4 gap-1 pl-[40px]">
         <span class="font-title">{contact.offices.title.split(' ').slice(2).join(' ')}</span>
       </h1>
       
       <!-- Tabs and Office Info -->
       <div class="flex flex-col mb-4">
         <!-- Office Details -->
-        <div class="order-2 w-[80%] mx-auto">
-          <div id="officeInfo" class="bg-blue rounded-2xl p-8 ">
-            <div class="flex flex-col lg:flex-row justify-between items-center">
-              <div class="space-y-4">
-                <h3 id="officeName" class="text-white font-sans text-9xl md:text-7xl uppercase font-extrabold  mb-4">
-                  {contact.offices.locations["+504"].name}
-                </h3>
+        <div class="order-2 w-[90%] mx-auto">
+          <div id="officeInfo" class="bg-blue rounded-2xl">
+            <div class="flex flex-col lg:flex-row justify-between ">
+              <div class="space-y-0">
+                <h3
+                id="officeName"
+                class="text-black font-sans text-[80px] md:text-7xl uppercase font-extrabold mb-4 mt-4 leading-tight"
+              >
+                {contact.offices.locations["+504"].name}
+              </h3>
+              
                 
                 <div class="flex items-start space-x-3">
-                  <p id="officeAddress" class="text-white leading-relaxed font-semibold ">  {`+ ${contact.offices.locations["+504"].address}`}</p>
+                  <p id="officeAddress" class="text-black leading-relaxed font-semibold text-[24px]">  {`+ ${contact.offices.locations["+504"].address}`}</p>
                 </div>
                 
                 <div class="flex items-center space-x-3">
-                  <div id="officePhones" class="flex flex-col text-white">
+                  <div id="officePhones" class="flex flex-col">
                     {contact.offices.locations["+504"].phones.map((phone: string) => (
-                     <div> <a href={`tel:${phone}`} class="text-white hover:text-primary transition-colors">
-                        {phone}
-                      </a></div>
+                      <div >
+                        <a
+                          href={`tel:${phone}`}
+                          class="text-black text-[24px] hover:text-primary transition-colors"
+                        >
+                          {phone}
+                        </a>
+                      </div>
                     ))}
                   </div>
                 </div>
                 
-                <!-- <div class="flex items-center space-x-3">
-                  <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                  </svg>
-                  <a id="officeEmail" href={`mailto:${contact.offices.locations["+504"].email}`} class="text-primary hover:text-secondary transition-colors">
-                    {contact.offices.locations["+504"].email}
-                  </a>
-                </div> -->
               </div>
-              <div class="mt-6 lg:mt-0">
-                <LazyImage 
-                  src="https://snack.yummiespromociones.com/SnacksyummiesAssets/oficinas.webp"
-                  alt="Yummies Honduras"
-                  class="w-full h-48 object-cover rounded-xl"
-                />
-              </div>
+          
+                <div class="mt-2 lg:mt-0">
+                  <LazyImage 
+                    src="https://snack.yummiespromociones.com/SnacksyummiesAssets/oficinas.webp"
+                    alt="Yummies Honduras"
+                    class="w-full h-48 object-cover rounded-xl"
+                  />
+                </div>
             </div>
           </div>
         </div>
         
         <!-- Map and Tabs -->
-        <div class="order-1 mt-4">
+        <div class="order-1 mt-4 z-30">
           <!-- Country Tabs -->
           <div class="mb-6 flex flex-wrap justify-center gap-2">
           {Object.entries(contact.offices.locations).map(([countryCode, location]: [string, any], index: number) => (
             <button 
               data-country-code={countryCode}
-              class={`country-tab px-10 py-4 text-white uppercase text-sm font-semibold transition-all duration-300 flex items-center justify-center gap-2.5
+              class={`country-tab px-16 py-4 text-white uppercase text-sm font-semibold transition-all duration-300 flex items-center justify-center gap-2.5
                 ${index === 0 
-                  ? 'h-[54px] bg-[#005ADA] opacity-100 border border-white' 
-                  : 'h-[54px] bg-[#005ADA] opacity-75 hover:opacity-100'
+                  ? 'h-[54px] bg-orange opacity-100 border border-white' 
+                  : 'h-[54px] bg-[#DAD9D9] opacity-75 hover:opacity-100 !text-black'
                 } rounded-[47px]`}
             >
               {location.tab}
@@ -139,7 +151,7 @@ const headerColors = {
         </div>
           
           <!-- Map -->
-          <div class="bg-gradient-to-br w-[80%] mx-auto bg-white rounded-2xl p-6 shadow-lg mb-4">
+          <div class="bg-gradient-to-br w-[90%] mx-auto bg-white rounded-2xl border-[2px] border-orange p-6 shadow-lg mb-4">
             <div class="w-full  overflow-hidden rounded-xl" style="height: 500px;">
               <!-- Container for all map iframes -->
               <div id="maps-container" style="width: 100%; height: 100%;">
@@ -215,7 +227,7 @@ const headerColors = {
               const phoneLink = document.createElement('a');
               phoneLink.href = `tel:${phone}`;
               phoneLink.textContent = `+${phone}`;
-              phoneLink.className = 'text-white hover:text-primary font-medium font-semibold transition-colors';
+              phoneLink.className = 'text-black hover:text-primary font-medium font-semibold transition-colors text-[24px]';
               phoneContainer.appendChild(phoneLink);
               officePhones.appendChild(phoneContainer);
             });

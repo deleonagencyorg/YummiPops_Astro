@@ -105,7 +105,7 @@
     {
       "id": "recipes",
       "text": "Recetas",
-      "href": "/es/recipes"
+      "href": "/es/#recipes"
     },
     {
       "id": "news",
@@ -125,7 +125,7 @@
     {
       "id": "contact",
       "text": "Contáctanos",
-      "href": "/es/contact"
+      "href": "/es/contacto"
     }
    
   ],
