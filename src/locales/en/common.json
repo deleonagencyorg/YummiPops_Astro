@@ -95,7 +95,7 @@
     {
       "id": "products",
       "text": "Products",
-      "href": "/en/#products"
+      "href": "/en/products"
     },
     {
       "id": "recipes",
@@ -106,16 +106,6 @@
       "id": "news",
       "text": "News",
       "href": "/en/blog"
-    },
-    {
-      "id": "promotios",
-      "text": "Promos",
-      "href": "/en/promotios"
-    },
-    {
-      "id": "brand",
-      "text": "Brand",
-      "href": "/en/brand"
     },
     {
       "id": "contact",

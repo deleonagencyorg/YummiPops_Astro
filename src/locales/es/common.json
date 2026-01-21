@@ -100,7 +100,7 @@
     {
       "id": "products",
       "text": "Productos",
-      "href": "/es/#products"
+      "href": "/es/productos"
     },
     {
       "id": "recipes",
@@ -113,21 +113,10 @@
       "href": "/es/blog"
     },
     {
-      "id": "promotios",
-      "text": "Promos",
-      "href": "/es/promotios"
-    },
-    {
-      "id": "brand",
-      "text": "Marca",
-      "href": "/es/brand"
-    },
-    {
       "id": "contact",
       "text": "Contáctanos",
       "href": "/es/contacto"
     }
-   
   ],
   "about_us": {
     "title": "Conoce Nuestra",
