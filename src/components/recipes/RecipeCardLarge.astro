@@ -36,6 +36,16 @@ const categoryTranslations: Record<string, string> = {
 };
 
 const displayCategory = categoryTranslations[category.toLowerCase()] || category;
+
+// Formatear el slug del producto: quitar guiones y capitalizar cada palabra
+function formatProductName(slug: string): string {
+  return slug
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
+
+const displayProduct = product ? formatProductName(product) : '';
 ---
 
 <a 
@@ -43,7 +53,7 @@ const displayCategory = categoryTranslations[category.toLowerCase()] || category
   class="block group overflow-hidden rounded-[2.5rem] bg-white shadow-lg hover:shadow-2xl transition-all duration-300"
 >
   <!-- Imagen principal -->
-  <div class="relative h-[400px] lg:h-[500px] overflow-hidden">
+  <div class="relative h-[400px] lg:h-[400px] overflow-hidden">
     <img 
       src={image} 
       alt={title}
@@ -75,9 +85,9 @@ const displayCategory = categoryTranslations[category.toLowerCase()] || category
       <span class="text-[#F04F00] font-bold text-lg">
         {difficulty}
       </span>
-      {product && (
+      {displayProduct && (
         <span class="text-gray-500 text-base font-normal">
-          {currentLocale === 'es' ? 'Con' : 'With'} {product}
+          {currentLocale === 'es' ? 'Con' : 'With'} {displayProduct}
         </span>
       )}
     </div>

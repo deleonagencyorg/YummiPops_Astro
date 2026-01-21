@@ -1,0 +1,142 @@
+---
+// ProductCarousel.astro - Carousel de productos para recetas
+import { getLocale } from '../../i18n/i18n';
+
+interface ProductItem {
+  id: string;
+  name: string;
+  image: string;
+  description?: string;
+  short_description?: string;
+}
+
+interface Props {
+  productSlugs: string[];
+  currentLang: string;
+}
+
+const { productSlugs, currentLang } = Astro.props;
+
+// Cargar productos desde products.json según el idioma
+const productModules = import.meta.glob<{ default: { items: ProductItem[] } }>('../../locales/*/products.json');
+const allProducts: ProductItem[] = [];
+
+for (const path in productModules) {
+  const lang = path.split('/')[3];
+  if (lang === currentLang) {
+    const mod = await productModules[path]();
+    allProducts.push(...(mod.default.items || []));
+  }
+}
+
+// Filtrar productos que coincidan con los slugs de la receta
+const recipeProducts = productSlugs
+  .map(slug => allProducts.find(p => p.id === slug))
+  .filter((p): p is ProductItem => p !== undefined);
+
+const sectionTitle = currentLang === 'es' ? 'El secreto está en' : 'The secret is in';
+const viewProductText = currentLang === 'es' ? 'Ver producto' : 'View product';
+---
+
+{recipeProducts.length > 0 && (
+  <section class="py-16 px-8 bg-primaryCream rounded-[40px]">
+    <div class="max-w-7xl mx-auto">
+      <!-- Title -->
+      <div class="text-center mb-12">
+        <h2 class="text-4xl md:text-5xl font-bold text-black mb-4">
+          {sectionTitle}
+        </h2>
+        <div class="w-24 h-1 bg-[#F86509] mx-auto"></div>
+      </div>
+
+      <!-- Products Carousel -->
+      <div class="relative">
+        <div class="swiper-container product-carousel">
+          <div class="swiper-wrapper">
+            {recipeProducts.map((product) => (
+              <div class="swiper-slide">
+                <div class="bg-white rounded-[3rem] shadow-xl p-8 md:p-12 max-w-5xl mx-auto">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+                    <!-- Product Image -->
+                    <div class="flex justify-center">
+                      <img 
+                        src={product.image}
+                        alt={product.name}
+                        class="w-full max-w-[400px] h-[300px] object-contain hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+
+                    <!-- Product Info -->
+                    <div class="flex flex-col gap-6">
+                      <div>
+                        <h3 class="text-4xl md:text-5xl font-bold text-[#F86509] leading-tight">
+                          {product.name}
+                        </h3>
+                      </div>
+
+                      <p class="text-gray-700 text-base md:text-lg leading-relaxed">
+                        {product.description || product.short_description || ''}
+                      </p>
+
+                      <div class="mt-2">
+                        <a 
+                          href={`/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}/${product.id}`}
+                          class="inline-flex items-center gap-2 bg-[#F86509] text-white font-bold px-8 py-4 rounded-full hover:bg-[#d54500] transition-all hover:shadow-lg transform hover:-translate-y-1"
+                        >
+                          {viewProductText} →
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Navigation Arrows -->
+        {recipeProducts.length > 1 && (
+          <>
+            <button class="swiper-button-prev-custom absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center text-[#F86509] hover:bg-[#F86509] hover:text-white transition-colors z-10">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+              </svg>
+            </button>
+            <button class="swiper-button-next-custom absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center text-[#F86509] hover:bg-[#F86509] hover:text-white transition-colors z-10">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </button>
+          </>
+        )}
+      </div>
+    </div>
+  </section>
+)}
+
+<script>
+  import Swiper from 'swiper';
+  import { Navigation, Autoplay } from 'swiper/modules';
+  import 'swiper/css';
+  import 'swiper/css/navigation';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const productCarousel = document.querySelector('.product-carousel');
+    if (productCarousel) {
+      new Swiper('.product-carousel', {
+        modules: [Navigation, Autoplay],
+        slidesPerView: 1,
+        spaceBetween: 30,
+        loop: true,
+        autoplay: {
+          delay: 5000,
+          disableOnInteraction: false,
+        },
+        navigation: {
+          nextEl: '.swiper-button-next-custom',
+          prevEl: '.swiper-button-prev-custom',
+        },
+      });
+    }
+  });
+</script>

@@ -1,0 +1,106 @@
+{
+  "ui": {
+    "brandTitle": "Ranchitas",
+    "home": "Home",
+    "restart": "Restart",
+    "previous": "Previous",
+    "next": "Next",
+    "questionLabel": "Question {current} of {total}",
+    "resultTitle": "Your result:",
+    "goHome": "Go to Homepage",
+    "repeatQuiz": "Repeat Quiz",
+    "shareTitle": "Share on social:",
+    "recipesTitle": "Recipes",
+    "recipesHeading": "Discover\nnew recipes",
+    "recipesCta": "Discover more"
+  },
+  "quiz": {
+    "id": "which-ranchita-are-you",
+    "questions": [
+      {
+        "id": "q1",
+        "text": "What do you do when you have some free time?",
+        "options": [
+          { "id": "q1a", "text": "Go explore new places", "scores": { "adventurer": 2 } },
+          { "id": "q1b", "text": "Relax at home with friends", "scores": { "social": 2 } },
+          { "id": "q1c", "text": "Workout and stay active", "scores": { "intense": 2 } },
+          { "id": "q1d", "text": "Create something new and fun", "scores": { "creative": 2 } }
+        ]
+      },
+      {
+        "id": "q2",
+        "text": "Choose your ideal weekend plan",
+        "options": [
+          { "id": "q2a", "text": "An improvised road trip", "scores": { "adventurer": 2 } },
+          { "id": "q2b", "text": "Movie night with snacks", "scores": { "social": 2 } },
+          { "id": "q2c", "text": "A sporty challenge with friends", "scores": { "intense": 2 } },
+          { "id": "q2d", "text": "Cook something different", "scores": { "creative": 2 } }
+        ]
+      },
+      {
+        "id": "q3",
+        "text": "How would you describe your personality?",
+        "options": [
+          { "id": "q3a", "text": "I love trying new things", "scores": { "adventurer": 2 } },
+          { "id": "q3b", "text": "I’m the life of the party", "scores": { "social": 2 } },
+          { "id": "q3c", "text": "I go all in, no fear", "scores": { "intense": 2 } },
+          { "id": "q3d", "text": "I always have original ideas", "scores": { "creative": 2 } }
+        ]
+      },
+      {
+        "id": "q4",
+        "text": "Pick a flavor that represents you",
+        "options": [
+          { "id": "q4a", "text": "Unexpected and different", "scores": { "adventurer": 2 } },
+          { "id": "q4b", "text": "Classic for sharing", "scores": { "social": 2 } },
+          { "id": "q4c", "text": "Spicy and extreme", "scores": { "intense": 2 } },
+          { "id": "q4d", "text": "Creative mixes", "scores": { "creative": 2 } }
+        ]
+      },
+      {
+        "id": "q5",
+        "text": "What motivates you the most?",
+        "options": [
+          { "id": "q5a", "text": "Adventure", "scores": { "adventurer": 2 } },
+          { "id": "q5b", "text": "Connection", "scores": { "social": 2 } },
+          { "id": "q5c", "text": "Intensity", "scores": { "intense": 2 } },
+          { "id": "q5d", "text": "Creativity", "scores": { "creative": 2 } }
+        ]
+      }
+    ],
+    "results": [
+      {
+        "id": "creative",
+        "title": "The One-of-a-kind Creative",
+        "emoji": "🎨",
+        "description": "You love to stand out and you always find creative ways to express yourself and surprise others.",
+        "suggestedProductId": "ranchitas-pizza",
+        "suggestedRecipes": ["nachos-horneados-nacho-queso", "nachos-horneados-nacho-queso"]
+      },
+      {
+        "id": "intense",
+        "title": "The Fearless Intense",
+        "emoji": "🔥",
+        "description": "You go all in. You like bold flavors and big challenges. No half measures.",
+        "suggestedProductId": "ranchitas-extremo",
+        "suggestedRecipes": ["nachos-horneados-nacho-queso", "nachos-horneados-nacho-queso"]
+      },
+      {
+        "id": "social",
+        "title": "The Social Starter",
+        "emoji": "🧡",
+        "description": "You’re all about sharing. Where there are friends, there’s a plan. Your energy is contagious.",
+        "suggestedProductId": "ranchitas-queso",
+        "suggestedRecipes": ["nachos-horneados-nacho-queso", "nachos-horneados-nacho-queso"]
+      },
+      {
+        "id": "adventurer",
+        "title": "The Curious Adventurer",
+        "emoji": "🧭",
+        "description": "You’re driven by discovery. Always ready to try something new and break the routine.",
+        "suggestedProductId": "ranchitas-excitante",
+        "suggestedRecipes": ["nachos-horneados-nacho-queso", "nachos-horneados-nacho-queso"]
+      }
+    ]
+  }
+}

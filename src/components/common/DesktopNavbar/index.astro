@@ -4,6 +4,8 @@ import { t, type Locale } from '../../../i18n/i18n';
 import { logos } from '../../../config/assets';
 import type { HeaderColorConfig } from '../../../config/headerColors';
 import SocialMediaIcons from '../SocialMediaIcons/index.astro';
+import productsEs from '../../../locales/es/products.json';
+import productsEn from '../../../locales/en/products.json';
 
 export interface Props {
   currentLang: Locale;
@@ -18,6 +20,11 @@ const currentPath = pathname;
 
 // Obtener los datos de social media y menú desde las traducciones
 const menuItems = t('menu_items', { namespace: 'common', locale: currentLang }) as any[];
+
+const productsData = currentLang === 'es' ? productsEs : productsEn;
+const productsItems = (productsData as any)?.items ?? [];
+const productsBasePath = `/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}`;
+const productsMenuTitle = currentLang === 'es' ? 'Nuestros Productos' : 'Our Products';
 ---
 
 <!-- Desktop Navigation -->
@@ -37,15 +44,90 @@ const menuItems = t('menu_items', { namespace: 'common', locale: currentLang }) 
   </div>
 
   <!-- Menu -->
-  <div class="flex space-x-10" id="desktop-menu-items">
+  <div class="flex space-x-10 relative" id="desktop-menu-items">
     {menuItems && menuItems.map((item: any) => (
-      <a
-        href={item.href}
-        class="text-white font-title text-lg tracking-wide 
-               hover:opacity-80 transition"
-      >
-        {item.text}
-      </a>
+      item?.id === 'products' ? (
+        <div class="group">
+          <a
+            href={item.href}
+            class="text-white font-title text-lg tracking-wide hover:opacity-80 transition inline-flex items-center"
+          >
+            {item.text}
+          </a>
+
+          <div class="hidden group-hover:block group-focus-within:block absolute left-1/2 -translate-x-1/2 top-full pt-6 z-50">
+            <div class="bg-white rounded-[25px] shadow-xl w-[1100px] max-w-[calc(100vw-40px)] p-8">
+              <div class="flex items-center justify-between mb-6">
+                <h3 class="text-black font-title text-2xl italic font-bold">
+                  {productsMenuTitle}
+                </h3>
+                <a
+                  href={productsBasePath}
+                  class="text-black font-title text-lg hover:opacity-80 transition"
+                >
+                  {currentLang === 'es' ? 'Ver todos' : 'View all'}
+                </a>
+              </div>
+
+              <div class="relative">
+                <button
+                  type="button"
+                  class="products-submenu-prev absolute -left-4 top-1/2 -translate-y-1/2 bg-orange text-white w-10 h-10 rounded-full shadow-md hover:opacity-90 transition flex items-center justify-center"
+                  aria-label={currentLang === 'es' ? 'Anterior' : 'Previous'}
+                >
+                  <span class="text-2xl leading-none">‹</span>
+                </button>
+
+                <div
+                  class="products-submenu-scroll overflow-x-auto scroll-smooth"
+                  style="scrollbar-width: none;"
+                >
+                  <div class="flex gap-6 pr-2" style="scroll-snap-type: x mandatory;">
+                    {productsItems.map((product: any) => (
+                      <a
+                        href={`${productsBasePath}/${product.id}`}
+                        class="bg-primaryCream rounded-2xl p-6 min-w-[260px] max-w-[260px] hover:opacity-90 transition"
+                        style="scroll-snap-align: start;"
+                      >
+                        <div class="bg-[#F3E6C7] rounded-2xl flex items-center justify-center h-[160px] mb-4">
+                          <img
+                            src={product.image}
+                            alt={product.name}
+                            class="h-[140px] w-auto object-contain"
+                            loading="lazy"
+                          />
+                        </div>
+                        <div class="text-black font-title text-lg font-bold mb-2">
+                          {product.name}
+                        </div>
+                        <div class="text-black text-sm leading-snug">
+                          {product.short_description}
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  class="products-submenu-next absolute -right-4 top-1/2 -translate-y-1/2 bg-orange text-white w-10 h-10 rounded-full shadow-md hover:opacity-90 transition flex items-center justify-center"
+                  aria-label={currentLang === 'es' ? 'Siguiente' : 'Next'}
+                >
+                  <span class="text-2xl leading-none">›</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <a
+          href={item.href}
+          class="text-white font-title text-lg tracking-wide 
+                 hover:opacity-80 transition"
+        >
+          {item.text}
+        </a>
+      )
     ))}
   </div>
   <!-- Right section: Button + User -->
@@ -60,4 +142,42 @@ const menuItems = t('menu_items', { namespace: 'common', locale: currentLang }) 
     </a>
   </div>
 </nav>
+
+<script is:inline>
+  (function () {
+    function initProductsSubmenu() {
+      const root = document.getElementById('desktop-menu-items');
+      if (!root) return;
+
+      const scroll = root.querySelector('.products-submenu-scroll');
+      const prev = root.querySelector('.products-submenu-prev');
+      const next = root.querySelector('.products-submenu-next');
+      if (!(scroll instanceof HTMLElement)) return;
+
+      const scrollByAmount = () => Math.max(260 + 24, Math.floor(scroll.clientWidth * 0.8));
+
+      if (prev) {
+        prev.addEventListener('click', (e) => {
+          e.preventDefault();
+          scroll.scrollBy({ left: -scrollByAmount(), behavior: 'smooth' });
+        });
+      }
+
+      if (next) {
+        next.addEventListener('click', (e) => {
+          e.preventDefault();
+          scroll.scrollBy({ left: scrollByAmount(), behavior: 'smooth' });
+        });
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initProductsSubmenu);
+    } else {
+      initProductsSubmenu();
+    }
+
+    document.addEventListener('astro:page-load', initProductsSubmenu);
+  })();
+</script>
 

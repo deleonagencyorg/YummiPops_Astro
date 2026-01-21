@@ -1,0 +1,39 @@
+{
+  "date": "2025-09-11",
+  "id": "chicken-fingers-con-ranchitas-nacho-excitante",
+  "slug": "chicken-fingers-con-ranchitas-nacho-excitante",
+  "title": "Chiken Fingers con Ranchitas Nacho Excitante",
+  "people": "12",
+  "difficulty": "Media",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/chicken-fingers-con-ranchitas-nacho-excitante.webp",
+  "gallery": [
+    "chicken-fingers-con-ranchitas-nacho-excitante.webp"
+  ],
+  "type": "image",
+  "preparation_time": 30,
+  "ingredients": [
+    "1 bolsa de Ranchitas Nacho Excitante",
+    "1 huevo",
+    "2 cucharadas de leche",
+    "2 pechugas de pollo sin hueso"
+  ],
+  "instructions": [
+    "Paso 1. Precalienta el horno a 400º F.",
+    "Paso 2. Corta las pechugas en tiras de ¾”.",
+    "Paso 3. Coloca las Ranchitas en un recipiente y tritúralas con un mortero o un procesador.",
+    "Paso 4. En otro recipiente bate el huevo y agrégale la leche.",
+    "Paso 5. Coloca cada tira de pollo en el huevo y luego cúbrelos con las Ranchitas trituradas.",
+    "Paso 6. Coloca cada tira de pollo en el huevo y luego cúbrelos con las Ranchitas trituradas.",
+    "Paso 7. Con una brocha, pásale un poco de aceite vegetal a cada tira.",
+    "Paso 8. Hornea de 15 a 17 minutos o hasta que el pollo esté completamente cocinado.",
+    "Paso 9. Sirve con Mayonesa de Limón Mazola."
+  ],
+  "brand": [
+    "ranchitas"
+  ],
+
+  "product":[
+    "ranchitas-nacho-excitante"
+  ],
+  "category": "lunch"
+}

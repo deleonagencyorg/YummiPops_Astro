@@ -2,6 +2,7 @@
 import SocialShareReact from './SocialShare.jsx';
 
 interface Props {
+  shareId?: string;
   url?: string;
   title: string;
   description?: string;
@@ -21,6 +22,7 @@ interface Props {
 }
 
 const {
+  shareId,
   url,
   title,
   description = '',
@@ -60,17 +62,20 @@ const defaultLabels = {
 const finalLabels = labels || defaultLabels[currentLang as 'es' | 'en'];
 ---
 
-<SocialShareReact
-  client:load
-  url={shareUrl}
-  title={title}
-  description={description}
-  hashtags={hashtags}
-  iconSize={iconSize}
-  round={round}
-  className={className}
-  buttonClassName={buttonClassName}
-  platforms={platforms}
-  labels={finalLabels}
-  showLabels={showLabels}
-/>
+<div data-social-share-id={shareId || ''}>
+  <SocialShareReact
+    client:load
+    shareId={shareId}
+    url={shareUrl}
+    title={title}
+    description={description}
+    hashtags={hashtags as any}
+    iconSize={iconSize}
+    round={round}
+    className={className}
+    buttonClassName={buttonClassName}
+    platforms={platforms as any}
+    labels={finalLabels as any}
+    showLabels={showLabels}
+  />
+</div>

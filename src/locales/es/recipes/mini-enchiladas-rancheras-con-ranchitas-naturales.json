@@ -1,0 +1,36 @@
+{
+  "date": "2025-09-11",
+  "id": "mini-enchiladas-rancheras-con-ranchitas-naturales",
+  "slug": "mini-enchiladas-rancheras-con-ranchitas-naturales",
+  "title": "Mini Enchiladas Rancheras con Ranchitas Naturales",
+  "people": "6",
+  "difficulty": "Media",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/mini-enchiladas-rancheras.webp",
+  "gallery": [
+    "mini-enchiladas-rancheras.webp"
+  ],
+  "type": "image",
+  "preparation_time": 30,
+  "ingredients": [
+    "5 onzas de carne molida",
+    "5 onzas de pollo cocido y desmenuzado",
+    "Salpimentar al gusto",
+    "1 taza de repollo rallado",
+    "1 taza de queso rallado",
+    "1 tomate picado",
+    "12 chips de Ranchitas Naturales"
+  ],
+  "instructions": [
+    "Paso 1. Sazonar la carne molida y luego cocinar en un sartén.",
+    "Paso 2. Sazonar el pollo ya desmenuzado con la sal y pimienta.",
+    "Paso 3. Colocar una porción del repollo en cada chip. Una porción de carne (pollo o res), queso y tomate.",
+    "Paso 4. Sazonar la carne y cocinar, sazonal el pollo desmenuzado y colocar una porción en cada chip con queso y tomate."
+  ],
+  "brand": [
+    "ranchitas"
+  ],
+  "product":[
+    "ranchitas-naturales"
+  ],
+  "category": "lunch"
+}

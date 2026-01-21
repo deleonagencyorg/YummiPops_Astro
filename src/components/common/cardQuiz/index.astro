@@ -21,6 +21,8 @@ interface Props {
 const {
     cardQuiz
 } = Astro.props;
+
+const derivedLang = (Astro.url.pathname.split('/')[1] || 'es');
 ---
 
 <section class="hidden md:block xl:block w-full py-6 md:py-12 px-4 md:px-8 xl:-mt-[100px] md:-mt-[90px]">
@@ -62,9 +64,9 @@ const {
                         {cardQuiz.description1}
                     </p>
 
-                    <button class="bg-white text-white text-[19px] px-5 py-2 rounded-full font-bold w-full !bg-[#009DDA]">
+                    <a href={`/${derivedLang}/quiz`} class="bg-white text-white text-[19px] px-5 py-2 rounded-full font-bold w-full !bg-[#009DDA] inline-flex items-center justify-center">
                         {cardQuiz.titleButton}
-                    </button>
+                    </a>
 
                 </div>
             </div>
@@ -96,9 +98,9 @@ const {
         {cardQuiz.description1}
       </p>
 
-      <button class="bg-white text-white text-[19px] px-5 py-2 rounded-full font-bold w-full !bg-[#009DDA]">
+      <a href={`/${derivedLang}/quiz`} class="bg-white text-white text-[19px] px-5 py-2 rounded-full font-bold w-full !bg-[#009DDA] inline-flex items-center justify-center">
         {cardQuiz.titleButton}
-    </button>
+    </a>
   
     </div>
 </section>

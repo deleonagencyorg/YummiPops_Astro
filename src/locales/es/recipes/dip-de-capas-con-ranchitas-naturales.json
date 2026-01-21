@@ -1,0 +1,39 @@
+{
+  "date": "2025-09-11",
+  "id": "dip-de-capas-con-ranchitas-naturales",
+  "slug": "dip-de-capas-con-ranchitas-naturales",
+  "title": "Dip de Capas con Ranchitas Naturales",
+  "people": "10",
+  "difficulty": "Fácil",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/dip-de-capas-con-ranchitas-naturales.webp",
+  "gallery": [
+    "dip-de-capas-con-ranchitas-naturales.webp"
+  ],
+  "type": "image",
+  "preparation_time": 15,
+  "ingredients": [
+    "1 lata de frijoles volteados",
+    "2 ½ taza de guacamol",
+    "1 bote de salsa tipo chunky",
+    "2 ½ taza de crema",
+    "el jugo de 1 limón",
+    "2 cucharadas de sazonador de tacos",
+    "2 tazas de queso mezcla para tacos",
+    "2 tazas de lechuga picada",
+    "½ taza de aceitunas negra",
+    "1 bolsa de Ranchitas Naturales"
+  ],
+  "instructions": [
+    "Paso 1. En un recipiente, mezcla la crema con el limón y el sazonador de tacos.",
+    "Paso 2. Coloca por capas los frijoles, la salsa, el guacamol, la crema, el queso y termina con la lechuga y las aceitunas.",
+    "Paso 3. Sirve a temperatura ambiente con Ranchitas Naturales."
+  ],
+  "brand": [
+    "ranchitas"
+  ],
+
+  "product":[
+    "ranchitas-naturales"
+  ],
+  "category": "snack"
+}

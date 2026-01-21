@@ -1,0 +1,43 @@
+{
+  "date": "2025-09-11",
+  "id": "pizza-con-ranchitas-nacho-queso",
+  "slug": "pizza-con-ranchitas-nacho-queso",
+  "title": "Pizza con Ranchitas Nacho Queso",
+  "people": "29",
+  "difficulty": "Medio",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/pizza-con-ranchitas-nacho-queso.webp",
+  "gallery": [
+    "pizza-con-ranchitas-nacho-queso.webp"
+  ],
+  "type": "image",
+  "preparation_time": 60,
+  "ingredients": [
+    "2 tazas y media de harina",
+    "1 sobre de levadura instantánea",
+    "1 cucharada de azúcar",
+    "1 cucharadita de sal",
+    "3 cucharadas de aceite de oliva",
+    "1 taza de agua caliente",
+    "1 ½ taza de Ranchitas Nacho Queso trituradas",
+    "Para la pizza:",
+    "Salsa de tomate",
+    "Mezcla de quesos para pizza",
+    "Peperonni",
+    "Sal y pimienta"
+  ],
+  "instructions": [
+    "Paso 1. Con una batidora manual, mezcla una taza de harina con el resto de ingredientes. Cuando esté mezclado, agrega poco a poco la harina hasta que se forme una textura arenosa.",
+    "Paso 2. Termina de amasar con la mano sin sobre amasar.",
+    "Paso 3. Tapa y deja que crezca por 30 minutos.",
+    "Paso 4. Luego divide la masa en dos, agrega las Ranchitas, aplana y coloca en una bandeja para pizza con papel pergamino.",
+    "Paso 5. Agrega salsa de tomate y hornea 8 minutos a 475 F.",
+    "Paso 6. Saca del horno, agrega el resto de toppings y hornea otros 8 minutos."
+  ],
+  "brand": [
+    "ranchitas"
+  ],
+  "product":[
+    "ranchitas-nacho-queso"
+  ],
+  "category": "dinner"
+}

@@ -1,0 +1,37 @@
+{
+  "date": "2025-09-11",
+  "id": "hummus-with-ranchitas-naturales",
+  "slug": "hummus-with-ranchitas-naturales",
+  "title": "Hummus with Ranchitas Naturales",
+  "people": "7",
+  "difficulty": "Easy",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/hummus-con-ranchitas-naturales.webp",
+  "gallery": [
+    "hummus-con-ranchitas-naturales.webp"
+  ],
+  "type": "image",
+  "preparation_time": 10,
+  "ingredients": [
+    "Juice of 1 lemon",
+    "¼ cup tahini",
+    "1 garlic clove finely chopped",
+    "2 tablespoons olive oil",
+    "½ teaspoon ground cumin",
+    "1 can of chickpeas (15 oz – 250 g), drained",
+    "2 tablespoons water",
+    "Paprika for serving"
+  ],
+  "instructions": [
+    "Step 1. In a food processor, combine the lemon juice, tahini, garlic, olive oil, and cumin. Process until smooth.",
+    "Step 2. Add half of the chickpeas and the water, then process again.",
+    "Step 3. Add the remaining chickpeas and process until creamy.",
+    "Step 4. Sprinkle paprika on top and serve with Ranchitas Naturales."
+  ],
+  "brand": [
+    "ranchitas"
+  ],
+  "product":[
+    "ranchitas-naturales"
+  ],
+  "category": "snack"
+}

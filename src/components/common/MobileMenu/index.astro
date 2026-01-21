@@ -47,7 +47,7 @@ const closeMenuLabel = t('menu_labels.close_main_menu', { namespace: 'common', l
           <div class="flex items-center justify-center text-white">
             {item.submenu ? (
               <>
-                <a href="#" class="menu-parent block text-xl font-title font-medium hover:text-gray-300 transition-colors py-2">
+                <a href={item.href} class="menu-parent block text-xl font-title font-medium hover:text-gray-300 transition-colors py-2">
                   {item.text}
                 </a>
                 <button class="menu-toggle px-2 py-1 text-white hover:text-gray-300 ml-1">
@@ -169,8 +169,10 @@ function handleMenuToggleClick(e: Event): void {
 
 // Función para manejar el clic en los elementos padre del menú (primer nivel)
 function handleMenuParentClick(e: Event): void {
+  const parent = e.currentTarget as HTMLAnchorElement;
+  const href = parent?.getAttribute('href');
+  if (href && href !== '#') return;
   e.preventDefault();
-  const parent = e.currentTarget as Element;
   const parentDiv = parent.closest('.w-full');
   const submenuContainer = parentDiv?.querySelector('.submenu-container');
   const toggle = parentDiv?.querySelector('.menu-toggle');

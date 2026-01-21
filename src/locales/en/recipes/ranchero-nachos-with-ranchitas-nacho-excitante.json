@@ -1,0 +1,39 @@
+{
+  "date": "2025-09-11",
+  "id": "ranchero-nachos-with-ranchitas-nacho-excitante",
+  "slug": "ranchero-nachos-with-ranchitas-nacho-excitante",
+  "title": "Ranchero Nachos with Ranchitas Nacho Excitante",
+  "people": "21",
+  "difficulty": "Medium",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/nachos-rancheros-con-ranchitas.webp",
+  "gallery": [
+    "nachos-rancheros-con-ranchitas.webp"
+  ],
+  "type": "image",
+  "preparation_time": 30,
+  "ingredients": [
+    "2 tablespoons vegetable oil",
+    "½ lb ground chorizo",
+    "½ lb cooked beans",
+    "½ cup sweet ketchup sauce",
+    "¼ cup water",
+    "1 cup shredded cheddar cheese",
+    "¼ cup BBQ sauce",
+    "1 family-size bag of Ranchitas Nacho Excitante"
+  ],
+  "instructions": [
+    "Step 1. Heat the oil in a skillet and sauté the chorizo.",
+    "Step 2. Add the cooked beans and mix.",
+    "Step 3. Season with salt and pepper.",
+    "Step 4. Add the ketchup, BBQ sauce, and water.",
+    "Step 5. Cook for a couple of minutes until slightly saucy.",
+    "Step 6. Serve over the Ranchitas, sprinkle with cheese, and add more BBQ sauce if desired."
+  ],
+  "brand": [
+    "ranchitas"
+  ],
+  "product":[
+    "ranchitas-nacho-excitante"
+  ],
+  "category": "dinner"
+}

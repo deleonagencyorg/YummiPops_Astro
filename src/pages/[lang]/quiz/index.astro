@@ -1,0 +1,16 @@
+---
+import QuizView from '../../../views/Quiz/index.astro';
+import { type Locale } from '../../../i18n/i18n';
+
+export async function getStaticPaths() {
+  const locales = ['en', 'es'];
+  return locales.map((locale) => ({
+    params: { lang: locale },
+    props: { currentLang: locale as Locale }
+  }));
+}
+
+const { currentLang } = Astro.props;
+---
+
+<QuizView currentLang={currentLang} />

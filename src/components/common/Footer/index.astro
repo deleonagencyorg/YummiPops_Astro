@@ -49,25 +49,19 @@ const subscribeButton = t('footer.subscribe_button', { namespace: 'common', loca
           <h3 class="font-title text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
             {mainText}<br />{mainText2}
           </h3>
-          <p class="font-sans italic text-base md:text-lg leading-relaxed mb-8 max-w-lg">
-            {description}
-          </p>
+          
           
           <!-- Formulario de Newsletter -->
-          <form class="flex flex-col sm:flex-row gap-3 max-w-xl">
-            <input 
-              type="email" 
-              placeholder={emailPlaceholder}
-              class="flex-1 px-5 py-4 rounded-[10px] text-gray-600 font-sans text-base focus:outline-none focus:ring-2 focus:ring-accent placeholder:text-gray-400"
-              required
-            />
-            <button 
-              type="submit"
-              class="bg-[#F99F33] hover:bg-[#F99F33]/90 text-white font-title font-bold px-12 py-4 rounded-full transition-all duration-200 text-lg whitespace-nowrap"
+          <div class="flex">
+            <a 
+              href="https://www.snacksyummies.com/es/yummiesone" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="bg-[#F99F33] hover:bg-[#F99F33]/90 text-white font-title font-bold px-12 py-4 rounded-full transition-all duration-200 text-lg whitespace-nowrap inline-block"
             >
-              {subscribeButton}
-            </button>
-          </form>
+              Registrate en Yummies One
+            </a>
+          </div>
         </div>
 
         <!-- Columna Derecha: Links de Navegación -->
@@ -97,7 +91,7 @@ const subscribeButton = t('footer.subscribe_button', { namespace: 'common', loca
               {ranchitas}
             </h3>
             <div class="flex flex-col space-y-3">
-              <a href={`/${currentLang}/products`} class="font-sans text-xl hover:text-accent transition-colors duration-200">
+              <a href={`/${currentLang}/#products`} class="font-sans text-xl hover:text-accent transition-colors duration-200">
                 {products}
               </a>
               <a href={`/${currentLang}/recipes`} class="font-sans text-xl hover:text-accent transition-colors duration-200">

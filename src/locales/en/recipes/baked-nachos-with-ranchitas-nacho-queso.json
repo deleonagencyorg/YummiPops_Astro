@@ -1,0 +1,39 @@
+{
+  "date": "2025-09-11",
+  "id": "baked-nachos-with-ranchitas-nacho-queso",
+  "slug": "baked-nachos-with-ranchitas-nacho-queso",
+  "title": "Baked Nachos with Ranchitas Nacho queso",
+  "people": "13",
+  "difficulty": "Medium",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/nachos-horneados-rancheritas.webp",
+  "gallery": [
+    "nachos-horneados-rancheritas.webp"
+  ],
+  "type": "image",
+  "preparation_time": 15,
+  "ingredients": [
+    "4 bags Ranchitas Nacho queso.",
+    "1 lb taco cheese blend.",
+    "Cooked and seasoned ground beef.",
+    "1 cup whole black beans.",
+    "2 jalapeños, sliced.",
+    "1 cup corn.",
+    "1 cup chopped red bell pepper.",
+    "½ cup sliced black olives.",
+    "Chopped scallions.",
+    "Guacamole.",
+    "Sour cream."
+  ],
+  "instructions": [
+    "Step 1. Preheat the oven to 350ºF.",
+    "Step 2. On a flat baking tray, place parchment paper. Spread out the Ranchitas Nacho Cheese. Sprinkle cheese on top and add all the toppings except the olives, scallions, guacamole, and sour cream. Sprinkle more cheese on top and bake for 10 minutes.",
+    "Step 3. Add the remaining toppings and serve."
+  ],
+  "brand": [
+    "ranchitas"
+  ],
+  "product":[
+    "ranchitas-nacho-queso"
+  ],
+  "category": "dinner"
+}

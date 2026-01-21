@@ -1,0 +1,36 @@
+{
+  "date": "2025-09-11",
+  "id": "mini-ranchero-enchiladas-with-ranchitas-naturales",
+  "slug": "mini-ranchero-enchiladas-with-ranchitas-naturales",
+  "title": "Mini Ranchero Enchiladas with Ranchitas Naturales",
+  "people": "6",
+  "difficulty": "Medium",
+  "image": "mini-enchiladas-rancheras.webp",
+  "gallery": [
+    "https://snack.yummiespromociones.com/SnacksyummiesAssets/mini-enchiladas-rancheras.webp"
+  ],
+  "type": "image",
+  "preparation_time": 30,
+  "ingredients": [
+    "5 oz ground beef",
+    "5 oz cooked and shredded chicken",
+    "Salt and pepper to taste",
+    "1 cup shredded cabbage",
+    "1 cup shredded cheese",
+    "1 diced tomato",
+    "12 Ranchitas Naturales chips"
+  ],
+  "instructions": [
+    "Step 1. Season the ground beef and cook it in a skillet.",
+    "Step 2. Season the shredded chicken with salt and pepper.",
+    "Step 3. Place a portion of cabbage on each chip, followed by beef or chicken, cheese, and tomato.",
+    "Step 4. Assemble and serve immediately with Ranchitas Naturales."
+  ],
+  "brand": [
+    "ranchitas"
+  ],
+  "product":[
+    "ranchitas-naturales"
+  ],
+  "category": "lunch"
+}

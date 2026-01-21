@@ -1,0 +1,41 @@
+{
+  "date": "2025-09-11",
+  "id": "chicken-nachos-with-ranchitas-naturales",
+  "slug": "chicken-nachos-with-ranchitas-naturales",
+  "title": "Chicken Nachos with Ranchitas Naturales",
+  "people": "6",
+  "difficulty": "Advanced",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/nachos-de-pollo-con-ranchitas.webp",
+  "gallery": [
+    "nachos-de-pollo-con-ranchitas.webp"
+  ],
+  "type": "image",
+  "preparation_time": 25,
+  "ingredients": [
+    "1 lb cooked and shredded chicken breast",
+    "1 tablespoon oil",
+    "Salt and pepper to taste",
+    "2 packets of ketchup",
+    "½ cup mozzarella or cheddar cheese for melting",
+    "1 jalapeño, sliced",
+    "1 cup diced tomato",
+    "2 tablespoons cilantro",
+    "2 tablespoons crispy bacon, chopped",
+    "1 family-size bag of Ranchitas Naturales"
+  ],
+  "instructions": [
+    "Step 1. Heat the oil in a skillet and sauté the chicken. Season with salt and pepper as it cooks.",
+    "Step 2. Add the ketchup and a splash of water.",
+    "Step 3. Cook gently until the chicken becomes slightly saucy.",
+    "Step 4. Place Ranchitas Naturales on a plate and add a portion of chicken on top.",
+    "Step 5. Sprinkle cheese over the chicken and microwave until melted.",
+    "Step 6. Remove and top with jalapeño, cilantro, tomato, and bacon."
+  ],
+  "brand": [
+    "ranchitas"
+  ],
+  "product":[
+    "ranchitas-naturales"
+  ],
+  "category": "dinner"
+}

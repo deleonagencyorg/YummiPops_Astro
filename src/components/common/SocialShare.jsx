@@ -1,4 +1,4 @@
-import React from 'react';
+ import React, { useEffect, useState } from 'react';
 import {
   FacebookShareButton,
   TwitterShareButton,
@@ -11,6 +11,7 @@ import {
 } from 'react-share';
 
 const SocialShare = ({
+  shareId,
   url,
   title,
   description = '',
@@ -28,6 +29,39 @@ const SocialShare = ({
   },
   showLabels = false
 }) => {
+  const [shareUrl, setShareUrl] = useState(url);
+  const [shareTitle, setShareTitle] = useState(title);
+  const [shareDescription, setShareDescription] = useState(description);
+
+  useEffect(() => {
+    setShareUrl(url);
+  }, [url]);
+
+  useEffect(() => {
+    setShareTitle(title);
+  }, [title]);
+
+  useEffect(() => {
+    setShareDescription(description);
+  }, [description]);
+
+  useEffect(() => {
+    if (!shareId) return;
+
+    const handler = (e) => {
+      const detail = e?.detail;
+      if (!detail) return;
+      if (detail.shareId !== shareId) return;
+
+      if (typeof detail.url === 'string') setShareUrl(detail.url);
+      if (typeof detail.title === 'string') setShareTitle(detail.title);
+      if (typeof detail.description === 'string') setShareDescription(detail.description);
+    };
+
+    window.addEventListener('quiz:share-update', handler);
+    return () => window.removeEventListener('quiz:share-update', handler);
+  }, [shareId]);
+
   const renderButtons = () => {
     const buttons = [];
 
@@ -35,8 +69,8 @@ const SocialShare = ({
       buttons.push(
         <div key="facebook" className={`inline-block ${buttonClassName}`}>
           <FacebookShareButton 
-            url={url} 
-            quote={`${title}\n${description}`}
+            url={shareUrl} 
+            quote={`${shareTitle}\n${shareDescription}`}
             hashtag={hashtags.length > 0 ? `#${hashtags[0]}` : undefined}
           >
             <FacebookIcon size={iconSize} round={round} />
@@ -49,7 +83,7 @@ const SocialShare = ({
     if (platforms.includes('twitter')) {
       buttons.push(
         <div key="twitter" className={`inline-block ${buttonClassName}`}>
-          <TwitterShareButton url={url} title={title} hashtags={hashtags}>
+          <TwitterShareButton url={shareUrl} title={shareTitle} hashtags={hashtags}>
             <TwitterIcon size={iconSize} round={round} />
             {showLabels && <span className="block text-xs mt-1">{labels.twitter}</span>}
           </TwitterShareButton>
@@ -60,7 +94,7 @@ const SocialShare = ({
     if (platforms.includes('whatsapp')) {
       buttons.push(
         <div key="whatsapp" className={`inline-block ${buttonClassName}`}>
-          <WhatsappShareButton url={url} title={`${title}\n${description}`}>
+          <WhatsappShareButton url={shareUrl} title={`${shareTitle}\n${shareDescription}`}>
             <WhatsappIcon size={iconSize} round={round} />
             {showLabels && <span className="block text-xs mt-1">{labels.whatsapp}</span>}
           </WhatsappShareButton>
@@ -71,7 +105,7 @@ const SocialShare = ({
     if (platforms.includes('telegram')) {
       buttons.push(
         <div key="telegram" className={`inline-block ${buttonClassName}`}>
-          <TelegramShareButton url={url} title={`${title}\n${description}`}>
+          <TelegramShareButton url={shareUrl} title={`${shareTitle}\n${shareDescription}`}>
             <TelegramIcon size={iconSize} round={round} />
             {showLabels && <span className="block text-xs mt-1">{labels.telegram}</span>}
           </TelegramShareButton>

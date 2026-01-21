@@ -40,19 +40,19 @@
   "social_media": {
    "facebook": {
       "name": "Facebook",
-      "url": "https://www.facebook.com/zibaslatam/",
+      "url": "https://www.facebook.com/ranchitaslatam/",
       "alt": "Facebook de Ranchitas",
       "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/facebook.svg"
     },
     "instagram": {
       "name": "Instagram",
-      "url": "https://www.instagram.com/zibaslatam",
+      "url": "https://www.instagram.com/ranchitaslatam/",
       "alt": "Instagram de Ranchitas",
       "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/instagram.svg"
     },
     "tiktok": {
       "name": "TikTok",
-      "url": "https://www.tiktok.com/@zibaslatam",
+      "url": "https://www.tiktok.com/@ranchitaslatam",
       "alt": "TikTok de Ranchitas",
       "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/tiktok.svg"
     }
@@ -105,12 +105,12 @@
     {
       "id": "recipes",
       "text": "Recetas",
-      "href": "/es/#recipes"
+      "href": "/es/recetas"
     },
     {
       "id": "news",
       "text": "Noticias",
-      "href": "/es/news"
+      "href": "/es/blog"
     },
     {
       "id": "promotios",
@@ -205,11 +205,6 @@
       "id":"1",
       "title":"😎 ¡Bienvenidos a Ranchitas! Si se te antoja un snack, estás en el lugar correcto 🎉",
       "link":""
-    },
-    {
-      "id":"2",
-      "title":"🎨 Ranchitas Creators: ¡Participa con tu creatividad y gana premios!",
-      "link":"/es/zibas-creators"
     }
   ],
   "form_validation": {
@@ -227,7 +222,7 @@
     "titleHighlight" : "Somos?",
     "description1" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
     "description2" : "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.",
-    "videoSrc" : "/images/es/video/videoranchitas.mp4",
+    "videoSrc" : "https://snack.yummiespromociones.com/SnacksyummiesAssets/Ranchitas_loop.mp4",
     "backgroundColor" : "#B91C1C"
   },
   "cardQuiz": {

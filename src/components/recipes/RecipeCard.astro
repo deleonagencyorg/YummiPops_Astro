@@ -35,6 +35,16 @@ const {
 const currentLocale = getLocale();
 const recipeLink = `/${currentLocale}/${currentLocale === 'es' ? 'recetas' : 'recipes'}/${id}`;
 const viewRecipeText = currentLocale === 'es' ? 'Ver receta' : 'View recipe';
+
+// Formatear el slug del producto: quitar guiones y capitalizar cada palabra
+function formatProductName(slug: string): string {
+  return slug
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
+
+const displayProduct = product ? formatProductName(product) : '';
 ---
 
 <a 
@@ -64,9 +74,9 @@ const viewRecipeText = currentLocale === 'es' ? 'Ver receta' : 'View recipe';
       <span class="text-[#F04F00] font-bold text-base">
         {difficulty}
       </span>
-      {product && (
+      {displayProduct && (
         <span class="text-gray-500 text-base font-normal">
-          {currentLocale === 'es' ? 'Con' : 'With'} {product}
+          {currentLocale === 'es' ? 'Con' : 'With'} {displayProduct}
         </span>
       )}
     </div>

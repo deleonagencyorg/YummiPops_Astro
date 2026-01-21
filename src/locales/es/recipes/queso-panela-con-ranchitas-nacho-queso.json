@@ -1,0 +1,34 @@
+{
+  "date": "2025-09-11",
+  "id": "queso-panela-con-ranchitas-nacho-queso",
+  "slug": "queso-panela-con-ranchitas-nacho-queso",
+  "title": "Queso Panela con Ranchitas Nacho Queso",
+  "people": "11",
+  "difficulty": "Fácil",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/queso-panela-con-ranchitas-nacho-queso.webp",
+  "gallery": [
+    "queso-panela-con-ranchitas-nacho-queso.webp"
+  ],
+  "type": "image",
+  "preparation_time": 15,
+  "ingredients": [
+    "1 queso panela",
+    "harina",
+    "1 huevo batido",
+    "1 taza de Ranchitas Nacho Queso trituradas",
+    "Aceite vegetal"
+  ],
+  "instructions": [
+    "Paso 1. Calienta abundante aceite en una olla o freidora.",
+    "Paso 2. Cubre el queso con harina, luego con el huevo batido y por último con Ranchitas.",
+    "Paso 3. Fríelo en el aceite por unos minutos.",
+    "Paso 4. Retíralo del aceite y deja escurrir en un plato sobre papel mayordomo."
+  ],
+  "brand": [
+    "ranchitas"
+  ],
+  "category": "snack",
+  "product":[
+    "ranchitas-nacho-queso"
+  ]
+}
