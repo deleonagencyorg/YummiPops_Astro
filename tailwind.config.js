@@ -26,10 +26,10 @@ module.exports = {
         primaryCream: "#FAF0D5",
       },
       fontFamily: {
-        sans: ['Rockeby regular', 'sans-serif'],
-        title: ['Rockeby black', 'serif'],
-        heading: ['Rockeby regular', 'sans-serif'],
-        text: ['Rockeby regular', 'sans-serif']
+        sans: ['', 'Astoria Roman'],  
+        title: ['Astoria Extra Bold', 'serif'],
+        heading: ['Astoria Extra Bold', 'sans-serif'],
+        text: ['Astoria Roman', 'sans-serif']
       },
       animation: {
         'spin-slow': 'spin 5s linear infinite',

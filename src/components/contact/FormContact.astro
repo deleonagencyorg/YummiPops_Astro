@@ -15,7 +15,7 @@ interface Props {
 const { currentLang } = Astro.props;
 
 // Get current locale if not provided
-const locale = currentLang || getLocale(Astro.url);
+const locale = currentLang || getLocale();
 
 // Get contact data from locale
 const contact = locale === 'es' ? contactEs : contactEn;
@@ -851,17 +851,17 @@ const options = dynamicOptions[locale];
     
     dynamicFieldsContainer.innerHTML = `
       <div>
-        <label class="block text-white font-medium mb-2">Dinámica o promoción en la que ganó *</label>
-        <input type="text" name="dynamicOrPromotion" required class="w-full px-4 py-3 border-[1.5px] border-white rounded-lg bg-[#F04F00] text-white focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+        <label class="block text-white uppercase font-semibold mb-2">Dinámica o promoción en la que ganó *</label>
+        <input type="text" name="dynamicOrPromotion" required class="w-full px-4 py-3 border-[1.5px] border-white rounded-full placeholder:text-white bg-orange text-white uppercase focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
       </div>
       <div>
-        <label class="block text-white font-medium mb-2">Premio adjudicado *</label>
-        <input type="text" name="award" required class="w-full px-4 py-3 border-[1.5px] border-white rounded-lg bg-[#F04F00] text-white focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+        <label class="block text-white uppercase font-semibold mb-2">Premio adjudicado *</label>
+        <input type="text" name="award" required class="w-full px-4 py-3 border-[1.5px] border-white rounded-full placeholder:text-white bg-orange text-white uppercase focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
       </div>
       <div>
-        <label class="block text-white font-medium mb-2">${labels.file}</label>
-        <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png" class="w-full px-4 py-3 border-[1.5px] border-white rounded-lg bg-[#F04F00] text-white focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
-        <p class="text-sm text-white mt-1">${labels.fileHelp}</p>
+        <label class="block text-white uppercase font-semibold mb-2">${labels.file}</label>
+        <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png" class="w-full px-4 py-3 border-[1.5px] border-white rounded-full bg-orange text-white uppercase file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-white file:text-orange file:font-bold focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+        <p class="text-sm text-white mt-2">${labels.fileHelp}</p>
       </div>
     `;
 

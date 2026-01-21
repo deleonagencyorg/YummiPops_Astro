@@ -63,18 +63,18 @@ import LazyImage from '../LazyImage.astro';
               </div>
 
               <!-- Tarjeta más ancha -->
-              <div class="bg-white rounded-[10px] pt-[16px] pb-4 md:pb-6 xl:pb-8 xl:pl-12 md:pl-12 pl-16 flex-1 min-w-[305px] xl:h-[150px] md:h-[100px] h-[100px]">
-                <h3 class="text-[16px] xl:text-[22px] md:text-[16px] font-bold text-black ">
+              <div class="bg-white rounded-[10px] pt-3 pb-3 md:pb-4 xl:pb-5 xl:pl-12 md:pl-12 pl-16 pr-4 flex-1 min-w-[305px] xl:h-[150px] md:h-[110px] h-[105px] flex flex-col justify-between">
+                <h3 class="text-[15px] xl:text-[20px] md:text-[15px] font-bold text-black leading-tight">
                   {product.name}
                 </h3>
 
-                <p class="text-gray-700 text-[14px] leading-relaxed w-[230px] xl:h-[54px] md:h-[20px] xl:pt-2">
+                <p class="text-gray-600 text-[12px] xl:text-[13px] leading-snug line-clamp-2 pr-2">
                   {product.short_description}
                 </p>
 
                 <a 
                   href={`/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}/${product.id}`}
-                  class="inline-flex items-center text-[#F86509] font-bold text-lg hover:underline"
+                  class="inline-flex items-center text-[#F86509] font-bold text-[14px] xl:text-[16px] hover:underline"
                   data-no-swipe="true"
                   data-no-animation="true"
                 >
@@ -92,6 +92,12 @@ import LazyImage from '../LazyImage.astro';
 </div>
 
 <style>
+  .products-carousel {
+    --swiper-theme-color: #ffffff;
+    --swiper-pagination-bullet-inactive-color: rgba(250, 240, 213, 0.45);
+    --swiper-pagination-bullet-inactive-opacity: 1;
+  }
+
   .products-carousel .swiper-pagination {
     position: static;
     margin-top: 16px;
@@ -116,6 +122,13 @@ import LazyImage from '../LazyImage.astro';
   .products-carousel .swiper-pagination .swiper-pagination-bullet-active {
     background: #ffffff !important;
     opacity: 1 !important;
+  }
+
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 </style>
 
