@@ -127,7 +127,7 @@ const SocialShare = ({
     window.setTimeout(() => setCopied(''), 1200);
   };
 
-  const pillBase = 'w-full h-11 inline-flex items-center justify-center gap-2.5 px-5 rounded-2xl font-bold text-sm transition focus:outline-none';
+  const pillBase = 'w-full h-14 inline-flex items-center justify-center gap-2.5 px-5 rounded-2xl font-bold text-sm transition focus:outline-none';
 
   const hasModern = platforms.some((p) => p === 'x' || p === 'instagram' || p === 'tiktok');
 
@@ -143,12 +143,12 @@ const SocialShare = ({
           url={shareUrl}
           quote={shareText}
           hashtag={hashtags.length > 0 ? `#${hashtags[0]}` : undefined}
-          className={`${pillBase} h-14 text-lg rounded-2xl bg-[#1877F2] text-white ${buttonClassName}`}
+          className={`${pillBase} text-lg rounded-2xl !bg-blue text-white  ${buttonClassName}`}
         >
-          <span className="w-9 h-9 rounded-full bg-white flex items-center justify-center text-[#1877F2]">
+          <span className="w-9 h-9 flex items-center justify-center text-white">
             <IconFacebook />
           </span>
-          {showLabels && <span className="leading-none font-bold">{labels.facebook}</span>}
+          {showLabels && <span className="leading-none font-bold text-white">{labels.facebook}</span>}
         </FacebookShareButton>
       );
     }
@@ -160,10 +160,12 @@ const SocialShare = ({
           url={shareUrl}
           title={shareTitle}
           hashtags={hashtags}
-          className={`${pillBase} h-14 text-lg rounded-2xl bg-black text-white ${buttonClassName}`}
+          className={`${pillBase} text-lg rounded-2xl !bg-black text-white ${buttonClassName}`}
         >
-          <IconX />
-          {showLabels && <span className="leading-none font-bold">{label}</span>}
+          <span className=" flex items-center justify-center text-white">
+            <IconX/>
+          </span>
+          {showLabels && <span className="leading-none font-bold text-white">{label}</span>}
         </TwitterShareButton>
       );
     }
