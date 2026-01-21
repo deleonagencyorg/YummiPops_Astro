@@ -10,6 +10,7 @@ import PixelGrid from '../../components/atoms/PixelGrid.astro';
 import BlogCard from '../../components/blog/BlogCard.astro';
 import CardVideo from '../../components/common/cardVideo/index.astro';
 import CardQuiz from '../../components/common/cardQuiz/index.astro';
+import QuizModal from '../../components/quiz/QuizModal.astro';
 
 
 // Style Imports
@@ -208,3 +209,5 @@ const featuredLabel = currentLang==='es' ? 'DESTACADOS' : 'FEATURED';
       </div>
     </section>
   </main>
+
+  <QuizModal currentLang={currentLang} />

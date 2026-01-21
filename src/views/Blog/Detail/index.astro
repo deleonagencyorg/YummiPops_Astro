@@ -4,7 +4,6 @@ import Breadcrumb from '../../../components/common/Breadcrumb/Breadcrumb.astro';
 import BlogDetailSkeleton from '../../../components/blog/BlogDetailSkeleton.astro';
 import { fade, slide } from 'astro:transitions';
 import LazyImage from '../../../components/common/LazyImage.astro';
-import MainLayout from '../../../layouts/MainLayout.astro';
 import { ViewTransitions } from 'astro:transitions';
 import './styles.css';
 
@@ -45,11 +44,10 @@ const shareText = currentLang === 'es' ? 'Compartir:' : 'Share:';
 const backToNewsText = currentLang === 'es' ? 'Volver a noticias' : 'Back to news';
 const backToNewsHref = `/${currentLang}/blog`;
 ---
-
-<MainLayout title={blogPost.title} description={blogPost.summary} class="bg-primaryCream">
-  <ViewTransitions />
-  <div class="container ">
-    <div class="ml-[40px] mt-[40px] mr-[40px] mb-20">
+<div class="bg-primaryCream flex text-center justify-center items-center">
+<ViewTransitions />
+  <div class="container">
+    <div class="text-left ml-[40px] mt-[40px] mr-[40px] mb-20">
     {isLoading ? (
       <BlogDetailSkeleton />
     ) : (
@@ -185,6 +183,7 @@ const backToNewsHref = `/${currentLang}/blog`;
         </div>
       </>
     )}
+  </div>
   </div>
 </MainLayout>
 

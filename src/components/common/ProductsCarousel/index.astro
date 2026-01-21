@@ -86,16 +86,44 @@ import LazyImage from '../LazyImage.astro';
           </div>
         ))}
       </div>
+      <div class="swiper-pagination"></div>
     </div>
   </div>
 </div>
 
+<style>
+  .products-carousel .swiper-pagination {
+    position: static;
+    margin-top: 16px;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 24px;
+  }
+
+  @media (min-width: 768px) {
+    .products-carousel .swiper-pagination {
+      padding-right: 40px;
+    }
+  }
+
+  .products-carousel .swiper-pagination-bullet {
+    width: 8px;
+    height: 8px;
+    background: rgba(250, 240, 213, 0.45);
+    opacity: 1;
+  }
+
+  .products-carousel .swiper-pagination .swiper-pagination-bullet-active {
+    background: #ffffff !important;
+    opacity: 1 !important;
+  }
+</style>
 
 <script>
   import Swiper from 'swiper';
-  import { Navigation, Autoplay } from 'swiper/modules';
+  import { Autoplay, Pagination } from 'swiper/modules';
   import 'swiper/css';
-  import 'swiper/css/navigation';
+  import 'swiper/css/pagination';
 
   interface ProductsCarouselOptions {
     autoplay?: boolean;
@@ -121,6 +149,8 @@ import LazyImage from '../LazyImage.astro';
       
       if (!swiperContainer) return;
 
+      const paginationEl = this.container.querySelector('.swiper-pagination') as HTMLElement | null;
+
       const productLinks = swiperContainer.querySelectorAll('a[data-no-swipe]');
       productLinks.forEach(link => {
         link.addEventListener('click', (e) => {
@@ -129,7 +159,7 @@ import LazyImage from '../LazyImage.astro';
       });
 
       this.swiper = new Swiper(swiperContainer, {
-        modules: [Navigation, Autoplay],
+        modules: [Autoplay, Pagination],
         slidesPerView: this.options.slidesPerView || 3,
         spaceBetween: this.options.spaceBetween || 50,
         loop: this.options.loop !== false,
@@ -137,10 +167,7 @@ import LazyImage from '../LazyImage.astro';
           delay: this.options.speed || 5000,
           disableOnInteraction: false,
         } : false,
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
-        },
+        pagination: paginationEl ? { el: paginationEl, clickable: true } : undefined,
         breakpoints: {
           320: {
             slidesPerView: 1,
@@ -157,12 +184,6 @@ import LazyImage from '../LazyImage.astro';
         },
         preventClicksPropagation: true,
         preventClicks: false,
-        noSwiping: true,
-        noSwipingClass: 'swiper-no-swiping',
-      });
-
-      productLinks.forEach(link => {
-        link.classList.add('swiper-no-swiping');
       });
     }
 

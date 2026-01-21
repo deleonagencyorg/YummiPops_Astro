@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import SocialShare from '../common/SocialShare.jsx';
 
 function interpolate(template, vars) {
   return template.replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? ''));
@@ -31,6 +32,24 @@ function pickResult(results, scores) {
   return best;
 }
 
+function hashStringToSeed(str) {
+  let h = 2166136261;
+  for (let i = 0; i < str.length; i++) {
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+
+function mulberry32(seed) {
+  return function () {
+    let t = (seed += 0x6D2B79F5);
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
 export default function QuizGame({ lang, quizData, products, recipes, shareId }) {
   const ui = quizData.ui;
   const quiz = quizData.quiz;
@@ -49,17 +68,43 @@ export default function QuizGame({ lang, quizData, products, recipes, shareId })
 
   const suggestedProduct = useMemo(() => {
     if (!result) return null;
-    return (products || []).find((p) => p.id === result.suggestedProductId) || null;
+    const list = Array.isArray(products) ? products : [];
+    if (list.length === 0) return null;
+
+    const byId = list.find((p) => p.id === result.suggestedProductId);
+    if (byId) return byId;
+
+    const seed = hashStringToSeed(String(result.id || 'result'));
+    const idx = seed % list.length;
+    return list[idx] || null;
   }, [products, result]);
 
   const suggestedRecipes = useMemo(() => {
     if (!result) return [];
+    const list = Array.isArray(recipes) ? recipes : [];
+    if (list.length === 0) return [];
+
     const slugs = Array.isArray(result.suggestedRecipes) ? result.suggestedRecipes : [];
     const unique = Array.from(new Set(slugs));
-    return unique
-      .map((slug) => (recipes || []).find((r) => r.slug === slug || r.id === slug))
+    const resolved = unique
+      .map((slug) => list.find((r) => r.slug === slug || r.id === slug))
       .filter(Boolean)
       .slice(0, 2);
+    if (resolved.length === 2) return resolved;
+
+    const seed = hashStringToSeed(String(result.id || 'result'));
+    const rand = mulberry32(seed);
+
+    const pool = list.slice();
+    for (let i = pool.length - 1; i > 0; i--) {
+      const j = Math.floor(rand() * (i + 1));
+      const tmp = pool[i];
+      pool[i] = pool[j];
+      pool[j] = tmp;
+    }
+
+    const picks = pool.filter((r) => !resolved.includes(r)).slice(0, Math.max(0, 2 - resolved.length));
+    return [...resolved, ...picks].slice(0, 2);
   }, [recipes, result]);
 
   const progressPct = total > 0 ? Math.round(((step + 1) / total) * 100) : 0;
@@ -102,31 +147,40 @@ export default function QuizGame({ lang, quizData, products, recipes, shareId })
   if (!currentQuestion && !isFinished) return null;
 
   return (
-    <div className="min-h-screen bg-[#0B3DBE] relative overflow-hidden">
-      <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 20% 20%, rgba(255,255,255,0.25), transparent 40%), radial-gradient(circle at 80% 60%, rgba(255,255,255,0.20), transparent 45%)" }} />
-
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 pt-6 pb-16">
-        <div className="flex items-center justify-between gap-3">
-          <a href={goHomeHref} className="inline-flex items-center gap-2 bg-white text-black font-bold rounded-full px-4 py-2 text-sm hover:opacity-90 transition">
-            <span className="inline-flex w-5 h-5 items-center justify-center">
+    <div className="min-h-screen bg-transparent relative">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 pt-4 sm:pt-6 pb-16">
+        <div className="grid grid-cols-3 items-center gap-2 sm:gap-3">
+          <div className="flex justify-start">
+            <a href={goHomeHref} className="inline-flex items-center gap-2 bg-white/15 text-white font-bold rounded-full px-3 sm:px-4 py-2 text-xs sm:text-sm hover:bg-white/20 transition border border-white/20">
+              <span className="inline-flex w-5 h-5 items-center justify-center">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M3 9.5 12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V9.5Z" />
               </svg>
-            </span>
-            {ui.home}
-          </a>
+              </span>
+              <span className="hidden sm:inline">{ui.home}</span>
+            </a>
+          </div>
 
-          <div className="text-white font-title font-bold italic text-2xl md:text-3xl">{ui.brandTitle}</div>
+          <div className="flex justify-center">
+            <img
+              src="/images/es/logo/logobanner.png"
+              alt="Ranchitas"
+              className="h-8 sm:h-9 md:h-10 w-auto max-w-[180px]"
+              loading="eager"
+            />
+          </div>
 
-          <button type="button" onClick={onRestart} className="inline-flex items-center gap-2 bg-white text-black font-bold rounded-full px-4 py-2 text-sm hover:opacity-90 transition">
-            <span className="inline-flex w-5 h-5 items-center justify-center">
+          <div className="flex justify-end">
+            <button type="button" onClick={onRestart} className="inline-flex items-center gap-2 bg-white/15 text-white font-bold rounded-full px-3 sm:px-4 py-2 text-xs sm:text-sm hover:bg-white/20 transition border border-white/20">
+              <span className="inline-flex w-5 h-5 items-center justify-center">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M21 12a9 9 0 1 1-2.64-6.36" />
                 <path d="M21 3v6h-6" />
               </svg>
-            </span>
-            {ui.restart}
-          </button>
+              </span>
+              <span className="hidden sm:inline">{ui.restart}</span>
+            </button>
+          </div>
         </div>
 
         {!isFinished ? (
@@ -143,7 +197,7 @@ export default function QuizGame({ lang, quizData, products, recipes, shareId })
 
             <div className="mt-10 flex items-center justify-center">
               <div className="w-full max-w-3xl">
-                <div className="bg-white rounded-2xl px-6 py-5 text-center font-bold text-[#F86509] text-lg md:text-xl shadow-xl">
+                <div className="bg-white/10 border border-white/20 rounded-2xl px-6 py-5 text-center font-bold text-white text-lg md:text-xl">
                   {currentQuestion.text}
                 </div>
 
@@ -155,11 +209,11 @@ export default function QuizGame({ lang, quizData, products, recipes, shareId })
                         key={opt.id}
                         type="button"
                         onClick={() => onSelect(opt.id)}
-                        className={`text-left bg-white rounded-xl px-5 py-4 shadow-lg border-2 transition ${active ? 'border-[#0B3DBE]' : 'border-transparent hover:border-[#0B3DBE]/40'}`}
+                        className={`text-left bg-white/10 border border-white/20 rounded-xl px-5 py-4 transition ${active ? 'ring-2 ring-white/60' : 'hover:bg-white/15'}`}
                       >
                         <div className="flex items-start gap-3">
-                          <span className={`mt-1 w-2.5 h-2.5 rounded-full ${active ? 'bg-[#0B3DBE]' : 'bg-[#0B3DBE]'}`} />
-                          <span className="text-black font-semibold">{opt.text}</span>
+                          <span className={`mt-1 w-2.5 h-2.5 rounded-full ${active ? 'bg-white' : 'bg-white/70'}`} />
+                          <span className="text-white font-semibold">{opt.text}</span>
                         </div>
                       </button>
                     );
@@ -171,7 +225,7 @@ export default function QuizGame({ lang, quizData, products, recipes, shareId })
                     type="button"
                     onClick={onPrev}
                     disabled={step === 0}
-                    className="w-40 sm:w-48 rounded-full bg-[#1E4ED8] text-white font-bold py-3 disabled:opacity-50 hover:opacity-90 transition"
+                    className="w-40 sm:w-48 rounded-full bg-white/15 text-white font-bold py-3 disabled:opacity-50 hover:bg-white/20 transition border border-white/20"
                   >
                     {ui.previous}
                   </button>
@@ -191,8 +245,8 @@ export default function QuizGame({ lang, quizData, products, recipes, shareId })
           <div className="mt-10">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               <div className="lg:col-span-5">
-                <div className="bg-[#1447C9] rounded-3xl p-6 shadow-2xl">
-                  <div className="bg-[#0B3DBE] rounded-3xl p-6 flex items-center justify-center">
+                <div className="bg-white/10 border border-white/20 rounded-3xl p-6">
+                  <div className="bg-white/10 border border-white/20 rounded-3xl p-6 flex items-center justify-center">
                     {suggestedProduct?.image ? (
                       <img src={suggestedProduct.image} alt={suggestedProduct.name} className="max-h-[260px] w-auto object-contain" />
                     ) : (
@@ -209,36 +263,23 @@ export default function QuizGame({ lang, quizData, products, recipes, shareId })
               </div>
 
               <div className="lg:col-span-7">
-                <div className="flex items-center justify-between gap-3">
-                  <a href={goHomeHref} className="inline-flex items-center gap-2 bg-white text-black font-bold rounded-full px-4 py-2 text-sm hover:opacity-90 transition">
-                    <span className="inline-flex w-5 h-5 items-center justify-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M3 9.5 12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V9.5Z" />
-                      </svg>
-                    </span>
-                    {ui.goHome}
-                  </a>
-                  <button type="button" onClick={onRestart} className="inline-flex items-center gap-2 bg-white text-black font-bold rounded-full px-4 py-2 text-sm hover:opacity-90 transition">
-                    <span className="inline-flex w-5 h-5 items-center justify-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M21 12a9 9 0 1 1-2.64-6.36" />
-                        <path d="M21 3v6h-6" />
-                      </svg>
-                    </span>
-                    {ui.repeatQuiz}
-                  </button>
-                </div>
-
-                <div className="mt-6 bg-[#1447C9] rounded-3xl p-6 shadow-2xl">
+                <div className="mt-6 bg-white/10 border border-white/20 rounded-3xl p-6">
                   <div className="text-white/90 font-bold">{ui.resultTitle}</div>
                   <div className="mt-1 text-white font-title font-bold italic text-2xl md:text-3xl">
                     {result?.title} {result?.emoji}
                   </div>
                   <div className="mt-4 text-white/90 leading-relaxed">{result?.description}</div>
 
-                  <div className="mt-6 bg-[#0B3DBE] rounded-2xl p-5">
+                  <div className="mt-6 bg-white/10 border border-white/20 rounded-2xl p-5">
                     <div className="text-white/90 font-bold mb-3">{ui.shareTitle}</div>
-                    <div id="quiz-share-slot" data-share-id={shareId} />
+                    <SocialShare
+                      shareId={shareId}
+                      url={typeof window !== 'undefined' ? window.location.href : ''}
+                      title={`${ui.resultTitle} ${result?.title || ''}`}
+                      description={result?.description || ''}
+                      platforms={['facebook', 'x', 'instagram', 'tiktok']}
+                      showLabels={true}
+                    />
                   </div>
                 </div>
               </div>

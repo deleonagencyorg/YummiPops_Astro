@@ -1,0 +1,163 @@
+---
+import { type Locale, t } from '../../i18n/i18n';
+import QuizGame from './QuizGame.jsx';
+import SocialShare from '../common/SocialShare.astro';
+
+interface Props {
+  currentLang: Locale;
+}
+
+const { currentLang } = Astro.props;
+
+const quizData = await import(`../../locales/${currentLang}/quiz.json`);
+const productsData = await import(`../../locales/${currentLang}/products.json`);
+
+const products = (productsData as any)?.items ?? [];
+
+const recipeModules = import.meta.glob<{ default: any }>(`../../locales/*/recipes/*.json`);
+const recipes: any[] = [];
+
+for (const path in recipeModules) {
+  const lang = path.split('/')[3];
+  if (lang === currentLang) {
+    const mod = await recipeModules[path]();
+    if (mod?.default) recipes.push(mod.default);
+  }
+}
+
+const shareId = `quiz-share-${currentLang}`;
+---
+
+<div id="quiz-modal" class="fixed inset-0 z-[9999] hidden bg-black bg-opacity-40 backdrop-blur-md">
+  <div class="min-h-screen w-full flex items-center justify-center overflow-y-auto">
+    <div class="relative bg-[#0041CD] w-full min-h-screen flex items-center justify-center py-8">
+      <button
+        id="quiz-modal-close"
+        type="button"
+        class="absolute top-6 right-6 z-10 w-12 h-12 rounded-full bg-white/15 hover:bg-white/20 flex items-center justify-center transition border border-white/20"
+        aria-label="Cerrar"
+      >
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+
+      <div class="w-full max-w-5xl mx-auto p-4 mt-4 md:p-6 lg:p-8">
+        <QuizGame
+          client:load
+          lang={currentLang}
+          quizData={(quizData as any).default || (quizData as any)}
+          products={products}
+          recipes={recipes}
+          shareId={shareId}
+        />
+      </div>
+
+      <div class="hidden">
+        <SocialShare
+          shareId={shareId}
+          url={typeof window !== 'undefined' ? window.location.href : ''}
+          title={t('cardQuiz.title', { namespace: 'common', locale: currentLang }) as string}
+          description={t('cardQuiz.description1', { namespace: 'common', locale: currentLang }) as string}
+          platforms={['facebook','x','instagram','tiktok']}
+          showLabels={true}
+          round={true}
+          iconSize={40}
+          className=""
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    function portalModalToBody() {
+      const modal = document.getElementById('quiz-modal');
+      if (!modal) return;
+      if (modal.parentElement !== document.body) {
+        document.body.appendChild(modal);
+      }
+    }
+
+    function mountShareIntoSlot() {
+      const slot = document.querySelector('[data-share-id]');
+      if (!slot) return;
+
+      const shareId = slot.getAttribute('data-share-id');
+      if (!shareId) return;
+
+      const shareRoot = document.querySelector('[data-social-share-id="' + shareId + '"]');
+      if (!shareRoot) return;
+
+      if (slot.childElementCount === 0) {
+        slot.appendChild(shareRoot);
+      }
+    }
+
+    let scrollY = 0;
+
+    function lockScroll() {
+      scrollY = window.scrollY || 0;
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.left = '0';
+      document.body.style.right = '0';
+      document.body.style.width = '100%';
+    }
+
+    function unlockScroll() {
+      document.documentElement.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      document.body.style.width = '';
+      window.scrollTo(0, scrollY);
+    }
+
+    function openQuizModal() {
+      portalModalToBody();
+      const modal = document.getElementById('quiz-modal');
+      if (!modal) return;
+      modal.classList.remove('hidden');
+      lockScroll();
+      mountShareIntoSlot();
+    }
+
+    function closeQuizModal() {
+      const modal = document.getElementById('quiz-modal');
+      if (!modal) return;
+      modal.classList.add('hidden');
+      unlockScroll();
+    }
+
+    const closeBtn = document.getElementById('quiz-modal-close');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', closeQuizModal);
+    }
+
+    const modal = document.getElementById('quiz-modal');
+    if (modal) {
+      modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+          closeQuizModal();
+        }
+      });
+    }
+
+    portalModalToBody();
+    window.openQuizModal = openQuizModal;
+    window.closeQuizModal = closeQuizModal;
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', mountShareIntoSlot);
+    } else {
+      mountShareIntoSlot();
+    }
+
+    document.addEventListener('astro:page-load', mountShareIntoSlot);
+    window.addEventListener('quiz:share-update', mountShareIntoSlot);
+  })();
+</script>

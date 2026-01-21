@@ -38,4 +38,36 @@
     margin-bottom: 2rem;
     clear: both;
   }
+
+  /* Carousel styles */
+  .related-products-swiper {
+    padding: 0 40px;
+    overflow: hidden;
+  }
+
+  .related-products-swiper .swiper-slide {
+    height: auto;
+    display: flex;
+    align-items: stretch;
+  }
+
+  .related-products-swiper .swiper-pagination-products {
+    position: relative;
+    bottom: auto;
+  }
+
+  .related-products-swiper .swiper-pagination-bullet {
+    background: #F86509;
+    opacity: 0.3;
+  }
+
+  .related-products-swiper .swiper-pagination-bullet-active {
+    opacity: 1;
+  }
+
+  @media (max-width: 640px) {
+    .related-products-swiper {
+      padding: 0 30px;
+    }
+  }
 }

@@ -172,7 +172,7 @@
   "footer": {
     "main_text": "The flavor that ",
     "main_text2": "conquers",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis mauris urna, lacinia a porttitor non, tristique congue lectus.",
+    "description": "Discover all the ways to crunch your world with recipes and content with explosive flavors. Come in and ignite the crunch!",
     "choose": "Choose",
     "follow_us": "SOCIAL",
     "contact_us": "Contact Us",
@@ -214,18 +214,18 @@
     "badge": "Our Story",
     "title": "Who",
     "titleHighlight": "We Are?",
-    "description1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
-    "description2": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.",
+    "description1": "Discover all the ways to crunch your world with recipes and content with explosive flavors. Come in and ignite the crunch fire!",
+    "description2": "",
     "videoSrc" : "https://snack.yummiespromociones.com/SnacksyummiesAssets/Ranchitas_loop.mp4",
     "backgroundColor": "#B91C1C"
   },
   "cardQuiz": {
     "badge" : "Our Story",
-    "title" : "Which ranchita",
+    "title" : "Which Ranchita",
     "titleHighlight" : "are you?",
     "description1" : "Crunch with attitude and let the flavor say who you are. Ready for the challenge? Discover your Ranchitas essence in every bite.",
     "titleButton": "Take Quiz",
-    "imageSrc" : "/images/en/video/videoranchitas.mp4",
+    "imageSrc" : "https://snack.yummiespromociones.com/SnacksyummiesAssets/Ranchitas_loop.mp4",
     "backgroundColor": "#0041CD"
   }
 }

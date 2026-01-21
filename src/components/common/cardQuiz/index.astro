@@ -9,6 +9,7 @@ interface CardQuizInterface {
     description2?: string;
     videoSrc?: string;
     videoPoster?: string;
+    imageSrc?: string;
     backgroundColor?: string;
     titleButton?: string;
 }
@@ -22,7 +23,11 @@ const {
     cardQuiz
 } = Astro.props;
 
-const derivedLang = (Astro.url.pathname.split('/')[1] || 'es');
+const firstSegment = (Astro.url.pathname.split('/')[1] || '').toLowerCase();
+const derivedLang = firstSegment === 'en' || firstSegment === 'es' ? firstSegment : 'es';
+
+const mediaSrc = cardQuiz.videoSrc || cardQuiz.imageSrc;
+const mediaPoster = cardQuiz.videoPoster;
 ---
 
 <section class="hidden md:block xl:block w-full py-6 md:py-12 px-4 md:px-8 xl:-mt-[100px] md:-mt-[90px]">
@@ -39,10 +44,15 @@ const derivedLang = (Astro.url.pathname.split('/')[1] || 'es');
                         class="rounded-[20px] md:rounded-[20px] flex items-center justify-center shadow-lg overflow-hidden aspect-video"
                         style={`background-color: ${cardQuiz.backgroundColor}`}
                     >
-                        <img 
+                        <video
                             class="w-full h-full object-cover"
-                            src="/images/es/card/image.jpg" 
-                            alt="image que ranchita eres" />
+                            src={mediaSrc}
+                            poster={mediaPoster}
+                            autoplay
+                            muted
+                            loop
+                            playsinline
+                        ></video>
                     </div>
                 </div>
 
@@ -64,9 +74,9 @@ const derivedLang = (Astro.url.pathname.split('/')[1] || 'es');
                         {cardQuiz.description1}
                     </p>
 
-                    <a href={`/${derivedLang}/quiz`} class="bg-white text-white text-[19px] px-5 py-2 rounded-full font-bold w-full !bg-[#009DDA] inline-flex items-center justify-center">
+                    <button type="button" onclick="window.openQuizModal && window.openQuizModal()" class="bg-white text-white text-[19px] px-5 py-2 rounded-full font-bold w-full !bg-[#009DDA] inline-flex items-center justify-center hover:opacity-90 transition-opacity">
                         {cardQuiz.titleButton}
-                    </a>
+                    </button>
 
                 </div>
             </div>
@@ -82,11 +92,15 @@ const derivedLang = (Astro.url.pathname.split('/')[1] || 'es');
             class="rounded-[20px] flex items-center justify-center shadow-lg overflow-hidden h-[320px]"
                 style={`background-color: ${cardQuiz.backgroundColor}`}
             >
-            <img 
+            <video
                 class="w-full h-full object-cover"
-                src="/images/es/card/image.jpg" 
-                alt="image que ranchita eres" 
-            />
+                src={mediaSrc}
+                poster={mediaPoster}
+                autoplay
+                muted
+                loop
+                playsinline
+            ></video>
             </div>
         </div>
       <h2 class="text-4xl font-extrabold leading-tight mt-6">
@@ -98,9 +112,9 @@ const derivedLang = (Astro.url.pathname.split('/')[1] || 'es');
         {cardQuiz.description1}
       </p>
 
-      <a href={`/${derivedLang}/quiz`} class="bg-white text-white text-[19px] px-5 py-2 rounded-full font-bold w-full !bg-[#009DDA] inline-flex items-center justify-center">
+      <button type="button" onclick="window.openQuizModal && window.openQuizModal()" class="bg-white text-white text-[19px] px-5 py-2 rounded-full font-bold w-full !bg-[#009DDA] inline-flex items-center justify-center hover:opacity-90 transition-opacity">
         {cardQuiz.titleButton}
-    </a>
+    </button>
   
     </div>
 </section>
