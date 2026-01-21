@@ -72,13 +72,6 @@ export const routesConfig: RouteConfig[] = [
     metaDescriptionKey: 'meta.about_us.description',
   },
   {
-    id: 'zibas_creators',
-    slugs: { es: 'zibas-creators',},
-    contentComponent: '@/views/ZibasCreators/index.astro',
-    metaTitleKey: 'meta.zibas_creators.title',
-    metaDescriptionKey: 'meta.zibas_creators.description',
-  },
-  {
     id: 'participacion',
     slugs: { es: 'participacion',},
     contentComponent: '@/views/Participacion/index.astro',

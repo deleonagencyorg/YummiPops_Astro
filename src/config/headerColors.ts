@@ -118,14 +118,6 @@ export const headerColors: HeaderColors = {
     showMessageCarousel: true,
   },
 
-  // Configuración para Ranchitas Creators
-  zibas_creators: {
-    textColor: 'text-white',
-    backgroundColor: 'bg-orange-500',
-    hoverTextColor: 'hover:text-orange-200',
-    hoverBackgroundColor: 'hover:bg-orange-600',
-    showMessageCarousel: false,
-  },
 
   // Configuración para la página de nosotros
   about: {
@@ -174,9 +166,6 @@ export function getHeaderColors(pathname: string): HeaderColorConfig {
     return headerColors.about;
   }
   
-  if (path.includes('/zibas-creators')) {
-    return headerColors.zibas_creators;
-  }
   
   if (path.includes('/jurados')) {
     return headerColors.jurados;
