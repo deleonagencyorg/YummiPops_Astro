@@ -5,7 +5,6 @@ import config from '../i18n/config';
 // Only pages that are in the navigation menu
 const staticPages = [
   '/',
-  '/zibas-creators',
   '/recetas',
   '/recipes',
   '/blog',
