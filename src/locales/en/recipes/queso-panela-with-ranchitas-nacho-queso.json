@@ -1,0 +1,34 @@
+{
+  "date": "2025-09-11",
+  "id": "queso-panela-with-ranchitas-nacho-queso",
+  "slug": "queso-panela-with-ranchitas-nacho-queso",
+  "title": "Queso Panela with Ranchitas Nacho Queso",
+  "people": "11",
+  "difficulty": "Easy",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/queso-panela-con-ranchitas-nacho-queso.webp",
+  "gallery": [
+    "queso-panela-con-ranchitas-nacho-queso.webp"
+  ],
+  "type": "image",
+  "preparation_time": 15,
+  "ingredients": [
+    "1 panela cheese",
+    "Flour",
+    "1 beaten egg",
+    "1 cup crushed Ranchitas Nacho Queso",
+    "Vegetable oil"
+  ],
+  "instructions": [
+    "Step 1. Heat enough oil in a pot or deep fryer.",
+    "Step 2. Coat the cheese with flour, then with the beaten egg, and finally with Ranchitas.",
+    "Step 3. Fry it in the oil for a few minutes.",
+    "Step 4. Remove from the oil and let it drain on a plate lined with paper towels."
+  ],
+  "product":[
+    "ranchitas-nacho-queso"
+  ],
+  "brand": [
+    "ranchitas"
+  ],
+  "category": "snack"
+}

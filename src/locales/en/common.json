@@ -2,7 +2,7 @@
   "meta": {
     "home": {
       "title": "Ranchitas - Enjoy your Ranchitas at any moment",
-      "description": "Your favorite potato chip flakes come with naturally authentic flavors for all tastes."
+      "description": "Discover all the ways to crunch your world with recipes and content with explosive flavors. Come and ignite the crunch fire!"
     },
     "contact": {
       "title": "Contact",
@@ -36,19 +36,19 @@
   "social_media": {
    "facebook": {
       "name": "Facebook",
-      "url": "https://www.facebook.com/zibaslatam",
+      "url": "https://www.facebook.com/ranchitaslatam",
       "alt": "Facebook de Ranchitas",
       "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/facebook.svg"
     },
     "instagram": {
       "name": "Instagram",
-      "url": "https://www.instagram.com/zibaslatam",
+      "url": "https://www.instagram.com/ranchitaslatam/",
       "alt": "Instagram de Ranchitas",
       "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/instagram.svg"
     },
     "tiktok": {
       "name": "TikTok",
-      "url": "https://www.tiktok.com/@zibaslatam",
+      "url": "https://www.tiktok.com/@ranchitaslatam",
       "alt": "TikTok de Ranchitas",
       "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/tiktok.svg"
     }
@@ -95,27 +95,17 @@
     {
       "id": "products",
       "text": "Products",
-      "href": "/en/#products"
+      "href": "/en/products"
     },
     {
       "id": "recipes",
       "text": "Recipes",
-      "href": "/en/#recipes"
+      "href": "/en/recipes"
     },
     {
       "id": "news",
       "text": "News",
-      "href": "/en/news"
-    },
-    {
-      "id": "promotios",
-      "text": "Promos",
-      "href": "/en/promotios"
-    },
-    {
-      "id": "brand",
-      "text": "Brand",
-      "href": "/en/brand"
+      "href": "/en/blog"
     },
     {
       "id": "contact",
@@ -133,7 +123,7 @@
   "home": {
     "meta": {
       "title": " Ranchitas - Disfruta tus Ranchitas en todo momento",
-      "description": "Tus hojuelas de papa frita favoritas llegan con sabores naturalmente auténticos para todos los gustos."
+      "description": "Discover all the ways to crunch your world with recipes and content with explosive flavors. Come in and ignite the crunch!"
     },
     "newsletter":{
       "placeholder":"email@email.com",
@@ -172,7 +162,7 @@
   "footer": {
     "main_text": "The flavor that ",
     "main_text2": "conquers",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis mauris urna, lacinia a porttitor non, tristique congue lectus.",
+    "description": "Discover all the ways to crunch your world with recipes and content with explosive flavors. Come in and ignite the crunch!",
     "choose": "Choose",
     "follow_us": "SOCIAL",
     "contact_us": "Contact Us",
@@ -199,11 +189,6 @@
       "id":"1",
       "title":"😎 Welcome to Ranchitas! If you're craving a snack, you're in the right place 🎉",
       "link":""
-    },
-    {
-      "id":"2",
-      "title":"🎨 Ranchitas Creators: Join with your creativity and win prizes!",
-      "link":"/en/zibas-creators"
     }
   ],
   "form_validation": {
@@ -219,18 +204,18 @@
     "badge": "Our Story",
     "title": "Who",
     "titleHighlight": "We Are?",
-    "description1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
-    "description2": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.",
-    "videoSrc": "/images/es/video/videoranchitas.mp4",
+    "description1": "Discover all the ways to crunch your world with recipes and content with explosive flavors. Come in and ignite the crunch fire!",
+    "description2": "",
+    "videoSrc" : "https://snack.yummiespromociones.com/SnacksyummiesAssets/Ranchitas_loop.mp4",
     "backgroundColor": "#B91C1C"
   },
   "cardQuiz": {
     "badge" : "Our Story",
-    "title" : "Which ranchita",
+    "title" : "Which Ranchita",
     "titleHighlight" : "are you?",
     "description1" : "Crunch with attitude and let the flavor say who you are. Ready for the challenge? Discover your Ranchitas essence in every bite.",
     "titleButton": "Take Quiz",
-    "imageSrc" : "/images/en/video/videoranchitas.mp4",
+    "imageSrc" : "https://snack.yummiespromociones.com/SnacksyummiesAssets/Ranchitas_loop.mp4",
     "backgroundColor": "#0041CD"
   }
 }

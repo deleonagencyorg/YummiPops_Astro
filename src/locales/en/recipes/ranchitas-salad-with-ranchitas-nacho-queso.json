@@ -1,0 +1,38 @@
+{
+  "date": "2025-09-11",
+  "id": "ranchitas-salad-with-ranchitas-nacho-queso",
+  "slug": "ranchitas-salad-with-ranchitas-nacho-queso",
+  "title": "Ranchitas Salad with Ranchitas Nacho Queso",
+  "people": "9",
+  "difficulty": "Easy",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/ensalada-de-ranchitas.webp",
+  "gallery": [
+    "ensalada-de-ranchitas.webp"
+  ],
+  "type": "image",
+  "preparation_time": 15,
+  "ingredients": [
+    "1 pound of cooked ground beef",
+    "2 cans of black beans (drained)",
+    "2 cups of corn kernels",
+    "1/2 green bell pepper finely chopped",
+    "1/2 cup of shredded cheese",
+    "1 sliced avocado",
+    "Sour cream to taste",
+    "2 heads of lettuce finely chopped",
+    "3 chopped tomatoes"
+  ],
+  "instructions": [
+    "Step 1. Cook the ground beef together with the black beans, green pepper, and corn kernels until you have something similar to a picadillo.",
+    "Step 2. Season to taste with pepper and garlic-cilantro seasoning.",
+    "Step 3. Remove from heat and assemble the salad.",
+    "Step 4. Start with a layer of lettuce and tomato, then add the meat mixture and Ranchitas Nacho Queso from Yummies. Garnish with avocado, sour cream, and cheese."
+  ],
+  "brand": [
+    "ranchitas"
+  ],
+  "product":[
+    "ranchitas-nacho-queso"
+  ],
+  "category": "lunch"
+}

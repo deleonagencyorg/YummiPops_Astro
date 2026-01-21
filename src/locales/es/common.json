@@ -2,7 +2,7 @@
   "meta": {
     "home": {
       "title": "Ranchitas - Disfruta tus Ranchitas en todo momento",
-      "description": "Tus hojuelas de papa frita favoritas llegan con sabores naturalmente auténticos para todos los gustos."
+      "description": "Conoce todas las formas de Cronchear tu mundo con recetas y contenidos con sabores explosivos. Entra y enciendo el fuego del Cronch!"
     },
     "contact": {
       "title": "Contacto",
@@ -40,19 +40,19 @@
   "social_media": {
    "facebook": {
       "name": "Facebook",
-      "url": "https://www.facebook.com/zibaslatam/",
+      "url": "https://www.facebook.com/ranchitaslatam/",
       "alt": "Facebook de Ranchitas",
       "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/facebook.svg"
     },
     "instagram": {
       "name": "Instagram",
-      "url": "https://www.instagram.com/zibaslatam",
+      "url": "https://www.instagram.com/ranchitaslatam/",
       "alt": "Instagram de Ranchitas",
       "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/instagram.svg"
     },
     "tiktok": {
       "name": "TikTok",
-      "url": "https://www.tiktok.com/@zibaslatam",
+      "url": "https://www.tiktok.com/@ranchitaslatam",
       "alt": "TikTok de Ranchitas",
       "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/tiktok.svg"
     }
@@ -100,34 +100,23 @@
     {
       "id": "products",
       "text": "Productos",
-      "href": "/es/#products"
+      "href": "/es/productos"
     },
     {
       "id": "recipes",
       "text": "Recetas",
-      "href": "/es/#recipes"
+      "href": "/es/recetas"
     },
     {
       "id": "news",
       "text": "Noticias",
-      "href": "/es/news"
-    },
-    {
-      "id": "promotios",
-      "text": "Promos",
-      "href": "/es/promotios"
-    },
-    {
-      "id": "brand",
-      "text": "Marca",
-      "href": "/es/brand"
+      "href": "/es/blog"
     },
     {
       "id": "contact",
       "text": "Contáctanos",
       "href": "/es/contacto"
     }
-   
   ],
   "about_us": {
     "title": "Conoce Nuestra",
@@ -139,7 +128,7 @@
   "home": {
     "meta": {
       "title": " Ranchitas - Disfruta tus Ranchitas en todo momento",
-      "description": "Tus hojuelas de papa frita favoritas llegan con sabores naturalmente auténticos para todos los gustos."
+      "description": "Conoce todas las formas de Cronchear tu mundo con recetas y contenidos con sabores explosivos. Entra y enciendo el fuego del Cronch!"
     },
     "newsletter":{
       "placeholder":"tucorreo@email.com",
@@ -178,7 +167,7 @@
   "footer": {
     "main_text": "El sabor que ",
     "main_text2": "conquista",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis mauris urna, lacinia a porttitor non, tristique congue lectus.",
+    "description": "Conoce todas las formas de Cronchear tu mundo con recetas y contenidos con sabores explosivos. Entra y enciendo el fuego del Cronch!",
     "choose": "Elige",
     "follow_us": "REDES",
     "contact_us": "Contáctanos",
@@ -205,11 +194,6 @@
       "id":"1",
       "title":"😎 ¡Bienvenidos a Ranchitas! Si se te antoja un snack, estás en el lugar correcto 🎉",
       "link":""
-    },
-    {
-      "id":"2",
-      "title":"🎨 Ranchitas Creators: ¡Participa con tu creatividad y gana premios!",
-      "link":"/es/zibas-creators"
     }
   ],
   "form_validation": {
@@ -225,18 +209,18 @@
     "badge" : "Nuestra Historia",
     "title" : "¿Quiénes",
     "titleHighlight" : "Somos?",
-    "description1" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
-    "description2" : "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.",
-    "videoSrc" : "/images/es/video/videoranchitas.mp4",
+    "description1" : "Conoce todas las formas de Cronchear tu mundo con recetas y contenidos con sabores explosivos. Entra y enciendo el fuego del Cronch!",
+    "description2" : "",
+    "videoSrc" : "https://snack.yummiespromociones.com/SnacksyummiesAssets/Ranchitas_loop.mp4",
     "backgroundColor" : "#B91C1C"
   },
   "cardQuiz": {
     "badge" : "Nuestra Historia",
-    "title" : "¿Qué ranchita",
+    "title" : "¿Qué Ranchita",
     "titleHighlight" : "eres?",
     "description1" : "Cronchea con actitud y deja que el sabor diga quién eres. ¿Listo para el reto? Descubre tu esencia Ranchitas en cada mordida.",
     "titleButton": "Hacer Quiz",
-    "imageSrc" : "/images/es/video/videoranchitas.mp4",
+    "imageSrc" : "https://snack.yummiespromociones.com/SnacksyummiesAssets/Ranchitas_loop.mp4",
     "backgroundColor": "#0041CD"
   }
 }

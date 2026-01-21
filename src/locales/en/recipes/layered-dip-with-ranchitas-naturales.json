@@ -1,0 +1,38 @@
+{
+  "date": "2025-09-11",
+  "id": "layered-dip-with-ranchitas-naturales",
+  "slug": "layered-dip-with-ranchitas-naturales",
+  "title": "Layered Dip with Ranchitas Naturales",
+  "people": "10",
+  "difficulty": "Easy",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/dip-de-capas-con-ranchitas-naturales.webp",
+  "gallery": [
+    "dip-de-capas-con-ranchitas-naturales.webp"
+  ],
+  "type": "image",
+  "preparation_time": 15,
+  "ingredients": [
+    "1 can of refried beans",
+    "2 ½ cups of guacamole",
+    "1 jar of chunky-style salsa",
+    "2 ½ cups of sour cream",
+    "Juice of 1 lemon",
+    "2 tablespoons of taco seasoning",
+    "2 cups of shredded taco cheese blend",
+    "2 cups of chopped lettuce",
+    "½ cup of black olives",
+    "1 bag of Ranchitas Naturales"
+  ],
+  "instructions": [
+    "Step 1. In a bowl, mix the sour cream with the lemon juice and taco seasoning.",
+    "Step 2. Layer the beans, salsa, guacamole, sour cream, cheese, and finish with lettuce and olives.",
+    "Step 3. Serve at room temperature with Ranchitas Naturales."
+  ],
+  "brand": [
+    "ranchitas"
+  ],
+  "product":[
+    "ranchitas-naturales"
+  ],
+  "category": "snack"
+}

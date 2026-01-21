@@ -5,6 +5,7 @@ import type { Locale } from '../../../i18n/i18n';
 import './styles.css';
 import { initProductDetail } from './scripts.js';
 import CardQuiz from '../../../components/common/cardQuiz/index.astro';
+import QuizModal from '../../../components/quiz/QuizModal.astro';
 
 
 
@@ -40,6 +41,7 @@ interface Product {
   // relatedProducts es opcional ya que no existe en la estructura actual
   relatedProducts?: string[];
   weight?: string[];
+  nutrition?: any;
 }
 
 const { currentLang, productId } = Astro.props;
@@ -52,7 +54,7 @@ const product = products.find((item: Product) => item.id === productId);
 const brandsAssets = t('', { namespace: 'brands', locale: currentLang }) || {};
 const newsAssets =  t('', { namespace: 'news', locale: currentLang }) || {};
 const brandsList = brandsAssets.brands || [];
-const zibasBrand = brandsList.find((brand: any) => brand.id === 'zibas');
+const zibasBrand = brandsList.find((brand: any) => brand.id === 'ranchitas');
 const cardQuizAssets = t('cardQuiz', { namespace: 'common', locale: currentLang }) || {};
 const zibasProducts = (zibasBrand?.products || []).filter((product: any) => product.id !== productId);
 
@@ -74,8 +76,12 @@ const safeProduct: Product = {
   available: product.available || '',
   description: product.description || '',
   weight: Array.isArray(product.weight) ? product.weight : [],
-  
+  nutrition: product.nutrition,
 };
+
+// Verificar si el producto tiene información nutricional
+const hasNutrition = safeProduct.nutrition && 
+  (Array.isArray(safeProduct.nutrition) ? safeProduct.nutrition.length > 0 : Object.keys(safeProduct.nutrition).length > 0);
 
 // Obtener todos los productos como un array
 const productsData = t('items', { locale: currentLang, namespace: 'products' }) || [];
@@ -86,10 +92,8 @@ let relatedProducts: any[] = [];
 // Solo usar productos de la misma categoría si hay más de 1 producto
 if (allProductsArray.length > 1) {
   relatedProducts = allProductsArray
-    .filter((p: any) => p.id !== productId)
-    .slice(0, 3);
+    .filter((p: any) => p.id !== productId);
 }
-
 
 ---
 
@@ -150,21 +154,27 @@ if (allProductsArray.length > 1) {
             </span>
           </button>
           
-          <button 
-            class="tab-button flex-1 h-[49px] rounded-[12px] flex items-center justify-center px-2 transition-all duration-300"
-            data-tab="nutrition"
-          >
-            <span class="text-[16px] font-medium leading-6">
-              {currentLang === 'es' ? 'Tabla de Nutrición' : 'Nutrition Table'}
-            </span>
-          </button>
+          {hasNutrition && (
+            <button 
+              class="tab-button flex-1 h-[49px] rounded-[12px] flex items-center justify-center px-2 transition-all duration-300"
+              data-tab="nutrition"
+            >
+              <span class="text-[16px] font-medium leading-6">
+                {currentLang === 'es' ? 'Tabla de Nutrición' : 'Nutrition Table'}
+              </span>
+            </button>
+          )}
         </div>
 
         <div class="bg-white rounded-[20px] w-full">
           <p class="text-black pt-[33px] pb-[33px] pl-[33px] pr-[33px]">{safeProduct.description}</p>
         </div>
 
-        <button class="bg-[#D61F2C] text-white rounded-[50px] w-full h-[52px] mt-[20px] text-start pl-[20px]">
+        <button
+          type="button"
+          id="where-to-buy-open"
+          class="bg-[#D61F2C] text-white rounded-[50px] w-full h-[52px] mt-[20px] text-start pl-[20px]"
+        >
           {currentLang === 'es' ? '¿Dónde comprar?' : 'Where buy?'}
         </button>
       </div>
@@ -178,6 +188,68 @@ if (allProductsArray.length > 1) {
     {/* Sección de Productos Relacionados */}
 
   </article>
+
+  <!-- Where to buy modal -->
+  <div
+    id="where-to-buy-modal"
+    class="fixed inset-0 z-[2147483646] hidden"
+    aria-hidden="true"
+  >
+    <div class="absolute inset-0 bg-black/60" data-wtb-backdrop></div>
+
+    <div class="absolute inset-0 flex items-center justify-center p-4 sm:p-6">
+      <div class="w-full max-w-3xl bg-white rounded-[28px] shadow-2xl overflow-hidden">
+        <div class="flex items-center justify-between px-6 py-5 border-b border-black/10">
+          <h3 class="font-title text-2xl md:text-3xl font-bold italic text-black">
+            {currentLang === 'es' ? 'Compra en delivery' : 'Order for delivery'}
+          </h3>
+          <button
+            type="button"
+            class="w-10 h-10 rounded-full bg-primaryCream text-black flex items-center justify-center hover:opacity-80 transition"
+            aria-label={currentLang === 'es' ? 'Cerrar' : 'Close'}
+            data-wtb-close
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 6 6 18" />
+              <path d="M6 6 18 18" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="p-6 sm:p-8">
+          {Array.isArray(stockists) && stockists.length > 0 ? (
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6">
+              {stockists.map((s: Stockist) => (
+                <a
+                  href={s.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="group rounded-2xl bg-primaryCream p-4 sm:p-5 flex flex-col items-center justify-center text-center hover:opacity-90 transition"
+                >
+                  <div class="bg-white rounded-2xl w-full flex items-center justify-center p-4 sm:p-5">
+                    <img
+                      src={s.icon}
+                      alt={s.name}
+                      class="h-14 sm:h-16 w-auto object-contain"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div class="mt-3 font-bold text-black text-sm sm:text-base">{s.name}</div>
+                </a>
+              ))}
+            </div>
+          ) : (
+            <div class="text-center text-black/70">
+              {currentLang === 'es'
+                ? 'No hay opciones de delivery disponibles por el momento.'
+                : 'No delivery options are available at the moment.'}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+
   <section class="z-30 mb-32 mt-8">
     <div class="container mx-auto px-6">
       {/* Título y subtítulo */}
@@ -189,58 +261,163 @@ if (allProductsArray.length > 1) {
           {currentLang === 'es' ? 'Descubre otros sabores que también te encantarán' : 'Discover other flavors that you will also love'}
         </p>
       </div>
-        {/* Grid de productos */}
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {relatedProducts.slice(0, 3).map((product: any, index: number) => {
-            // Colores de fondo rotativos
-            return (
-              <div 
-              class="rounded-[30px] p-8 flex flex-col items-center justify-between xl:h-[410px] md:h-[410px] lg:h-[435px] h-[450px] transition-transform duration-300 hover:scale-105"
-              style={{ backgroundColor: product.background_color }}
-            >
-              {/* Imagen del producto */}
-              <div class="w-full flex justify-center items-center flex-1 mb-6">
-                <img 
-                  src={product.image} 
-                  alt={product.name}
-                  class="max-w-[408px] h-[235px] object-contain"
-                />
+      
+      {/* Carousel de productos */}
+      <div class="relative">
+        {relatedProducts.length > 0 ? (
+          <>
+            <div class="swiper related-products-swiper">
+              <div class="swiper-wrapper">
+                {relatedProducts.map((product: any) => (
+                  <div class="swiper-slide h-auto">
+                    <a 
+                      href={`/${currentLang}/productos/${product.id}`}
+                      class="h-full rounded-[30px] p-8 flex flex-col items-center justify-between transition-transform duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#F86509]"
+                      style={{ backgroundColor: product.background_color }}
+                    >
+                      {/* Imagen del producto */}
+                      <div class="w-full flex justify-center items-center flex-1 mb-6">
+                        <img 
+                          src={product.image} 
+                          alt={product.name}
+                          class="max-w-[408px] h-[235px] object-contain"
+                        />
+                      </div>
+                      {/* Información del producto */}
+                      <div class="w-full text-start">
+                        <h3 
+                          class="text-3xl font-bold mb-2"
+                          style={{ color: product.text_color }}
+                        >
+                          {product.name}
+                        </h3>
+                        <p 
+                          class="text-lg italic mb-2"
+                          style={{ color: product.text_color }}
+                        >
+                          {product.short_description}
+                        </p>
+                      </div>
+                    </a>
+                  </div>
+                ))}
               </div>
-              {/* Información del producto */}
-              <div class="w-full text-start">
-                <h3 
-                  class="text-3xl font-bold mb-2"
-                  style={{ color: product.text_color }}
-                >
-                  {product.name}
-                </h3>
-                <p 
-                  class="text-lg italic mb-2"
-                  style={{ color: product.text_color }}
-                >
-                  {product.short_description }
-                </p>
-                <a 
-                  href={`/${currentLang}/productos/${product.id}`}
-                  class="inline-block rounded-full font-bold transition-all duration-300 hover:opacity-80"
-                  style={{ 
-                    color: product.color_button
-                  }}
-                >
-                  {currentLang === 'es' ? 'Ver más' : 'See more'}
-                </a>
-              </div>
+              <div class="swiper-pagination-products mt-6"></div>
             </div>
-          );
-        })}
+
+            {/* Navigation Arrows */}
+            {relatedProducts.length > 0 && (
+              <>
+                <button class="swiper-button-prev-products absolute left-0 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center text-[#F86509] hover:bg-[#F86509] hover:text-white transition-colors z-10">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                  </svg>
+                </button>
+                <button class="swiper-button-next-products absolute right-0 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center text-[#F86509] hover:bg-[#F86509] hover:text-white transition-colors z-10">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                  </svg>
+                </button>
+              </>
+            )}
+          </>
+        ) : (
+          <div class="text-center py-12">
+            <p class="text-xl text-gray-600">
+              {currentLang === 'es' ? 'No hay productos relacionados disponibles' : 'No related products available'}
+            </p>
+          </div>
+        )}
       </div>
     </div>
   </section>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <script is:inline src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <script is:inline>
+    (function () {
+      function initRelatedProductsSwiper() {
+        const root = document.querySelector('.related-products-swiper');
+        if (!(root instanceof HTMLElement)) return;
+
+        if (typeof Swiper === 'undefined') {
+          setTimeout(initRelatedProductsSwiper, 50);
+          return;
+        }
+
+        const hasSlides = root.querySelector('.swiper-slide');
+        if (!hasSlides) return;
+
+        try {
+          const existing = root['swiper'];
+          if (existing) {
+            existing.destroy(true, true);
+          }
+
+          const slideCount = root.querySelectorAll('.swiper-slide').length;
+          const shouldLoop = slideCount > 3;
+
+          const swiper = new Swiper(root, {
+            slidesPerView: 1.15,
+            spaceBetween: 20,
+            centeredSlides: true,
+            loop: shouldLoop,
+            watchOverflow: true,
+            autoplay: {
+              delay: 4000,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true,
+            },
+            navigation: {
+              nextEl: '.swiper-button-next-products',
+              prevEl: '.swiper-button-prev-products',
+            },
+            pagination: {
+              el: '.swiper-pagination-products',
+              clickable: true,
+            },
+            breakpoints: {
+              640: {
+                slidesPerView: 1.3,
+                spaceBetween: 24,
+                centeredSlides: true,
+              },
+              768: {
+                slidesPerView: 2.2,
+                spaceBetween: 28,
+                centeredSlides: true,
+              },
+              1024: {
+                slidesPerView: 3.2,
+                spaceBetween: 32,
+                centeredSlides: true,
+              },
+            },
+          });
+
+          setTimeout(() => swiper.update(), 50);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initRelatedProductsSwiper);
+      } else {
+        initRelatedProductsSwiper();
+      }
+
+      document.addEventListener('astro:page-load', initRelatedProductsSwiper);
+    })();
+  </script>
   <div class="relative z-30">
     <CardQuiz 
       cardQuiz={cardQuizAssets}
     />
   </div>
+
+  <QuizModal currentLang={currentLang} />
 )}
 
 <script>
@@ -281,4 +458,50 @@ if (allProductsArray.length > 1) {
     });
     (tabs[0] as HTMLElement)?.click();
   });
+</script>
+
+<script is:inline>
+  (function () {
+    function initWhereToBuyModal() {
+      const openBtn = document.getElementById('where-to-buy-open');
+      const modal = document.getElementById('where-to-buy-modal');
+      if (!(openBtn instanceof HTMLButtonElement)) return;
+      if (!(modal instanceof HTMLElement)) return;
+
+      if (modal.dataset.wtbInit === '1') return;
+      modal.dataset.wtbInit = '1';
+
+      const closeBtn = modal.querySelector('[data-wtb-close]');
+      const backdrop = modal.querySelector('[data-wtb-backdrop]');
+
+      const open = () => {
+        modal.classList.remove('hidden');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      };
+
+      const close = () => {
+        modal.classList.add('hidden');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      };
+
+      openBtn.addEventListener('click', open);
+
+      if (closeBtn) closeBtn.addEventListener('click', close);
+      if (backdrop) backdrop.addEventListener('click', close);
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') close();
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initWhereToBuyModal);
+    } else {
+      initWhereToBuyModal();
+    }
+
+    document.addEventListener('astro:page-load', initWhereToBuyModal);
+  })();
 </script>

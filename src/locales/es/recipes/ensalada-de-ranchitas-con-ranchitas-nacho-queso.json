@@ -1,0 +1,39 @@
+{
+  "date": "2025-09-11",
+  "id": "ensalada-de-ranchitas-con-ranchitas-nacho-queso",
+  "slug": "ensalada-de-ranchitas-con-ranchitas-nacho-queso",
+  "title": "Ensalada de Ranchitas con Ranchitas Nacho Queso",
+  "people": "9",
+  "difficulty": "Fácil",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/ensalada-de-ranchitas.webp",
+  "gallery": [
+    "ensalada-de-ranchitas.webp"
+  ],
+  "type": "image",
+  "preparation_time": 15,
+  "ingredients": [
+    "1 libra de carne molida cocida",
+    "2 latas de frijoles negros (sin caldo)",
+    "2 tazas de granitos de elote",
+    "1/2 pimiento verde picado finamente",
+    "1/2 taza de queso rallado",
+    "1 aguacate rebanado",
+    "Mantequilla crema al gusto",
+    "2 cabezas de lechuga finamente picada",
+    "3 tomates picados"
+  ],
+  "instructions": [
+    "Paso 1. Cocina la carne junto con los frijoles negros, el pimiento verde y los granos de elote, de modo que tengas algo similar a un picadillo.",
+    "Paso 2. Sazona al gusto con algo de pimienta y adobo de ajo y cilantro.",
+    "Paso 3. Retira del fuego y ahora arma la ensalada.",
+    "Paso 4. Añade primero una cama de lechuga y tomate, ahora incorpora la mezcla de carne y las Ranchitas Nacho Queso de Yummies, adorna con aguacate, crema y queso."
+  ],
+  "brand": [
+    "ranchitas"
+  ],
+
+  "product":[
+    "ranchitas-nacho-queso"
+  ],
+  "category": "lunch"
+}

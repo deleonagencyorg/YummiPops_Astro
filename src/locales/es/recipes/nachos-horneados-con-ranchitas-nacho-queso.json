@@ -1,0 +1,39 @@
+{
+  "date": "2025-09-11",
+  "id": "nachos-horneados-con-ranchitas-nacho-queso",
+  "slug": "nachos-horneados-con-ranchitas-nacho-queso",
+  "title": "Nachos Horneados con Ranchitas Nacho Queso",
+  "people": "13",
+  "difficulty": "Medio",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/nachos-horneados-rancheritas.webp",
+  "gallery": [
+    "nachos-horneados-rancheritas.webp"
+  ],
+  "type": "image",
+  "preparation_time": 15,
+  "ingredients": [
+    "4 bolsas de Ranchitas Nacho Queso",
+    "1 libra de queso de mezcla para Tacos",
+    "Carne molida cocinada y sazonada",
+    "1 taza de frijol negro parado",
+    "2 jalapeños cortados en rodajas",
+    "1 taza de maíz",
+    "1 taza de chile morrón rojo picado",
+    "½ taza de aceitunas negras en rodajas",
+    "Cebollín picado",
+    "Guacamol",
+    "Crema agria"
+  ],
+  "instructions": [
+    "Paso 1. Precalienta el horno a 350º F",
+    "Paso 2. Sobre una bandeja plana coloca papel para hornear. Deja caer las Ranchitas Nacho Queso. Espolvorea el queso por encima, y agrega los toppings menos las aceitunas, el cebollín, el guacamol y la crema. Espolvorea más queso por encima y hornea por 10 minutos.",
+    "Paso 3. Agrega el resto de los toppings y sirve."
+  ],
+  "brand": [
+    "ranchitas"
+  ],
+  "product":[
+    "ranchitas-nacho-queso"
+  ],
+  "category": "dinner"
+}

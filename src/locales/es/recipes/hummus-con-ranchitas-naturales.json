@@ -1,0 +1,37 @@
+{
+  "date": "2025-09-11",
+  "id": "hummus-con-ranchitas-naturales",
+  "slug": "hummus-con-ranchitas-naturales",
+  "title": "Hummus con Ranchitas Naturales",
+  "people": "7",
+  "difficulty": "Fácil",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/hummus-con-ranchitas-naturales.webp",
+  "gallery": [
+    "hummus-con-ranchitas-naturales.webp"
+  ],
+  "type": "image",
+  "preparation_time": 10,
+  "ingredients": [
+    "Jugo de 1 limón",
+    "¼ de taza de tahini",
+    "1 diente de ajo finamente picadol",
+    "2 cucharadas de aceite de oliva",
+    "½ cucharadita de comino en polvo",
+    "1 lata de garbanzos (15 oz – 250 g) escurridos",
+    "2 cucharadas de agua",
+    "Páprika para servir"
+  ],
+  "instructions": [
+    "Paso 1. En un procesador coloca el limón, el tahini, el ajo, el aceite, el comino y procesa hasta obtener una mezcla homogénea.",
+    "Paso 2. Agrega la mitad de los garbanzos y el agua y vuelve a procesar.",
+    "Paso 3. Agrega el resto de los garbanzos y sirve.",
+    "Paso 4. Espolvorea páprika encima y acompaña con Ranchitas Naturales."
+  ],
+  "brand": [
+    "ranchitas"
+  ],
+  "product":[
+    "ranchitas-naturales"
+  ],
+  "category": "snack"
+}

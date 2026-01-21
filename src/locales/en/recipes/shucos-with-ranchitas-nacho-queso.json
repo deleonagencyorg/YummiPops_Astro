@@ -1,0 +1,37 @@
+{
+  "date": "2025-09-11",
+  "id": "shucos-with-ranchitas-nacho-queso",
+  "slug": "shucos-with-ranchitas-nacho-queso",
+  "title": "Shucos with Ranchitas Nacho Queso",
+  "people": "19",
+  "difficulty": "Easy",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/shucos-con-ranchitas-nacho-quedo.webp",
+  "gallery": [
+    "shucos-con-ranchitas-nacho-quedo.webp"
+  ],
+  "type": "image",
+  "preparation_time": 20,
+  "ingredients": [
+    "Hot dog buns",
+    "Guacamole",
+    "Chopped cabbage",
+    "Chopped onion and parsley",
+    "Sausages",
+    "Ketchup",
+    "Mustard",
+    "Mayonnaise",
+    "Ranchitas Nacho Queso"
+  ],
+  "instructions": [
+    "Step 1. On a grill, toast the hot dog buns and sausages cut in half.",
+    "Step 2. Spread guacamole on the bun, add cabbage, Ranchitas to taste, sausage, and finally mayonnaise, ketchup, and mustard.",
+    "Step 3. Serve with diced onion and parsley."
+  ],
+  "brand": [
+    "ranchitas"
+  ],
+  "product":[
+    "ranchitas-nacho-queso"
+  ],
+  "category": "lunch"
+}

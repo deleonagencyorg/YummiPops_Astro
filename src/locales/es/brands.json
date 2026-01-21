@@ -149,47 +149,69 @@
             "title": "Zibas",
             "url": "https://ranchitas.com",
             "alt": "Zibas",
-            "products": [
-               {
-                    "id": "zibas-clasicas",
-                    "slug": "zibas-clasicas",
-                    "title": "Zibas Clasicas",
-                    "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-clasicas-2.webp",
-                    "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-clasicas-2.webp",
-                    "titleColor": "#FDE820"
+        "products": [
+                {
+                    "id": "ranchitas-nacho-exitante",
+                    "slug": "ranchitas-nacho-exitante",
+                    "title": "Ranchitas Nacho Exitante",
+                    "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/ranchitas-nacho-exitante-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/ranchitas-nacho-exitante-2.webp"
                 },
                 {
-                    "id": "zibas-chile-toreado",
-                    "slug": "zibas-chile-toreado",
-                    "title": "Zibas Chile Toreado",
-                    "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-chile-toreado-2.webp",
-                    "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-chile-toreado-2.webp",
-                    "titleColor": "#147a2f"
+                    "id": "ranchitas-nacho-extremo",
+                    "slug": "ranchitas-nacho-extremo",
+                    "title": "Ranchitas Nacho Extremo",
+                    "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/ranchitas-nacho-extremo-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/ranchitas-nacho-extremo-2.webp"
                 },
                 {
-                    "id": "zibas-crema-y-especias",
-                    "slug": "zibas-crema-y-especias",
-                    "title": "Zibas Crema y Especias",
-                    "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-crema-y-especias-2.webp",
-                    "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-crema-y-especias-2.webp",
-                    "titleColor": "#BBF525"
+                    "id": "ranchitas-nacho-guacamole",
+                    "slug": "ranchitas-nacho-guacamole",
+                    "title": "Ranchitas Nacho Guacamole",
+                    "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/ranchitas-nacho-guacamole-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/ranchitas-nacho-guacamole-2.webp"
                 },
                 {
-                    "id": "zibas-miel-mostasa",
-                    "slug": "zibas-miel-mostasa",
-                    "title": "Zibas Miel Mostasa",
-                    "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-miel-mostasa-2.webp",
-                    "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-miel-mostasa-2.webp",
-                    "titleColor": "#2A76F4"
+                    "id": "ranchitas-nacho-pizza",
+                    "slug": "ranchitas-nacho-pizza",
+                    "title": "Ranchitas Nacho Pizza",
+                    "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/ranchitas-nacho-pizza-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/ranchitas-nacho-pizza-2.webp"
                 },
                 {
-                    "id": "zibas-queso",
-                    "slug": "zibas-queso",
-                    "title": "Zibas Queso",
-                    "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-queso-2.webp",
-                    "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-queso-2.webp",
-                    "titleColor": "#FB7418"
+                    "id": "ranchitas-nacho-queso",
+                    "slug": "ranchitas-nacho-queso",
+                    "title": "Ranchitas Nacho Queso",
+                    "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/ranchitas-nacho-queso-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/ranchitas-nacho-queso-2.webp"
+                },
+                {
+                    "id": "ranchitas-nacho-cinema",
+                    "slug": "ranchitas-nacho-cinema",
+                    "title": "Ranchitas Nacho Cinema",
+                    "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/rachitas-nacho-cinema-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/rachitas-nacho-cinema-2.webp"
+                },
+                {
+                    "id": "ranchitas-buffalo-ranch",
+                    "slug": "ranchitas-buffalo-ranch",
+                    "title": "Ranchitas Buffalo Ranch",
+                    "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/ranchitas-buffalo-ranch-2.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/ranchitas-buffalo-ranch-2.webp"
+                },                {
+                    "id": "ranchitas-chile-toreado",
+                    "slug": "ranchitas-chile-toreado",
+                    "title": "Ranchitas Chile Toreado",
+                    "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/Ranchita_Chile_Toreano.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/Ranchita_Chile_Toreano.webp"
+                },                {
+                    "id": "ranchitas-naturales",
+                    "slug": "ranchitas-naturales",
+                    "title": "Ranchitas Naturales",
+                    "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/Ranchitas-Naturales.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/Ranchitas-Naturales.webp"
                 }
+                
             ]
         },
         {

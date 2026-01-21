@@ -1,0 +1,39 @@
+{
+  "date": "2025-09-11",
+  "id": "nachos-rancheros-con-ranchitas-nacho-excitante",
+  "slug": "nachos-rancheros-con-ranchitas-nacho-excitante",
+  "title": "Nachos Rancheros con Ranchitas Nacho Excitante",
+  "people": "21",
+  "difficulty": "Media",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/nachos-rancheros-con-ranchitas.webp",
+  "gallery": [
+    "nachos-rancheros-con-ranchitas.webp"
+  ],
+  "type": "image",
+  "preparation_time": 30,
+  "ingredients": [
+    "2 cucharadas de aceite vegetal",
+    "½ libra de carne chorizo molido",
+    "½ libra de frijoles cocidos",
+    "½ taza de salsa dulce kétchup",
+    "¼ taza de agua",
+    "1 taza de queso rallado cheddar",
+    "¼ taza de salsa bbq",
+    "1 bolsa familiar Ranchitas Nacho Excitante"
+  ],
+  "instructions": [
+    "Paso 1. Colocar en un sartén el aceite y sofreír el chorizo.",
+    "Paso 2. Agregar los frijoles cocidos y mezclar.",
+    "Paso 3. Sazonar con la sal y pimienta.",
+    "Paso 4. Incorporar la salsa kétchup, la salsa BBQ y el agua.",
+    "Paso 5. Cocinar por un par de minutos y que quede semi caldoso.",
+    "Paso 6. Servir sobre las ranchitas, espolvorear queso y un poco más de la salsa BBQ si lo desea."
+  ],
+  "brand": [
+    "ranchitas"
+  ],
+  "product":[
+    "ranchitas-nacho-excitante"
+  ],
+  "category": "dinner"
+}

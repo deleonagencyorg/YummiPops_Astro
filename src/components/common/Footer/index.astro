@@ -26,15 +26,17 @@ const copyrightText = t('footer.copyright', { namespace: 'common', locale: curre
 const ranchitas = t('footer.ranchitas', { namespace: 'common', locale: currentLang });
 const help = t('footer.help', { namespace: 'common', locale: currentLang });
 const tiktokText = t('footer.tiktok_text', { namespace: 'common', locale: currentLang });
-const products = t('footer.products', { namespace: 'common', locale: currentLang });
-const recipes = t('footer.recipes', { namespace: 'common', locale: currentLang });
-const news = t('footer.news', { namespace: 'common', locale: currentLang });
-const promos = t('footer.promotios', { namespace: 'common', locale: currentLang });
-const brand = t('footer.brand', { namespace: 'common', locale: currentLang });
-const buy = t('footer.buy', { namespace: 'common', locale: currentLang });
+const socialMedia = t('social_media', { namespace: 'common', locale: currentLang }) as any;
+const menuItems = t('menu_items', { namespace: 'common', locale: currentLang }) as any[];
 const mainText2 = t('footer.main_text2', { namespace: 'common', locale: currentLang });
 const emailPlaceholder = t('footer.email_placeholder', { namespace: 'common', locale: currentLang });
 const subscribeButton = t('footer.subscribe_button', { namespace: 'common', locale: currentLang });
+
+function getMenuHref(id: string) {
+  return (menuItems || []).find((i: any) => i?.id === id)?.href;
+}
+
+const footerMenuItems = (menuItems || []).filter((i: any) => i && i.id !== 'brand');
 ---
 
 {loading ? (
@@ -49,25 +51,19 @@ const subscribeButton = t('footer.subscribe_button', { namespace: 'common', loca
           <h3 class="font-title text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
             {mainText}<br />{mainText2}
           </h3>
-          <p class="font-sans italic text-base md:text-lg leading-relaxed mb-8 max-w-lg">
-            {description}
-          </p>
+          
           
           <!-- Formulario de Newsletter -->
-          <form class="flex flex-col sm:flex-row gap-3 max-w-xl">
-            <input 
-              type="email" 
-              placeholder={emailPlaceholder}
-              class="flex-1 px-5 py-4 rounded-[10px] text-gray-600 font-sans text-base focus:outline-none focus:ring-2 focus:ring-accent placeholder:text-gray-400"
-              required
-            />
-            <button 
-              type="submit"
-              class="bg-[#F99F33] hover:bg-[#F99F33]/90 text-white font-title font-bold px-12 py-4 rounded-full transition-all duration-200 text-lg whitespace-nowrap"
+          <div class="flex">
+            <a 
+              href="https://www.snacksyummies.com/es/yummiesone" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="bg-[#F99F33] hover:bg-[#F99F33]/90 text-white font-title font-bold px-12 py-4 rounded-full transition-all duration-200 text-lg whitespace-nowrap inline-block"
             >
-              {subscribeButton}
-            </button>
-          </form>
+              Registrate en Yummies One
+            </a>
+          </div>
         </div>
 
         <!-- Columna Derecha: Links de Navegación -->
@@ -79,13 +75,13 @@ const subscribeButton = t('footer.subscribe_button', { namespace: 'common', loca
               {followUs}
             </h3>
             <div class="flex flex-col space-y-3">
-              <a href="#" class="font-sans text-xl hover:text-accent transition-colors duration-200">
+              <a href={socialMedia?.facebook?.url || '#'} target="_blank" rel="noopener noreferrer" class="font-sans text-xl hover:text-accent transition-colors duration-200">
                 {facebookText}
               </a>
-              <a href="#" class="font-sans text-xl hover:text-accent transition-colors duration-200">
+              <a href={socialMedia?.instagram?.url || '#'} target="_blank" rel="noopener noreferrer" class="font-sans text-xl hover:text-accent transition-colors duration-200">
                 {instagramText}
               </a>
-              <a href="#" class="font-sans text-xl hover:text-accent transition-colors duration-200">
+              <a href={socialMedia?.tiktok?.url || '#'} target="_blank" rel="noopener noreferrer" class="font-sans text-xl hover:text-accent transition-colors duration-200">
                 {tiktokText}
               </a>
             </div>
@@ -97,18 +93,11 @@ const subscribeButton = t('footer.subscribe_button', { namespace: 'common', loca
               {ranchitas}
             </h3>
             <div class="flex flex-col space-y-3">
-              <a href={`/${currentLang}/products`} class="font-sans text-xl hover:text-accent transition-colors duration-200">
-                {products}
-              </a>
-              <a href={`/${currentLang}/recipes`} class="font-sans text-xl hover:text-accent transition-colors duration-200">
-                {recipes}
-              </a>
-              <a href={`/${currentLang}/news`} class="font-sans text-xl hover:text-accent transition-colors duration-200">
-                {news}
-              </a>
-              <a href={`/${currentLang}/promotions`} class="font-sans text-xl hover:text-accent transition-colors duration-200">
-                {promos}
-              </a>
+              {footerMenuItems.map((item: any) => (
+                <a href={item.href} class="font-sans text-xl hover:text-accent transition-colors duration-200">
+                  {item.text}
+                </a>
+              ))}
             </div>
           </div>
 
@@ -118,14 +107,8 @@ const subscribeButton = t('footer.subscribe_button', { namespace: 'common', loca
               {help}
             </h3>
             <div class="flex flex-col space-y-3">
-              <a href={`/${currentLang}/contact`} class="font-sans text-xl hover:text-accent transition-colors duration-200">
+              <a href={getMenuHref('contact') || `/${currentLang}/${currentLang === 'es' ? 'contacto' : 'contact'}`} class="font-sans text-xl hover:text-accent transition-colors duration-200">
                 {contactUs}
-              </a>
-              <a href={`/${currentLang}/brand`} class="font-sans text-xl hover:text-accent transition-colors duration-200">
-                {brand}
-              </a>
-              <a href={`/${currentLang}/shop`} class="font-sans text-xl hover:text-accent transition-colors duration-200">
-                {buy}
               </a>
             </div>
           </div>

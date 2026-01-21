@@ -1,0 +1,37 @@
+{
+  "date": "2025-09-11",
+  "id": "shucos-con-ranchitas-nacho-queso",
+  "slug": "shucos-con-ranchitas-nacho-queso",
+  "title": "Shucos con Ranchitas Nacho Queso",
+  "people": "19",
+  "difficulty": "Fácil",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/shucos-con-ranchitas-nacho-quedo.webp",
+  "gallery": [
+    "shucos-con-ranchitas-nacho-quedo.webp"
+  ],
+  "type": "image",
+  "preparation_time": 20,
+  "ingredients": [
+    "Pan de hot dog",
+    "Guacamol",
+    "Repollo picado",
+    "Cebolla y perejil picados",
+    "Salchichas",
+    "Kétchup",
+    "Mostaza",
+    "Mayonesa",
+    "Ranchitas Nacho Queso"
+  ],
+  "instructions": [
+    "Paso 1. En una parrilla, poner a tostar el pan de hot dog y las salchichas partidas por la mitad.",
+    "Paso 2. Untar el pan con guacamol, colocar el repollo, agregar Ranchitas al gusto, salchicha y por último la mayonesa, kétchup y mostaza.",
+    "Paso 3. Acompañar con cebolla en cuadritos con perejil."
+  ],
+  "brand": [
+    "ranchitas"
+  ],
+  "category": "lunch",
+  "product":[
+    "ranchitas-nacho-queso"
+  ]
+}

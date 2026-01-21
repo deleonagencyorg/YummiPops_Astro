@@ -2,6 +2,7 @@
 import SocialShareReact from './SocialShare.jsx';
 
 interface Props {
+  shareId?: string;
   url?: string;
   title: string;
   description?: string;
@@ -10,10 +11,13 @@ interface Props {
   round?: boolean;
   className?: string;
   buttonClassName?: string;
-  platforms?: ('facebook' | 'twitter' | 'whatsapp' | 'telegram')[];
+  platforms?: ('facebook' | 'twitter' | 'x' | 'instagram' | 'tiktok' | 'whatsapp' | 'telegram')[];
   labels?: {
     facebook?: string;
     twitter?: string;
+    x?: string;
+    instagram?: string;
+    tiktok?: string;
     whatsapp?: string;
     telegram?: string;
   };
@@ -21,6 +25,7 @@ interface Props {
 }
 
 const {
+  shareId,
   url,
   title,
   description = '',
@@ -45,12 +50,18 @@ const defaultLabels = {
   es: {
     facebook: 'Facebook',
     twitter: 'Twitter',
+    x: 'X',
+    instagram: 'Instagram',
+    tiktok: 'TikTok',
     whatsapp: 'WhatsApp',
     telegram: 'Telegram'
   },
   en: {
     facebook: 'Facebook',
     twitter: 'Twitter',
+    x: 'X',
+    instagram: 'Instagram',
+    tiktok: 'TikTok',
     whatsapp: 'WhatsApp',
     telegram: 'Telegram'
   }
@@ -60,17 +71,20 @@ const defaultLabels = {
 const finalLabels = labels || defaultLabels[currentLang as 'es' | 'en'];
 ---
 
-<SocialShareReact
-  client:load
-  url={shareUrl}
-  title={title}
-  description={description}
-  hashtags={hashtags}
-  iconSize={iconSize}
-  round={round}
-  className={className}
-  buttonClassName={buttonClassName}
-  platforms={platforms}
-  labels={finalLabels}
-  showLabels={showLabels}
-/>
+<div data-social-share-id={shareId || ''}>
+  <SocialShareReact
+    client:load
+    shareId={shareId}
+    url={shareUrl}
+    title={title}
+    description={description}
+    hashtags={hashtags as any}
+    iconSize={iconSize}
+    round={round}
+    className={className}
+    buttonClassName={buttonClassName}
+    platforms={platforms as any}
+    labels={finalLabels as any}
+    showLabels={showLabels}
+  />
+</div>

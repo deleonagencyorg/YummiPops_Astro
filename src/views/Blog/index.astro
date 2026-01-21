@@ -5,8 +5,6 @@ import { ViewTransitions } from 'astro:transitions';
 import MainLayout from '../../layouts/MainLayout.astro';
 import './styles.css';
 import BlogCard from '../../components/blog/BlogCard.astro';
-import LazyImage from '../../components/common/LazyImage.astro';
-import PixelGrid from '../../components/atoms/PixelGrid.astro';
 import Breadcrumb from '../../components/common/Breadcrumb/Breadcrumb.astro';
 import NewsCarousel from '../../components/blog/NewsCarousel.astro';
 import { getCategoryName } from '../../i18n/categories';
@@ -28,6 +26,15 @@ const pageTitle = currentLang === 'es' ? 'Noticias' : 'News';
 const pageDescription = currentLang === 'es' 
   ? 'Mantente al día con nuestras últimas noticias y artículos.' 
   : 'Stay updated with our latest news and articles.';
+
+const sectionKicker = currentLang === 'es' ? 'Noticias Ranchitas' : 'Ranchitas News';
+const heroTitle = currentLang === 'es' ? 'Historias, novedades y todo sobre el ' : 'Stories, news and everything about the ';
+const heroHighlight = currentLang === 'es' ? 'crunch perfecto' : 'perfect crunch';
+const heroSubtitle = currentLang === 'es'
+  ? 'Descubre el mundo detrás de tus snacks favoritos.'
+  : 'Discover the world behind your favorite snacks.';
+const emailPlaceholder = currentLang === 'es' ? 'Ingresa tu correo electrónico' : 'Enter your email address';
+const subscribeText = currentLang === 'es' ? 'Suscribirme' : 'Subscribe';
 
 // Load markdown posts for the current language
 const mdModules = import.meta.glob('../../locales/*/blog/*.md');
@@ -84,76 +91,66 @@ const leftThree = firstFive.slice(0, 3);
 const rightTwo = firstFive.slice(3, 5);
 const restPosts = allPosts.slice(5);
 ---
-<MainLayout title={pageTitle} description={pageDescription} class="bg-primary">
+<MainLayout title={pageTitle} description={pageDescription} class="bg-primaryCream">
   <ViewTransitions />
-  <div class="-mt-px -mb-px overflow-hidden pb-15" style=" background-image: url('https://snack.yummiespromociones.com/SnacksyummiesAssets/bgcontactzibas.webp'); background-size: cover; background-position: center; background-repeat: no-repeat;">
-    <div class="container mx-auto px-4 mt-0 pb-16">
-      <div class="pt-4">
-        <Breadcrumb bgColor="bg-transparent" textColor="text-white" hoverColor="hover:text-white" />
+  <div class="container">
+    <div class="container ml-[40px] mt-[40px] mr-[40px] mb-20">
+
+      <div class="pt-2">
+        <Breadcrumb bgColor="bg-transparent" textColor="text-black" hoverColor="hover:text-black" />
       </div>
-      <div class="pt-0 pb-0">
-        <div class="text-center mb-16 relative z-20 overflow-hidden">
-          <div class="absolute left-0 top-0 w-[100%] h-[100%] -z-10 pointer-events-none -ml-[250px]">
-            <PixelGrid pixelSize={20} density={0.7} introDuration={800} loopInterval={1100} mutateAmount={50} background="none" />
-          </div>
-          <h2 class="text-3xl md:text-4xl italic font-bold mt-0 mb-4 text-white relative z-10">
-            {currentLang==='es' ? 'Descubre nuestras' : 'Discover our'}
-          </h2>
-          <h1 class="text-6xl md:text-9xl italic font-bold mt-0 mb-4 text-white relative z-10 flex items-center justify-center">
-            <span class="font-title pl-2 relative z-10">{currentLang==='es' ? 'Noticias' : 'News'}</span>
-          </h1>
+
+      <!-- Header (match Recipes style + provided design) -->
+      <div class="container text-center mb-12">
+        <div class="text-orange font-bold mb-4">
+          {sectionKicker}
         </div>
-      </div>
-
-      <!-- Filter Buttons -->
-      <div id="blogFilters" class="grid grid-cols-2 gap-3 mb-8 max-w-md mx-auto md:max-w-none md:grid-cols-4 md:gap-4 md:flex md:justify-center">
-        <button type="button" class="filter-btn w-full text-center px-6 py-2 rounded-full bg-orange text-white font-bold hover:text-white hover:bg-orange-400 transition-colors border border-white" data-filter="all">{filterLabels.all}</button>
-        {categories.map((cat) => (
-          <button type="button" class="filter-btn w-full text-center px-6 py-2 rounded-full bg-orange text-white font-bold hover:text-white hover:bg-orange-400 transition-colors border border-white" data-filter={cat}>{getCategoryName(cat, currentLang).toUpperCase()}</button>
-        ))}
-      </div>
-
-      <!-- News Carousel listing 4 per slide -->
-      <div class="max-w-6xl mx-auto mb-16">
-        <NewsCarousel id="news-list" items={allPosts} currentLang={currentLang} />
+        <h1 class="text-black font-title font-bold italic leading-tight text-[44px] md:text-[72px] max-w-5xl mx-auto">
+          {heroTitle}
+          <span class="text-orange font-heading ">{heroHighlight}</span>
+        </h1>
+        <p class="text-black/70 mt-4 max-w-2xl mx-auto">
+          {heroSubtitle}
+        </p>
       </div>
 
       {allPosts.length === 0 ? (
         <div class="max-w-5xl mx-auto text-center py-12">
-          <p class="text-white text-lg md:text-xl font-semibold">{noPostsText}</p>
+          <p class="text-black text-lg md:text-xl font-semibold">{noPostsText}</p>
         </div>
       ) : (
-        <div class="max-w-7xl mx-auto">
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 items-start">
-            <!-- Left column: 3 most recent -->
-            <div class="md:col-span-2">
-              <div class="flex items-center justify-between mb-4">
-                <h3 class="text-white font-title text-lg md:text-xl font-bold uppercase tracking-wide">{topNewsLabel}</h3>
-                <div class="flex-1 ml-4 border-b border-white/40"></div>
-              </div>
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                {leftThree.map((post) => (
-                  <BlogCard image={post.image || '/images/blog/placeholder.jpg'} title={post.title} id={post.id} slug={post.slug} />
-                ))}
-              </div>
-            </div>
-
-            <!-- Right column: featured (next 2) -->
-            <div class="md:col-span-1">
-              <div class="flex items-center justify-between mb-4">
-                <h3 class="text-white font-title text-lg md:text-xl font-bold uppercase tracking-wide">{featuredLabel}</h3>
-                <div class="flex-1 ml-4 border-b border-white/40"></div>
-              </div>
-              <div class="grid grid-cols-1 gap-6">
-                {rightTwo.map((post) => (
-                  <BlogCard image={post.image || '/images/blog/placeholder.jpg'} title={post.title} id={post.id} slug={post.slug} />
-                ))}
-              </div>
-            </div>
+        <>
+          <!-- Filter Buttons -->
+          <div id="blogFilters" class="flex flex-wrap gap-3 mb-8 justify-center max-w-5xl mx-auto">
+            <button type="button" class="filter-btn text-center px-6 py-2 rounded-full bg-orange text-white font-bold hover:text-white hover:bg-orange-400 transition-colors border border-white whitespace-nowrap" data-filter="all">{filterLabels.all}</button>
+            {categories.map((cat) => (
+              <button type="button" class="filter-btn text-center px-6 py-2 rounded-full bg-orange text-white font-bold hover:text-white hover:bg-orange-400 transition-colors border border-white whitespace-nowrap" data-filter={cat}>{getCategoryName(cat, currentLang).toUpperCase()}</button>
+            ))}
           </div>
 
-        
-        </div>
+          <!-- News Carousel listing 4 per slide -->
+          <div class="max-w-6xl mx-auto mb-16">
+            <NewsCarousel id="news-list" items={allPosts} currentLang={currentLang} />
+          </div>
+
+          <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
+              {allPosts.map((post) => (
+                <div class="news-card" data-category={(post.category || 'other').toLowerCase()}>
+                  <BlogCard
+                    image={post.image || '/images/blog/placeholder.jpg'}
+                    title={post.title}
+                    summary={post.summary || ''}
+                    published_date={post.published_date || ''}
+                    id={post.id}
+                    slug={post.slug}
+                    currentLang={currentLang}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </>
       )}
     </div>
   </div>

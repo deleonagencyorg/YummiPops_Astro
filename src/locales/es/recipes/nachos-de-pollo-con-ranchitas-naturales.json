@@ -1,0 +1,42 @@
+{
+  "date": "2025-09-11",
+  "id": "nachos-de-pollo-con-ranchitas-naturales",
+  "slug": "nachos-de-pollo-con-ranchitas-naturales",
+  "title": "Nachos de Pollo con Ranchitas Naturales",
+  "people": "6",
+  "difficulty": "Avanzado",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/nachos-de-pollo-con-ranchitas.webp",
+  "gallery": [
+    "nachos-de-pollo-con-ranchitas.webp"
+  ],
+  "type": "image",
+  "preparation_time": 25,
+  "ingredients": [
+    "1 libra de pechuga de pollo cocida y desmenuzado",
+    "1 cucharada de aceite",
+    "Salpimentar al gusto",
+    "2 sobres de salsa kétchup",
+    "1/2 taza de queso mozzarella o cheddar para derretir",
+    "1 jalapeño en rodajas",
+    "1 taza de tomate en trozos",
+    "2 cucharadas de cilantro",
+    "2 cucharadas de tocino dorado picado",
+    "1 bolsa familiar de Ranchitas Naturales"
+  ],
+  "instructions": [
+    "Paso 1. Colocar en un sartén el aceite y saltear el pollo. A medida que se está cocinando el pollo sazonar con la sal y pimienta.",
+    "Paso 2. Agregar el ajo picado, la salsa que kétchup y el agua.",
+    "Paso 3. Cocinar suavemente hasta que el pollo quede semi caldoso.",
+    "Paso 4. Colocar en un plato las ranchitas naturales luego una porción de pollo encima.",
+    "Paso 5. Agregar el queso encima y llevamos a un microondas para que se derrita el queso.",
+    "Paso 6. Retiramos y agregamos encima el jalapeño, el cilantro, el tomate y el tocino."
+  ],
+  "brand": [
+    "ranchitas"
+  ],
+
+  "product":[
+    "ranchitas-naturales"
+  ],
+  "category": "dinner"
+}

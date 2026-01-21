@@ -1,16 +1,16 @@
 /* fonts.css: Fuentes para Taqueritos */
 
 @font-face {
-  font-family: 'Rockeby regular';
-  src: url('../assets/fonts/rockebycd-regular.otf') format('truetype');
+  font-family: 'Astoria Roman';
+  src: url('../assets/fonts/AstoriaRoman.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Rockeby black';
-  src: url('../assets/fonts/rockebycd-black.otf') format('truetype');
+  font-family: 'Astoria Extra Bold';
+  src: url('../assets/fonts/AstoriaExtraBold.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
   font-display: swap;
@@ -19,10 +19,10 @@
 
 /* Variables CSS para compatibilidad con código existente */
 :root {
-  --font-title: 'Rockeby black', serif;
-  --font-heading: 'Rockeby regular', serif;
-  --font-text: 'Rockeby regular', serif;
-  --font-sans: 'Rockeby regular', serif;
+  --font-title: 'Astoria Extra Bold', serif;
+  --font-heading: 'Astoria Extra Bold', serif;
+  --font-text: 'Astoria Roman', serif;
+  --font-sans: 'Astoria Roman', serif;
 }
 
 /* Clases de utilidad para usar directamente en HTML */

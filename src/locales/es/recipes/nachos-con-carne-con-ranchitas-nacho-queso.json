@@ -1,0 +1,43 @@
+{
+  "date": "2025-09-11",
+  "id": "nachos-con-carne-con-ranchitas-nacho-queso",
+  "slug": "nachos-con-carne-con-ranchitas-nacho-queso",
+  "title": "Nachos con Carne con Ranchitas Nacho Queso",
+  "people": "7",
+  "difficulty": "Avanzado",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/nachos-con-carne-con-ranchitas.webp",
+  "gallery": [
+    "nachos-con-carne-con-ranchitas.webp"
+  ],
+  "type": "image",
+  "preparation_time": 25,
+  "ingredients": [
+    "Una cucharada de aceite",
+    "Salpimentar al gusto",
+    "Una libra de carne molida",
+    "1 sofrito criollo",
+    "1/2 taza de agua",
+    "Una taza de tomate picado",
+    "Media taza de cebolla morada picada",
+    "Media taza de cilantro picado",
+    "Media taza de queso mozzarella o cheddar para derretir",
+    "1 bolsa familiar de Ranchitas Nacho Queso"
+  ],
+  "instructions": [
+    "Paso 1. Adobar la carne con la sal y pimienta.",
+    "Paso 2. Colocar la cucharada de aceite en una sartén y cocinar la carne hasta que esté bien cocida.",
+    "Paso 3. Agregar el sofrito criollo y revolver bien. Continuar agregando el agua y cocinamos suavemente hasta que la carne quede semi caldosa.",
+    "Paso 4. Mezclar el tomate, la cebolla y cilantro en un tazón. Reservamos.",
+    "Paso 5. Colocar las Ranchitas Nacho Queso en la base del plato y luego una buena porción de la carne.",
+    "Paso 6. Espolvorear el queso y llevamos a un microondas donde la derretimos.",
+    "Paso 7. Sacar y agregar de la mezcla de tomate, cebolla y cilantro encima."
+  ],
+  "brand": [
+    "ranchitas"
+  ],
+
+  "product":[
+    "ranchitas-nacho-queso"
+  ],
+  "category": "dinner"
+}

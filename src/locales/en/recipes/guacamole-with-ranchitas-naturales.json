@@ -1,0 +1,37 @@
+{
+  "date": "2025-09-11",
+  "id": "guacamole-with-ranchitas-naturales",
+  "slug": "guacamole-with-ranchitas-naturales",
+  "title": "Guacamole with Ranchitas Naturales",
+  "people": "7",
+  "difficulty": "Easy",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/guacamole-con-ranchitas-naturales.webp",
+  "gallery": [
+    "guacamole-con-ranchitas-naturales.webp"
+  ],
+  "type": "image",
+  "preparation_time": 20,
+  "ingredients": [
+    "2 medium avocados",
+    "1/2 cup finely chopped yellow onion",
+    "1/2 cup finely chopped cilantro",
+    "2 hard-boiled eggs finely chopped",
+    "2 tablespoons lemon juice",
+    "1/4 cup sour cream",
+    "Salt and pepper to taste",
+    "1 family-size bag of Ranchitas Naturales"
+  ],
+  "instructions": [
+    "Step 1. Cut the avocados in half, remove the pit, and mash the flesh with a spoon or fork until it forms a purée. Place in a bowl.",
+    "Step 2. Add the onion, cilantro, eggs, lemon juice, and sour cream to the bowl with the avocado.",
+    "Step 3. Mix all the ingredients well until a uniform mixture forms.",
+    "Step 4. Enjoy with Ranchitas Naturales."
+  ],
+  "brand": [
+    "ranchitas"
+  ],
+  "product":[
+    "ranchitas-naturales"
+  ],
+  "category": "snack"
+}

@@ -15,7 +15,7 @@ interface Props {
 const { currentLang } = Astro.props;
 
 // Get current locale if not provided
-const locale = currentLang || getLocale(Astro.url);
+const locale = currentLang || getLocale();
 
 // Get contact data from locale
 const contact = locale === 'es' ? contactEs : contactEn;
@@ -150,7 +150,8 @@ const options = dynamicOptions[locale];
         name="country" 
         id="countrySelect"
         required
-        class="w-full font-semibold uppercase flex justify-center text-white items-center gap-5 p-[15px_20px] border-[1.5px] border-white rounded-full bg-orange focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+        disabled
+        class="w-full font-semibold uppercase flex justify-center text-white items-center gap-5 p-[15px_20px] border-[1.5px] border-white rounded-full bg-orange focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <option value="">{countryPlaceholder}</option>
       </select>
@@ -261,9 +262,59 @@ const options = dynamicOptions[locale];
   buttonText={locale === 'es' ? "Cerrar" : "Close"}
 />
 
-<script define:vars={{ departmentPlaceholder, countryPlaceholder, labels, options, locale, apiHost, apiToken, contactFormPath }}>
-  // Countries data
-  const countriesData = {
+<script is:inline data-department-placeholder={departmentPlaceholder} data-country-placeholder={countryPlaceholder} data-locale={locale} data-api-host={apiHost} data-api-token={apiToken} data-contact-form-path={contactFormPath}>
+  (function() {
+    // Get script data attributes
+    const scriptTag = document.currentScript;
+    const departmentPlaceholder = scriptTag?.getAttribute('data-department-placeholder') || 'Primero selecciona un país';
+    const countryPlaceholder = scriptTag?.getAttribute('data-country-placeholder') || 'Selecciona tu país';
+    const locale = scriptTag?.getAttribute('data-locale') || 'es';
+    const apiHost = scriptTag?.getAttribute('data-api-host') || 'https://api-crm.yummiespromociones.com/api';
+    const apiToken = scriptTag?.getAttribute('data-api-token') || '';
+    const contactFormPath = scriptTag?.getAttribute('data-contact-form-path') || '/api/v1/auth/email/custom';
+    
+    // Dynamic labels based on language
+    const labels = locale === 'es' ? {
+      clientCode: 'Código de Cliente',
+      areaOfInterest: 'Área de Interés',
+      message: 'Mensaje',
+      requestType: 'Tipo de Solicitud',
+      interest: 'Interés',
+      question: 'Pregunta o Solicitud',
+      comments: 'Comentarios',
+      file: 'Adjuntar Archivo',
+      fileHelp: 'PDF, JPG, PNG (máx. 10MB)',
+      areaOfInterestSupplier: 'Área de Interés',
+      commentsEthics: 'Escribe tus comentarios. Si eres empleado Dinant especifica tu cargo'
+    } : {
+      clientCode: 'Client Code',
+      areaOfInterest: 'Area of Interest',
+      message: 'Message',
+      requestType: 'Request Type',
+      interest: 'Interest',
+      question: 'Question or Request',
+      comments: 'Comments',
+      file: 'Attach File',
+      fileHelp: 'PDF, JPG, PNG (max. 10MB)',
+      areaOfInterestSupplier: 'Area of Interest',
+      commentsEthics: 'Write your comments. If you are a Dinant employee specify your position'
+    };
+    
+    // Dynamic options based on language
+    const options = locale === 'es' ? {
+      clientAreaOfInterest: ['Sugerencias', 'Consultas', 'Reclamo'],
+      requestTypes: ['Para consumo propio', 'Pulpería', 'Mini Mercado', 'Abastecedor', 'Otros'],
+      exportInterests: ['Quiero ser distribuidor', 'Deseo producto para consumo personal'],
+      journalistAreas: ['Presidencia Ejecutiva', 'Mercadeo', 'Relaciones Corporativas']
+    } : {
+      clientAreaOfInterest: ['Suggestions', 'Inquiries', 'Complaint'],
+      requestTypes: ['For personal consumption', 'Small store', 'Mini Market', 'Supplier', 'Others'],
+      exportInterests: ['I want to be a distributor', 'I want product for personal consumption'],
+      journalistAreas: ['Executive Presidency', 'Marketing', 'Corporate Relations']
+    };
+    
+    // Countries data
+    const countriesData = {
     'Guatemala': [
       'Guatemala', 'Alta Verapaz', 'Baja Verapaz', 'Chimaltenango', 'Chiquimula',
       'El Progreso', 'Escuintla', 'Huehuetenango', 'Izabal', 'Jalapa',
@@ -360,8 +411,18 @@ const options = dynamicOptions[locale];
       const template = getTemplateByContactReason(formData.contactReason);
       multipartData.append('template', template);
       multipartData.append('site', "Ranchitas");
+
+      // Prepare data with required prefixes for specific fields
+      const dataToSend = { ...formData };
+      if (dataToSend.dynamicOrPromotion) {
+        dataToSend.dynamicOrPromotion = `Dinámica o promoción: ${dataToSend.dynamicOrPromotion}`;
+      }
+      if (dataToSend.award) {
+        dataToSend.award = `Premio adjudicado: ${dataToSend.award}`;
+      }
+
       // Add all form fields according to the API structure
-      Object.entries(formData).forEach(([key, value]) => {
+      Object.entries(dataToSend).forEach(([key, value]) => {
         if (value !== undefined && value !== null && value !== '') {
           if (key === 'file' && value instanceof File) {
             // Add file with proper field name for attachments
@@ -460,6 +521,16 @@ const options = dynamicOptions[locale];
     contactReasonSelect.onchange = function() {
       const selectedReason = this.value;
       console.log('Contact reason changed to:', selectedReason);
+      
+      // Enable country selector when a contact reason is selected
+      if (selectedReason && countrySelect) {
+        countrySelect.disabled = false;
+        countrySelect.classList.remove('disabled:opacity-50', 'disabled:cursor-not-allowed');
+      } else if (countrySelect) {
+        countrySelect.disabled = true;
+        countrySelect.classList.add('disabled:opacity-50', 'disabled:cursor-not-allowed');
+      }
+      
       updateDynamicFields(selectedReason);
     };
 
@@ -567,15 +638,10 @@ const options = dynamicOptions[locale];
     }
   }
 
-  // Initialize on DOMContentLoaded (initial page load)
-  document.addEventListener('DOMContentLoaded', initFormFunctionality);
-  
-  // Also initialize on astro:page-load (for client-side navigation)
-  document.addEventListener('astro:page-load', initFormFunctionality);
-
   // Function to update dynamic fields based on contact reason
   function updateDynamicFields(contactReason) {
-    if (!dynamicFields) {
+    const dynamicFieldsContainer = document.getElementById('dynamicFields');
+    if (!dynamicFieldsContainer) {
       console.error('Dynamic fields container not found');
       return;
     }
@@ -583,7 +649,13 @@ const options = dynamicOptions[locale];
     console.log('Updating dynamic fields for reason:', contactReason);
     
     // Clear existing dynamic fields
-    dynamicFields.innerHTML = '';
+    dynamicFieldsContainer.innerHTML = '';
+
+    // Reset phone requirement by default
+    const phoneInputReset = document.querySelector('input[name="phone"]');
+    if (phoneInputReset) {
+      phoneInputReset.required = false;
+    }
     
     // Handle redirect case
     if (contactReason === 'Enviar Hoja de vida') {
@@ -627,12 +699,13 @@ const options = dynamicOptions[locale];
 
   // Field creation functions
   function createClientFields() {
-    if (!labels || !options) {
+    const dynamicFieldsContainer = document.getElementById('dynamicFields');
+    if (!dynamicFieldsContainer || !labels || !options) {
       console.error('Labels or options not available');
       return;
     }
     
-    dynamicFields.innerHTML = `
+    dynamicFieldsContainer.innerHTML = `
       <div>
         <label class="block text-white font-medium mb-2">${labels.clientCode}</label>
         <input type="text" name="clientCode" class="w-full px-4 py-3 border-[1.5px] border-white rounded-lg bg-[#F04F00] text-white focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
@@ -657,9 +730,10 @@ const options = dynamicOptions[locale];
   }
 
   function createProspectiveClientFields() {
-    if (!labels || !options) return;
+    const dynamicFieldsContainer = document.getElementById('dynamicFields');
+    if (!dynamicFieldsContainer || !labels || !options) return;
     
-    dynamicFields.innerHTML = `
+    dynamicFieldsContainer.innerHTML = `
       <div>
         <label class="block text-white font-medium mb-2">${labels.requestType} *</label>
         <select name="requestType" required class="w-full px-4 py-3 border-[1.5px] border-white rounded-lg bg-[#F04F00] text-white focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
@@ -676,9 +750,10 @@ const options = dynamicOptions[locale];
   }
 
   function createExportsFields() {
-    if (!labels || !options) return;
+    const dynamicFieldsContainer = document.getElementById('dynamicFields');
+    if (!dynamicFieldsContainer || !labels || !options) return;
     
-    dynamicFields.innerHTML = `
+    dynamicFieldsContainer.innerHTML = `
       <div>
         <label class="block text-white font-medium mb-2">${labels.interest} *</label>
         <select name="interest" required class="w-full px-4 py-3 border-[1.5px] border-white rounded-lg bg-[#F04F00] text-white focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
@@ -690,9 +765,10 @@ const options = dynamicOptions[locale];
   }
 
   function createSupplierFields() {
-    if (!labels) return;
+    const dynamicFieldsContainer = document.getElementById('dynamicFields');
+    if (!dynamicFieldsContainer || !labels) return;
     
-    dynamicFields.innerHTML = `
+    dynamicFieldsContainer.innerHTML = `
       <div>
         <label class="block text-white font-medium mb-2">${labels.areaOfInterestSupplier} *</label>
         <input type="text" name="areaOfInterest" required class="w-full px-4 py-3 border-[1.5px] border-white rounded-lg bg-[#F04F00] text-white focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
@@ -706,9 +782,10 @@ const options = dynamicOptions[locale];
   }
 
   function createStudentFields() {
-    if (!labels) return;
+    const dynamicFieldsContainer = document.getElementById('dynamicFields');
+    if (!dynamicFieldsContainer || !labels) return;
     
-    dynamicFields.innerHTML = `
+    dynamicFieldsContainer.innerHTML = `
       <div>
         <label class="block text-white font-medium mb-2">${labels.question} *</label>
         <textarea name="question" required rows="4" class="w-full px-4 py-3 border-[1.5px] border-white rounded-lg bg-[#F04F00] text-white focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"></textarea>
@@ -722,9 +799,10 @@ const options = dynamicOptions[locale];
   }
 
   function createJournalistFields() {
-    if (!labels || !options) return;
+    const dynamicFieldsContainer = document.getElementById('dynamicFields');
+    if (!dynamicFieldsContainer || !labels || !options) return;
     
-    dynamicFields.innerHTML = `
+    dynamicFieldsContainer.innerHTML = `
       <div>
         <label class="block text-white font-medium mb-2">${labels.areaOfInterest} *</label>
         <select name="areaOfInterest" required class="w-full px-4 py-3 border-[1.5px] border-white rounded-lg bg-[#F04F00] text-white focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all">
@@ -740,9 +818,10 @@ const options = dynamicOptions[locale];
   }
 
   function createEthicsLineFields() {
-    if (!labels) return;
+    const dynamicFieldsContainer = document.getElementById('dynamicFields');
+    if (!dynamicFieldsContainer || !labels) return;
     
-    dynamicFields.innerHTML = `
+    dynamicFieldsContainer.innerHTML = `
       <div>
         <label class="block text-white font-medium mb-2">${labels.comments || 'Comentarios'} *</label>
         <textarea name="message" required rows="4" class="w-full px-4 py-3 border-[1.5px] border-white rounded-lg bg-[#F04F00] text-white focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"></textarea>
@@ -757,11 +836,12 @@ const options = dynamicOptions[locale];
   }
   
   function createWinnerFields() {
-    if (!labels) return;
+    const dynamicFieldsContainer = document.getElementById('dynamicFields');
+    if (!dynamicFieldsContainer || !labels) return;
     
     // Solo disponible en español
     if (locale !== 'es') {
-      dynamicFields.innerHTML = `
+      dynamicFieldsContainer.innerHTML = `
         <div class="alert alert-info">
           <p>Esta opción solo está disponible en español.</p>
         </div>
@@ -769,22 +849,40 @@ const options = dynamicOptions[locale];
       return;
     }
     
-    dynamicFields.innerHTML = `
+    dynamicFieldsContainer.innerHTML = `
       <div>
-        <label class="block text-white font-medium mb-2">Dinámica o promoción en la que ganó *</label>
-        <input type="text" name="dynamicOrPromotion" required class="w-full px-4 py-3 border-[1.5px] border-white rounded-lg bg-[#F04F00] text-white focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+        <label class="block text-white uppercase font-semibold mb-2">Dinámica o promoción en la que ganó *</label>
+        <input type="text" name="dynamicOrPromotion" required class="w-full px-4 py-3 border-[1.5px] border-white rounded-full placeholder:text-white bg-orange text-white uppercase focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
       </div>
       <div>
-        <label class="block text-white font-medium mb-2">Premio adjudicado *</label>
-        <input type="text" name="award" required class="w-full px-4 py-3 border-[1.5px] border-white rounded-lg bg-[#F04F00] text-white focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+        <label class="block text-white uppercase font-semibold mb-2">Premio adjudicado *</label>
+        <input type="text" name="award" required class="w-full px-4 py-3 border-[1.5px] border-white rounded-full placeholder:text-white bg-orange text-white uppercase focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+      </div>
+      <div>
+        <label class="block text-white uppercase font-semibold mb-2">${labels.file}</label>
+        <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png" class="w-full px-4 py-3 border-[1.5px] border-white rounded-full bg-orange text-white uppercase file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-white file:text-orange file:font-bold focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all" />
+        <p class="text-sm text-white mt-2">${labels.fileHelp}</p>
       </div>
     `;
+
+    // Make phone required for winners
+    const phoneInput = document.querySelector('input[name="phone"]');
+    if (phoneInput) {
+      phoneInput.required = true;
+    }
+
+    // Update message placeholder with example text
+    const messageTextarea = document.querySelector('textarea[name="message"]');
+    if (messageTextarea) {
+      messageTextarea.placeholder = 'Escribe la promoción en la que ganaste o detalla el premio que ganaste. Ej: PS5, giftcards, etc.';
+    }
   }
 
   function createOthersFields() {
-    if (!labels) return;
+    const dynamicFieldsContainer = document.getElementById('dynamicFields');
+    if (!dynamicFieldsContainer || !labels) return;
     
-    dynamicFields.innerHTML = `
+    dynamicFieldsContainer.innerHTML = `
       <div>
         <label class="block text-white font-medium mb-2">${labels.message}</label>
         <textarea name="message" rows="4" class="w-full px-4 py-3 border-[1.5px] border-white rounded-lg bg-[#F04F00] text-white focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"></textarea>
@@ -796,4 +894,18 @@ const options = dynamicOptions[locale];
       </div>
     `;
   }
+
+  // Initialize on DOMContentLoaded (initial page load)
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFormFunctionality);
+  } else {
+    initFormFunctionality();
+  }
+  
+  // Also initialize on astro:page-load (for client-side navigation)
+  document.addEventListener('astro:page-load', initFormFunctionality);
+  
+  // Backup initialization
+  setTimeout(initFormFunctionality, 100);
+})();
 </script>

@@ -241,7 +241,7 @@
             "title": "Ranchitas",
             "url": "https://ranchitas.com",
             "alt": "Ranchitas",
-            "products": [
+             "products": [
                 {
                     "id": "ranchitas-nacho-exitante",
                     "slug": "ranchitas-nacho-exitante",
@@ -290,6 +290,18 @@
                     "title": "Ranchitas Buffalo Ranch",
                     "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/ranchitas-buffalo-ranch-2.webp",
                     "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/ranchitas-buffalo-ranch-2.webp"
+                },                {
+                    "id": "ranchitas-chile-toreado",
+                    "slug": "ranchitas-chile-toreado",
+                    "title": "Ranchitas Chile Toreado",
+                    "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/Ranchita_Chile_Toreano.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/Ranchita_Chile_Toreano.webp"
+                },                {
+                    "id": "ranchitas-naturales",
+                    "slug": "ranchitas-naturales",
+                    "title": "Ranchitas Naturales",
+                    "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/Ranchitas-Naturales.webp",
+                    "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/Ranchitas-Naturales.webp"
                 }
                 
             ]

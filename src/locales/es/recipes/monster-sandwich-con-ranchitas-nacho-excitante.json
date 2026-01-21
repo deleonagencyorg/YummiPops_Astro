@@ -1,0 +1,39 @@
+{
+  "date": "2025-09-11",
+  "id": "monster-sandwich-con-ranchitas-nacho-excitante",
+  "slug": "monster-sandwich-con-ranchitas-nacho-excitante",
+  "title": "Monater Sandwitch con Ranchitas Nacho Excitente",
+  "people": "11",
+  "difficulty": "Fácil",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/monster-sandwich-con-ranchitas.webp",
+  "gallery": [
+    "monster-sandwich-con-ranchitas.webp"
+  ],
+  "type": "image",
+  "preparation_time": 20,
+  "ingredients": [
+    "1 porción de Pan Sándwich",
+    "1 porción de jamón",
+    "1 porción de queso",
+    "1 Aguacate",
+    "Lechuga",
+    "1 Tomate rodajeado",
+    "Salsa Kétchup, Mostaza, Mayonesa u otra a elección",
+    "Ranchitas Nacho Excitante"
+  ],
+  "instructions": [
+    "Paso 1. Toma un Sándwich y colócale Mayonesa, Mostaza y Kétchup (u otra salsa a elección).",
+    "Paso 2. Desinfecta la Lechuga sobre un recipiente con sal y deja reposar por 5 minutos. Después, parte pequeñas piezas de lechuga.",
+    "Paso 3. Coloca sobre el pan una pequeña pieza de lechuga. Y agrega un par de tomates rodajeados.",
+    "Paso 4. Agrega jamón y queso. Y coloca Ranchitas Nacho Excitante.",
+    "Paso 5. Repite el mismo proceso hasta tener un Monster Sándwich."
+  ],
+  "brand": [
+    "ranchitas"
+  ],
+
+  "product":[
+    "ranchitas-nacho-excitante"
+  ],
+  "category": "lunch"
+}

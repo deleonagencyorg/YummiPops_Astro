@@ -1,0 +1,245 @@
+---
+import { type Locale, t } from '../../i18n/i18n';
+import QuizGame from './QuizGame.jsx';
+
+interface Props {
+  currentLang: Locale;
+}
+
+const { currentLang } = Astro.props;
+
+const quizData = await import(`../../locales/${currentLang}/quiz.json`);
+const productsData = await import(`../../locales/${currentLang}/products.json`);
+
+const products = (productsData as any)?.items ?? [];
+
+const recipeModules = import.meta.glob<{ default: any }>(`../../locales/*/recipes/*.json`);
+const recipes: any[] = [];
+
+for (const path in recipeModules) {
+  const lang = path.split('/')[3];
+  if (lang === currentLang) {
+    const mod = await recipeModules[path]();
+    if (mod?.default) recipes.push(mod.default);
+  }
+}
+
+const shareId = `quiz-share-${currentLang}`;
+---
+
+<div id="quiz-modal" class="fixed inset-0 z-[9999] hidden bg-black bg-opacity-40 backdrop-blur-md">
+  <div class="h-screen w-screen">
+    <div class="relative bg-[#0041CD] w-full h-full overflow-y-auto overflow-x-hidden overscroll-contain">
+      <div class="quiz-bg" aria-hidden="true">
+        <svg class="quiz-bg__item quiz-bg__item--1" xmlns="http://www.w3.org/2000/svg" width="92" height="165" viewBox="0 0 92 165" fill="none">
+          <path d="M27.375 136.875H54.75V164.25H27.375V136.875ZM91.25 18.25V73H82.125V82.125H73V91.25H54.75V109.5H27.375V82.125H36.5V73H54.75V63.875H63.875V27.375H27.375V36.5H18.25V45.625H0V18.25H9.125V9.125H18.25V0H73V9.125H82.125V18.25H91.25Z" fill="#0F0F0F" fill-opacity="0.17"/>
+        </svg>
+        <svg class="quiz-bg__item quiz-bg__item--2" xmlns="http://www.w3.org/2000/svg" width="92" height="165" viewBox="0 0 92 165" fill="none">
+          <path d="M27.375 136.875H54.75V164.25H27.375V136.875ZM91.25 18.25V73H82.125V82.125H73V91.25H54.75V109.5H27.375V82.125H36.5V73H54.75V63.875H63.875V27.375H27.375V36.5H18.25V45.625H0V18.25H9.125V9.125H18.25V0H73V9.125H82.125V18.25H91.25Z" fill="#0F0F0F" fill-opacity="0.17"/>
+        </svg>
+        <svg class="quiz-bg__item quiz-bg__item--3" xmlns="http://www.w3.org/2000/svg" width="92" height="165" viewBox="0 0 92 165" fill="none">
+          <path d="M27.375 136.875H54.75V164.25H27.375V136.875ZM91.25 18.25V73H82.125V82.125H73V91.25H54.75V109.5H27.375V82.125H36.5V73H54.75V63.875H63.875V27.375H27.375V36.5H18.25V45.625H0V18.25H9.125V9.125H18.25V0H73V9.125H82.125V18.25H91.25Z" fill="#0F0F0F" fill-opacity="0.17"/>
+        </svg>
+        <svg class="quiz-bg__item quiz-bg__item--4" xmlns="http://www.w3.org/2000/svg" width="92" height="165" viewBox="0 0 92 165" fill="none">
+          <path d="M27.375 136.875H54.75V164.25H27.375V136.875ZM91.25 18.25V73H82.125V82.125H73V91.25H54.75V109.5H27.375V82.125H36.5V73H54.75V63.875H63.875V27.375H27.375V36.5H18.25V45.625H0V18.25H9.125V9.125H18.25V0H73V9.125H82.125V18.25H91.25Z" fill="#0F0F0F" fill-opacity="0.17"/>
+        </svg>
+        <svg class="quiz-bg__item quiz-bg__item--5" xmlns="http://www.w3.org/2000/svg" width="92" height="165" viewBox="0 0 92 165" fill="none">
+          <path d="M27.375 136.875H54.75V164.25H27.375V136.875ZM91.25 18.25V73H82.125V82.125H73V91.25H54.75V109.5H27.375V82.125H36.5V73H54.75V63.875H63.875V27.375H27.375V36.5H18.25V45.625H0V18.25H9.125V9.125H18.25V0H73V9.125H82.125V18.25H91.25Z" fill="#0F0F0F" fill-opacity="0.17"/>
+        </svg>
+        <svg class="quiz-bg__item quiz-bg__item--6" xmlns="http://www.w3.org/2000/svg" width="92" height="165" viewBox="0 0 92 165" fill="none">
+          <path d="M27.375 136.875H54.75V164.25H27.375V136.875ZM91.25 18.25V73H82.125V82.125H73V91.25H54.75V109.5H27.375V82.125H36.5V73H54.75V63.875H63.875V27.375H27.375V36.5H18.25V45.625H0V18.25H9.125V9.125H18.25V0H73V9.125H82.125V18.25H91.25Z" fill="#0F0F0F" fill-opacity="0.17"/>
+        </svg>
+      </div>
+
+      <button
+        id="quiz-modal-close"
+        type="button"
+        class="absolute top-6 right-6 z-10 w-12 h-12 rounded-full bg-white/15 hover:bg-white/20 flex items-center justify-center transition border border-white/20"
+        aria-label="Cerrar"
+      >
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+
+      <div class="relative z-10 w-full max-w-5xl mx-auto p-4 pt-20 sm:pt-6 md:p-6 lg:p-8">
+        <QuizGame
+          client:load
+          lang={currentLang}
+          quizData={(quizData as any).default || (quizData as any)}
+          products={products}
+          recipes={recipes}
+          shareId={shareId}
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    function portalModalToBody() {
+      const modal = document.getElementById('quiz-modal');
+      if (!modal) return;
+      if (modal.parentElement !== document.body) {
+        document.body.appendChild(modal);
+      }
+    }
+
+    let scrollY = 0;
+
+    function lockScroll() {
+      scrollY = window.scrollY || 0;
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.left = '0';
+      document.body.style.right = '0';
+      document.body.style.width = '100%';
+    }
+
+    function unlockScroll() {
+      document.documentElement.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      document.body.style.width = '';
+      window.scrollTo(0, scrollY);
+    }
+
+    function openQuizModal() {
+      portalModalToBody();
+      const modal = document.getElementById('quiz-modal');
+      if (!modal) return;
+      modal.classList.remove('hidden');
+      lockScroll();
+    }
+
+    function closeQuizModal() {
+      const modal = document.getElementById('quiz-modal');
+      if (!modal) return;
+      modal.classList.add('hidden');
+      unlockScroll();
+    }
+
+    const closeBtn = document.getElementById('quiz-modal-close');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', closeQuizModal);
+    }
+
+    const modal = document.getElementById('quiz-modal');
+    if (modal) {
+      modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+          closeQuizModal();
+        }
+      });
+    }
+
+    portalModalToBody();
+    window.openQuizModal = openQuizModal;
+    window.closeQuizModal = closeQuizModal;
+  })();
+</script>
+
+<style>
+  .quiz-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .quiz-bg__item {
+    position: absolute;
+    width: 92px;
+    height: 165px;
+    opacity: 0.7;
+    transform-origin: center;
+    will-change: transform;
+    --dx: 10px;
+    --dy: 14px;
+    --r0: -6deg;
+    --r1: 10deg;
+    animation: quizFloat 12s ease-in-out infinite;
+  }
+
+  .quiz-bg__item--1 {
+    top: 8%;
+    left: 6%;
+    animation-duration: 13s;
+    --dx: 10px;
+    --dy: 14px;
+    --r0: -8deg;
+    --r1: 10deg;
+  }
+
+  .quiz-bg__item--2 {
+    top: 12%;
+    right: 10%;
+    animation-duration: 15s;
+    animation-delay: -3s;
+    --dx: -12px;
+    --dy: 16px;
+    --r0: 10deg;
+    --r1: -12deg;
+  }
+
+  .quiz-bg__item--3 {
+    top: 42%;
+    left: 12%;
+    animation-duration: 14s;
+    animation-delay: -6s;
+    --dx: 14px;
+    --dy: 12px;
+    --r0: -10deg;
+    --r1: 12deg;
+  }
+
+  .quiz-bg__item--4 {
+    top: 55%;
+    right: 6%;
+    animation-duration: 16s;
+    animation-delay: -9s;
+    --dx: -10px;
+    --dy: 18px;
+    --r0: 12deg;
+    --r1: -14deg;
+  }
+
+  .quiz-bg__item--5 {
+    bottom: 10%;
+    left: 22%;
+    animation-duration: 17s;
+    animation-delay: -4s;
+    --dx: 12px;
+    --dy: 16px;
+    --r0: -14deg;
+    --r1: 16deg;
+  }
+
+  .quiz-bg__item--6 {
+    bottom: 6%;
+    right: 18%;
+    animation-duration: 18s;
+    animation-delay: -11s;
+    --dx: -14px;
+    --dy: 12px;
+    --r0: 8deg;
+    --r1: -10deg;
+  }
+
+  @keyframes quizFloat {
+    0% {
+      transform: translate3d(0, 0, 0) rotate(var(--r0));
+    }
+    50% {
+      transform: translate3d(var(--dx), calc(var(--dy) * -1), 0) rotate(var(--r1));
+    }
+    100% {
+      transform: translate3d(0, 0, 0) rotate(var(--r0));
+    }
+  }
+</style>

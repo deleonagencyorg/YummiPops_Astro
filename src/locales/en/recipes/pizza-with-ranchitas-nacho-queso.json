@@ -1,0 +1,43 @@
+{
+  "date": "2025-09-11",
+  "id": "pizza-with-ranchitas-nacho-queso",
+  "slug": "pizza-with-ranchitas-nacho-queso",
+  "title": "Pizza with Ranchitas Nacho Queso",
+  "people": "29",
+  "difficulty": "Medium",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/pizza-con-ranchitas-nacho-queso.webp",
+  "gallery": [
+    "pizza-con-ranchitas-nacho-queso.webp"
+  ],
+  "type": "image",
+  "preparation_time": 60,
+  "ingredients": [
+    "2 ½ cups flour",
+    "1 packet instant yeast",
+    "1 tablespoon sugar",
+    "1 teaspoon salt",
+    "3 tablespoons olive oil",
+    "1 cup hot water",
+    "1 ½ cups crushed Ranchitas Nacho queso",
+    "For the pizza:",
+    "Tomato sauce",
+    "Pizza cheese blend",
+    "Pepperoni",
+    "Salt and pepper"
+  ],
+  "instructions": [
+    "Step 1. Using a hand mixer, mix one cup of flour with the rest of the ingredients. Once combined, gradually add the remaining flour until a crumbly texture forms.",
+    "Step 2. Finish kneading by hand without over-kneading.",
+    "Step 3. Cover and let rise for 30 minutes.",
+    "Step 4. Then divide the dough in two, add the Ranchitas, flatten, and place on a pizza tray lined with parchment paper.",
+    "Step 5. Add tomato sauce and bake for 8 minutes at 475°F.",
+    "Step 6. Remove from the oven, add the rest of the toppings, and bake for another 8 minutes."
+  ],
+  "brand": [
+    "ranchitas"
+  ],
+  "product":[
+    "ranchitas-nacho-queso"
+  ],
+  "category": "dinner"
+}

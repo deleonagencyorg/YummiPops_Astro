@@ -1,0 +1,83 @@
+---
+import { type Locale, t } from '../../i18n/i18n';
+import QuizGame from '../../components/quiz/QuizGame.jsx';
+import SocialShare from '../../components/common/SocialShare.astro';
+
+interface Props {
+  currentLang: Locale;
+}
+
+const { currentLang } = Astro.props;
+
+const quizData = await import(`../../locales/${currentLang}/quiz.json`);
+const productsData = await import(`../../locales/${currentLang}/products.json`);
+
+const products = (productsData as any)?.items ?? [];
+
+const recipeModules = import.meta.glob<{ default: any }>(`../../locales/*/recipes/*.json`);
+const recipes: any[] = [];
+
+for (const path in recipeModules) {
+  const lang = path.split('/')[3];
+  if (lang === currentLang) {
+    const mod = await recipeModules[path]();
+    if (mod?.default) recipes.push(mod.default);
+  }
+}
+
+const shareId = `quiz-share-${currentLang}`;
+---
+
+<div class="relative">
+  <QuizGame
+    client:load
+    lang={currentLang}
+    quizData={(quizData as any).default || (quizData as any)}
+    products={products}
+    recipes={recipes}
+    shareId={shareId}
+  />
+
+  <div class="hidden">
+    <SocialShare
+      shareId={shareId}
+      url={Astro.url.href}
+      title={t('cardQuiz.title', { namespace: 'common', locale: currentLang }) as string}
+      description={t('cardQuiz.description1', { namespace: 'common', locale: currentLang }) as string}
+      platforms={['facebook','twitter','whatsapp','telegram']}
+      showLabels={true}
+      round={true}
+      iconSize={40}
+      className=""
+    />
+  </div>
+
+  <script is:inline>
+    (function () {
+      function mountShareIntoSlot() {
+        const slot = document.querySelector('[data-share-id]');
+        if (!slot) return;
+
+        const shareId = slot.getAttribute('data-share-id');
+        if (!shareId) return;
+
+        const shareRoot = document.querySelector('[data-social-share-id="' + shareId + '"]');
+        if (!shareRoot) return;
+
+        if (slot.childElementCount === 0) {
+          slot.appendChild(shareRoot);
+        }
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', mountShareIntoSlot);
+      } else {
+        mountShareIntoSlot();
+      }
+
+      document.addEventListener('astro:page-load', mountShareIntoSlot);
+
+      window.addEventListener('quiz:share-update', mountShareIntoSlot);
+    })();
+  </script>
+</div>

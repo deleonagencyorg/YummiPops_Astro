@@ -33,6 +33,11 @@ export const onRequest = defineMiddleware(async ({ request, redirect }, next) =>
     return redirect('/en');
   }
 
+  // Permitir rutas estáticas que no están en routesConfig
+  if (section === 'quiz') {
+    return next();
+  }
+
   // Verificar si la ruta existe en la configuración
   const routeExists = findRouteBySlug(lang, section);
   

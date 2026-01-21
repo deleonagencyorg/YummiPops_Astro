@@ -46,11 +46,11 @@ const headerColors = {
     
 
     <!-- Main Contact Section -->
-    <div class="flex flex-col justify-center px-4 items-start lg:flex-row gap-12 py-12 bg-primaryCream">
+    <div class="flex flex-col justify-center px-4 items-center lg:items-start lg:flex-row gap-12 py-12 bg-primaryCream">
       
       <!-- Left Column - Contact Info -->
    
-    <div class="w-[100%] lg:w-[50%] pl-8 lg:pl-2 flex flex-col justify-center h-[100%] lg:h-[600px] ">
+    <div class="w-[100%] lg:w-[50%] pl-8 lg:pl-2 flex flex-col justify-center items-center lg:items-start text-center lg:text-left h-[100%] lg:h-[600px] ">
         <div class="text-[#F99F33] pb-4 text-[20px]">
           {contact.title}
         </div>
@@ -78,10 +78,10 @@ const headerColors = {
     <!-- Offices Section -->
     <div class="mx-auto bg-blue p-8 z-30 relative">
 
-      <h3 class="text-black md:text-4xl text-[45px] italic font-title uppercase font-bold mb-4 gap-1 pl-[40px]">
+      <h3 class="text-black md:text-4xl text-[45px] italic font-title uppercase font-bold mb-4 gap-1 text-center">
         <span class="font-title">{contact.offices.title.split(' ')[0]} {contact.offices.title.split(' ')[1]}</span>
       </h3>
-      <h1 class="text-black md:text-4xl text-[45px] italic font-title uppercase font-bold mb-4 gap-1 pl-[40px]">
+      <h1 class="text-black md:text-4xl text-[45px] italic font-title uppercase font-bold mb-4 gap-1 text-center">
         <span class="font-title">{contact.offices.title.split(' ').slice(2).join(' ')}</span>
       </h1>
       
@@ -179,144 +179,92 @@ const headerColors = {
       </div>
     </div>
 
-    <script define:vars={{ contactLocations: contact.offices.locations }}>
-      // Función que se ejecutará cuando el DOM esté listo o cuando se llame manualmente
-      function initializeCountryTabs() {
-        // Get references to all elements that need to be updated
-        const tabs = document.querySelectorAll('.country-tab');
-        const officeName = document.getElementById('officeName');
-        const officeAddress = document.getElementById('officeAddress');
-        const officePhones = document.getElementById('officePhones');
-        const officeEmail = document.getElementById('officeEmail');
-        const officeImage = document.getElementById('officeImage');
-        
-        // Get all map containers
-        const mapContainers = document.querySelectorAll('[data-map-country]');
-        
-        // Contact data is directly available from Astro's define:vars
-        const contactData = contactLocations;
-        
-        // For debugging
-        console.log('Contact locations:', contactData);
-        console.log('Tabs found:', tabs.length);
-        console.log('Map containers found:', mapContainers.length);
-        
-        // Function to update office information
-        function updateOfficeInfo(countryCode) {
-          console.log('Updating office for:', countryCode);
-          const office = contactData[countryCode];
+    <script is:inline>
+      (function() {
+        // Función que se ejecutará cuando el DOM esté listo
+        function initializeCountryTabs() {
+          console.log('Initializing country tabs...');
           
-          if (!office) {
-            console.error('No office data found for', countryCode);
+          // Get references to all elements that need to be updated
+          const tabs = document.querySelectorAll('.country-tab');
+          const mapContainers = document.querySelectorAll('[data-map-country]');
+          
+          console.log('Tabs found:', tabs.length);
+          console.log('Map containers found:', mapContainers.length);
+          
+          if (tabs.length === 0) {
+            console.error('No tabs found');
             return;
           }
           
-          console.log('Office data:', office);
-          
-          // Update text content and attributes
-          if (officeName) officeName.textContent = office.name;
-          if (officeAddress) officeAddress.textContent = `+ ${office.address}`;
-          
-          // Update phone numbers
-          if (officePhones) {
-            officePhones.innerHTML = '';
+          // Function to update map visibility
+          function updateMapVisibility(countryCode) {
+            console.log('Updating map for country:', countryCode);
             
-            // Luego añadir los teléfonos
-            office.phones.forEach(phone => {
-              const phoneContainer = document.createElement('div');
-              const phoneLink = document.createElement('a');
-              phoneLink.href = `tel:${phone}`;
-              phoneLink.textContent = `+${phone}`;
-              phoneLink.className = 'text-black hover:text-primary font-medium font-semibold transition-colors text-[24px]';
-              phoneContainer.appendChild(phoneLink);
-              officePhones.appendChild(phoneContainer);
+            // First hide all maps
+            mapContainers.forEach(container => {
+              container.style.display = 'none';
             });
+            
+            // Then show the selected one
+            const selectedMap = document.querySelector(`[data-map-country="${countryCode}"]`);
+            if (selectedMap) {
+              selectedMap.style.display = 'block';
+              console.log('Map shown for:', countryCode);
+            } else {
+              console.error('No map found for:', countryCode);
+            }
           }
           
-          // Update email
-          if (officeEmail) {
-            officeEmail.href = `mailto:${office.email}`;
-            officeEmail.textContent = office.email;
+          // Function to handle tab selection
+          function handleTabSelection(tab) {
+            // Remove active styles from all tabs
+            tabs.forEach(t => {
+              t.classList.remove('bg-orange', 'border', 'border-white');
+              t.classList.add('bg-[#DAD9D9]', '!text-black');
+              t.style.opacity = '0.75';
+            });
+            
+            // Add active styles to clicked tab
+            tab.classList.remove('bg-[#DAD9D9]', '!text-black');
+            tab.classList.add('bg-orange', 'border', 'border-white');
+            tab.style.opacity = '1';
+            
+            // Update map based on country code
+            const countryCode = tab.getAttribute('data-country-code');
+            if (countryCode) {
+              updateMapVisibility(countryCode);
+            }
           }
           
-          // Update image
-          if (officeImage instanceof HTMLImageElement) {
-            officeImage.src = office.image;
-            officeImage.alt = office.name;
-          }
-          
-          // Update map iframe visibility
-          console.log('Updating map visibility for country:', countryCode);
-          
-          // First hide all maps
-          mapContainers.forEach(container => {
-            container.style.display = 'none';
+          // Add click event listeners to tabs
+          tabs.forEach(tab => {
+            tab.addEventListener('click', function(e) {
+              e.preventDefault();
+              console.log('Tab clicked:', tab.getAttribute('data-country-code'));
+              handleTabSelection(tab);
+            });
           });
           
-          // Then show the selected one
-          const selectedMap = document.querySelector(`[data-map-country="${countryCode}"]`);
-          if (selectedMap) {
-            selectedMap.style.display = 'block';
-            console.log('Showing map container:', countryCode);
-          } else {
-            console.error('No map container found for country code:', countryCode);
+          // Initialize with first tab
+          if (tabs.length > 0) {
+            const firstCountry = tabs[0].getAttribute('data-country-code');
+            if (firstCountry) {
+              updateMapVisibility(firstCountry);
+            }
           }
         }
         
-        // Function to handle tab selection
-        function handleTabSelection(tab) {
-          // Remove active class and border from all tabs
-          tabs.forEach(t => {
-            t.classList.remove('border', 'border-white');
-            t.style.opacity = '0.75';
-          });
-          
-          // Add active class and border to clicked tab
-          tab.classList.add('border', 'border-white');
-          tab.style.opacity = '1';
-          
-          // Update office info based on country code
-          const countryCode = tab.getAttribute('data-country-code');
-          if (countryCode) {
-            updateOfficeInfo(countryCode);
-          }
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initializeCountryTabs);
+        } else {
+          initializeCountryTabs();
         }
         
-        // Add click and touch event listeners to tabs for better mobile compatibility
-        tabs.forEach(tab => {
-          // Función para manejar ambos tipos de eventos
-          const handleEvent = (e) => {
-            e.preventDefault();
-            console.log('Tab interaction:', tab.getAttribute('data-country-code'));
-            handleTabSelection(tab);
-          };
-          
-          // Agregar múltiples listeners para mayor compatibilidad
-          tab.addEventListener('click', handleEvent);
-          tab.addEventListener('touchend', handleEvent);
-        });
-        
-        // Initialize with first country
-        if (tabs.length > 0) {
-          const firstTabCountry = tabs[0].getAttribute('data-country-code');
-          if (firstTabCountry) {
-            updateOfficeInfo(firstTabCountry);
-          }
-        }
-      }
-      
-      // Intentar inicializar inmediatamente
-      if (document.readyState === 'loading') {
-        // Si el documento aún se está cargando, esperar al evento DOMContentLoaded
-        document.addEventListener('DOMContentLoaded', initializeCountryTabs);
-      } else {
-        // Si el documento ya está cargado, ejecutar inmediatamente
-        initializeCountryTabs();
-      }
-      
-      // Como respaldo, intentar inicializar después de un breve retraso
-      // para asegurarnos de que todo esté correctamente cargado
-      setTimeout(initializeCountryTabs, 500);
+        // Also try after a short delay as backup
+        setTimeout(initializeCountryTabs, 100);
+      })();
     </script>
   </div>
 </MainLayout>

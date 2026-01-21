@@ -13,7 +13,7 @@ interface Recipe {
   preparation_time: number;
   type?: string;
   category?: string;
-  product?: string;
+  product?: string | string[];
   difficulty?: string;
 }
 
@@ -68,19 +68,39 @@ const filterLabels = currentLang === 'es'
 // Normaliza la categoría de receta
 function normalizeType(r: Recipe): string {
   const rawCategory = String((r as any).category || '').toLowerCase().trim();
-  const rawType = String((r as any).type || '').toLowerCase().trim();
-  const raw = rawCategory || rawType;
-
-  if (['breakfast', 'desayuno'].includes(raw)) return 'breakfast';
-  if (['brunch'].includes(raw)) return 'brunch';
-  if (['lunch', 'almuerzo'].includes(raw)) return 'lunch';
-  if (['dinner', 'cena'].includes(raw)) return 'dinner';
-  if (['snack', 'bocadillo'].includes(raw)) return 'snack';
-  return 'other';
+  
+  // Mapeo directo de categorías válidas
+  const categoryMap: Record<string, string> = {
+    'breakfast': 'breakfast',
+    'brunch': 'brunch', 
+    'lunch': 'lunch',
+    'dinner': 'dinner',
+    'snack': 'snack'
+  };
+  
+  return categoryMap[rawCategory] || 'other';
 }
 
-// Obtener productos únicos
-const uniqueProducts = [...new Set(allRecipes.map(r => r.product).filter(Boolean))];
+// Obtener categorías únicas disponibles
+const uniqueCategories = [...new Set(allRecipes.map(r => normalizeType(r)).filter(cat => cat !== 'other'))];
+
+// Cargar catálogo de productos desde locales por idioma actual
+interface ProductItem { id: string; name: string; description?: string; }
+const productModules = import.meta.glob<{ default: { items: ProductItem[] } }>('../../locales/*/products.json');
+const productMap: Record<string, ProductItem> = {};
+
+for (const path in productModules) {
+  const lang = path.split('/')[3];
+  if (lang === currentLang) {
+    const mod = await productModules[path]();
+    for (const item of (mod.default.items || [])) {
+      productMap[item.id] = item;
+    }
+  }
+}
+
+// Opciones de productos para el selector: tomar TODOS los productos del catálogo del idioma actual
+const uniqueProducts = Object.keys(productMap);
 
 // Dividir recetas: primera destacada, siguientes 3 en sidebar, resto en grid
 const featuredRecipe = allRecipes[0];
@@ -90,7 +110,7 @@ const gridRecipes = allRecipes.slice(4);
 
 <div class="overflow-hidden bg-primaryCream">
   
-  <div class="ml-[40px] mt-[40px] mr-[40px] mb-20">
+  <div class="container ml-[40px] mt-[40px] mr-[40px] mb-20 ">
 
     <!-- Header -->
     <div class="mb-4">
@@ -117,11 +137,11 @@ const gridRecipes = allRecipes.slice(4);
           class="appearance-none bg-white rounded-full px-6 py-3 pr-10 text-base font-medium border-0 shadow-sm cursor-pointer hover:shadow-md transition-shadow focus:outline-none focus:ring-2 focus:ring-orange"
         >
           <option value="all">{filterLabels.typeLabel}: {filterLabels.all}</option>
-          <option value="breakfast">{filterLabels.typeLabel}: {filterLabels.breakfast}</option>
-          <option value="brunch">{filterLabels.typeLabel}: {filterLabels.brunch}</option>
-          <option value="lunch">{filterLabels.typeLabel}: {filterLabels.lunch}</option>
-          <option value="dinner">{filterLabels.typeLabel}: {filterLabels.dinner}</option>
-          <option value="snack">{filterLabels.typeLabel}: {filterLabels.snack}</option>
+          {uniqueCategories.includes('breakfast') && <option value="breakfast">{filterLabels.typeLabel}: {filterLabels.breakfast}</option>}
+          {uniqueCategories.includes('brunch') && <option value="brunch">{filterLabels.typeLabel}: {filterLabels.brunch}</option>}
+          {uniqueCategories.includes('lunch') && <option value="lunch">{filterLabels.typeLabel}: {filterLabels.lunch}</option>}
+          {uniqueCategories.includes('dinner') && <option value="dinner">{filterLabels.typeLabel}: {filterLabels.dinner}</option>}
+          {uniqueCategories.includes('snack') && <option value="snack">{filterLabels.typeLabel}: {filterLabels.snack}</option>}
         </select>
         <svg class="hidden md:block absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" fill="currentColor" viewBox="0 0 20 20">
           <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
@@ -135,8 +155,8 @@ const gridRecipes = allRecipes.slice(4);
           class="appearance-none bg-white rounded-full px-6 py-3 pr-10 text-base font-medium border-0 shadow-sm cursor-pointer hover:shadow-md transition-shadow focus:outline-none focus:ring-2 focus:ring-orange"
         >
           <option value="all">{filterLabels.productLabel}: {filterLabels.all}</option>
-          {uniqueProducts.map(product => (
-            <option value={product}>{filterLabels.productLabel}: {product}</option>
+          {uniqueProducts.map(productId => (
+            <option value={productId}>{filterLabels.productLabel}: {productMap[productId]?.name || productId}</option>
           ))}
         </select>
         <svg class="hidden md:block absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" fill="currentColor" viewBox="0 0 20 20">
@@ -144,21 +164,15 @@ const gridRecipes = allRecipes.slice(4);
         </svg>
       </div>
 
-      <!-- Search Input -->
-      <div class="relative flex-1 max-w-md">
-        <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-        </svg>
-        <input 
-          type="text" 
-          id="searchInput"
-          placeholder={filterLabels.searchPlaceholder}
-          class="w-full bg-white rounded-full pl-12 pr-6 py-3 text-base border-0 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange"
-        />
+      <!-- Product info (shown when a product is selected) -->
+      <div id="productInfo" class="hidden flex-1 bg-white rounded-xl px-6 py-4 border border-gray-100 shadow-sm">
+        <!-- content set by script based on selected product -->
       </div>
+
+      
     </div>
 
-    <h2 class="text-[42px] font-bold mb-8">
+    <h2 id="featuredTitle" class="text-[42px] font-bold mb-8">
       {currentLang==='es' ? 'Las más populares del momento' : 'The most popular ones right now'}
     </h2>
 
@@ -171,7 +185,7 @@ const gridRecipes = allRecipes.slice(4);
             <div 
               class="lg:col-span-8 recipe-card" 
               data-type={normalizeType(featuredRecipe)}
-              data-product={featuredRecipe.product || ''}
+              data-products={(Array.isArray(featuredRecipe.product) ? featuredRecipe.product : (featuredRecipe.product ? [featuredRecipe.product] : [])).join(',')}
               data-title={featuredRecipe.title.toLowerCase()}
             >
               <RecipeCardLarge
@@ -180,7 +194,7 @@ const gridRecipes = allRecipes.slice(4);
                 time={`${featuredRecipe.preparation_time} min`}
                 id={featuredRecipe.id}
                 difficulty={featuredRecipe.difficulty || (currentLang === 'es' ? 'Fácil' : 'Easy')}
-                product={featuredRecipe.product}
+                product={Array.isArray(featuredRecipe.product) ? featuredRecipe.product[0] : featuredRecipe.product}
                 category={normalizeType(featuredRecipe)}
               />
             </div>
@@ -191,14 +205,14 @@ const gridRecipes = allRecipes.slice(4);
               <div 
                 class="recipe-card" 
                 data-type={normalizeType(recipe)}
-                data-product={recipe.product || ''}
+                data-products={(Array.isArray(recipe.product) ? recipe.product : (recipe.product ? [recipe.product] : [])).join(',')}
                 data-title={recipe.title.toLowerCase()}
               >
                 <RecipeCardSmall
                   image={recipe.image || '/images/recipes/placeholder.jpg'}
                   title={recipe.title}
                   id={recipe.id}
-                  product={recipe.product}
+                  product={Array.isArray(recipe.product) ? recipe.product[0] : recipe.product}
                   category={normalizeType(recipe)}
                 />
               </div>
@@ -206,7 +220,7 @@ const gridRecipes = allRecipes.slice(4);
           </div>
         </div>
         <!-- No results message -->
-        <div id="noResults" class="hidden mt-12 flex items-center justify-center h-48">
+        <div id="noResults" class="hidden mt-12 items-center justify-center h-48">
           <p class="text-gray-500 text-lg font-medium">{noFilterResultsText}</p>
         </div>
       </>
@@ -218,7 +232,10 @@ const gridRecipes = allRecipes.slice(4);
   ) : (
     <div id="recipesGrid" class="w-full mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-10 mt-12" transition:animate="slide">
       {allRecipes.map((recipe: Recipe) => (
-        <div class="recipe-card" data-type={normalizeType(recipe)}>
+        <div class="recipe-card" 
+             data-type={normalizeType(recipe)}
+             data-products={(Array.isArray(recipe.product) ? recipe.product : (recipe.product ? [recipe.product] : [])).join(',')}
+             data-title={recipe.title.toLowerCase()}>
           <RecipeCard
             image={recipe.image || '/images/recipes/placeholder.jpg'}
             title={recipe.title}
@@ -231,8 +248,8 @@ const gridRecipes = allRecipes.slice(4);
       ))}
     </div>
     <!-- No results message for filters -->
-    <div id="noResults" class="hidden mt-6 items-center justify-center h-48 md:h-64">
-      <span class="text-white text-lg md:text-xl font-semibold">{noFilterResultsText}</span>
+    <div id="noResultsGrid" class="hidden mt-6 items-center justify-center h-48 md:h-64">
+      <span class="text-[#D61F2C] text-lg md:text-xl font-semibold">{noFilterResultsText}</span>
     </div>
     <!-- Infinite scroll sentinel -->
     <div id="infiniteSentinel" class="w-full h-10"></div>
@@ -241,61 +258,162 @@ const gridRecipes = allRecipes.slice(4);
   
 </div>
 
-<script>
-  // Filter functionality
-  const typeFilter = document.getElementById('typeFilter') as HTMLSelectElement;
-  const productFilter = document.getElementById('productFilter') as HTMLSelectElement;
-  const searchInput = document.getElementById('searchInput') as HTMLInputElement;
-  const featuredSection = document.getElementById('featuredSection');
-  const recipesGrid = document.getElementById('recipesGrid');
-  const noResults = document.getElementById('noResults');
+<!-- Serialized product map for client-side consumption -->
+<script type="application/json" id="product-map">{JSON.stringify(productMap)}</script>
 
-  function applyFilters() {
-    const typeValue = typeFilter?.value || 'all';
-    const productValue = productFilter?.value || 'all';
-    const searchValue = searchInput?.value.toLowerCase().trim() || '';
-
-    const recipeCards = document.querySelectorAll('.recipe-card') as NodeListOf<HTMLElement>;
-    let visibleCount = 0;
-
-    recipeCards.forEach(card => {
-      const cardType = card.dataset.type || '';
-      const cardProduct = card.dataset.product || '';
-      const cardTitle = card.dataset.title || '';
-
-      const matchesType = typeValue === 'all' || cardType === typeValue;
-      const matchesProduct = productValue === 'all' || cardProduct === productValue;
-      const matchesSearch = searchValue === '' || cardTitle.includes(searchValue);
-
-      if (matchesType && matchesProduct && matchesSearch) {
-        card.style.display = '';
-        visibleCount++;
-      } else {
-        card.style.display = 'none';
+<script is:inline>
+  // REINGENIERÍA DEL SISTEMA DE FILTRADO
+  // Ejecutar inmediatamente sin esperar eventos del DOM
+  (function() {
+    'use strict';
+    
+    // Parse product map
+    let PRODUCT_MAP = {};
+    try {
+      const mapEl = document.getElementById('product-map');
+      if (mapEl && mapEl.textContent) {
+        PRODUCT_MAP = JSON.parse(mapEl.textContent);
       }
-    });
+    } catch(e) {
+      console.error('Error parsing product map:', e);
+    }
 
-    // Show/hide sections
-    if (featuredSection && recipesGrid && noResults) {
-      if (visibleCount === 0) {
-        featuredSection.style.display = 'none';
-        if (recipesGrid) recipesGrid.style.display = 'none';
-        noResults.classList.remove('hidden');
-        noResults.classList.add('flex');
-      } else {
-        featuredSection.style.display = '';
-        if (recipesGrid) recipesGrid.style.display = '';
-        noResults.classList.add('hidden');
-        noResults.classList.remove('flex');
+    function applyFilters() {
+      // Get filter elements
+      const typeFilter = document.getElementById('typeFilter');
+      const productFilter = document.getElementById('productFilter');
+      const productInfo = document.getElementById('productInfo');
+      const featuredTitle = document.getElementById('featuredTitle');
+      const featuredSection = document.getElementById('featuredSection');
+      const recipesGrid = document.getElementById('recipesGrid');
+      const noResults = document.getElementById('noResults');
+      const noResultsGrid = document.getElementById('noResultsGrid');
+      
+      if (!typeFilter || !productFilter) {
+        console.warn('Filters not found, retrying...');
+        return;
+      }
+
+      // Get current filter values
+      const typeValue = typeFilter.value || 'all';
+      const productValue = productFilter.value || 'all';
+
+      // Detectar si hay filtros activos
+      const hasActiveFilters = typeValue !== 'all' || productValue !== 'all';
+
+      // Get all recipe cards
+      const recipeCards = document.querySelectorAll('.recipe-card');
+      let visibleCount = 0;
+
+      // Apply filters to each card
+      recipeCards.forEach(function(card) {
+        const cardType = card.getAttribute('data-type') || '';
+        const cardProductsStr = card.getAttribute('data-products') || '';
+        const cardProducts = cardProductsStr.split(',').filter(function(p) { return p.trim() !== ''; });
+
+        // Check if card matches filters
+        const matchesType = typeValue === 'all' || cardType === typeValue;
+        const matchesProduct = productValue === 'all' || cardProducts.indexOf(productValue) !== -1;
+        const isVisible = matchesType && matchesProduct;
+
+        // Show/hide card
+        card.style.display = isVisible ? '' : 'none';
+        if (isVisible) visibleCount++;
+      });
+
+      // Show/hide sections based on filters and results
+      const hasResults = visibleCount > 0;
+      
+      // Si hay filtros activos, ocultar la sección "Las más populares" y su título
+      if (featuredTitle) {
+        if (hasActiveFilters) {
+          featuredTitle.style.display = 'none';
+        } else {
+          featuredTitle.style.display = '';
+        }
+      }
+      
+      if (featuredSection) {
+        if (hasActiveFilters) {
+          featuredSection.style.display = 'none';
+        } else {
+          featuredSection.style.display = hasResults ? '' : 'none';
+        }
+      }
+      
+      // El grid siempre se muestra si hay resultados
+      if (recipesGrid) {
+        recipesGrid.style.display = hasResults ? '' : 'none';
+      }
+      
+      // Handle no results messages
+      if (noResults) {
+        // Solo mostrar mensaje en featured si NO hay filtros activos y no hay resultados
+        if (!hasActiveFilters && !hasResults) {
+          noResults.classList.remove('hidden');
+          noResults.classList.add('flex');
+        } else {
+          noResults.classList.add('hidden');
+          noResults.classList.remove('flex');
+        }
+      }
+      
+      if (noResultsGrid) {
+        if (hasResults) {
+          noResultsGrid.classList.add('hidden');
+          noResultsGrid.classList.remove('flex');
+        } else {
+          noResultsGrid.classList.remove('hidden');
+          noResultsGrid.classList.add('flex');
+        }
+      }
+
+      // Update product info panel
+      if (productInfo) {
+        const selected = productValue !== 'all' ? PRODUCT_MAP[productValue] : null;
+        if (selected) {
+          const title = selected.name || productValue;
+          const desc = selected.description || '';
+          productInfo.innerHTML = '<div class="flex flex-col gap-1"><div class="text-base font-semibold text-gray-900">' + title + '</div>' + (desc ? '<div class="text-sm text-gray-600">' + desc + '</div>' : '') + '</div>';
+          productInfo.classList.remove('hidden');
+          productInfo.classList.add('flex');
+        } else {
+          productInfo.classList.add('hidden');
+          productInfo.classList.remove('flex');
+          productInfo.innerHTML = '';
+        }
       }
     }
-  }
 
-  typeFilter?.addEventListener('change', applyFilters);
-  productFilter?.addEventListener('change', applyFilters);
-  searchInput?.addEventListener('input', applyFilters);
-  
-  document.addEventListener('DOMContentLoaded', applyFilters);
+    // Attach event listeners
+    function attachListeners() {
+      const typeFilter = document.getElementById('typeFilter');
+      const productFilter = document.getElementById('productFilter');
+      
+      if (typeFilter) {
+        typeFilter.addEventListener('change', applyFilters);
+      }
+      if (productFilter) {
+        productFilter.addEventListener('change', applyFilters);
+      }
+    }
+
+    // Initialize: try immediately, then on DOMContentLoaded, then on load
+    function init() {
+      attachListeners();
+      applyFilters();
+    }
+
+    // Try to run immediately
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+    
+    // Fallback for late-loading content
+    window.addEventListener('load', applyFilters);
+  })();
 </script>
 
 <style>

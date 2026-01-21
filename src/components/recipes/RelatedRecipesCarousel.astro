@@ -25,13 +25,12 @@ const currentLang = getLocale();
     {currentLang === 'es' ? 'No hay recetas relacionadas.' : 'No related recipes.'}
   </div>
 ) : (
-  <div class="w-full" data-related-recipes-carousel>
-    <!-- Desktop carousel -->
-    <div class="hidden md:block relative">
-      <div class="overflow-hidden relative">
-        <div id="relatedTrackDesktop" class="flex gap-6 transition-transform duration-300 will-change-transform">
-          {items.map((recipe) => (
-            <div class="w-[360px] flex-shrink-0">
+  <div class="w-full relative">
+    <div class="swiper-container related-recipes-swiper">
+      <div class="swiper-wrapper">
+        {items.map((recipe) => (
+          <div class="swiper-slide h-auto">
+            <div class="h-full">
               <RecipeCard
                 image={recipe.image || '/images/recipes/placeholder.jpg'}
                 title={recipe.title}
@@ -39,121 +38,103 @@ const currentLang = getLocale();
                 id={recipe.id}
               />
             </div>
-          ))}
-        </div>
-        <!-- Overlaid nav buttons -->
-        <button id="relPrevDesktop" class="hidden md:flex items-center justify-center absolute left-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-brown w-10 h-10 rounded-full shadow z-10" aria-label="Prev">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
-        </button>
-        <button id="relNextDesktop" class="hidden md:flex items-center justify-center absolute right-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-brown w-10 h-10 rounded-full shadow z-10" aria-label="Next">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
-        </button>
+          </div>
+        ))}
       </div>
     </div>
 
-    <!-- Mobile carousel -->
-    <div class="md:hidden relative">
-      <div class="overflow-hidden relative">
-        <div id="relatedTrackMobile" class="flex gap-4 transition-transform duration-300 will-change-transform">
-          {items.map((recipe) => (
-            <div class="w-[85%] flex-shrink-0">
-              <RecipeCard
-                image={recipe.image || '/images/recipes/placeholder.jpg'}
-                title={recipe.title}
-                time={`${recipe.preparation_time}MIN`}
-                id={recipe.id}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-      <!-- Overlaid nav buttons on mobile -->
-      <button id="relPrevMobile" class="md:hidden flex items-center justify-center absolute left-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-brown w-10 h-10 rounded-full shadow z-10" aria-label="Prev">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
-      </button>
-      <button id="relNextMobile" class="md:hidden flex items-center justify-center absolute right-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-brown w-10 h-10 rounded-full shadow z-10" aria-label="Next">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
-      </button>
-    </div>
+    <!-- Navigation Arrows -->
+    {items.length > 3 && (
+      <>
+        <button class="swiper-button-prev-related absolute left-0 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center text-[#F86509] hover:bg-[#F86509] hover:text-white transition-colors z-10">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+        </button>
+        <button class="swiper-button-next-related absolute right-0 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center text-[#F86509] hover:bg-[#F86509] hover:text-white transition-colors z-10">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </>
+    )}
   </div>
 )}
 
 <script>
-  // Initialize carousel (no TS types to avoid lint issues in Astro script)
-  function initRelatedCarousel(root: any) {
-    if (!root || root._relInit) return;
-    root._relInit = true;
+  import Swiper from 'swiper';
+  import { Navigation, Autoplay } from 'swiper/modules';
+  import 'swiper/css';
+  import 'swiper/css/navigation';
 
-    // Desktop
-    const trackD = root.querySelector('#relatedTrackDesktop');
-    const prevD = root.querySelector('#relPrevDesktop');
-    const nextD = root.querySelector('#relNextDesktop');
-
-    let indexD = 0;
-    function getStepD() {
-      // Card width 360 + gap 24 (gap-6)
-      return 384;
-    }
-    function getVisibleCount() {
-      const container = trackD?.parentElement;
-      if (!container) return 3;
-      return Math.max(1, Math.floor(container.clientWidth / getStepD()));
-    }
-    function updateDesktop() {
-      if (!trackD) return;
-      trackD.style.transform = `translateX(-${indexD * getStepD()}px)`;
-      const maxIndex = Math.max(0, trackD.children.length - getVisibleCount());
-      // clamp indexD
-      if (indexD > maxIndex) indexD = maxIndex;
-    }
-    if (trackD && prevD && nextD) {
-      prevD.addEventListener('click', () => {
-        indexD = Math.max(0, indexD - 1);
-        updateDesktop();
+  document.addEventListener('DOMContentLoaded', () => {
+    const relatedSwiper = document.querySelector('.related-recipes-swiper');
+    if (relatedSwiper) {
+      new Swiper('.related-recipes-swiper', {
+        modules: [Navigation, Autoplay],
+        slidesPerView: 1,
+        spaceBetween: 20,
+        loop: false,
+        autoplay: {
+          delay: 4000,
+          disableOnInteraction: false,
+        },
+        navigation: {
+          nextEl: '.swiper-button-next-related',
+          prevEl: '.swiper-button-prev-related',
+        },
+        breakpoints: {
+          768: {
+            slidesPerView: 2,
+            spaceBetween: 30,
+          },
+          1024: {
+            slidesPerView: 3,
+            spaceBetween: 40,
+          },
+        },
       });
-      nextD.addEventListener('click', () => {
-        const maxIndex = Math.max(0, trackD.children.length - getVisibleCount());
-        indexD = Math.min(maxIndex, indexD + 1);
-        updateDesktop();
-      });
-      window.addEventListener('resize', updateDesktop);
-      updateDesktop();
     }
+  });
 
-    // Mobile
-    const trackM = root.querySelector('#relatedTrackMobile');
-    const prevM = root.querySelector('#relPrevMobile');
-    const nextM = root.querySelector('#relNextMobile');
-
-    let indexM = 0;
-    function updateMobile() {
-      if (!trackM) return;
-      // translate by 100% of slide width + gap approximate (85% width + ~15% gap area)
-      trackM.style.transform = `translateX(-${indexM * 100}%)`;
-    }
-    if (trackM && prevM && nextM) {
-      prevM.addEventListener('click', () => {
-        indexM = Math.max(0, indexM - 1);
-        updateMobile();
+  document.addEventListener('astro:page-load', () => {
+    const relatedSwiper = document.querySelector('.related-recipes-swiper');
+    if (relatedSwiper) {
+      new Swiper('.related-recipes-swiper', {
+        modules: [Navigation, Autoplay],
+        slidesPerView: 1,
+        spaceBetween: 20,
+        loop: false,
+        autoplay: {
+          delay: 4000,
+          disableOnInteraction: false,
+        },
+        navigation: {
+          nextEl: '.swiper-button-next-related',
+          prevEl: '.swiper-button-prev-related',
+        },
+        breakpoints: {
+          768: {
+            slidesPerView: 2,
+            spaceBetween: 30,
+          },
+          1024: {
+            slidesPerView: 3,
+            spaceBetween: 40,
+          },
+        },
       });
-      nextM.addEventListener('click', () => {
-        const maxIndex = Math.max(0, trackM.children.length - 1);
-        indexM = Math.min(maxIndex, indexM + 1);
-        updateMobile();
-      });
-      updateMobile();
     }
-  }
-
-  function initAll() {
-    document.querySelectorAll('[data-related-recipes-carousel]').forEach((el) => initRelatedCarousel(el as any));
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initAll);
-  } else {
-    initAll();
-  }
-  document.addEventListener('astro:page-load', initAll);
-  document.addEventListener('astro:after-swap', initAll);
+  });
 </script>
+
+<style>
+  .swiper-slide {
+    height: auto;
+    display: flex;
+  }
+  
+  .swiper-slide > div {
+    width: 100%;
+  }
+</style>

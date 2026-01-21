@@ -1,0 +1,107 @@
+{
+  "ui": {
+    "brandTitle": "Ranchitas",
+    "home": "Inicio",
+    "restart": "Reiniciar",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "questionLabel": "Pregunta {current} de {total}",
+    "resultTitle": "Tu resultado:",
+    "goHome": "Ir a Homepage",
+    "repeatQuiz": "Repetir Quiz",
+    "shareTitle": "Comparte en redes:",
+    "recipesTitle": "Recetas",
+    "recipesHeading": "Descubre\nnuevas recetas",
+    "recipesDescription": "Fusiona sabores universales y el cronch de Ranchitas, con estas opciones deliciosas y fáciles de preparar.",
+    "recipesCta": "Descubrir más"
+  },
+  "quiz": {
+    "id": "which-ranchita-are-you",
+    "questions": [
+      {
+        "id": "q1",
+        "text": "¿Qué haces cuando tienes un momento libre?",
+        "options": [
+          { "id": "q1a", "text": "Salir a explorar nuevos lugares", "scores": { "aventurero": 2 } },
+          { "id": "q1b", "text": "Relajarme en casa con amigos", "scores": { "social": 2 } },
+          { "id": "q1c", "text": "Hacer ejercicio y actividades físicas", "scores": { "intenso": 2 } },
+          { "id": "q1d", "text": "Crear algo nuevo y divertido", "scores": { "creativo": 2 } }
+        ]
+      },
+      {
+        "id": "q2",
+        "text": "Elige un plan ideal para el fin de semana",
+        "options": [
+          { "id": "q2a", "text": "Road trip improvisado", "scores": { "aventurero": 2 } },
+          { "id": "q2b", "text": "Reunión con snacks y películas", "scores": { "social": 2 } },
+          { "id": "q2c", "text": "Reto deportivo con amigos", "scores": { "intenso": 2 } },
+          { "id": "q2d", "text": "Cocinar algo diferente", "scores": { "creativo": 2 } }
+        ]
+      },
+      {
+        "id": "q3",
+        "text": "¿Cómo describirías tu personalidad?",
+        "options": [
+          { "id": "q3a", "text": "Me gusta probar cosas nuevas", "scores": { "aventurero": 2 } },
+          { "id": "q3b", "text": "Soy el alma de la fiesta", "scores": { "social": 2 } },
+          { "id": "q3c", "text": "Voy con todo y sin miedo", "scores": { "intenso": 2 } },
+          { "id": "q3d", "text": "Siempre tengo ideas originales", "scores": { "creativo": 2 } }
+        ]
+      },
+      {
+        "id": "q4",
+        "text": "Elige un sabor que te represente",
+        "options": [
+          { "id": "q4a", "text": "Algo diferente e inesperado", "scores": { "aventurero": 2 } },
+          { "id": "q4b", "text": "Clásico para compartir", "scores": { "social": 2 } },
+          { "id": "q4c", "text": "Picante y extremo", "scores": { "intenso": 2 } },
+          { "id": "q4d", "text": "Mezclas creativas", "scores": { "creativo": 2 } }
+        ]
+      },
+      {
+        "id": "q5",
+        "text": "¿Qué te motiva más?",
+        "options": [
+          { "id": "q5a", "text": "La aventura", "scores": { "aventurero": 2 } },
+          { "id": "q5b", "text": "La convivencia", "scores": { "social": 2 } },
+          { "id": "q5c", "text": "La intensidad", "scores": { "intenso": 2 } },
+          { "id": "q5d", "text": "La creatividad", "scores": { "creativo": 2 } }
+        ]
+      }
+    ],
+    "results": [
+      {
+        "id": "creativo",
+        "title": "El Creativo Único",
+        "emoji": "🎨",
+        "description": "Te encanta destacar y siempre encuentras formas creativas de expresarte y sorprender a los demás.",
+        "suggestedProductId": "ranchitas-pizza",
+        "suggestedRecipes": ["nachos-horneados-nacho-queso", "nachos-horneados-nacho-queso"]
+      },
+      {
+        "id": "intenso",
+        "title": "El Intenso Sin Miedo",
+        "emoji": "🔥",
+        "description": "Vas con todo. Te gustan los retos y lo que tiene carácter. Nunca te quedas a medias.",
+        "suggestedProductId": "ranchitas-extremo",
+        "suggestedRecipes": ["nachos-horneados-nacho-queso", "nachos-horneados-nacho-queso"]
+      },
+      {
+        "id": "social",
+        "title": "El Social de la Banda",
+        "emoji": "🧡",
+        "description": "Lo tuyo es compartir. Donde hay amigos, hay plan. Tu energía se contagia.",
+        "suggestedProductId": "ranchitas-queso",
+        "suggestedRecipes": ["nachos-horneados-nacho-queso", "nachos-horneados-nacho-queso"]
+      },
+      {
+        "id": "aventurero",
+        "title": "El Aventurero Curioso",
+        "emoji": "🧭",
+        "description": "Te mueve descubrir. Siempre estás listo para probar algo nuevo y salirte de la rutina.",
+        "suggestedProductId": "ranchitas-excitante",
+        "suggestedRecipes": ["nachos-horneados-nacho-queso", "nachos-horneados-nacho-queso"]
+      }
+    ]
+  }
+}

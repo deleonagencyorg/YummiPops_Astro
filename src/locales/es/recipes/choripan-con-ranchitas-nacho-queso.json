@@ -1,0 +1,35 @@
+{
+  "date": "2025-09-11",
+  "id": "choripan-con-ranchitas-nacho-queso",
+  "slug": "choripan-con-ranchitas-nacho-queso",
+  "title": "Choripan con Ranchitas Nacho Queso",
+  "people": "9",
+  "difficulty": "Media",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/choripan-con-ranchitas-nacho-queso.webp",
+  "gallery": [
+    "choripan-con-ranchitas-nacho-queso.webp"
+  ],
+  "type": "image",
+  "preparation_time": 20,
+  "ingredients": [
+    "2 cucharadas de aceite",
+    "4 panes de hot dogs",
+    "4 cucharadas de mostaza",
+    "4 chorizos españoles o salchichas de su gusto",
+    "1 taza de guacamole",
+    "1 bolsa familiar de Ranchitas Nacho Queso"
+  ],
+  "instructions": [
+    "Paso 1. Colocar en un sartén el aceite y cocinar los chorizos o salchichas.",
+    "Paso 2. Untar mostaza en cada uno de los panes la cantidad que desee.",
+    "Paso 3. Colocar tres Ranchitas Nacho Queso en cada uno de los panes, posteriormente agregar los chorizos y una porción de guacamole."
+  ],
+  "brand": [
+    "ranchitas"
+  ],
+
+  "product":[
+    "ranchitas-nacho-queso"
+  ],
+  "category": "lunch"
+}
