@@ -95,6 +95,10 @@ const closeMenuLabel = t('menu_labels.close_main_menu', { namespace: 'common', l
       ))}
     </nav>
 
+    <div class="mt-10 flex justify-center">
+      <LanguageSwitcher activeLocale={currentLang} headerColorConfig={headerColorConfig} />
+    </div>
+
     <!-- Selector de Idioma Móvil -->
     <div class="mt-auto flex space-x-4">
       {socialMedia && Object.entries(socialMedia).map(([key, social]) => {
