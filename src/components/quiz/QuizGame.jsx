@@ -263,15 +263,36 @@ export default function QuizGame({ lang, quizData, products, recipes, shareId })
               </div>
 
               <div className="lg:col-span-7">
-                <div className="mt-6 bg-white/10 border border-white/20 rounded-3xl p-6">
-                  <div className="text-white/90 font-bold">{ui.resultTitle}</div>
-                  <div className="mt-1 text-white font-title font-bold italic text-2xl md:text-3xl">
-                    {result?.title} {result?.emoji}
+                <div className="mt-6 space-y-4">
+                  <div className="text-center">
+                    <div className="text-white/90 font-bold">{ui.resultTitle}</div>
+                    <div className="mt-1 text-white font-title font-bold italic text-2xl md:text-3xl">
+                      {result?.title} {result?.emoji}
+                    </div>
                   </div>
-                  <div className="mt-4 text-white/90 leading-relaxed">{result?.description}</div>
 
-                  <div className="mt-6 bg-white/10 border border-white/20 rounded-2xl p-5">
-                    <div className="text-white/90 font-bold mb-3">{ui.shareTitle}</div>
+                  <div className="bg-white/10 border border-white/20 rounded-3xl p-6 shadow-2xl shadow-black/20">
+                    <div className="text-white/90 leading-relaxed">{result?.description}</div>
+                  </div>
+
+                  <div className="bg-white/10 border border-white/20 rounded-3xl p-6 shadow-2xl shadow-black/20">
+                    <div className="text-white/90 font-bold mb-3 flex items-center gap-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <g clip-path="url(#clip0_33_2)">
+                          <path d="M15 6.66667C16.3807 6.66667 17.5 5.54738 17.5 4.16667C17.5 2.78596 16.3807 1.66667 15 1.66667C13.6193 1.66667 12.5 2.78596 12.5 4.16667C12.5 5.54738 13.6193 6.66667 15 6.66667Z" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M5 12.5C6.38071 12.5 7.5 11.3807 7.5 10C7.5 8.61929 6.38071 7.5 5 7.5C3.61929 7.5 2.5 8.61929 2.5 10C2.5 11.3807 3.61929 12.5 5 12.5Z" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M15 18.3333C16.3807 18.3333 17.5 17.214 17.5 15.8333C17.5 14.4526 16.3807 13.3333 15 13.3333C13.6193 13.3333 12.5 14.4526 12.5 15.8333C12.5 17.214 13.6193 18.3333 15 18.3333Z" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M7.15833 11.2583L12.85 14.575" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M12.8417 5.425L7.15833 8.74167" stroke="white" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_33_2">
+                            <rect width="20" height="20" fill="white"/>
+                          </clipPath>
+                        </defs>
+                      </svg>
+                      {ui.shareTitle}
+                    </div>
                     <SocialShare
                       shareId={shareId}
                       url={typeof window !== 'undefined' ? window.location.href : ''}
@@ -290,6 +311,7 @@ export default function QuizGame({ lang, quizData, products, recipes, shareId })
               <div className="mt-3 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 <div className="lg:col-span-4">
                   <div className="text-white font-title font-bold italic text-5xl leading-none whitespace-pre-line">{ui.recipesHeading}</div>
+                  <div className="mt-1 text-white">{ui.recipesDescription}</div>
                   <a
                     href={`/${lang}/${lang === 'es' ? 'recetas' : 'recipes'}`}
                     className="mt-6 inline-flex items-center justify-center bg-[#F86509] text-white font-bold rounded-full px-6 py-3 hover:opacity-90 transition"
@@ -303,15 +325,15 @@ export default function QuizGame({ lang, quizData, products, recipes, shareId })
                     <a
                       key={r.slug || r.id}
                       href={`/${lang}/${lang === 'es' ? 'recetas' : 'recipes'}/${r.slug || r.id}`}
-                      className="bg-[#F86509] rounded-3xl overflow-hidden shadow-2xl hover:opacity-95 transition"
+                      className="bg-[#F86509] rounded-3xl p-4 shadow-2xl shadow-black/25 hover:opacity-95 transition"
                     >
                       <div className="relative">
-                        <img src={r.image} alt={r.title} className="w-full h-44 object-cover" loading="lazy" />
+                        <img src={r.image} alt={r.title} className="rounded-2xl w-full h-48 object-cover" loading="lazy" />
                       </div>
-                      <div className="p-5">
-                        <div className="text-white font-bold">{r.title}</div>
-                        <div className="mt-2 text-white/90 text-sm">{r.description}</div>
-                        <div className="mt-4 text-white font-bold underline">{lang === 'es' ? 'Leer más' : 'Read more'}</div>
+                      <div className="p-6">
+                        <div className="text-white font-title font-bold italic text-lg leading-snug">{r.title}</div>
+                        <div className="mt-3 text-white/90 text-sm italic leading-relaxed">{r.description}</div>
+                        <div className="mt-5 text-white font-bold">{lang === 'es' ? 'Leer más' : 'Read more'}</div>
                       </div>
                     </a>
                   ))}
