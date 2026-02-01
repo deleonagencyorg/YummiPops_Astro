@@ -8,8 +8,10 @@ const currentPath = pathname;
 export interface Props {
   activeLocale: Locale;
   headerColorConfig?: HeaderColorConfig;
+  textColorValue?: string;
 }
 const { activeLocale, headerColorConfig } = Astro.props;
+const propTextColorValue = Astro.props.textColorValue;
 
 // Mapeo de rutas equivalentes entre idiomas
 const routeTranslations = {
@@ -55,13 +57,13 @@ const getTranslatedPath = (targetLocale: Locale) => {
 
 const esUrl = activeLocale === 'es' ? currentPath : getTranslatedPath('es');
 const enUrl = activeLocale === 'en' ? currentPath : getTranslatedPath('en');
-
 // Usar colores por defecto si no se proporciona configuración
 const textColor = headerColorConfig?.textColor || 'text-white';
 const hoverTextColor = headerColorConfig?.hoverTextColor || 'hover:text-yellow-300';
 
-// Determinar el color del texto basado en si es un fondo especial
-const textColorValue = headerColorConfig?.isSpecialBackground ? 'black' : (headerColorConfig?.textColor?.replace('text-', '') || 'white');
+// Determinar el color del texto basado en si es un fondo especial (prefiere prop)
+const computedTextColorValue = headerColorConfig?.isSpecialBackground ? 'white' : (headerColorConfig?.textColor?.replace('text-', '') || 'white');
+const textColorValue = propTextColorValue ?? computedTextColorValue;
 ---
 
 <div class="font-title language-switcher flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-2">
@@ -74,7 +76,7 @@ const textColorValue = headerColorConfig?.isSpecialBackground ? 'black' : (heade
         title="English" 
         data-lang="en"
       >
-        <span class="text-white">EN</span>
+        <span style={`color: ${propTextColorValue};`}>EN</span>
       </a>
     )}
     {activeLocale === 'en' && (
@@ -85,7 +87,7 @@ const textColorValue = headerColorConfig?.isSpecialBackground ? 'black' : (heade
         title="Español" 
         data-lang="es"
       >
-        <span class="text-white">ES</span>
+        <span style={`color: ${propTextColorValue};`}>ES</span>
       </a>
     )}
   </div>

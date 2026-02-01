@@ -1,5 +1,5 @@
 ---
-// Componente de carrusel de productos con Swiper
+// Componente de productos sin carousel
 interface Product {
   id: string;
   slug: string;
@@ -7,24 +7,23 @@ interface Product {
   description: string;
   short_description: string;
   image: string;
+  imagetwo?: string;  // Segunda imagen (derecha)
+  imagethree?: string; // Tercera imagen (izquierda)
   imageMobile?: string;
   background_color?: string;
   text_color?: string;
+  badge_icon?: string; // Icono/badge del producto (ej: "NUNCA fritos", "0% Grasas Trans")
+  badge_text?: string; // Texto del badge si no es imagen
 }
 
 export interface Props {
   products: Product[];
   className?: string;
-  autoplay?: boolean;
-  speed?: number;
-  slidesPerView?: number;
-  spaceBetween?: number;
-  loop?: boolean;
-  color?: string;
 }
 
 const {
   products = [],
+  className = ''
 } = Astro.props;
 
 const currentLang = Astro.url.pathname.split('/')[1] === 'es' ? 'es' : 'en';
@@ -32,10 +31,12 @@ const currentLang = Astro.url.pathname.split('/')[1] === 'es' ? 'es' : 'en';
 // Textos según idioma
 const texts = {
   es: {
-    viewMore: 'Ver más'
+    title: 'Descubre nuestras líneas',
+    viewAll: 'Ver todo'
   },
   en: {
-    viewMore: 'View more'
+    title: 'Discover our lines',
+    viewAll: 'View all'
   }
 };
 
@@ -43,198 +44,141 @@ const currentTexts = texts[currentLang as keyof typeof texts];
 const productsItems = Array.isArray(products) ? products : [];
 
 import LazyImage from '../LazyImage.astro';
+
+// Colores de fondo para cada producto (puedes ajustar según tus necesidades)
+const backgroundColors = [
+  'from-green-400 to-green-500',
+  'from-blue-500 to-blue-600',
+  'from-orange-400 to-orange-500',
+  'from-purple-400 to-purple-500',
+];
 ---
 
-<div class="bg-orange py-9 px-0 rounded-l-[50px] overflow-hidden xl:ml-[80px] ml-[20px]">
-  <div class="products-carousel">
-    <div class="swiper-container">
-      <div class="swiper-wrapper">
-        {productsItems.map((product) => (
-          <div class="swiper-slide">
-            <div class="product-card-container flex items-center gap-0 w-full max-w-[900px]">
+<div class={`bg-[#FCDC85] py-12 px-4 md:px-8 lg:px-12 ${className}`}>
+  <div class="max-w-7xl mx-auto">
+    
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-8 px-4">
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-black text-gray-900">
+        {currentTexts.title}
+      </h2>
+      <a 
+        href={`/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}`}
+        class="text-lg md:text-xl font-bold text-gray-900 hover:text-gray-700 transition-colors"
+      >
+        {currentTexts.viewAll}
+      </a>
+    </div>
 
-              <!-- Imagen -->
-              <div class="product-image-wrapper flex-shrink-0 -mr-16 z-10">
+    <!-- Grid de Productos -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+      {productsItems.map((product, index) => (
+        <a 
+          href={`/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}/${product.id}`}
+          class="product-card-link group"
+        >
+          <div 
+            class="rounded-3xl overflow-visible shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02] relative"
+            style={`background: ${product.background_color || `linear-gradient(to bottom right, ${backgroundColors[index % backgroundColors.length]})`}`}
+          >
+            
+            <!-- Contenedor de Imágenes con composición -->
+            <div class="relative h-64 md:h-80 lg:h-96 flex items-center justify-center p-8 overflow-visible">
+              
+              <!-- Imagen 3 (Izquierda) - Si existe -->
+              {product.imagethree && (
+                <div class="absolute left-0 lg:left-[60px] top-1/2 -translate-y-1/2 w-2/5 h-3/4 z-10">
+                  <LazyImage 
+                    src={product.imagethree} 
+                    alt={`${product.name} - variante`}
+                    class="w-full h-full object-contain drop-shadow-2xl transform -rotate-12 transition-transform duration-300 group-hover:rotate-[-8deg]"
+                  />
+                </div>
+              )}
+
+              <!-- Imagen Principal (Centro) -->
+              <div class="relative z-20 w-3/5 h-full">
                 <LazyImage 
                   src={product.imageMobile || product.image} 
                   alt={product.name}
-                  class="product-image xl:w-[200px] md:w-[150px] xl:h-[198.46px] md:h-[130px] w-[120px] h-[120px] object-contain"
+                  class="w-full h-full object-contain drop-shadow-2xl transition-transform duration-300 group-hover:scale-110"
                 />
               </div>
 
-              <!-- Tarjeta más ancha -->
-              <div class="bg-white rounded-[10px] pt-3 pb-3 md:pb-4 xl:pb-5 xl:pl-12 md:pl-12 pl-16 pr-4 flex-1 min-w-[305px] xl:h-[150px] md:h-[110px] h-[105px] flex flex-col justify-between">
-                <h3 class="text-[15px] xl:text-[20px] md:text-[15px] font-bold text-black leading-tight">
-                  {product.name}
-                </h3>
+              <!-- Imagen 2 (Derecha) - Si existe -->
+              {product.imagetwo && (
+                <div class="absolute right-0 lg:right-[50px] top-1/2 -translate-y-1/2 w-2/5 h-3/4 z-10">
+                  <LazyImage 
+                    src={product.imagetwo} 
+                    alt={`${product.name} - variante`}
+                    class="w-full h-full object-contain drop-shadow-2xl transform rotate-12 transition-transform duration-300 group-hover:rotate-[8deg]"
+                  />
+                </div>
+              )}
 
-                <p class="text-gray-600 text-[12px] xl:text-[13px] leading-snug line-clamp-2 pr-2">
-                  {product.short_description}
-                </p>
+              <!-- Badge/Icono del Producto (abajo a la derecha) -->
+              {product.badge_icon && (
+                <div class="absolute bottom-4 right-4 md:bottom-6 md:right-6 lg:bottom-8 lg:right-8 z-30">
+                  <LazyImage 
+                    src={product.badge_icon} 
+                    alt="Badge"
+                    class="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 object-contain drop-shadow-lg"
+                  />
+                </div>
+              )}
 
-                <a 
-                  href={`/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}/${product.id}`}
-                  class="inline-flex items-center text-[#F86509] font-bold text-[14px] xl:text-[16px] hover:underline"
-                  data-no-swipe="true"
-                  data-no-animation="true"
-                >
-                  {currentTexts.viewMore}
-                </a>
-              </div>
+              <!-- Badge de Texto (si no hay imagen) -->
+              {product.badge_text && !product.badge_icon && (
+                <div class="absolute bottom-4 right-4 md:bottom-6 md:right-6 lg:bottom-8 lg:right-8 z-30 bg-white/90 backdrop-blur-sm rounded-full px-4 py-2 shadow-lg">
+                  <p class="text-xs md:text-sm font-black text-gray-900 text-center leading-tight">
+                    {product.badge_text}
+                  </p>
+                </div>
+              )}
 
             </div>
+
           </div>
-        ))}
-      </div>
-      <div class="swiper-pagination"></div>
+             <div class="bg-[#FCDC85] px-6 py-4 md:px-8 md:py-6">
+              <h3 class="text-xl md:text-2xl lg:text-3xl font-black text-gray-900">
+                {product.name}
+              </h3>
+          </div>
+        </a>
+      ))}
     </div>
+    
+
+    <!-- Si solo hay 1 producto, mostrar centrado -->
+    {productsItems.length === 1 && (
+      <style>
+        .grid {
+          justify-items: center;
+        }
+        .product-card-link {
+          max-width: 600px;
+          width: 100%;
+        }
+      </style>
+    )}
+
   </div>
 </div>
 
 <style>
-  .products-carousel {
-    --swiper-theme-color: #ffffff;
-    --swiper-pagination-bullet-inactive-color: rgba(250, 240, 213, 0.45);
-    --swiper-pagination-bullet-inactive-opacity: 1;
+  .product-card-link {
+    text-decoration: none;
+    display: block;
   }
 
-  .products-carousel .swiper-pagination {
-    position: static;
-    margin-top: 16px;
-    display: flex;
-    justify-content: flex-end;
-    padding-right: 24px;
+  .product-card-link:focus {
+    outline: 2px solid #F86509;
+    outline-offset: 4px;
+    border-radius: 1.5rem;
   }
 
-  @media (min-width: 768px) {
-    .products-carousel .swiper-pagination {
-      padding-right: 40px;
-    }
-  }
-
-  .products-carousel .swiper-pagination-bullet {
-    width: 8px;
-    height: 8px;
-    background: rgba(250, 240, 213, 0.45);
-    opacity: 1;
-  }
-
-  .products-carousel .swiper-pagination .swiper-pagination-bullet-active {
-    background: #ffffff !important;
-    opacity: 1 !important;
-  }
-
-  .line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+  /* Ajustes para que las imágenes laterales no se corten */
+  .product-card-link > div {
+    position: relative;
   }
 </style>
-
-<script>
-  import Swiper from 'swiper';
-  import { Autoplay, Pagination } from 'swiper/modules';
-  import 'swiper/css';
-  import 'swiper/css/pagination';
-
-  interface ProductsCarouselOptions {
-    autoplay?: boolean;
-    speed?: number;
-    slidesPerView?: number;
-    spaceBetween?: number;
-    loop?: boolean;
-  }
-
-  class ProductsCarousel {
-    private container: HTMLElement;
-    private swiper: Swiper | null = null;
-    private options: ProductsCarouselOptions;
-
-    constructor(container: HTMLElement, options: ProductsCarouselOptions = {}) {
-      this.container = container;
-      this.options = options;
-      this.init();
-    }
-
-    private init(): void {
-      const swiperContainer = this.container.querySelector('.swiper-container') as HTMLElement;
-      
-      if (!swiperContainer) return;
-
-      const paginationEl = this.container.querySelector('.swiper-pagination') as HTMLElement | null;
-
-      const productLinks = swiperContainer.querySelectorAll('a[data-no-swipe]');
-      productLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-          e.stopPropagation();
-        });
-      });
-
-      this.swiper = new Swiper(swiperContainer, {
-        modules: [Autoplay, Pagination],
-        slidesPerView: this.options.slidesPerView || 3,
-        spaceBetween: this.options.spaceBetween || 50,
-        loop: this.options.loop !== false,
-        autoplay: this.options.autoplay ? {
-          delay: this.options.speed || 5000,
-          disableOnInteraction: false,
-        } : false,
-        pagination: paginationEl ? { el: paginationEl, clickable: true } : undefined,
-        breakpoints: {
-          320: {
-            slidesPerView: 1,
-            spaceBetween: 350,
-          },
-          768: {
-            slidesPerView: 2,
-            spaceBetween: 100,
-          },
-          1024: {
-            slidesPerView: this.options.slidesPerView || 3,
-            spaceBetween: 100,
-          },
-        },
-        preventClicksPropagation: true,
-        preventClicks: false,
-      });
-    }
-
-    public destroy(): void {
-      if (this.swiper) {
-        this.swiper.destroy();
-        this.swiper = null;
-      }
-    }
-  }
-
-  let carouselInstances: ProductsCarousel[] = [];
-
-  function cleanupCarousels() {
-    carouselInstances.forEach(instance => instance.destroy());
-    carouselInstances = [];
-  }
-
-  function initializeCarousels() {
-    cleanupCarousels();
-    
-    const carousels = document.querySelectorAll('.products-carousel');
-    carousels.forEach((element: Element) => {
-      if (element instanceof HTMLElement) {
-        const instance = new ProductsCarousel(element, {
-          autoplay: element.dataset.autoplay !== 'false',
-          speed: parseInt(element.dataset.speed || '5000', 10),
-          slidesPerView: 3,
-          spaceBetween: 50,
-          loop: true,
-        });
-        carouselInstances.push(instance);
-      }
-    });
-  }
-
-  document.addEventListener('DOMContentLoaded', initializeCarousels);
-  document.addEventListener('astro:page-load', initializeCarousels);
-  document.addEventListener('astro:after-swap', initializeCarousels);
-  document.addEventListener('astro:before-swap', cleanupCarousels);
-</script>

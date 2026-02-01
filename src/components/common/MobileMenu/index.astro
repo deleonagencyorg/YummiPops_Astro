@@ -24,7 +24,7 @@ const closeMenuLabel = t('menu_labels.close_main_menu', { namespace: 'common', l
 ---
 
 <!-- Menú Móvil Global -->
-<div id="mobile-menu" class="hidden md:hidden fixed inset-0 w-screen h-screen z-[2147483647] bg-primary bg-opacity-80 overflow-y-auto" data-current-lang={currentLang}>
+<div id="mobile-menu" class="hidden md:hidden fixed inset-0 w-screen h-screen z-[2147483647] bg-black bg-opacity-80 overflow-y-auto" data-current-lang={currentLang}>
   <div class="container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-8">
       <a href={`/${currentLang}/`} class="block">
@@ -96,7 +96,7 @@ const closeMenuLabel = t('menu_labels.close_main_menu', { namespace: 'common', l
     </nav>
 
     <div class="mt-10 flex justify-center">
-      <LanguageSwitcher activeLocale={currentLang} headerColorConfig={headerColorConfig} />
+      <LanguageSwitcher activeLocale={currentLang} headerColorConfig={headerColorConfig} textColorValue='white'/>
     </div>
 
     <!-- Selector de Idioma Móvil -->

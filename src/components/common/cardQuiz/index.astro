@@ -1,122 +1,201 @@
 ---
-import { button, span } from 'framer-motion/m';
-
-interface CardQuizInterface {
-    badge?: string;
+interface NewsletterInterface {
     title?: string;
     titleHighlight?: string;
-    description1?: string;
-    description2?: string;
-    videoSrc?: string;
-    videoPoster?: string;
-    imageSrc?: string;
+    description?: string;
+    placeholderEmail?: string;
+    buttonText?: string;
+    disclaimerText?: string;
     backgroundColor?: string;
-    titleButton?: string;
 }
 
-
 interface Props {
-    cardQuiz: CardQuizInterface;
+    newsletter: NewsletterInterface;
 }
 
 const {
-    cardQuiz
+    newsletter
 } = Astro.props;
 
 const firstSegment = (Astro.url.pathname.split('/')[1] || '').toLowerCase();
 const derivedLang = firstSegment === 'en' || firstSegment === 'es' ? firstSegment : 'es';
 
-const mediaSrc = cardQuiz.videoSrc || cardQuiz.imageSrc;
-const mediaPoster = cardQuiz.videoPoster;
+// Valores por defecto
+const defaultData = {
+    title: derivedLang === 'es' ? 'Descubre antes que nadie' : 'Discover before anyone else',
+    titleHighlight: derivedLang === 'es' ? 'lo nuevo de Yummi Pops' : 'the new from Yummi Pops',
+    description: derivedLang === 'es' 
+        ? 'Lanzamientos, promociones especiales y contenido exclusivo para amantes del snack, directo en tu correo.' 
+        : 'Launches, special promotions and exclusive content for snack lovers, straight to your email.',
+    placeholderEmail: derivedLang === 'es' ? 'Tu correo electrónico' : 'Your email address',
+    buttonText: derivedLang === 'es' ? 'Recibir novedades' : 'Get updates',
+    disclaimerText: derivedLang === 'es' ? 'Puedes darte de baja cuando quieras.' : 'You can unsubscribe anytime.',
+    backgroundColor: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)'
+};
+
+const data = {
+    ...defaultData,
+    ...newsletter
+};
 ---
 
-<section class="hidden md:block xl:block w-full py-6 md:py-12 px-4 md:px-8 xl:-mt-[100px] md:-mt-[90px]">
+<!-- Desktop Version -->
+<section class="hidden md:block w-full py-6 md:py-12 px-4 md:px-8 xl:-mt-[100px] md:-mt-[90px]">
     <div class="max-w-7xl mx-auto">
         <div
-            class="bg-[#0041CD] rounded-[20px] md:rounded-[20px] shadow-xl p-6 md:p-8 xl:p-12"
+            class="rounded-[30px] shadow-2xl p-12 md:p-16 xl:p-20 text-center relative overflow-hidden"
+            style="background: #36c367;"
         >
-            <div
-                class="flex flex-col xl:flex-row items-center gap-6 md:gap-8 xl:gap-12"
-            >
-                <!-- image Container -->
-                <div class="w-full xl:w-1/2">
-                    <div
-                        class="rounded-[20px] md:rounded-[20px] flex items-center justify-center shadow-lg overflow-hidden aspect-video"
-                        style={`background-color: ${cardQuiz.backgroundColor}`}
-                    >
-                        <video
-                            class="w-full h-full object-cover"
-                            src={mediaSrc}
-                            poster={mediaPoster}
-                            autoplay
-                            muted
-                            loop
-                            playsinline
-                        ></video>
-                    </div>
-                </div>
+            <!-- Decorative circles -->
+            <div class="absolute top-10 right-20 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-10 left-20 w-80 h-80 bg-black/10 rounded-full blur-3xl"></div>
+            
+            <!-- Triángulos decorativos (nachos) -->
+            <div class="nacho-pattern" style="background-image: url('/images/es/card/triangulos.png');"></div>
+            
+            <div class="relative z-10 max-w-4xl mx-auto space-y-8">
+                <!-- Título -->
+                <h2 class="text-4xl md:text-5xl xl:text-6xl font-black text-white leading-tight">
+                    {data.title}<br />
+                    {data.titleHighlight}
+                </h2>
 
-                <!-- Contenido de texto -->
-                <div class="w-full xl:w-1/2 space-y-4 md:space-y-6">
-                    <!-- Título con dos colores -->
-                    <h1
-                        class="text-[49px] font-bold"
-                    >
-                        <span class="text-white font-heading text-[59px] font-bold leading-none">{cardQuiz.title} </span>
-                        <br />
-                        <span class="text-white font-heading text-[59px] font-bold leading-none">{cardQuiz.titleHighlight}</span>
-                     </h1>
+                <!-- Descripción -->
+                <p class="text-white text-lg md:text-xl leading-relaxed max-w-3xl mx-auto">
+                    {data.description}
+                </p>
 
-                    <!-- Descripción párrafo 1 -->
-                    <p
-                        class="text-white text-sm md:text-base xl:text-lg leading-relaxed"
+                <!-- Form -->
+                <form class="flex flex-col md:flex-row gap-4 max-w-2xl mx-auto mt-8">
+                    <input
+                    type="email"
+                    name="email"
+                    placeholder={data.placeholderEmail}
+                    required
+                    class="flex-1 px-2 py-3 bg-transparent border-0 border-b-2 border-white text-white text-lg
+                            focus:outline-none focus:border-white/80 transition-all placeholder-white/70"
+                    />
+                    <button
+                        type="submit"
+                        class="bg-white text-gray-900 font-bold text-lg px-8 py-4 rounded-full hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg whitespace-nowrap"
                     >
-                        {cardQuiz.description1}
-                    </p>
-
-                    <button type="button" onclick="window.openQuizModal && window.openQuizModal()" class="bg-white text-white text-[19px] px-5 py-2 rounded-full font-bold w-full !bg-[#009DDA] inline-flex items-center justify-center hover:opacity-90 transition-opacity">
-                        {cardQuiz.titleButton}
+                        {data.buttonText}
                     </button>
+                </form>
 
-                </div>
+                <!-- Disclaimer -->
+                <p class="text-white/90 text-sm md:text-base mt-4">
+                    {data.disclaimerText}
+                </p>
             </div>
         </div>
     </div>
 </section>
 
-<section class="block md:hidden px-6 py-8 mx-auto max-w-[350px] -mt-[100px]">
-    <div class="bg-[#0041CD] rounded-3xl p-6 space-y-6">
+<!-- Mobile Version -->
+<section class="block md:hidden px-4 py-8 mx-auto max-w-[400px] -mt-[100px]">
+    <div 
+        class="rounded-3xl p-8 space-y-6 shadow-2xl relative overflow-hidden"
+        style="background: #36c367;"
+    >
+        <!-- Decorative circles mobile -->
+        <div class="absolute top-5 right-5 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
+        <div class="absolute bottom-5 left-5 w-40 h-40 bg-black/10 rounded-full blur-2xl"></div>
         
-        <div class="w-full">
-            <div
-            class="rounded-[20px] flex items-center justify-center shadow-lg overflow-hidden h-[320px]"
-                style={`background-color: ${cardQuiz.backgroundColor}`}
-            >
-            <video
-                class="w-full h-full object-cover"
-                src={mediaSrc}
-                poster={mediaPoster}
-                autoplay
-                muted
-                loop
-                playsinline
-            ></video>
-            </div>
-        </div>
-      <h2 class="text-4xl font-extrabold leading-tight mt-6">
-        <span class="text-white">{cardQuiz.title} </span> <br />
-        <span class="text-white">{cardQuiz.titleHighlight}</span>
-      </h2>
-  
-      <p class="text-white text-base leading-relaxed">
-        {cardQuiz.description1}
-      </p>
+        <!-- Triángulos decorativos mobile -->
+        <div class="nacho-pattern-mobile" style="background-image: url('/images/es/card/triangulos.png');"></div>
+        
+        <div class="relative z-10 text-center space-y-6">
+            <!-- Título -->
+            <h2 class="text-3xl font-black text-white leading-tight">
+                {data.title}<br />
+                {data.titleHighlight}
+            </h2>
 
-      <button type="button" onclick="window.openQuizModal && window.openQuizModal()" class="bg-white text-white text-[19px] px-5 py-2 rounded-full font-bold w-full !bg-[#009DDA] inline-flex items-center justify-center hover:opacity-90 transition-opacity">
-        {cardQuiz.titleButton}
-    </button>
-  
+            <!-- Descripción -->
+            <p class="text-white text-base leading-relaxed">
+                {data.description}
+            </p>
+
+            <!-- Form -->
+            <form class="space-y-4">
+                 <input
+                    type="email"
+                    name="email"
+                    placeholder={data.placeholderEmail}
+                    required
+                    class="flex-1 px-2 py-3 bg-transparent border-0 border-b-2 border-white text-white text-lg
+                            focus:outline-none focus:border-white/80 transition-all placeholder-white/70"
+                    />
+                <button
+                    type="submit"
+                    class="w-full bg-white text-gray-900 font-bold text-base px-6 py-4 rounded-full hover:bg-gray-100 transition-all shadow-lg"
+                >
+                    {data.buttonText}
+                </button>
+            </form>
+
+            <!-- Disclaimer -->
+            <p class="text-white/90 text-sm">
+                {data.disclaimerText}
+            </p>
+        </div>
     </div>
 </section>
-  
-  
+
+<style>
+    /* Patrón de nachos (triángulos) - Desktop */
+    .nacho-pattern {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.15;
+        pointer-events: none;
+        z-index: 1;
+        background-repeat: repeat;
+        background-size: 1000px auto;
+        background-position: center;
+    }
+
+    /* Patrón de nachos (triángulos) - Mobile */
+    .nacho-pattern-mobile {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.15;
+        pointer-events: none;
+        z-index: 1;
+        background-repeat: repeat;
+        background-size: 100px auto;
+        background-position: center;
+    }
+</style>
+
+<script>
+    // Manejo del formulario de newsletter
+    document.addEventListener('DOMContentLoaded', () => {
+        const forms = document.querySelectorAll('form');
+        
+        forms.forEach(form => {
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const formData = new FormData(e.target as HTMLFormElement);
+                const email = formData.get('email');
+                
+                // Aquí integrarías con tu servicio de newsletter (Mailchimp, SendGrid, etc.)
+                console.log('Email submitted:', email);
+                
+                // Mostrar mensaje de éxito
+                alert('¡Gracias por suscribirte! Pronto recibirás nuestras novedades.');
+                
+                // Limpiar formulario
+                (e.target as HTMLFormElement).reset();
+            });
+        });
+    });
+</script>

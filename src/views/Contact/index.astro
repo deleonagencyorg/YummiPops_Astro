@@ -16,10 +16,10 @@ import contactEn from '../../locales/en/contact.json';
 import './styles.css';
 
 interface Props {
-  title: string;
+  title?: string;
   class?: string;
   description?: string;
-  currentLang: Locale;
+  currentLang?: Locale;
   headerColorConfig?: any;
 }
 
@@ -41,44 +41,39 @@ const headerColors = {
 };
 ---
 
-<MainLayout title={title} class="bg-white" description={metaDescription} headerColorConfig={headerColors}>
+<MainLayout title={title} class="bg-white" description={metaDescription}>
   <div class=" w-[100%] mx-auto ">
     
 
     <!-- Main Contact Section -->
-    <div class="flex flex-col justify-center px-4 items-center lg:items-start lg:flex-row gap-12 py-12 bg-primaryCream">
+    <div class="flex flex-col justify-center px-4 items-center xl:items-start xl:flex-row gap-12 py-12 bg-white">
       
       <!-- Left Column - Contact Info -->
    
-    <div class="w-[100%] lg:w-[50%] pl-8 lg:pl-2 flex flex-col justify-center items-center lg:items-start text-center lg:text-left h-[100%] lg:h-[600px] ">
-        <div class="text-[#F99F33] pb-4 text-[20px]">
+    <div class="w-[100%] xl:w-[50%] pl-8 xl:pl-2 flex flex-col justify-center items-center xl:items-start text-center xl:text-left h-[100%] xl:h-[600px] ">
+        <div class="text-black pb-4 text-[20px]">
           {contact.title}
         </div>
-        <h1 class="text-black font-title text-7xl uppercase md:text-6xl lg:text-[85px] font-bold mb-6 italic">
+        <h1 class="text-black font-title text-4xl uppercase md:text-6xl lg:text-[85px] font-bold mb-6 italic">
           {contact.subtitle}
           {contact.subtitleTwo}
         </h1>
         
-        <p class="text-black font-bold text-2xl lg:text-2xl mb-8 leading-relaxed ">
+        <p class="text-black font-bold text-1xl lg:text-2xl mb-8 leading-relaxed ">
           {contact.description}
         </p>
      
-      </div>
+    </div>
       
       <!-- Right Column - Contact Form -->
-      <div class="w-[100%] lg:w-[40%]">
+      <div class="w-[100%] xl:w-[40%]">
         <FormContact currentLang={locale} />
       </div>
-    </div>
-    <div class="relative z-0">
-      <svg class=" md:block lg:block absolute md:top-[0px] lg:top-[0px] right-[0px]" width="427" height="375" viewBox="0 0 427 375" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M427 0L427 374.5C416.5 322 394 261 364 243C334 225 329 219.5 312.5 209.5C285.26 188.395 254 143 239 105.5C224 68 218.5 65 205 55.5C191.5 46 94.8911 48.0193 0 0L427 0Z" fill="#FAF0D5"/>
-      </svg>
     </div>
     <!-- Offices Section -->
     <div class="mx-auto bg-blue p-8 z-30 relative">
 
-      <h3 class="text-black md:text-4xl text-[45px] italic font-title uppercase font-bold mb-4 gap-1 text-center">
+      <h3 class="text-black text-2xl md:text-4xl text-[45px] italic font-title uppercase font-bold mb-4 gap-1 text-center">
         <span class="font-title">{contact.offices.title.split(' ')[0]} {contact.offices.title.split(' ')[1]}</span>
       </h3>
       <h1 class="text-black md:text-4xl text-[45px] italic font-title uppercase font-bold mb-4 gap-1 text-center">
@@ -94,7 +89,7 @@ const headerColors = {
               <div class="space-y-0">
                 <h3
                 id="officeName"
-                class="text-black font-sans text-[80px] md:text-7xl uppercase font-extrabold mb-4 mt-4 leading-tight"
+                class="text-black font-sans text-[50px] md:text-[80px] lg:text-[80px] md:text-7xl uppercase font-extrabold mb-4 mt-4 leading-tight"
               >
                 {contact.offices.locations["+504"].name}
               </h3>
@@ -141,8 +136,8 @@ const headerColors = {
               data-country-code={countryCode}
               class={`country-tab px-16 py-4 text-white uppercase text-sm font-semibold transition-all duration-300 flex items-center justify-center gap-2.5
                 ${index === 0 
-                  ? 'h-[54px] bg-orange opacity-100 border border-white' 
-                  : 'h-[54px] bg-[#DAD9D9] opacity-75 hover:opacity-100 !text-black'
+                  ? 'h-[54px] bg-[#FBCC38] opacity-100 border border-white !text-black' 
+                  : 'h-[54px] bg-[#FBCC38] opacity-45 hover:opacity-100 text-white'
                 } rounded-[47px]`}
             >
               {location.tab}
@@ -151,7 +146,7 @@ const headerColors = {
         </div>
           
           <!-- Map -->
-          <div class="bg-gradient-to-br w-[90%] mx-auto bg-white rounded-2xl border-[2px] border-orange p-6 shadow-lg mb-4">
+          <div class="bg-gradient-to-br w-[90%] mx-auto bg-white rounded-2xl border-[2px] border-black p-6 shadow-lg mb-4">
             <div class="w-full  overflow-hidden rounded-xl" style="height: 500px;">
               <!-- Container for all map iframes -->
               <div id="maps-container" style="width: 100%; height: 100%;">

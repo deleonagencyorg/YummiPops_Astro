@@ -109,13 +109,8 @@
     },
     {
       "id": "news",
-      "text": "Noticias",
+      "text": "Blog",
       "href": "/es/blog"
-    },
-    {
-      "id": "contact",
-      "text": "Contáctanos",
-      "href": "/es/contacto"
     }
   ],
   "about_us": {
@@ -216,8 +211,8 @@
   },
   "cardQuiz": {
     "badge" : "Nuestra Historia",
-    "title" : "¿Qué Ranchita",
-    "titleHighlight" : "eres?",
+    "title" : "Descubre antes que nadie lo nuevo de Yummi Pops",
+    "titleHighlight" : "",
     "description1" : "Cronchea con actitud y deja que el sabor diga quién eres. ¿Listo para el reto? Descubre tu esencia Ranchitas en cada mordida.",
     "titleButton": "Hacer Quiz",
     "imageSrc" : "https://snack.yummiespromociones.com/SnacksyummiesAssets/Ranchitas_loop.mp4",
