@@ -1,13 +1,9 @@
 ---
 // src/views/Recipes/Detail/index.astro
 import './styles.css';
-
 import LazyImage from '../../../components/common/LazyImage.astro';
-
-import ShareModal from '../../../components/common/ShareModal.astro';
-import ProductCarousel from '../../../components/recipes/ProductCarousel.astro';
-import RelatedRecipesCarousel from '../../../components/recipes/RelatedRecipesCarousel.astro';
-import SocialShare from '../../../components/common/SocialShare.astro';
+import RecipeCard from '../../../components/recipes/RecipeCard.astro';
+import { t, getLocale } from '../../../i18n/i18n';
 
 interface RecipeItem {
   id: string;
@@ -22,11 +18,12 @@ interface RecipeItem {
   image?: string;
   tags?: string[];
   product?: string | string[];
+  chef_tips?: string[];
 }
 
 const { currentLang, recipeId } = Astro.props;
 
-// Import all recipe files with static glob and filter by language
+// Import all recipe files
 const recipeModules = import.meta.glob<{ default: RecipeItem }>("../../../locales/*/recipes/*.json");
 const allRecipes: RecipeItem[] = [];
 for (const path in recipeModules) {
@@ -40,299 +37,312 @@ for (const path in recipeModules) {
 // Find current recipe
 const recipe = allRecipes.find((item: RecipeItem) => item.id === recipeId);
 
-// Get related recipes (filter current and limit to 3)
+// Get related recipes
 const relatedRecipes = allRecipes
-  .filter((item: RecipeItem) => item.id !== recipeId);
+  .filter((item: RecipeItem) => item.id !== recipeId)
+  .slice(0, 3);
 
 if (!recipe) {
   throw new Error(`Recipe with id ${recipeId} not found`);
 }
 
-// Load shared recipe assets (titles, labels etc)
-const recipesAssets = {
-  ingredients: currentLang === 'es' ? 'Ingredientes' : 'Ingredients',
-  procedure: currentLang === 'es' ? 'Procedimiento' : 'Procedure',
-  time: currentLang === 'es' ? 'Tiempo' : 'Time',
-  difficulty: currentLang === 'es' ? 'Dificultad' : 'Difficulty',
-  servings: currentLang === 'es' ? 'Porciones' : 'Servings',
-  related_recipes: currentLang === 'es' ? 'Recetas relacionadas' : 'Related recipes'
-};
+// Load products using t() function
+const products = t('items', { namespace: 'products', locale: currentLang }) || [];
 
-// Traducir categorías
-const categoryTranslations: Record<string, string> = {
-  'breakfast': currentLang === 'es' ? 'Desayuno' : 'Breakfast',
-  'brunch': 'Brunch',
-  'lunch': currentLang === 'es' ? 'Almuerzo' : 'Lunch',
-  'dinner': currentLang === 'es' ? 'Cena' : 'Dinner',
-  'snack': currentLang === 'es' ? 'Snack' : 'Snack'
-};
-
-const displayCategory = recipe.category ? (categoryTranslations[recipe.category.toLowerCase()] || recipe.category) : 'Receta';
+// Textos
+const backText = currentLang === 'es' ? 'Volver a recetas' : 'Back to recipes';
+const shareText = currentLang === 'es' ? 'Compartir' : 'Share';
+const copyLinkText = currentLang === 'es' ? 'Copiar link' : 'Copy link';
+const ingredientsTitle = currentLang === 'es' ? 'Ingredientes' : 'Ingredients';
+const preparationTitle = currentLang === 'es' ? 'Preparación' : 'Preparation';
+const recommendedProductTitle = currentLang === 'es' ? 'Producto recomendado' : 'Recommended product';
+const viewProductButton = currentLang === 'es' ? 'Ver producto' : 'View product';
+const chefTipsTitle = currentLang === 'es' ? 'Tips del Chef' : 'Chef Tips';
+const similarRecipesTitle = currentLang === 'es' ? 'Recetas similares' : 'Similar recipes';
+const viewAllButton = currentLang === 'es' ? 'Ver todo' : 'See all';
+const perfectIngredientText = currentLang === 'es' ? 'El ingrediente perfecto para esta receta' : 'The perfect ingredient for this recipe';
 
 function formatTime(minutes: number): string {
   const hours = Math.floor(minutes / 60);
   const mins = minutes % 60;
   
   if (currentLang === 'es') {
-    return hours > 0 
-      ? `${hours}h ${mins}min` 
-      : `${mins} min`;
+    return hours > 0 ? `${hours}h ${mins}min` : `${mins} min`;
   } else {
-    return hours > 0 
-      ? `${hours}h ${mins}m` 
-      : `${mins} min`;
+    return hours > 0 ? `${hours}h ${mins}m` : `${mins} min`;
   }
 }
 
-// Obtener slugs de productos de la receta
-const productSlugs = Array.isArray(recipe.product) 
-  ? recipe.product 
-  : recipe.product 
-    ? [recipe.product] 
-    : [];
+// Get product info
+const productSlug = Array.isArray(recipe.product) ? recipe.product[0] : recipe.product;
 
-const relatedRecipesTitle = currentLang === 'es' ? 'Recetas recomendadas' : 'Recommended recipes';
+// Find product data from products array
+const productData = products.find((item: any) => item.id === productSlug) || null;
+
+// Chef tips (si no existen en recipe, usar valores por defecto)
+const chefTips = recipe.chef_tips || [
+  currentLang === 'es' ? 'Usa Yummi Pops para un toque extra crujiente' : 'Use Yummi Pops for an extra crunchy touch',
+  currentLang === 'es' ? 'Tamiza bien la harina para evitar grumos' : 'Sift the flour well to avoid lumps',
+  currentLang === 'es' ? 'No sobre mezcles para mantener la textura' : 'Don\'t overmix to maintain texture'
+];
 ---
 
-<div class="bg-primaryCream min-h-screen">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <!-- Back button -->
-    <div class="pt-8">
-    <a href={`/${currentLang}/recetas`} class="inline-flex items-center gap-2 text-[#F86509] hover:text-[#d55507] transition-colors">
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M10.0003 15.8333L4.16699 10L10.0003 4.16667" stroke="currentColor" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M15.8337 10H4.16699" stroke="currentColor" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      <span class="font-medium">{currentLang === 'es' ? 'Volver a recetas' : 'Back to recipes'}</span>
-    </a>
-  </div>
+<div class="bg-white min-h-screen">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    
+    <!-- Back Button -->
+    <div class="mb-6">
+      <a 
+        href={`/${currentLang}/${currentLang === 'es' ? 'recetas' : 'recipes'}`} 
+        class="inline-flex items-center gap-2 text-gray-700 hover:text-gray-900 transition-colors"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+        <span class="font-medium">{backText}</span>
+      </a>
+    </div>
 
-    <!-- Main Content -->
-    <section class="py-12">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+    <!-- Header Section -->
+    <div class="mb-8">
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6">
+        {recipe.title}
+      </h1>
+
+      <!-- Info Pills -->
+      <div class="flex flex-wrap items-center gap-4 mb-6">
+        <!-- Time -->
+        <div class="flex items-center gap-2 text-gray-700">
+          <svg class="w-5 h-5 text-[#F9A825]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <span class="font-medium">{formatTime(recipe.preparation_time)}</span>
+        </div>
+
+        <!-- Servings -->
+        <div class="flex items-center gap-2 text-gray-700">
+          <svg class="w-5 h-5 text-[#F9A825]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+          </svg>
+          <span class="font-medium">{recipe.servings} {currentLang === 'es' ? 'porciones' : 'servings'}</span>
+        </div>
+
+        <!-- Difficulty -->
+        <div class="flex items-center gap-2 text-gray-700">
+          <svg class="w-5 h-5 text-[#F9A825]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+          </svg>
+          <span class="font-medium">{recipe.difficulty || (currentLang === 'es' ? 'Fácil' : 'Easy')}</span>
+        </div>
+      </div>
+
+      <!-- Share Buttons -->
+      <div class="flex gap-3">
+        <button 
+          id="shareButton"
+          class="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+          </svg>
+          <span class="font-medium">{shareText}</span>
+        </button>
+
+        <button 
+          id="copyLinkButton"
+          class="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+          </svg>
+          <span class="font-medium">{copyLinkText}</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
       
-      <!-- Left Column: Image -->
-      <div class="flex flex-col gap-6">
+      <!-- Left Column (2/3) -->
+      <div class="lg:col-span-2 space-y-8">
+        
+        <!-- Recipe Image -->
         {recipe.image && (
-          <div class="relative rounded-[2.5rem] overflow-hidden w-full aspect-square max-w-[600px]">
+          <div class="relative rounded-3xl overflow-hidden aspect-video">
             <LazyImage
               src={recipe.image} 
               alt={recipe.title}
               class="w-full h-full object-cover"
-              onerror="this.onerror=null;this.src='/images/recipes/placeholder.jpg';"
               transition:name={`recipe-image-${recipe.id}`}
             />
           </div>
         )}
 
-        <!-- Social Share Buttons -->
-        <div class="flex items-center justify-center gap-3">
-          <button 
-            onclick={`window.open('https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(Astro.url.href)}', '_blank', 'width=600,height=400')`}
-            class="w-12 h-12 rounded-xl bg-[#F04F00] text-white flex items-center justify-center hover:bg-[#d54500] transition-colors" 
-            aria-label="Facebook"
-          >
-            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-            </svg>
-          </button>
-          <button 
-            onclick={`window.open('https://twitter.com/intent/tweet?url=${encodeURIComponent(Astro.url.href)}&text=${encodeURIComponent(recipe.title)}', '_blank', 'width=600,height=400')`}
-            class="w-12 h-12 rounded-xl bg-[#F04F00] text-white flex items-center justify-center hover:bg-[#d54500] transition-colors" 
-            aria-label="Twitter"
-          >
-            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-            </svg>
-          </button>
-          <button onclick="window.print()" class="w-12 h-12 rounded-xl bg-[#F04F00] text-white flex items-center justify-center hover:bg-[#d54500] transition-colors" aria-label="Print">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      <!-- Right Column: Recipe Info -->
-      <div class="flex flex-col gap-6">
-        <!-- Category Badge -->
-        <div>
-          <span class="inline-block bg-[#F04F00] text-white px-6 py-2 rounded-full font-bold text-sm">
-            {displayCategory}
-          </span>
-        </div>
-
-        <!-- Title -->
-        <h1 class="text-4xl md:text-5xl font-bold italic">
-          {recipe.title}
-        </h1>
-
-        <!-- Description -->
-        <p class="text-gray-700 text-base leading-relaxed">
-          {recipe.description}
-        </p>
-
-        <!-- Info Cards -->
-        <div class="grid grid-cols-3 gap-4">
-          <!-- Time -->
-          <div class="bg-[#F5EDD8] rounded-2xl p-6 flex flex-col items-center justify-center gap-3">
-            <svg class="w-10 h-10 text-[#F04F00]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-            <div class="text-center">
-              <div class="font-bold text-xl">{formatTime(recipe.preparation_time)}</div>
-              <div class="text-sm text-gray-600">{recipesAssets.time}</div>
-            </div>
-          </div>
-
-          <!-- Difficulty -->
-          <div class="bg-[#F5EDD8] rounded-2xl p-6 flex flex-col items-center justify-center gap-3">
-            <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M25.0038 31.6734C25.4458 31.6734 25.8698 31.4978 26.1823 31.1853C26.4949 30.8727 26.6705 30.4488 26.6705 30.0068V21.0901C26.6705 20.3284 27.1972 19.6834 27.8822 19.3551C29.3004 18.6785 30.4342 17.5227 31.0832 16.0916C31.7322 14.6605 31.8549 13.0461 31.4295 11.5333C31.0041 10.0206 30.0581 8.70676 28.7583 7.82366C27.4585 6.94056 25.8885 6.54499 24.3255 6.70675C23.6818 5.21043 22.6136 3.93558 21.2531 3.03981C19.8926 2.14405 18.2994 1.66666 16.6705 1.66666C15.0416 1.66666 13.4484 2.14405 12.0879 3.03981C10.7274 3.93558 9.65921 5.21043 9.01549 6.70675C7.45312 6.54612 5.88422 6.94226 4.58538 7.82531C3.28654 8.70837 2.34117 10.0216 1.91596 11.5336C1.49075 13.0455 1.613 14.6591 2.26116 16.0897C2.90932 17.5203 4.04176 18.6761 5.45882 19.3534C6.14382 19.6834 6.67049 20.3284 6.67049 21.0884V30.0068C6.67049 30.4488 6.84608 30.8727 7.15864 31.1853C7.4712 31.4978 7.89512 31.6734 8.33715 31.6734H25.0038Z" stroke="#F86509" stroke-width="3.33333" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              
-            <div class="text-center">
-              <div class="font-bold text-xl">{recipe.difficulty || 'Fácil'}</div>
-              <div class="text-sm text-gray-600">{recipesAssets.difficulty}</div>
-            </div>
-          </div>
-
-          <!-- Servings -->
-          <div class="bg-[#F5EDD8] rounded-2xl p-6 flex flex-col items-center justify-center gap-3">
-            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M26.6669 3.33334L22.8336 7.16668C21.9174 8.10132 21.4043 9.35791 21.4043 10.6667C21.4043 11.9754 21.9174 13.232 22.8336 14.1667L25.8336 17.1667C26.7682 18.0828 28.0248 18.596 29.3336 18.596C30.6423 18.596 31.8989 18.0828 32.8336 17.1667L36.6669 13.3333" stroke="#F86509" stroke-width="3.33333" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M25.0004 25L5.50043 5.49997C4.83524 6.15173 4.30678 6.92967 3.94601 7.78822C3.58524 8.64678 3.39941 9.56869 3.39941 10.5C3.39941 11.4312 3.58524 12.3532 3.94601 13.2117C4.30678 14.0703 4.83524 14.8482 5.50043 15.5L17.6671 27.6666C18.8338 28.8333 21.0004 28.8333 22.3338 27.6666L25.0004 25ZM25.0004 25L36.6671 36.6666" stroke="#F86509" stroke-width="3.33333" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M3.5 36.3333L14.1667 25.8333" stroke="#F86509" stroke-width="3.33333" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M31.6667 8.33334L20 20" stroke="#F86509" stroke-width="3.33333" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              
-            <div class="text-center">
-              <div class="font-bold text-xl">{recipe.servings}</div>
-              <div class="text-sm text-gray-600">{recipesAssets.servings}</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Tabs -->
-        <div class="flex gap-2">
-          <button 
-            id="ingredientsTab"
-            class="flex-1 py-3 px-6 rounded-full font-bold transition-colors bg-[#F04F00] text-white"
-            onclick="showTab('ingredients')"
-          >
-            {recipesAssets.ingredients}
-          </button>
-          <button 
-            id="procedureTab"
-            class="flex-1 py-3 px-6 rounded-full font-bold transition-colors bg-[#F5EDD8] text-gray-700"
-            onclick="showTab('procedure')"
-          >
-            {recipesAssets.procedure}
-          </button>
-        </div>
-
-        <!-- Tab Content -->
-        <div id="ingredientsContent" class="bg-[#F04F00] rounded-2xl p-8">
-          <ul class="space-y-4 text-white">
+        <!-- Ingredientes Section -->
+        <div class="border-l-4 border-[#F9A825] pl-6">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            {ingredientsTitle}
+          </h2>
+          <ul class="space-y-3">
             {recipe.ingredients.map((ingredient: string) => (
-              <li class="flex items-start gap-3">
-                <span class="w-2 h-2 rounded-full bg-white mt-2 flex-shrink-0"></span>
+              <li class="flex items-start gap-3 text-gray-700">
+                <span class="w-1.5 h-1.5 rounded-full bg-gray-400 mt-2 flex-shrink-0"></span>
                 <span class="text-base">{ingredient}</span>
               </li>
             ))}
           </ul>
         </div>
 
-        <div id="procedureContent" class="hidden bg-[#F5EDD8] rounded-2xl p-8">
-          <ol class="space-y-4 text-gray-800 list-decimal list-inside">
+        <!-- Preparación Section -->
+        <div class="border-l-4 border-[#F9A825] pl-6">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            {preparationTitle}
+          </h2>
+          <div class="space-y-6">
             {recipe.instructions.map((instruction: string, index: number) => (
-              <li class="text-base leading-relaxed">
-                <span class="font-bold">{currentLang === 'es' ? 'Paso' : 'Step'} {index + 1}:</span> {instruction}
+              <div class="flex gap-4">
+                <div class="flex-shrink-0">
+                  <div class="w-10 h-10 rounded-full bg-[#F9A825] text-white font-bold flex items-center justify-center">
+                    {index + 1}
+                  </div>
+                </div>
+                <div class="flex-1 pt-2">
+                  <p class="text-gray-700 text-base leading-relaxed">{instruction}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column (1/3) -->
+      <div class="space-y-6">
+        
+        <!-- Producto Recomendado Card -->
+        {productData && (
+          <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-3xl p-6 text-white">
+            <div class="text-start mb-4">
+              <span class="inline-block bg-white/20 px-4 py-1 rounded-full text-sm font-semibold">
+                {recommendedProductTitle}
+              </span>
+            </div>
+
+            <div class="rounded-2xl p-6 mb-4">
+              <img 
+                src={productData.image} 
+                alt={productData.name}
+                class="w-full h-48 object-contain"
+              />
+            </div>
+
+            <h3 class="text-xl font-bold mb-2 text-center">
+              {productData.name}
+            </h3>
+            
+            <p class="text-sm text-center mb-4 opacity-90">
+              {perfectIngredientText}
+            </p>
+
+            <a 
+              href={`/${currentLang}/productos/${productData.id}`}
+              class="block w-full bg-white text-blue-600 text-center font-bold py-3 rounded-[10px] hover:bg-gray-100 transition-colors"
+            >
+              {viewProductButton}
+            </a>
+          </div>
+        )}
+
+        <!-- Tips del Chef Card -->
+        <div class="bg-[#FFF9E6] rounded-3xl p-6">
+          <div class="flex items-center gap-3 mb-4">
+            <svg class="w-8 h-8 text-[#F9A825]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+            </svg>
+            <h3 class="text-2xl font-black text-gray-900">
+              {chefTipsTitle}
+            </h3>
+          </div>
+
+          <ul class="space-y-3">
+            {chefTips.map((tip: string) => (
+              <li class="flex items-start gap-3 text-gray-700">
+                <svg class="w-5 h-5 text-[#F9A825] flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                </svg>
+                <span class="text-sm leading-relaxed">{tip}</span>
               </li>
             ))}
-          </ol>
+          </ul>
         </div>
+
       </div>
     </div>
-    </section>
 
-    <!-- Product Carousel Section -->
-    {productSlugs.length > 0 && (
-      <section class="py-12">
-        <ProductCarousel 
-          productSlugs={productSlugs}
-          currentLang={currentLang}
-        />
-      </section>
-    )}
-
-    <!-- Related Recipes Section -->
+    <!-- Recetas Similares Section -->
     {relatedRecipes.length > 0 && (
-      <section class="py-12">
-        <div class="mb-8">
-          <h2 class="text-3xl md:text-4xl font-bold text-black text-center">
-            {relatedRecipesTitle}
+      <section>
+        <div class="flex items-center justify-between mb-8">
+          <h2 class="text-3xl md:text-4xl font-black text-gray-900">
+            {similarRecipesTitle}
           </h2>
+          <a 
+            href={`/${currentLang}/${currentLang === 'es' ? 'recetas' : 'recipes'}`}
+            class="bg-blue-600 text-white px-6 py-3 rounded-full font-bold hover:bg-blue-700 transition-colors"
+          >
+            {viewAllButton}
+          </a>
         </div>
-        <RelatedRecipesCarousel items={relatedRecipes} />
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {relatedRecipes.map((relatedRecipe: RecipeItem) => (
+            <RecipeCard
+              image={relatedRecipe.image || '/images/recipes/placeholder.jpg'}
+              title={relatedRecipe.title}
+              time={`${relatedRecipe.preparation_time}MIN`}
+              id={relatedRecipe.id}
+              difficulty={relatedRecipe.difficulty || (currentLang === 'es' ? 'Fácil' : 'Easy')}
+              product={Array.isArray(relatedRecipe.product) ? relatedRecipe.product[0] : relatedRecipe.product}
+            />
+          ))}
+        </div>
       </section>
     )}
+
   </div>
 </div>
 
 <script>
-  // Tab functionality
-  function showTab(tabName: string) {
-    const ingredientsTab = document.getElementById('ingredientsTab');
-    const procedureTab = document.getElementById('procedureTab');
-    const ingredientsContent = document.getElementById('ingredientsContent');
-    const procedureContent = document.getElementById('procedureContent');
-
-    if (tabName === 'ingredients') {
-      ingredientsTab?.classList.add('bg-[#F04F00]', 'text-white');
-      ingredientsTab?.classList.remove('bg-[#F5EDD8]', 'text-gray-700');
-      procedureTab?.classList.add('bg-[#F5EDD8]', 'text-gray-700');
-      procedureTab?.classList.remove('bg-[#F04F00]', 'text-white');
-      ingredientsContent?.classList.remove('hidden');
-      procedureContent?.classList.add('hidden');
-    } else {
-      procedureTab?.classList.add('bg-[#F04F00]', 'text-white');
-      procedureTab?.classList.remove('bg-[#F5EDD8]', 'text-gray-700');
-      ingredientsTab?.classList.add('bg-[#F5EDD8]', 'text-gray-700');
-      ingredientsTab?.classList.remove('bg-[#F04F00]', 'text-white');
-      procedureContent?.classList.remove('hidden');
-      ingredientsContent?.classList.add('hidden');
-    }
-  }
-
-  // Make function available globally
-  (window as any).showTab = showTab;
-
-  // Image error handling
-  document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('img').forEach(img => {
-      if (!img.hasAttribute('onerror')) {
-        img.addEventListener('error', function(this: HTMLImageElement) {
-          this.onerror = null;
-          this.src = '/images/recipes/placeholder.jpg';
+  // Share functionality
+  document.getElementById('shareButton')?.addEventListener('click', async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: document.title,
+          url: window.location.href
         });
+      } catch (err) {
+        console.log('Error sharing:', err);
       }
-    });
+    } else {
+      alert('Share not supported on this browser');
+    }
+  });
+
+  // Copy link functionality
+  document.getElementById('copyLinkButton')?.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      const button = document.getElementById('copyLinkButton');
+      const originalText = button?.innerHTML;
+      if (button) {
+        button.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg><span class="font-medium">¡Copiado!</span>';
+        setTimeout(() => {
+          button.innerHTML = originalText || '';
+        }, 2000);
+      }
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
   });
 </script>
-
-<!-- Share Modal instance -->
-<ShareModal
-  id="shareModal-recipe"
-  url={Astro.url.href}
-  title={recipe.title}
-  description={recipe.description}
-  hashtags={recipe.tags || []}
-  showLabels={false}
-  iconSize={40}
-  round={true}
-  openTextEs="Comparte esta receta en tus redes sociales"
-  openTextEn="Share this recipe on your social networks"
-  acceptTextEs="Aceptar"
-  acceptTextEn="Accept"
-/>
