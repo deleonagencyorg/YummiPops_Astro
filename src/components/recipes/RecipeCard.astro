@@ -1,8 +1,8 @@
 ---
-import LazyImage from '../common/LazyImage.astro';
-import { getLocale } from '../../i18n/i18n';
-import { Image } from 'astro:assets';
-import { fade } from 'astro:transitions';
+import LazyImage from "../common/LazyImage.astro";
+import { getLocale } from "../../i18n/i18n";
+import { Image } from "astro:assets";
+import { fade } from "astro:transitions";
 
 interface Props {
   image: string;
@@ -18,72 +18,57 @@ interface Props {
   product?: string;
 }
 
-const { 
-  image, 
-  title, 
-  time = "---", 
+const {
+  image,
+  title,
+  time = "---",
   id,
-  textColor = 'text-blue-900',
-  iconColor = 'text-blue-900',
+  textColor = "text-blue-900",
+  iconColor = "text-blue-900",
   hoverImage = image,
   difficulty = "Fácil",
   servings = 0,
   rating = 0,
-  product = "Ranchitas Naturales"
+  product = "Ranchitas Naturales",
 } = Astro.props;
 
 const currentLocale = getLocale();
-const recipeLink = `/${currentLocale}/${currentLocale === 'es' ? 'recetas' : 'recipes'}/${id}`;
-const viewRecipeText = currentLocale === 'es' ? 'Ver receta' : 'View recipe';
+const recipeLink = `/${currentLocale}/${currentLocale === "es" ? "recetas" : "recipes"}/${id}`;
+const viewRecipeText = currentLocale === "es" ? "Ver receta" : "View recipe";
 
 // Formatear el slug del producto: quitar guiones y capitalizar cada palabra
 function formatProductName(slug: string): string {
   return slug
-    .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 }
 
-const displayProduct = product ? formatProductName(product) : '';
+const displayProduct = product ? formatProductName(product) : "";
 ---
 
-<a 
-  href={recipeLink} 
-  class="block group overflow-hidden rounded-[2.5rem] bg-white shadow-lg hover:shadow-2xl transition-all duration-300"
-  transition:animate="fade"
->
-  <!-- Imagen principal -->
-  <div class="relative h-[250px] overflow-hidden">
-    <LazyImage
-      src={image}
-      alt={title}
-      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-      transition:name={`recipe-image-${id}`}
-    />
-  </div>
-  
-  <!-- Contenido inferior -->
+<div>
+  <a
+    href={recipeLink}
+    class="block group overflow-hidden rounded-[2.5rem] bg-white shadow-lg hover:shadow-2xl transition-all duration-300"
+    transition:animate="fade"
+  >
+    <!-- Imagen principal -->
+    <div class="relative h-[250px] overflow-hidden">
+      <LazyImage
+        src={image}
+        alt={title}
+        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+        transition:name={`recipe-image-${id}`}
+      />
+    </div>
+
+    <!-- Contenido inferior -->
+  </a>
   <div class="p-6 bg-white">
     <!-- Título -->
     <h3 class="text-2xl font-bold text-black mb-3 leading-tight">
       {title}
     </h3>
-    
-    <!-- Dificultad y Producto en línea horizontal -->
-    <div class="flex items-center gap-3 mb-4">
-      <span class="text-[#F04F00] font-bold text-base">
-        {difficulty}
-      </span>
-      {displayProduct && (
-        <span class="text-gray-500 text-base font-normal">
-          {currentLocale === 'es' ? 'Con' : 'With'} {displayProduct}
-        </span>
-      )}
-    </div>
-    
-    <!-- Ver receta link -->
-    <div class="flex items-center text-[#F04F00] font-bold text-base group-hover:translate-x-2 transition-transform">
-      {viewRecipeText} →
-    </div>
   </div>
-</a>
+</div>
