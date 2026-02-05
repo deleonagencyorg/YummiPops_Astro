@@ -26,17 +26,18 @@ export interface Props {
   textButton?: string;
   items?: any[];
   detail?: boolean;
+  categories?: Array<{label: string, value: string}>;
 }
 
 const {
-  title = currentLang === 'es' ? 'Recetas' : 'Recipes',
-  subtitle = currentLang === 'es' ? 'Descubre nuevas recetas' : 'Discover new recipes',
-  description = currentLang === 'es' 
-    ? 'Fusiona sabores universales y el cronch de Ranchitas, con estas opciones deliciosas y fáciles de preparar.'
-    : 'Combine universal flavors and the crunch of Ranchitas with these delicious and easy-to-prepare options.',
-  textButton = currentLang === 'es' ? 'Descubrir más' : 'Discover more',
+  title = currentLang === 'es' ? 'Descubre nuestras recetas' : 'Discover our recipes',
+  textButton = currentLang === 'es' ? 'Ver todo' : 'View all',
   items,
-  detail = false
+  detail = false,
+  categories = [
+    { label: currentLang === 'es' ? 'Con Yummi Pops Nacho' : 'With Yummi Pops Nacho', value: 'nacho' },
+    { label: currentLang === 'es' ? 'Con Yummi Pops Palomitas' : 'With Yummi Pops Popcorn', value: 'palomitas' }
+  ]
 } = Astro.props;
 
 let recipeItems: Recipe[] = Array.isArray(items) ? (items as unknown as Recipe[]) : [];
@@ -50,96 +51,260 @@ if (!recipeItems.length) {
     }
   }
 }
+
+// Colores de gradiente para cada tarjeta
+const cardGradients = [
+  'from-green-400 to-green-500',
+  'from-fuchsia-500 to-fuchsia-600',
+  'from-blue-500 to-blue-600',
+  'from-orange-400 to-orange-500',
+  'from-purple-500 to-purple-600'
+];
 ---
 
-<section class="w-full py-12 overflow-hidden">
+<section class="w-full py-12 bg-[#FCDC85]">
   <div class="max-w-[1600px] mx-auto px-4 md:px-8">
-    <div class="flex flex-col lg:flex-row gap-8 items-center">
-      
-      <!-- Lado izquierdo - Contenido de texto -->
-      <div class="w-full lg:w-1/3 space-y-6">
-        <!-- Badge verde -->
-        <div class="inline-block">
-          <span class=`font-mohave font-bold text-[20px] ${detail ? 'text-[#F86509]' : 'text-[#7FBB00]'} uppercase leading-none tracking-normal`>
-            {title}
-          </span>
-        </div>
-
-        <!-- Título principal -->
-        <h2 class=`text-[50px] md:text-5xl lg:text-6xl font-bold ${detail ? 'text-white' : 'text-black'}  leading-none`>
-          {subtitle}
-        </h2>
-
-        <!-- Descripción -->
-        <p class=`${detail ? 'text-white' : 'text-gray-700'}  text-base md:text-lg`>
-          {description}
-        </p>
-
-        <!-- Botón -->
-        <a 
-          href={`/${currentLang}/${currentLang === 'es' ? 'recetas' : 'recipes'}`}
-          class=`md:inline-block lg:inline-block hidden ${detail ? 'bg-[#F86509] ' : 'bg-[#84BC00] '}  text-white py-[10px] px-[60px] rounded-full font-bold text-lg hover:bg-[#6da000] transition-colors`
-        >
-          {textButton}
-        </a>
-        <a 
-          href={`/${currentLang}/${currentLang === 'es' ? 'recetas' : 'recipes'}`}
-          class=`md:hidden lg:hidden inline-block ${detail ? 'bg-[#F86509] ' : 'bg-[#84BC00] '}  text-white w-full flex p-[10px] items-center justify-center rounded-full font-bold text-lg hover:bg-[#6da000] transition-colors`
-        >
-          {textButton}
-        </a>
-      </div>
-
-      <!-- Lado derecho - Carrusel de recetas -->
-      <div class="w-full lg:w-2/3" data-recipes-carousel>
-        <div class="recipes-carousel relative">
-          <div class="recipes-carousel-container ">
-            <div 
-              class="recipes-carousel-track flex gap-6 transition-transform duration-500 ease-in-out" 
-              id="recipesTrack"
-            >
-              {recipeItems.map((recipe, index) => (
-                <div 
-                  class="recipe-slide flex-shrink-0 w-full md:w-[50%]"
-                  data-index={index}
-                >
-                  <a 
-                    href={`/${currentLang}/${currentLang === 'es' ? 'recetas' : 'recipes'}/${recipe.id}`}
-                    class={`block ${detail ? 'bg-[#F86509] ' : 'bg-[#84BC00] '} rounded-[20px] overflow-hidden shadow-xl hover:shadow-2xl transition-shadow h-full`}
-                  >
-                    <!-- Imagen -->
-                    <div class="p-6 pb-0">
-                      <img 
-                        src="/images/es/products/recipeimage.jpg"
-                        alt={recipe.title}
-                        class="w-full h-[250px] object-cover object-left rounded-[30px]"
-                      />
-                    </div>
-
-                    <!-- Contenido -->
-                    <div class="p-8 text-white space-y-4">
-                      <h3 class="text-2xl md:text-3xl font-bold leading-tight">
-                        {recipe.title}
-                      </h3>
-
-                      {recipe.description && (
-                        <p class="text-white/90 text-base leading-relaxed line-clamp-3">
-                          {recipe.description}
-                        </p>
-                      )}
-
-                      <div class="inline-flex items-center text-white font-bold text-lg hover:underline">
-                        {currentLang === 'es' ? 'Leer más' : 'Read more'}
-                      </div>
-                    </div>
-                  </a>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-
+    
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-8">
+      <h2 class="text-4xl md:text-5xl font-black text-gray-900">
+        {title}
+      </h2>
+      <a 
+        href={`/${currentLang}/${currentLang === 'es' ? 'recetas' : 'recipes'}`}
+        class="text-xl font-bold text-gray-900 hover:text-gray-700 transition-colors"
+      >
+        {textButton}
+      </a>
     </div>
+
+    <!-- Tabs de categorías -->
+    <div class="flex gap-3 mb-8" id="recipeTabs">
+      {categories.map((category, index) => (
+        <button 
+          type="button"
+          class={`tab-btn px-8 py-3 rounded-full font-bold text-base transition-all ${index === 0 ? 'bg-white text-gray-900 shadow-md' : 'bg-white/50 text-gray-700'}`}
+          data-category={category.value}
+        >
+          {category.label}
+        </button>
+      ))}
+    </div>
+
+    <!-- Carousel de recetas -->
+    <div class="relative">
+      <div class="overflow-hidden" id="recipesCarouselWrapper">
+        <div 
+          class="flex gap-6 transition-transform duration-500 ease-out"
+          id="recipesTrack"
+        >
+          {recipeItems.map((recipe, index) => (
+            <div 
+              class="recipe-slide flex-shrink-0 w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"
+              data-category={recipe.category}
+            >
+              <a 
+                href={`/${currentLang}/${currentLang === 'es' ? 'recetas' : 'recipes'}/${recipe.id}`}
+                class="block group"
+              >
+                <!-- Card con gradiente -->
+                <div class={`bg-gradient-to-br ${cardGradients[index % cardGradients.length]} rounded-[30px] overflow-hidden shadow-xl hover:shadow-2xl transition-all transform hover:scale-[1.02] p-6`}>
+                  
+                  <!-- Imagen -->
+                  <div class="mb-0">
+                    <img 
+                      src={recipe.image || "/images/es/products/recipeimage.jpg"}
+                      alt={recipe.title}
+                      class="w-full h-[280px] object-cover rounded-[20px]"
+                    />
+                  </div>
+                </div>
+
+                <!-- Título fuera de la tarjeta -->
+                <h3 class="text-xl md:text-2xl font-black text-gray-900 mt-4 leading-tight">
+                  {recipe.title}
+                </h3>
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Controles de navegación -->
+      <div class="flex gap-3 justify-end mt-6">
+        <button 
+          type="button"
+          id="prevBtn"
+          class="w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-gray-100 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          aria-label="Previous"
+        >
+          <svg class="w-6 h-6 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+        </button>
+        <button 
+          type="button"
+          id="nextBtn"
+          class="w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-gray-100 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          aria-label="Next"
+        >
+          <svg class="w-6 h-6 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
   </div>
 </section>
+
+<style>
+  .recipe-slide {
+    scroll-snap-align: start;
+  }
+</style>
+
+<script>
+  function initRecipesCarousel() {
+    const track = document.getElementById('recipesTrack') as HTMLElement;
+    const prevBtn = document.getElementById('prevBtn') as HTMLButtonElement;
+    const nextBtn = document.getElementById('nextBtn') as HTMLButtonElement;
+    const tabs = document.querySelectorAll('.tab-btn');
+    const allSlides = document.querySelectorAll('.recipe-slide') as NodeListOf<HTMLElement>;
+
+    if (!track || !prevBtn || !nextBtn) {
+      console.error('Elementos del carrusel no encontrados');
+      return;
+    }
+
+    let currentIndex = 0;
+    let currentCategory = 'all';
+
+    function getSlidesPerView() {
+      if (window.innerWidth >= 1024) return 3;
+      if (window.innerWidth >= 768) return 2;
+      return 1;
+    }
+
+    function getVisibleSlides() {
+      return Array.from(allSlides).filter(slide => slide.style.display !== 'none');
+    }
+
+    function updateCarousel() {
+      const visibleSlides = getVisibleSlides();
+      const slidesPerView = getSlidesPerView();
+      const maxIndex = Math.max(0, visibleSlides.length - slidesPerView);
+
+      // Limitar el índice actual
+      currentIndex = Math.min(currentIndex, maxIndex);
+      currentIndex = Math.max(0, currentIndex);
+
+      // Calcular el desplazamiento
+      if (visibleSlides.length > 0) {
+        const firstVisibleSlide = visibleSlides[currentIndex];
+        const slideWidth = firstVisibleSlide.offsetWidth;
+        const gap = 24; // gap-6 = 24px
+        const offset = currentIndex * (slideWidth + gap);
+        
+        track.style.transform = `translateX(-${offset}px)`;
+      }
+
+      // Actualizar estados de botones
+      prevBtn.disabled = currentIndex === 0;
+      nextBtn.disabled = currentIndex >= maxIndex;
+
+      console.log(`Index: ${currentIndex}, Max: ${maxIndex}, Visible: ${visibleSlides.length}, Per View: ${slidesPerView}`);
+    }
+
+    function filterByCategory(category: string) {
+      currentCategory = category;
+      currentIndex = 0;
+      
+      allSlides.forEach((slide) => {
+        const slideCategory = slide.getAttribute('data-category');
+        if (category === 'all' || slideCategory === category) {
+          slide.style.display = 'block';
+        } else {
+          slide.style.display = 'none';
+        }
+      });
+
+      updateCarousel();
+    }
+
+    // Event listeners para navegación
+    prevBtn.addEventListener('click', () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        updateCarousel();
+      }
+    });
+
+    nextBtn.addEventListener('click', () => {
+      const visibleSlides = getVisibleSlides();
+      const slidesPerView = getSlidesPerView();
+      const maxIndex = Math.max(0, visibleSlides.length - slidesPerView);
+      
+      if (currentIndex < maxIndex) {
+        currentIndex++;
+        updateCarousel();
+      }
+    });
+
+    // Event listeners para tabs
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        // Actualizar estilos de tabs
+        tabs.forEach(t => {
+          t.classList.remove('bg-white', 'shadow-md', 'text-gray-900');
+          t.classList.add('bg-white/50', 'text-gray-700');
+        });
+        tab.classList.remove('bg-white/50', 'text-gray-700');
+        tab.classList.add('bg-white', 'shadow-md', 'text-gray-900');
+
+        // Filtrar recetas
+        const category = tab.getAttribute('data-category') || 'all';
+        filterByCategory(category);
+      });
+    });
+
+    // Actualizar en resize
+    let resizeTimer: number;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(() => {
+        updateCarousel();
+      }, 250);
+    });
+
+    // Inicializar
+    setTimeout(() => {
+      updateCarousel();
+    }, 100);
+  }
+
+  // Limpiar instancia anterior si existe
+  function cleanup() {
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    if (prevBtn) prevBtn.replaceWith(prevBtn.cloneNode(true));
+    if (nextBtn) nextBtn.replaceWith(nextBtn.cloneNode(true));
+  }
+
+  // Inicializar cuando el DOM esté listo
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      cleanup();
+      initRecipesCarousel();
+    });
+  } else {
+    cleanup();
+    initRecipesCarousel();
+  }
+
+  // Reinicializar en navegación de Astro
+  document.addEventListener('astro:page-load', () => {
+    cleanup();
+    initRecipesCarousel();
+  });
+</script>

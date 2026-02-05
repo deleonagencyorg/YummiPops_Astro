@@ -52,7 +52,7 @@ if (headerColors) {
 <header 
   id="site-header" 
   class={`relative w-full transition-all duration-300 font-sans flex flex-col ${customHeaderConfig.textColor}`} 
-  style={'background-color: #FAF0D5'}
+  style={'background-color: #FFF'}
   data-header-config={JSON.stringify(customHeaderConfig)}
 >
 {headerColorConfig.showMessageCarousel && <MessageCarousel currentLang={currentLang} />}
@@ -64,7 +64,7 @@ if (headerColors) {
 
     <!-- Navegación Móvil -->
     <nav 
-      class={`xl:hidden mobile-nav flex justify-between items-center bg-orange mt-6 py-4 px-6 rounded-[25px]`}
+      class={`xl:hidden mobile-nav flex justify-between items-center bg-white mt-8 mb-`}
     >
       <!-- Logo para Móvil -->
       <!-- src={logosData.principal.url} -->
@@ -72,7 +72,7 @@ if (headerColors) {
       <div class="logo-container">
         <a href={`/${currentLang}/`} class="flex-shrink-0">
           <LocalizedImage
-            src="/images/es/logo/logobanner.png" 
+            src="/images/es/logo.png" 
             alt={logosData.principal.alt || "Ranchitas Logo"}
             class="h-[28px] w-[120px] md:h-[38px] md:w-[187px] w-auto object-contain"
             loading="eager"

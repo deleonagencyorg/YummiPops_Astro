@@ -108,12 +108,6 @@ const featuredLabel = currentLang==='es' ? 'DESTACADOS' : 'FEATURED';
         <div class="relative z-30">
           <ProductsCarousel 
             products={products}
-            color={'white'}
-            autoplay={true}
-            speed={4000}
-            slidesPerView={3}
-            spaceBetween={50}
-            loop={true}
           />
         </div>
     
@@ -126,88 +120,29 @@ const featuredLabel = currentLang==='es' ? 'DESTACADOS' : 'FEATURED';
       </section>
     )}
 
-    <section class="z-30">
+     <section class="w-full relative !bg-white pt-[100px]">
+      <div class="relative z-30">
+        <CardQuiz 
+          newsletter={cardQuizAssets}
+        />
+      </div>
+    </section>
+
+    <!-- <section class="z-30">
       <CardVideo 
         cardVideo={cardVideo}
       />
-    </section>
+    </section> -->
     
     <!-- Sección de recetas con carrusel -->
     <section id="recipes" class="w-full pt-12 pb-0 !bg-white" transition:animate="slide">
       <div class="relative z-10 mx-auto px-4 mb-0">
         <RecipesCarousel 
           title={recipesAssets.home?.title || 'DESCUBRE NUEVOS SABORES CON NUESTRAS'}
-          textButton={recipesAssets.home?.view_more || 'Ver Todas'}
           detail={false}
         />
       </div>
-      
-      <!-- Contenedor con posición relativa para los SVGs -->
-      <div class="relative z-0">
-        <!-- SVG de fondo -->
-        <svg class="-mt-[250px]" width="413" height="375" viewBox="0 0 413 375" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M-14 374.5L-14 0C-3.5 52.5 19 113.5 49 131.5C79 149.5 84 155 100.5 165C127.74 186.105 159 231.5 174 269C189 306.5 194.5 309.5 208 319C221.5 328.5 318.109 326.481 413 374.5L-14 374.5Z" fill="#FAF0D5"/>
-        </svg>
-        
-        <!-- SVG encima (posición absoluta) -->
-        <svg class="hidden md:block xl:block absolute md:top-[130px] xl:top-[90px] left-0" width="283" height="283" viewBox="0 0 283 283" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <g opacity="0.08">
-            <path d="M96.5271 177.729L86.8111 152.137L61.2183 161.853L70.9344 187.445L96.5271 177.729ZM184.758 75.91L133.573 95.3421L136.811 103.873L128.28 107.112L131.519 115.643L122.988 118.881L129.466 135.943L112.404 142.42L122.12 168.013L147.713 158.297L144.474 149.766L153.005 146.528L146.527 129.466L155.058 126.227L151.82 117.696L185.943 104.741L198.898 138.865L190.367 142.104L193.606 150.635L185.075 153.873L191.552 170.935L217.145 161.219L213.906 152.688L222.437 149.45L219.199 140.919L227.73 137.68L208.297 86.4944L199.767 89.7331L196.528 81.2022L187.997 84.4409L184.758 75.91Z" fill="#0F0F0F"/>
-          </g>
-        </svg>
-        
-        <svg class="block md:hidden xl:hidden absolute top-[200px] right-[170px]" width="110" height="110" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <g opacity="0.08">
-            <path d="M40.004 70.8885L49.4897 75.0807L45.2974 84.5665L35.8117 80.3742L40.004 70.8885ZM80.3037 39.5656L71.9192 58.537L68.7573 57.1396L67.3599 60.3015L64.198 58.9041L62.8006 62.066L56.4768 59.2712L53.6819 65.595L44.1962 61.4027L48.3885 51.917L51.5504 53.3144L52.9478 50.1525L59.2716 52.9474L60.669 49.7855L63.8309 51.1829L69.4206 38.5352L56.773 32.9456L55.3755 36.1075L52.2136 34.7101L50.8162 37.872L44.4924 35.0771L48.6847 25.5914L51.8466 26.9888L53.244 23.8269L56.4059 25.2243L57.8033 22.0624L76.7748 30.4469L75.3773 33.6088L78.5393 35.0062L77.1418 38.1682L80.3037 39.5656Z" fill="#0F0F0F"/>
-          </g>
-        </svg>
-      </div>
     </section>
 
-    
-
-    <!-- Sección Gallery -->
-    <!-- <section id="gallery" class="bg-pink w-full py-12" transition:animate="slide">
-      <div class="container mx-auto px-4">
-        {Array.isArray(galleryAssets.images) && galleryAssets.images.length > 0 && (
-          <MasonryGallery 
-            items={galleryAssets.images}
-            columns={3}
-            title={galleryAssets.title}
-            className=""
-          />
-        )}
-      </div>
-    </section> -->
-
-    <section class="w-full xl:h-[480px] bg-primaryCream z-30">
-      <div class="relative z-30">
-        <CardQuiz 
-          cardQuiz={cardQuizAssets}
-        />
-      </div>
-
-      <div class="relative z-0">
-         
-        <svg class="hidden md:block xl:block absolute md:-mt-[290px] xl:-mt-[290px] left-[1280px]" width="165" height="219" viewBox="0 0 165 219" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <g opacity="0.08">
-          <path d="M91.25 164.25H118.625V191.625H91.25V164.25ZM155.125 45.625V100.375H146V109.5H136.875V118.625H118.625V136.875H91.25V109.5H100.375V100.375H118.625V91.25H127.75V54.75H91.25V63.875H82.125V73H63.875V45.625H73V36.5H82.125V27.375H136.875V36.5H146V45.625H155.125Z" fill="#0F0F0F"/>
-          </g>
-        </svg>
-              
-        <svg class="hidden md:block xl:block absolute xl:-mt-[40px] right-[800px]" width="47" height="79" viewBox="0 0 47 79" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <g opacity="0.08">
-          <path d="M23.423 66.0751L35.7874 63.5232L38.3393 75.8875L25.9749 78.4395L23.423 66.0751ZM41.2146 6.54152L46.3186 31.2703L42.1971 32.1209L43.0478 36.2424L38.9263 37.0931L39.777 41.2145L31.5341 42.9158L33.2354 51.1588L20.871 53.7107L18.319 41.3464L22.4405 40.4957L21.5898 36.3742L29.8327 34.6729L28.9821 30.5515L33.1035 29.7008L29.7009 13.215L13.2151 16.6176L14.0657 20.739L9.94426 21.5897L10.7949 25.7112L2.552 27.4125L2.29288e-05 15.0481L4.12148 14.1974L3.27083 10.076L7.39229 9.22532L6.54163 5.10386L31.2704 -9.09443e-05L32.1211 4.12137L36.2425 3.27071L37.0932 7.39218L41.2146 6.54152Z" fill="#0F0F0F"/>
-          </g>
-        </svg>
-
-        <svg class="hidden md:block xl:block absolute xl:-mt-[60px] left-[0px]" width="46" height="57" viewBox="0 0 46 57" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <g opacity="0.08">
-          <path d="M-19.8231 38.7523L-13.3866 49.6133L-24.2477 56.0498L-30.6841 45.1887L-19.8231 38.7523ZM42.2599 36.2035L20.5378 49.0764L18.3923 45.456L14.772 47.6015L12.6265 43.9812L9.00612 46.1266L4.71516 38.8859L-2.52555 43.1769L-8.96199 32.3158L1.89909 25.8794L4.04457 29.4997L7.66492 27.3543L11.9559 34.595L15.5762 32.4495L17.7217 36.0698L32.2031 27.4879L23.6212 13.0065L20.0009 15.152L17.8554 11.5316L14.235 13.6771L9.94408 6.43638L20.8051 -5.61792e-05L22.9506 3.6203L26.571 1.47482L28.7165 5.09518L32.3368 2.9497L45.2097 24.6718L41.5893 26.8173L43.7348 30.4377L40.1145 32.5832L42.2599 36.2035Z" fill="#0F0F0F"/>
-          </g>
-        </svg>
-      </div>
-    </section>
   </main>
 
-  <QuizModal currentLang={currentLang} />

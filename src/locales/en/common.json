@@ -104,13 +104,8 @@
     },
     {
       "id": "news",
-      "text": "News",
+      "text": "Blog",
       "href": "/en/blog"
-    },
-    {
-      "id": "contact",
-      "text": "Contact Us",
-      "href": "/en/contact"
     }
   ],
   "about_us": {

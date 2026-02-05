@@ -3,11 +3,6 @@
 import { t } from '../../../i18n/i18n';
 import type { Locale } from '../../../i18n/i18n';
 import './styles.css';
-import { initProductDetail } from './scripts.js';
-import CardQuiz from '../../../components/common/cardQuiz/index.astro';
-import QuizModal from '../../../components/quiz/QuizModal.astro';
-
-
 
 // Interfaces locales
 interface ProductSize {
@@ -38,7 +33,6 @@ interface Product {
     value: string;
     icono: string;
   }>;
-  // relatedProducts es opcional ya que no existe en la estructura actual
   relatedProducts?: string[];
   weight?: string[];
   nutrition?: any;
@@ -52,7 +46,7 @@ const products = t('items', { namespace: 'products', locale: currentLang as Loca
 const stockists = t('stockist', { namespace: 'products', locale: currentLang as Locale }) || [];
 const product = products.find((item: Product) => item.id === productId);
 const brandsAssets = t('', { namespace: 'brands', locale: currentLang }) || {};
-const newsAssets =  t('', { namespace: 'news', locale: currentLang }) || {};
+const newsAssets = t('', { namespace: 'news', locale: currentLang }) || {};
 const brandsList = brandsAssets.brands || [];
 const zibasBrand = brandsList.find((brand: any) => brand.id === 'ranchitas');
 const cardQuizAssets = t('cardQuiz', { namespace: 'common', locale: currentLang }) || {};
@@ -69,12 +63,13 @@ const safeProduct: Product = {
   name: product.name || '',
   image: product.image || '',
   background_image: product.background_color || '',
-  background_color: product.background_color || '',
-  header_text_color: product.header_text_color || '#000000',
-  color_button: product.color_button || '#000000',
+  background_color: product.background_color || '#0D75C9',
+  header_text_color: product.header_text_color || '#FFFFFF',
+  color_button: product.color_button || '#FFFFFF',
   sizes: Array.isArray(product.sizes) ? product.sizes : [],
   available: product.available || '',
   description: product.description || '',
+  short_description: product.short_description || '',
   weight: Array.isArray(product.weight) ? product.weight : [],
   nutrition: product.nutrition,
 };
@@ -87,338 +82,250 @@ const hasNutrition = safeProduct.nutrition &&
 const productsData = t('items', { locale: currentLang, namespace: 'products' }) || [];
 const allProductsArray = Array.isArray(productsData) ? productsData : [];
 
-// Filtrar productos relacionados - simplificado para evitar errores
+// Filtrar productos relacionados
 let relatedProducts: any[] = [];
-// Solo usar productos de la misma categoría si hay más de 1 producto
 if (allProductsArray.length > 1) {
   relatedProducts = allProductsArray
-    .filter((p: any) => p.id !== productId);
+    .filter((p: any) => p.id !== productId)
+    .slice(0, 6);
 }
 
+// Redes sociales
+const socialMedia = [
+  { name: 'Instagram', icon: 'instagram', url: 'https://instagram.com/yummipops' },
+  { name: 'Facebook', icon: 'facebook', url: 'https://facebook.com/yummipops' },
+  { name: 'TikTok', icon: 'tiktok', url: 'https://tiktok.com/@yummipops' },
+  { name: 'YouTube', icon: 'youtube', url: 'https://youtube.com/@yummipops' }
+];
 ---
 
-{safeProduct.background_color && (
-  <article
-    id="product-detail"
-    class="product-detail pt-12 md:pt-29 pb-32 bg-cover bg-center relative bg-primaryCream"
-    transition:animate="slide"
-  >
-    <div class="md:mt-[0] container mx-auto px-6 py-5 flex flex-col xl:flex-row gap-24">
-      <div class="relative flex justify-center items-center w-full xl:w-[605px] p-4 xl:px-28 xl:py-8 rounded-[30px] gap-2 cursor-pointer overflow-hidden group bg-white xl:h-[593px] md:h-[593px] lg:h-[593px] h-[450px]">
-        <div class="absolute inset-0 bg-black bg-opacity-0  transition-all duration-300 rounded-[85px]"></div>
-        <img id="product-image" 
-          class="relative z-10 xl:max-w-full xl:h-auto lg:max-w-[400px] md:max-w-[400px]" 
-            src={safeProduct.image} alt={safeProduct.name} 
-            transition:name={`product-image-${safeProduct.id}`} />
-      </div>
-      
-      {/* Contenido del lado derecho */}
-      <div class="w-full xl:w-1/2  h-auto">
-        <h1 
-          class="font-title  text-[18px] font-medium py-4 text-[#F86509]"
-        >
-         {currentLang === 'es' ? 'Sabor Intenso' : 'Intense flavor'}
-        </h1>
-        <div class="flex justify-between items-center mb-8">
-          <h1 class="lg:text-6xl text-6xl font-bold italic">{safeProduct.name}</h1>
+<article
+  id="product-detail"
+  class="product-detail pt-8 md:pt-12 pb-16 bg-white"
+  transition:animate="slide"
+>
+  <!-- Hero Section -->
+  <div class=" mx-auto px-4 md:px-6 mb-16">
+    <div 
+      class="rounded-[30px] md:rounded-[40px] overflow-hidden"
+      style={{ backgroundColor: '#0D75C9' }}
+    >
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 p-6 md:p-12 lg:p-16">
+        
+        <!-- Lado Izquierdo - Imagen del Producto -->
+        <div class="flex items-center justify-center">
+          <img 
+            id="product-image"
+            src={safeProduct.image} 
+            alt={safeProduct.name}
+            class="w-full max-w-[450px] h-auto object-contain drop-shadow-2xl"
+            transition:name={`product-image-${safeProduct.id}`}
+          />
         </div>
-        <h1 
-          class="font-title text-[24px] font-medium py-0"
-        >
-          {currentLang === 'es' ? 'Tamaños disponibles:' : 'Available sizes:'}
-        </h1>
-        {safeProduct.weight && safeProduct.weight.length > 0 && (
-          <div class="my-4 max-w-full">
-            <div class="grid grid-cols-2 gap-2 md:grid-cols-6 lg:grid-cols-5 xl:grid-cols-5">
-              {safeProduct.weight.map((weight, index) => (
-                <div class="w-full min-w-0">
+
+        <!-- Lado Derecho - Información -->
+        <div class="flex flex-col justify-center space-y-6">
+          
+          <!-- Título del Producto -->
+          <h1 
+            class="text-4xl md:text-5xl lg:text-6xl font-black leading-tight"
+            style={{ color: safeProduct.header_text_color }}
+          >
+            {safeProduct.name}
+          </h1>
+
+          <!-- Subtítulo/Descripción -->
+          {safeProduct.short_description && (
+            <p 
+              class="text-lg md:text-xl"
+              style={{ color: safeProduct.header_text_color }}
+            >
+              {safeProduct.short_description}
+            </p>
+          )}
+
+          <!-- Tamaños Disponibles -->
+          {safeProduct.weight && safeProduct.weight.length > 0 && (
+            <div class="space-y-4">
+              <h3 
+                class="text-xl md:text-2xl font-bold"
+                style={{ color: safeProduct.header_text_color }}
+              >
+                {currentLang === 'es' ? 'Disfruta de nuestras presentaciones' : 'Enjoy our presentations'}
+              </h3>
+              
+              <div class="flex flex-wrap gap-3">
+                {safeProduct.weight.map((weight, index) => (
                   <button 
-                    class="weight-option block w-[90.7px] h-[52px] px-4 lg:px-5 text-center rounded-[50px] border-2 border-[#F86509] text-base md:text-xl font-bold bg-white hover:bg-[#F86509] hover:text-white cursor-pointer transition-all duration-300"
+                    class="weight-option px-6 py-3 rounded-full border-2 font-bold text-base md:text-lg transition-all duration-300 hover:scale-105"
+                    style={{ 
+                      borderColor: safeProduct.header_text_color,
+                      color: safeProduct.header_text_color,
+                      backgroundColor: 'transparent'
+                    }}
                     data-weight={weight}
                     data-index={index}
                   >
                     {weight}
                   </button>
-                </div>
-              ))}
+                ))}
+              </div>
+
+              <p 
+                class="text-sm italic"
+                style={{ color: safeProduct.header_text_color }}
+              >
+                {currentLang === 'es' 
+                  ? 'Tamaño por presentación varía de acuerdo al país' 
+                  : 'Size per presentation varies by country'}
+              </p>
             </div>
-          </div>
-        )}
-        <div class="w-full h-[58px] bg-white rounded-[15px] p-1 flex gap-1 my-8" id="product-tabs">
-          <button 
-            class="tab-button flex-1 h-[49px] rounded-[12px] flex items-center justify-center px-2 transition-all duration-300"
-            data-tab="description"
-          >
-            <span class="text-[16px] font-medium leading-6">
-              {currentLang === 'es' ? 'Descripción General' : 'General Description'}
-            </span>
-          </button>
-          
-          {hasNutrition && (
-            <button 
-              class="tab-button flex-1 h-[49px] rounded-[12px] flex items-center justify-center px-2 transition-all duration-300"
-              data-tab="nutrition"
-            >
-              <span class="text-[16px] font-medium leading-6">
-                {currentLang === 'es' ? 'Tabla de Nutrición' : 'Nutrition Table'}
-              </span>
-            </button>
           )}
-        </div>
 
-        <div class="bg-white rounded-[20px] w-full">
-          <p class="text-black pt-[33px] pb-[33px] pl-[33px] pr-[33px]">{safeProduct.description}</p>
-        </div>
+          <!-- Detalle de Nutrición (Acordeón) -->
+          {hasNutrition && (
+            <div class="border-t border-b py-4" style={{ borderColor: `${safeProduct.header_text_color}40` }}>
+              <button 
+                id="nutrition-toggle"
+                class="w-full flex items-center justify-between text-xl md:text-2xl font-bold transition-colors"
+                style={{ color: safeProduct.header_text_color }}
+              >
+                <span>{currentLang === 'es' ? 'Detalle de nutrición' : 'Nutrition details'}</span>
+                <svg 
+                  id="nutrition-icon"
+                  class="w-6 h-6 transition-transform duration-300" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                </svg>
+              </button>
+              
+              <div id="nutrition-content" class="hidden mt-4 space-y-2">
+                <!-- Aquí va la tabla nutricional -->
+                <div class="bg-white/20 rounded-xl p-4 backdrop-blur-sm">
+                  <p class="text-white">
+                    {currentLang === 'es' ? 'Información nutricional disponible' : 'Nutritional information available'}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
 
-        <button
-          type="button"
-          id="where-to-buy-open"
-          class="bg-[#D61F2C] text-white rounded-[50px] w-full h-[52px] mt-[20px] text-start pl-[20px]"
-        >
-          {currentLang === 'es' ? '¿Dónde comprar?' : 'Where buy?'}
-        </button>
-      </div>
-    </div>
-
-    <div class="hidden  xl:block absolute bottom-0 top-[809px] right-0 pointer-events-none z-20">
-          <svg width="427" height="375" viewBox="0 0 427 375" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M427 0L427 374.5C416.5 322 394 261 364 243C334 225 329 219.5 312.5 209.5C285.26 188.395 254 143 239 105.5C224 68 218.5 65 205 55.5C191.5 46 94.8911 48.0193 0 0L427 0Z" fill="#FAF0D5"/>
-          </svg>
-    </div>
-    {/* Sección de Productos Relacionados */}
-
-  </article>
-
-  <!-- Where to buy modal -->
-  <div
-    id="where-to-buy-modal"
-    class="fixed inset-0 z-[2147483646] hidden"
-    aria-hidden="true"
-  >
-    <div class="absolute inset-0 bg-black/60" data-wtb-backdrop></div>
-
-    <div class="absolute inset-0 flex items-center justify-center p-4 sm:p-6">
-      <div class="w-full max-w-3xl bg-white rounded-[28px] shadow-2xl overflow-hidden">
-        <div class="flex items-center justify-between px-6 py-5 border-b border-black/10">
-          <h3 class="font-title text-2xl md:text-3xl font-bold italic text-black">
-            {currentLang === 'es' ? 'Compra en delivery' : 'Order for delivery'}
-          </h3>
-          <button
-            type="button"
-            class="w-10 h-10 rounded-full bg-primaryCream text-black flex items-center justify-center hover:opacity-80 transition"
-            aria-label={currentLang === 'es' ? 'Cerrar' : 'Close'}
-            data-wtb-close
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M18 6 6 18" />
-              <path d="M6 6 18 18" />
-            </svg>
-          </button>
-        </div>
-
-        <div class="p-6 sm:p-8">
-          {Array.isArray(stockists) && stockists.length > 0 ? (
-            <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6">
-              {stockists.map((s: Stockist) => (
+          <!-- Redes Sociales -->
+          <div class="space-y-3">
+            <h4 
+              class="text-lg font-bold"
+              style={{ color: safeProduct.header_text_color }}
+            >
+              {currentLang === 'es' ? 'Síguenos en nuestras redes sociales' : 'Follow us on social media'}
+            </h4>
+            
+            <div class="flex gap-4">
+              {socialMedia.map((social) => (
                 <a
-                  href={s.link}
+                  href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="group rounded-2xl bg-primaryCream p-4 sm:p-5 flex flex-col items-center justify-center text-center hover:opacity-90 transition"
+                  class="w-10 h-10 rounded-full bg-white/90 hover:bg-white flex items-center justify-center transition-all hover:scale-110"
+                  aria-label={social.name}
                 >
-                  <div class="bg-white rounded-2xl w-full flex items-center justify-center p-4 sm:p-5">
-                    <img
-                      src={s.icon}
-                      alt={s.name}
-                      class="h-14 sm:h-16 w-auto object-contain"
-                      loading="lazy"
-                    />
-                  </div>
-                  <div class="mt-3 font-bold text-black text-sm sm:text-base">{s.name}</div>
+                  {social.icon === 'instagram' && (
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                  )}
+                  {social.icon === 'facebook' && (
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                  )}
+                  {social.icon === 'tiktok' && (
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                    </svg>
+                  )}
+                  {social.icon === 'youtube' && (
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    </svg>
+                  )}
                 </a>
               ))}
             </div>
-          ) : (
-            <div class="text-center text-black/70">
-              {currentLang === 'es'
-                ? 'No hay opciones de delivery disponibles por el momento.'
-                : 'No delivery options are available at the moment.'}
-            </div>
-          )}
+          </div>
+
         </div>
       </div>
     </div>
   </div>
 
-  <section class="z-30 mb-32 mt-8">
-    <div class="container mx-auto px-6">
-      {/* Título y subtítulo */}
-      <div class="mb-12">
-        <h2 class="text-5xl md:text-6xl font-bold italic mb-4">
-          {currentLang === 'es' ? 'Sabores que te encantarán' : 'Flavors you will love'}
-        </h2>
-        <p class="text-xl md:text-2xl italic">
-          {currentLang === 'es' ? 'Descubre otros sabores que también te encantarán' : 'Discover other flavors that you will also love'}
+  <!-- Productos Similares -->
+  <section class="container mx-auto px-4 md:px-6">
+    <div class="flex items-center justify-between mb-8">
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-black text-gray-900">
+        {currentLang === 'es' ? 'Productos similares' : 'Similar products'}
+      </h2>
+      <a 
+        href={`/${currentLang}/productos`}
+        class="hidden md:flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-full font-bold hover:bg-blue-700 transition-colors"
+      >
+        {currentLang === 'es' ? 'Ver todo' : 'See all'}
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+
+    {relatedProducts.length > 0 ? (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
+        {relatedProducts.slice(0, 3).map((product: any) => (
+          <div class="flex flex-col">
+            <a 
+            href={`/${currentLang}/productos/${product.id}`}
+            class="group rounded-[30px] overflow-hidden transition-all duration-300 hover:shadow-2xl transform hover:scale-[1.02]"
+            style={{ backgroundColor: product.background_color }}
+          >
+            <!-- Imagen del producto -->
+            <div class="flex items-center justify-center p-8 h-[300px]">
+              <img 
+                src={product.image} 
+                alt={product.name}
+                class="w-full max-w-[250px] h-full object-contain drop-shadow-lg group-hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+          </a>
+            <h3 class="text-xl md:text-2xl font-black text-gray-900 mt-4 leading-tight">
+              {product.name}
+            </h3>
+          </div>
+           
+        ))}
+      </div>
+    ) : (
+      <div class="text-center py-12">
+        <p class="text-xl text-gray-600">
+          {currentLang === 'es' ? 'No hay productos similares disponibles' : 'No similar products available'}
         </p>
       </div>
-      
-      {/* Carousel de productos */}
-      <div class="relative">
-        {relatedProducts.length > 0 ? (
-          <>
-            <div class="swiper related-products-swiper">
-              <div class="swiper-wrapper">
-                {relatedProducts.map((product: any) => (
-                  <div class="swiper-slide h-auto">
-                    <a 
-                      href={`/${currentLang}/productos/${product.id}`}
-                      class="h-full rounded-[30px] p-8 flex flex-col items-center justify-between transition-transform duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#F86509]"
-                      style={{ backgroundColor: product.background_color }}
-                    >
-                      {/* Imagen del producto */}
-                      <div class="w-full flex justify-center items-center flex-1 mb-6">
-                        <img 
-                          src={product.image} 
-                          alt={product.name}
-                          class="max-w-[408px] h-[235px] object-contain"
-                        />
-                      </div>
-                      {/* Información del producto */}
-                      <div class="w-full text-start">
-                        <h3 
-                          class="text-3xl font-bold mb-2"
-                          style={{ color: product.text_color }}
-                        >
-                          {product.name}
-                        </h3>
-                        <p 
-                          class="text-lg italic mb-2"
-                          style={{ color: product.text_color }}
-                        >
-                          {product.short_description}
-                        </p>
-                      </div>
-                    </a>
-                  </div>
-                ))}
-              </div>
-              <div class="swiper-pagination-products mt-6"></div>
-            </div>
+    )}
 
-            {/* Navigation Arrows */}
-            {relatedProducts.length > 0 && (
-              <>
-                <button class="swiper-button-prev-products absolute left-0 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center text-[#F86509] hover:bg-[#F86509] hover:text-white transition-colors z-10">
-                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                  </svg>
-                </button>
-                <button class="swiper-button-next-products absolute right-0 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center text-[#F86509] hover:bg-[#F86509] hover:text-white transition-colors z-10">
-                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                  </svg>
-                </button>
-              </>
-            )}
-          </>
-        ) : (
-          <div class="text-center py-12">
-            <p class="text-xl text-gray-600">
-              {currentLang === 'es' ? 'No hay productos relacionados disponibles' : 'No related products available'}
-            </p>
-          </div>
-        )}
-      </div>
+    <!-- Ver todo button (mobile) -->
+    <div class="mt-8 flex justify-center md:hidden">
+      <a 
+        href={`/${currentLang}/productos`}
+        class="flex items-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-full font-bold hover:bg-blue-700 transition-colors text-lg"
+      >
+        {currentLang === 'es' ? 'Ver todo' : 'See all'}
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+      </a>
     </div>
   </section>
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-  <script is:inline src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
-  <script is:inline>
-    (function () {
-      function initRelatedProductsSwiper() {
-        const root = document.querySelector('.related-products-swiper');
-        if (!(root instanceof HTMLElement)) return;
-
-        if (typeof Swiper === 'undefined') {
-          setTimeout(initRelatedProductsSwiper, 50);
-          return;
-        }
-
-        const hasSlides = root.querySelector('.swiper-slide');
-        if (!hasSlides) return;
-
-        try {
-          const existing = root['swiper'];
-          if (existing) {
-            existing.destroy(true, true);
-          }
-
-          const slideCount = root.querySelectorAll('.swiper-slide').length;
-          const shouldLoop = slideCount > 3;
-
-          const swiper = new Swiper(root, {
-            slidesPerView: 1.15,
-            spaceBetween: 20,
-            centeredSlides: true,
-            loop: shouldLoop,
-            watchOverflow: true,
-            autoplay: {
-              delay: 4000,
-              disableOnInteraction: false,
-              pauseOnMouseEnter: true,
-            },
-            navigation: {
-              nextEl: '.swiper-button-next-products',
-              prevEl: '.swiper-button-prev-products',
-            },
-            pagination: {
-              el: '.swiper-pagination-products',
-              clickable: true,
-            },
-            breakpoints: {
-              640: {
-                slidesPerView: 1.3,
-                spaceBetween: 24,
-                centeredSlides: true,
-              },
-              768: {
-                slidesPerView: 2.2,
-                spaceBetween: 28,
-                centeredSlides: true,
-              },
-              1024: {
-                slidesPerView: 3.2,
-                spaceBetween: 32,
-                centeredSlides: true,
-              },
-            },
-          });
-
-          setTimeout(() => swiper.update(), 50);
-        } catch (e) {
-          console.error(e);
-        }
-      }
-
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initRelatedProductsSwiper);
-      } else {
-        initRelatedProductsSwiper();
-      }
-
-      document.addEventListener('astro:page-load', initRelatedProductsSwiper);
-    })();
-  </script>
-  <div class="relative z-30">
-    <CardQuiz 
-      cardQuiz={cardQuizAssets}
-    />
-  </div>
-
-  <QuizModal currentLang={currentLang} />
-)}
+</article>
 
 <script>
   import { initProductDetail } from './scripts.js';
@@ -427,36 +334,42 @@ if (allProductsArray.length > 1) {
     // Inicializar producto
     initProductDetail();
     
-    // Weight options
+    // Weight options - selección de tamaños
     const weightOptions = document.querySelectorAll<HTMLButtonElement>('.weight-option');
-    weightOptions.forEach(option => {
+    weightOptions.forEach((option, index) => {
       option.addEventListener('click', () => {
         weightOptions.forEach(opt => {
-          opt.classList.remove('bg-[#F86509]', 'text-white');
-          opt.classList.add('bg-white');
+          opt.style.backgroundColor = 'transparent';
+          opt.style.fontWeight = 'bold';
         });
-        option.classList.add('bg-[#F86509]', 'text-white');
-        option.classList.remove('bg-white');
-        console.log('Peso seleccionado:', option.dataset.weight);
+        option.style.backgroundColor = 'black';
+        option.style.color = option.style.borderColor || '#000';
       });
     });
-    weightOptions[0]?.click();
     
-    // Tabs
-    const tabs = document.querySelectorAll('.tab-button');
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        tabs.forEach(t => {
-          t.classList.remove('bg-[#F86509]');
-          t.querySelector('span')?.classList.remove('text-white');
-          t.querySelector('span')?.classList.add('text-[#0A0A0A]');
-        });
-        tab.classList.add('bg-[#F86509]');
-        tab.querySelector('span')?.classList.add('text-white');
-        tab.querySelector('span')?.classList.remove('text-[#0A0A0A]');
+    // Seleccionar primer tamaño por defecto
+    if (weightOptions.length > 0) {
+      weightOptions[0].click();
+    }
+
+    // Toggle de información nutricional
+    const nutritionToggle = document.getElementById('nutrition-toggle');
+    const nutritionContent = document.getElementById('nutrition-content');
+    const nutritionIcon = document.getElementById('nutrition-icon');
+
+    if (nutritionToggle && nutritionContent && nutritionIcon) {
+      nutritionToggle.addEventListener('click', () => {
+        const isHidden = nutritionContent.classList.contains('hidden');
+        
+        if (isHidden) {
+          nutritionContent.classList.remove('hidden');
+          nutritionIcon.style.transform = 'rotate(45deg)';
+        } else {
+          nutritionContent.classList.add('hidden');
+          nutritionIcon.style.transform = 'rotate(0deg)';
+        }
       });
-    });
-    (tabs[0] as HTMLElement)?.click();
+    }
   });
 </script>
 

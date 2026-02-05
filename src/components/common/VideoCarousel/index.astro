@@ -18,36 +18,20 @@ interface Props {
 const { textHome } = Astro.props;
 ---
 
-<div class="home-container bg-primaryCream flex items-center">
+<div class="home-container bg-white flex items-center">
   <div class="max-w-[1400px] mx-auto w-full flex items-center justify-between px-10 flex flex-col sm:flex-row ">
 
-    <!-- TEXT CONTENT -->
-    <div class="md:w-1/2 xl:w-1/2 xl:mb-0 md:mb-0 mb-16">
-      <p class="text-[#D99D3C] text-lg font-semibold">{textHome.since}</p>
+    <img
+      src="/images/es/home.png"
+      alt="Ranchitas Nacho"
+      class="hidden lg:block w-full"
+    />
 
-      <h1 class="text-[40px] md:text-[60px] xl:text-[80px] font-black uppercase  leading-none">
-        {textHome.title} <br/>
-        {textHome.subtitle}
-      </h1>
-      <p class="text-lg text-black w-[320px] md:max-w-[310px] md:w-full xl:w-full xl:max-w-[600px] mt-6  leading-[22px]">
-        {textHome.description} <br class="md:hidden xl:block hidden"/> {textHome.descrition2}
-      </p>
-
-    </div>
-
-    <div class="relative md:w-1/2 xl:w-1/2 flex justify-center">
-      <img 
-        src="/images/es/products/product2.png" 
-        alt="Ranchitas Nacho" 
-        class="w-[250px] md:w-[320px] xl:w-[500px] rotate-[-13deg]"
-      />
-
-      <img 
-        src="https://snack.yummiespromociones.com/SnacksyummiesAssets/ranchitas-nacho-exitante-2.webp" 
-        alt="Ranchitas Nacho Picante" 
-        class="w-[150px] bottom-[-60px] right-[130px] md:w-[169.90px] xl:w-[247px] absolute md:bottom-[-49px] xl:bottom-[-52px] md:right-[185px] xl:right-[340px] md:w-[200px]"
-      />
-    </div>
+     <img
+      src="/images/es/home.png"
+      alt="Ranchitas Nacho"
+      class="lg:hidden block w-full"
+    />
   </div>
 </div>
 
@@ -59,13 +43,13 @@ const { textHome } = Astro.props;
 
   @media (min-width: 768px) and (max-width: 1024px) {
     .home-container {
-      height: 600px;
+      height: 500px;
     }
   }
 
   @media (max-width: 767px) {
     .home-container {
-      height: 800px;
+      height: 200px;
     }
   }
 </style>
