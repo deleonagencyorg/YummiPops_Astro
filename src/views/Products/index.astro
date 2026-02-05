@@ -69,23 +69,25 @@ const features = [
 <!-- Hero Section -->
 <section class="relative bg-[#2392D3] to-blue-500 rounded-[30px] md:rounded-[40px] mx-4 md:mx-8 mt-8 mb-12 overflow-hidden">
   <div class="container mx-auto px-6 md:px-12 py-12 md:py-16 lg:py-20">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+    <div class="grid grid-cols-1 xl:grid-cols-2 gap-8 items-center">
       <div class="nacho-pattern" style="background-image: url('/images/es/bg-product.png');"></div>
       <!-- Lado Izquierdo - Contenido -->
       <div class="text-white space-y-6 z-10 relative">
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-black leading-tight">
+        <div class="hidden xl:block">
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-black leading-tight">
           {heroTitle}
-        </h1>
-        <p class="text-lg md:text-xl">
-          {heroSubtitle}
-        </p>
-        
-        <button class="bg-white text-black font-bold px-8 py-3 rounded-full hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg">
-          {heroButton}
-        </button>
+          </h1>
+          <p class="text-lg md:text-xl mb-8">
+            {heroSubtitle}
+          </p>
+          
+          <button class="bg-white text-black font-bold px-8 py-3 rounded-full hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg">
+            {heroButton}
+          </button>
+        </div>
 
         <!-- Features -->
-        <div class="grid xl:grid-cols-3 gap-4 pt-8">
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 pt-8">
           {features.map((feature) => (
             <div class="text-center">
               <div class="inline-block mb-2" set:html={feature.icon} />
@@ -108,6 +110,7 @@ const features = [
           />
         ))}
       </div>
+
       <div class="hidden lg:block xl:hidden relative h-[300px] md:h-[400px] lg:h-[500px]">
         {products.slice(0, 2).map((product: any, index: number) => (
           <img
@@ -115,8 +118,8 @@ const features = [
             alt={product.name}
             class={`absolute w-64 h-auto object-contain drop-shadow-2xl ${
               index === 0 
-                ? 'top-[120px] left-[10px] z-20 transform w-[250px] h-[250px]' 
-                : 'top-[120px] right-0 z-10 transform rotate-[30deg] w-[250px] h-[250px]'
+                ? 'top-[120px] left-[250px] z-20 transform w-[250px] h-[250px]' 
+                : 'top-[120px] right-[150px] z-10 transform rotate-[30deg] w-[250px] h-[250px]'
             }`}
           />
         ))}
@@ -149,10 +152,21 @@ const features = [
           />
         ))}
       </div>
+
+      <div class="block xl:hidden text-white md:p-0 p-12">
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-black leading-tight">
+          {heroTitle}
+          </h1>
+          <p class="text-lg md:text-xl mb-8">
+            {heroSubtitle}
+          </p>
+          
+          <button class="bg-white text-black font-bold px-8 py-3 rounded-full hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg">
+            {heroButton}
+          </button>
+        </div>
     </div>
   </div>
-
-  <!-- Decorative circles -->
 </section>
 
 <!-- Products Section -->
@@ -169,7 +183,7 @@ const features = [
           <img src="/images/es/pop1.png" alt="Decorative Pattern" class="w-[200px] h-[200px] object-cover" />
         </div>
 
-        <div class="hidden xl:block absolute bottom-0 top-[300px] right-[700px] pointer-events-none z-20 rotate-[50deg]">
+        <div class="hidden xl:block absolute bottom-0 top-[300px] right-[600px] pointer-events-none z-20 rotate-[50deg]">
           <img src="/images/es/pop1.png" alt="Decorative Pattern" class="w-[150px] h-[150px] object-cover" />
         </div>
 

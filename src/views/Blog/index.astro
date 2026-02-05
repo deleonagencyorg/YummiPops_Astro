@@ -6,7 +6,6 @@ import MainLayout from '../../layouts/MainLayout.astro';
 import './styles.css';
 import BlogCard from '../../components/blog/BlogCard.astro';
 import Breadcrumb from '../../components/common/Breadcrumb/Breadcrumb.astro';
-import NewsCarousel from '../../components/blog/NewsCarousel.astro';
 import { getCategoryName } from '../../i18n/categories';
 
 export interface Props { currentLang: Locale }
@@ -27,14 +26,8 @@ const pageDescription = currentLang === 'es'
   ? 'Mantente al día con nuestras últimas noticias y artículos.' 
   : 'Stay updated with our latest news and articles.';
 
-const sectionKicker = currentLang === 'es' ? 'Noticias Ranchitas' : 'Ranchitas News';
-const heroTitle = currentLang === 'es' ? 'Historias, novedades y todo sobre el ' : 'Stories, news and everything about the ';
-const heroHighlight = currentLang === 'es' ? 'crunch perfecto' : 'perfect crunch';
-const heroSubtitle = currentLang === 'es'
-  ? 'Descubre el mundo detrás de tus snacks favoritos.'
-  : 'Discover the world behind your favorite snacks.';
-const emailPlaceholder = currentLang === 'es' ? 'Ingresa tu correo electrónico' : 'Enter your email address';
-const subscribeText = currentLang === 'es' ? 'Suscribirme' : 'Subscribe';
+const heroButton = currentLang === 'es' ? 'Ver ahora' : 'View now';
+const sectionTitle = currentLang === 'es' ? 'Descubre nuestras noticias' : 'Discover our news';
 
 // Load markdown posts for the current language
 const mdModules = import.meta.glob('../../locales/*/blog/*.md');
@@ -59,10 +52,9 @@ for (const path in mdModules) {
   }
 }
 
-// Sort by published_date desc (ISO or fallback)
+// Sort by published_date desc
 function toDate(s: string | undefined): number {
   if (!s) return 0;
-  // normalize common formats dd/mm/yyyy or yyyy-mm-dd
   if (/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(s)) {
     const [d,m,y] = s.split('/').map(Number);
     return new Date(y, (m||1)-1, d||1).getTime();
@@ -83,143 +75,193 @@ const noPostsText = currentLang === 'es'
   ? 'No hay noticias disponibles en este momento.'
   : 'No blog posts available at this time.';
 
-// Labels and splits for the two-column layout below
-const topNewsLabel = currentLang === 'es' ? 'NOTICIAS MÁS IMPORTANTES' : 'TOP NEWS';
-const featuredLabel = currentLang === 'es' ? 'DESTACADOS' : 'FEATURED';
-const firstFive = allPosts.slice(0, 5);
-const leftThree = firstFive.slice(0, 3);
-const rightTwo = firstFive.slice(3, 5);
-const restPosts = allPosts.slice(5);
+// Split posts for layout
+const heroPost = allPosts[0]; // First post for hero
+const featuredPost = allPosts[1]; // Large card on left
+const sidebarPosts = allPosts.slice(2, 4); // Two small cards on right
+const remainingPosts = allPosts.slice(4); // Rest of posts
 ---
-<MainLayout title={pageTitle} description={pageDescription} class="bg-primaryCream">
+<MainLayout title={pageTitle} description={pageDescription} class="bg-white">
   <ViewTransitions />
-  <div class="container">
-    <div class="container ml-[40px] mt-[40px] mr-[40px] mb-20">
+  <div class="container mx-auto px-4 md:px-8">
+    
+    <div class="pt-4">
+      <Breadcrumb bgColor="bg-transparent" textColor="text-black" hoverColor="hover:text-black" />
+    </div>
 
-      <div class="pt-2">
-        <Breadcrumb bgColor="bg-transparent" textColor="text-black" hoverColor="hover:text-black" />
+    {allPosts.length === 0 ? (
+      <div class="max-w-5xl mx-auto text-center py-12">
+        <p class="text-black text-lg md:text-xl font-semibold">{noPostsText}</p>
       </div>
-
-      <!-- Header (match Recipes style + provided design) -->
-      <div class="container text-center mb-12">
-        <div class="text-orange font-bold mb-4">
-          {sectionKicker}
-        </div>
-        <h1 class="text-black font-title font-bold italic leading-tight text-[44px] md:text-[72px] max-w-5xl mx-auto">
-          {heroTitle}
-          <span class="text-orange font-heading ">{heroHighlight}</span>
-        </h1>
-        <p class="text-black/70 mt-4 max-w-2xl mx-auto">
-          {heroSubtitle}
-        </p>
-      </div>
-
-      {allPosts.length === 0 ? (
-        <div class="max-w-5xl mx-auto text-center py-12">
-          <p class="text-black text-lg md:text-xl font-semibold">{noPostsText}</p>
-        </div>
-      ) : (
-        <>
-          <!-- Filter Buttons -->
-          <div id="blogFilters" class="flex flex-wrap gap-3 mb-8 justify-center max-w-5xl mx-auto">
-            <button type="button" class="filter-btn text-center px-6 py-2 rounded-full bg-orange text-white font-bold hover:text-white hover:bg-orange-400 transition-colors border border-white whitespace-nowrap" data-filter="all">{filterLabels.all}</button>
-            {categories.map((cat) => (
-              <button type="button" class="filter-btn text-center px-6 py-2 rounded-full bg-orange text-white font-bold hover:text-white hover:bg-orange-400 transition-colors border border-white whitespace-nowrap" data-filter={cat}>{getCategoryName(cat, currentLang).toUpperCase()}</button>
-            ))}
-          </div>
-
-          <!-- News Carousel listing 4 per slide -->
-          <div class="max-w-6xl mx-auto mb-16">
-            <NewsCarousel id="news-list" items={allPosts} currentLang={currentLang} />
-          </div>
-
-          <div class="max-w-7xl mx-auto">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
-              {allPosts.map((post) => (
-                <div class="news-card" data-category={(post.category || 'other').toLowerCase()}>
-                  <BlogCard
-                    image={post.image || '/images/blog/placeholder.jpg'}
-                    title={post.title}
-                    summary={post.summary || ''}
-                    published_date={post.published_date || ''}
-                    id={post.id}
-                    slug={post.slug}
-                    currentLang={currentLang}
-                  />
+    ) : (
+      <>
+        <!-- Hero Banner -->
+        {heroPost && (
+          <section class="relative rounded-[20px] md:rounded-[30px] overflow-hidden mb-12 mt-6">
+            <div class="relative h-[400px] md:h-[500px] lg:h-[550px]">
+              <!-- Background Image -->
+              <img 
+                src={'/images/es/nachos.png'} 
+                alt={heroPost.title}
+                class="absolute inset-0 w-full h-full object-cover"
+              />
+              <!-- Gradient Overlay -->
+              <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent"></div>
+              
+              <!-- Content -->
+                <div class="relative z-10 h-full flex flex-col justify-end p-6 md:p-10 lg:p-12">
+                  <div class="flex flex-col xl:flex-row xl:justify-between xl:items-end gap-4">
+                    <h1 class="text-white text-3xl md:text-4xl lg:text-5xl font-black leading-tight">
+                      {heroPost.title}
+                    </h1>
+                    <a 
+                      href={`/${currentLang}/blog/${heroPost.slug}`}
+                      class="w-full xl:w-auto text-center bg-[#1115DB] hover:bg-[#00b85c] text-white font-bold px-6 py-3 rounded-full transition-all transform hover:scale-105 whitespace-nowrap flex-shrink-0"
+                    >
+                      {heroButton}
+                    </a>
+                  </div>
                 </div>
+            </div>
+          </section>
+        )}
+
+        <!-- Section Title -->
+        <h2 class="text-2xl md:text-3xl font-bold text-black mb-8">{sectionTitle}</h2>
+
+        <!-- Featured News Grid: 1 large left + 2 small right -->
+        <section class="mb-12">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            
+            <!-- Left: Large Featured Card -->
+            {featuredPost && (
+              <a href={`/${currentLang}/blog/${featuredPost.slug}`} class="group block">
+                <div class="relative rounded-[20px] overflow-hidden h-full min-h-[400px] lg:min-h-[500px]">
+                  <img 
+                    src={featuredPost.image || '/images/blog/placeholder.jpg'} 
+                    alt={featuredPost.title}
+                    class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                  <div class="absolute bottom-0 left-0 right-0 p-6">
+                    <h3 class="text-white text-xl md:text-2xl font-bold mb-2 group-hover:text-green-400 transition-colors">
+                      {featuredPost.title}
+                    </h3>
+                    {featuredPost.summary && (
+                      <p class="text-white/70 text-sm md:text-base line-clamp-2">
+                        {featuredPost.summary}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </a>
+            )}
+
+            <!-- Right: 2 Stacked Cards -->
+            <div class="flex flex-col gap-6">
+              {sidebarPosts.map((post) => (
+                <a href={`/${currentLang}/blog/${post.slug}`} class="group block">
+                  <div class="flex gap-4 items-start">
+                    <!-- Thumbnail -->
+                    <div class="relative w-[140px] md:w-[180px] h-[100px] md:h-[120px] rounded-[12px] overflow-hidden flex-shrink-0">
+                      <img 
+                        src={post.image || '/images/blog/placeholder.jpg'} 
+                        alt={post.title}
+                        class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                    <!-- Text Content -->
+                    <div class="flex-1 py-1">
+                      <h4 class="text-black text-base md:text-lg font-bold mb-2 group-hover:text-orange transition-colors line-clamp-2">
+                        {post.title}
+                      </h4>
+                      {post.summary && (
+                        <p class="text-black/60 text-sm line-clamp-3">
+                          {post.summary}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </a>
               ))}
+              
+              <!-- Navigation Arrows -->
+              <div class="flex justify-end gap-2 mt-auto pt-4">
+                <button 
+                  id="prev-btn"
+                  class="w-10 h-10 rounded-full bg-orange hover:bg-orange-600 text-white flex items-center justify-center transition-colors"
+                  aria-label="Previous"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+                <button 
+                  id="next-btn"
+                  class="w-10 h-10 rounded-full bg-orange hover:bg-orange-600 text-white flex items-center justify-center transition-colors"
+                  aria-label="Next"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
-        </>
-      )}
-    </div>
+        </section>
+      </>
+    )}
   </div>
 </MainLayout>
 
-<style>
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+<script define:vars={{ allPosts, currentLang }}>
+  let currentIndex = 0;
+  const posts = allPosts.slice(1); // Exclude hero post
+  
+  function updateFeaturedSection() {
+    // This would update the featured section based on currentIndex
+    // For a full implementation, you'd re-render the cards or use a framework
   }
-</style>
 
-<script define:vars={{ initialPosts: allPosts, currentLang }}>
-  function initBlogFilters(){
-    const filterButtons = Array.from(document.querySelectorAll('#blogFilters .filter-btn'));
-    const data = Array.isArray(initialPosts) ? initialPosts : [];
-
-    function getCarousel(){ return (window)._newsCarousels && (window)._newsCarousels['news-list']; }
-
-    function setActive(btn) {
-      filterButtons.forEach(b => { b.classList.remove('opacity-40'); b.classList.add('text-white'); });
-      filterButtons.forEach(b => { if (b!==btn) b.classList.add('opacity-40'); });
+  document.getElementById('prev-btn')?.addEventListener('click', () => {
+    if (currentIndex > 0) {
+      currentIndex--;
+      updateFeaturedSection();
     }
-    function applyFilter(filter) {
-      const carousel = getCarousel();
-      if (!carousel) return; // will be re-applied on ready
-      const filtered = filter === 'all' 
-        ? data 
-        : data.filter(p => (p.category || 'other').toLowerCase() === filter);
-      carousel.setData(filtered);
+  });
+
+  document.getElementById('next-btn')?.addEventListener('click', () => {
+    if (currentIndex < posts.length - 3) {
+      currentIndex++;
+      updateFeaturedSection();
     }
-    filterButtons.forEach((btn) => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const filter = btn.getAttribute('data-filter') || 'all';
-        setActive(btn);
-        applyFilter(filter);
+  });
+
+  // Filter functionality
+  const filterButtons = document.querySelectorAll('#blogFilters .filter-btn');
+  const newsCards = document.querySelectorAll('.news-card');
+
+  filterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = btn.getAttribute('data-filter');
+      
+      // Update active state
+      filterButtons.forEach(b => {
+        b.classList.remove('bg-orange', 'text-white');
+        b.classList.add('bg-orange/20', 'text-orange');
+      });
+      btn.classList.remove('bg-orange/20', 'text-orange');
+      btn.classList.add('bg-orange', 'text-white');
+
+      // Filter cards
+      newsCards.forEach(card => {
+        const category = card.getAttribute('data-category');
+        if (filter === 'all' || category === filter) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
       });
     });
-    // init
-    const defaultBtn = filterButtons.find(b => b.getAttribute('data-filter') === 'all');
-    if (defaultBtn) setActive(defaultBtn);
-
-    // Ensure carousel receives initial data when ready
-    const applyInitial = () => {
-      const c = getCarousel();
-      if (c) { 
-        c.setData(data); 
-        // Also apply the "all" filter to show all posts initially
-        const defaultBtn = filterButtons.find(b => b.getAttribute('data-filter') === 'all');
-        if (defaultBtn) setActive(defaultBtn);
-        return true; 
-      }
-      return false;
-    };
-    
-    // Try immediate application
-    if (!applyInitial()) {
-      // If carousel not ready, retry with polling
-      const start = Date.now();
-      const timer = setInterval(() => {
-        if (applyInitial() || Date.now() - start > 3000) clearInterval(timer);
-      }, 100);
-    }
-  }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initBlogFilters);
-  } else {
-    initBlogFilters();
-  }
-  document.addEventListener('astro:page-load', initBlogFilters);
+  });
 </script>
