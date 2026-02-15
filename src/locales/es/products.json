@@ -26,8 +26,8 @@
      {
       "id": "ranchitas-nacho-excitante",
       "name": "Ranchitas Nacho Excitante",
-      "image": "/images/es/products/product1.png",
-      "imagetwo": "/images/es/products/product2.png",
+      "image": "/images/es/products/product2.png",
+      "imagetwo": "/images/es/products/product1.png",
       "badge_icon": "/images/es/products/icon-nachos.png",
       "background_color": "#36D86E",  
       "header_color": "#FFFFFF",
@@ -54,9 +54,9 @@
     {
       "id": "ranchitas-nacho-pizza",
       "name": "Ranchitas Nacho Pizza",
-      "image": "/images/es/products/product1-pops.png",
+      "image": "/images/es/products/product3-pops.png",
       "imagetwo": "/images/es/products/product2-pops.png",
-      "imagethree": "/images/es/products/product3-pops.png",
+      "imagethree": "/images/es/products/product1-pops.png",
       "badge_icon": "/images/es/products/icon-pops.png",
       "background_color": "#018EDB",
       "header_color": "#018EDB",
