@@ -100,22 +100,26 @@
     {
       "id": "products",
       "text": "Productos",
-      "href": "/es/productos"
+      "href": "/es/productos",
+      "show": true
     },
     {
       "id": "recipes",
       "text": "Recetas",
-      "href": "/es/recetas"
+      "href": "/es/recetas",
+      "show": true
     },
     {
       "id": "news",
       "text": "Blog",
-      "href": "/es/blog"
+      "href": "/es/blog",
+      "show": true
     },
     {
       "id": "contact",
       "text": "Contáctanos",
-      "href": "/es/contacto"
+      "href": "/es/contacto",
+      "show": false
     }
   ],
   "about_us": {

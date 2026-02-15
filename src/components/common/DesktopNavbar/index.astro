@@ -41,7 +41,7 @@ const menuItems = t('menu_items', { namespace: 'common', locale: currentLang }) 
 
   <!-- Menu -->
   <div class="flex space-x-10 relative" id="desktop-menu-items">
-    {menuItems && menuItems.map((item: any) => (
+    {menuItems && menuItems.filter((item: any) => item.show).map((item: any) => (
       item?.id === 'products' ? (
         <div class="group">
           <a

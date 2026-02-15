@@ -95,22 +95,26 @@
     {
       "id": "products",
       "text": "Products",
-      "href": "/en/products"
+      "href": "/en/products",
+      "show": true
     },
     {
       "id": "recipes",
       "text": "Recipes",
-      "href": "/en/recipes"
+      "href": "/en/recipes",
+      "show": true
     },
     {
       "id": "news",
       "text": "Blog",
-      "href": "/en/blog"
+      "href": "/en/blog",
+      "show": true
     },
     {
       "id": "contact",
       "text": "Contact Us",
-      "href": "/en/contact"
+      "href": "/en/contact",
+      "show": false
     }
   ],
   "about_us": {
