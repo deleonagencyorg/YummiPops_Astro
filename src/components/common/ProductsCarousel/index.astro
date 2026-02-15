@@ -77,7 +77,7 @@ const getCardType = (product: Product) => {
 
     <!-- Grid de Productos -->
     <div class="products-grid">
-      {productsItems.map((product, index) => {
+      {productsItems.slice(0, 2).map((product, index) => {
         const cardType = getCardType(product);
         
         return (
@@ -173,10 +173,6 @@ const getCardType = (product: Product) => {
 </div>
 
 <style>
-  /* ==================== */
-  /* GRID Y CARD BASE     */
-  /* ==================== */
-  
   .products-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -196,12 +192,6 @@ const getCardType = (product: Product) => {
     display: block;
     width: 100%;
     max-width: 600px;
-  }
-
-  .product-card-link:focus {
-    outline: 2px solid #F86509;
-    outline-offset: 4px;
-    border-radius: 1.5rem;
   }
 
   .product-card {

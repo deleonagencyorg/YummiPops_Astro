@@ -128,8 +128,7 @@ const socialMedia = [
           
           <!-- Título del Producto -->
           <h1 
-            class="text-4xl md:text-5xl lg:text-6xl font-black leading-tight"
-            style={{ color: safeProduct.header_text_color }}
+            class="text-4xl md:text-5xl lg:text-6xl font-black leading-tight text-white"
           >
             {safeProduct.name}
           </h1>
@@ -137,8 +136,7 @@ const socialMedia = [
           <!-- Subtítulo/Descripción -->
           {safeProduct.short_description && (
             <p 
-              class="text-lg md:text-xl"
-              style={{ color: safeProduct.header_text_color }}
+              class="text-lg md:text-xl text-white"
             >
               {safeProduct.short_description}
             </p>
@@ -148,8 +146,7 @@ const socialMedia = [
           {safeProduct.weight && safeProduct.weight.length > 0 && (
             <div class="space-y-4">
               <h3 
-                class="text-xl md:text-2xl font-bold"
-                style={{ color: safeProduct.header_text_color }}
+                class="text-xl md:text-2xl font-bold text-white"
               >
                 {currentLang === 'es' ? 'Disfruta de nuestras presentaciones' : 'Enjoy our presentations'}
               </h3>
@@ -157,12 +154,7 @@ const socialMedia = [
               <div class="flex flex-wrap gap-3">
                 {safeProduct.weight.map((weight, index) => (
                   <button 
-                    class="weight-option px-6 py-3 rounded-full border-2 font-bold text-base md:text-lg transition-all duration-300 hover:scale-105"
-                    style={{ 
-                      borderColor: safeProduct.header_text_color,
-                      color: safeProduct.header_text_color,
-                      backgroundColor: 'transparent'
-                    }}
+                    class="weight-option px-6 py-3 rounded-full border-2 font-bold text-base md:text-lg transition-all duration-300 hover:scale-105 text-[#0D75C9] bg-white"
                     data-weight={weight}
                     data-index={index}
                   >
@@ -172,8 +164,7 @@ const socialMedia = [
               </div>
 
               <p 
-                class="text-sm italic"
-                style={{ color: safeProduct.header_text_color }}
+                class="text-sm italic text-white"
               >
                 {currentLang === 'es' 
                   ? 'Tamaño por presentación varía de acuerdo al país' 
@@ -216,8 +207,7 @@ const socialMedia = [
           <!-- Redes Sociales -->
           <div class="space-y-3">
             <h4 
-              class="text-lg font-bold"
-              style={{ color: safeProduct.header_text_color }}
+              class="text-lg font-bold text-white"
             >
               {currentLang === 'es' ? 'Síguenos en nuestras redes sociales' : 'Follow us on social media'}
             </h4>
@@ -285,9 +275,8 @@ const socialMedia = [
             <a 
             href={`/${currentLang}/productos/${product.id}`}
             class="group rounded-[30px] overflow-hidden transition-all duration-300 hover:shadow-2xl transform hover:scale-[1.02]"
-            style={{ backgroundColor: product.background_color }}
+            style={{ backgroundColor: product.background_product }}
           >
-            <!-- Imagen del producto -->
             <div class="flex items-center justify-center p-8 h-[300px]">
               <img 
                 src={product.image} 
@@ -339,10 +328,10 @@ const socialMedia = [
     weightOptions.forEach((option, index) => {
       option.addEventListener('click', () => {
         weightOptions.forEach(opt => {
-          opt.style.backgroundColor = 'transparent';
+          opt.style.backgroundColor = 'white';
           opt.style.fontWeight = 'bold';
         });
-        option.style.backgroundColor = 'black';
+        option.style.backgroundColor = 'white';
         option.style.color = option.style.borderColor || '#000';
       });
     });

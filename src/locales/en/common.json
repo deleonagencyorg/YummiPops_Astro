@@ -205,12 +205,12 @@
     "backgroundColor": "#B91C1C"
   },
   "cardQuiz": {
-    "badge" : "Our Story",
-    "title" : "Which Ranchita",
-    "titleHighlight" : "are you?",
-    "description1" : "Crunch with attitude and let the flavor say who you are. Ready for the challenge? Discover your Ranchitas essence in every bite.",
-    "titleButton": "Take Quiz",
-    "imageSrc" : "https://snack.yummiespromociones.com/SnacksyummiesAssets/Ranchitas_loop.mp4",
+    "badge": "Our Story",
+    "title": "Be the first to discover whats new from Yummi Pops",
+    "titleHighlight": "",
+    "description1": "Crunch with attitude and let the flavor show who you are. Ready for the challenge? Discover your Ranchitas essence in every bite.",
+    "titleButton": "Take the Quiz",
+    "imageSrc": "https://snack.yummiespromociones.com/SnacksyummiesAssets/Ranchitas_loop.mp4",
     "backgroundColor": "#0041CD"
   }
 }

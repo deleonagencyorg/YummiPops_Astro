@@ -1,0 +1,38 @@
+{
+  "date": "2025-09-11",
+  "id": "yummi-pops-nacho",
+  "slug": "yummi-pops-nacho",
+  "title": "Smores with Yummi Pops Nacho and Sea Salt",
+  "people": "12",
+  "difficulty": "Medium",
+  "image": "/images/es/recipes/yummipops.png",
+  "gallery": [
+    "chicken-fingers-con-ranchitas-nacho-excitante.webp"
+  ],
+  "type": "image",
+  "preparation_time": 30,
+  "ingredients": [
+    "1 bag of Ranchitas Nacho Excitante",
+    "1 egg",
+    "2 tablespoons milk",
+    "2 boneless chicken breasts"
+  ],
+  "instructions": [
+    "Step 1. Preheat the oven to 400°F.",
+    "Step 2. Cut the chicken breasts into ¾-inch strips.",
+    "Step 3. Place the Ranchitas in a bowl and crush them using a mortar or food processor.",
+    "Step 4. In another bowl, beat the egg and add the milk.",
+    "Step 5. Dip each chicken strip into the egg mixture, then coat with the crushed Ranchitas.",
+    "Step 6. Place the strips on a baking tray.",
+    "Step 7. Lightly brush each strip with vegetable oil.",
+    "Step 8. Bake for 15 to 17 minutes or until the chicken is fully cooked.",
+    "Step 9. Serve with Mazola Lemon Mayonnaise."
+  ],
+  "brand": [
+    "ranchitas"
+  ],
+  "product": [
+    "yummi-pops-nacho"
+  ],
+  "category": "palomitas"
+}
