@@ -4,6 +4,7 @@ import './styles.css';
 import LazyImage from '../../../components/common/LazyImage.astro';
 import RecipeCard from '../../../components/recipes/RecipeCard.astro';
 import { t, getLocale } from '../../../i18n/i18n';
+import ShareButton from '../../../components/common/ShareButton.astro';
 
 interface RecipeItem {
   id: string;
@@ -137,16 +138,8 @@ const chefTips = recipe.chef_tips || [
       </div>
 
       <!-- Share Buttons -->
-      <div class="flex gap-3">
-        <button 
-          id="shareButton"
-          class="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors"
-        >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
-          </svg>
-          <span class="font-medium">{shareText}</span>
-        </button>
+      <div class="flex gap-3"> 
+        <ShareButton modalId='shareModal'/>
 
         <button 
           id="copyLinkButton"

@@ -111,6 +111,11 @@
       "id": "news",
       "text": "Blog",
       "href": "/es/blog"
+    },
+    {
+      "id": "contact",
+      "text": "Contáctanos",
+      "href": "/es/contacto"
     }
   ],
   "about_us": {
