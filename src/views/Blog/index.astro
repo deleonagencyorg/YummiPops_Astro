@@ -1,16 +1,15 @@
 ---
 // src/views/Blog/index.astro
 import { type Locale } from '../../i18n/i18n';
+import { t, getLocale } from '../../i18n/i18n';
 import { ViewTransitions } from 'astro:transitions';
 import MainLayout from '../../layouts/MainLayout.astro';
 import './styles.css';
-import BlogCard from '../../components/blog/BlogCard.astro';
 import Breadcrumb from '../../components/common/Breadcrumb/Breadcrumb.astro';
-import { getCategoryName } from '../../i18n/categories';
 
 export interface Props { currentLang: Locale }
 
-interface BlogPostFrontmatter {
+interface BlogPost {
   id: string;
   slug: string;
   title: string;
@@ -21,66 +20,37 @@ interface BlogPostFrontmatter {
 }
 
 const { currentLang } = Astro.props;
-const pageTitle = currentLang === 'es' ? 'Noticias' : 'News';
-const pageDescription = currentLang === 'es' 
-  ? 'Mantente al día con nuestras últimas noticias y artículos.' 
-  : 'Stay updated with our latest news and articles.';
 
-const heroButton = currentLang === 'es' ? 'Ver ahora' : 'View now';
-const sectionTitle = currentLang === 'es' ? 'Descubre nuestras noticias' : 'Discover our news';
+// Usar t() para obtener datos del JSON igual que productos
+const blogPosts = t('items', { namespace: 'blog', locale: currentLang }) || [];
+const meta = t('meta', { namespace: 'blog', locale: currentLang }) || {};
+const home = t('home', { namespace: 'blog', locale: currentLang }) || {};
+const noPostsText = t('noPostsText', { namespace: 'blog', locale: currentLang }) || 'No hay noticias disponibles.';
 
-// Load markdown posts for the current language
-const mdModules = import.meta.glob('../../locales/*/blog/*.md');
-let allPosts: BlogPostFrontmatter[] = [];
+const pageTitle = meta.title || (currentLang === 'es' ? 'Noticias' : 'News');
+const pageDescription = meta.description || '';
+const heroButton = home.heroButton || (currentLang === 'es' ? 'Ver ahora' : 'View now');
 
-for (const path in mdModules) {
-  const lang = path.split('/')[3];
-  if (lang === currentLang) {
-    const mod: any = await mdModules[path]();
-    const fm = mod.frontmatter || {};
-    if (fm && fm.id && fm.slug && fm.title) {
-      allPosts.push({
-        id: String(fm.id),
-        slug: String(fm.slug),
-        title: String(fm.title),
-        summary: fm.summary ? String(fm.summary) : '',
-        image: fm.image ? String(fm.image) : '/images/blog/placeholder.jpg',
-        published_date: fm.published_date ? String(fm.published_date) : '',
-        category: fm.category ? String(fm.category).toLowerCase() : 'other'
-      });
-    }
-  }
-}
-
-// Sort by published_date desc
+// Ordenar posts por fecha (más reciente primero)
 function toDate(s: string | undefined): number {
   if (!s) return 0;
   if (/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(s)) {
-    const [d,m,y] = s.split('/').map(Number);
-    return new Date(y, (m||1)-1, d||1).getTime();
+    const [d, m, y] = s.split('/').map(Number);
+    return new Date(y, (m || 1) - 1, d || 1).getTime();
   }
   const t = Date.parse(s);
   return isNaN(t) ? 0 : t;
 }
-allPosts = allPosts.sort((a,b) => toDate(b.published_date) - toDate(a.published_date));
 
-// Build dynamic categories set
-const categories = Array.from(new Set(allPosts.map(p => (p.category || 'other'))));
-
-const filterLabels = currentLang === 'es'
-  ? { all: 'TODAS' }
-  : { all: 'ALL' };
-
-const noPostsText = currentLang === 'es'
-  ? 'No hay noticias disponibles en este momento.'
-  : 'No blog posts available at this time.';
+const allPosts: BlogPost[] = Array.isArray(blogPosts) 
+  ? [...blogPosts].sort((a, b) => toDate(b.published_date) - toDate(a.published_date))
+  : [];
 
 // Split posts for layout
-const heroPost = allPosts[0]; // First post for hero
-const featuredPost = allPosts[1]; // Large card on left
-const sidebarPosts = allPosts.slice(2, 4); // Two small cards on right
-const remainingPosts = allPosts.slice(4); // Rest of posts
+const heroPost = allPosts[0];
+const paginatedPosts = allPosts.slice(1); // Todos los posts excepto el hero
 ---
+
 <MainLayout title={pageTitle} description={pageDescription} class="bg-white">
   <ViewTransitions />
   <div class="container mx-auto px-4 md:px-8">
@@ -99,112 +69,121 @@ const remainingPosts = allPosts.slice(4); // Rest of posts
         {heroPost && (
           <section class="relative rounded-[20px] md:rounded-[30px] overflow-hidden mb-12 mt-6">
             <div class="relative h-[400px] md:h-[500px] lg:h-[550px]">
-              <!-- Background Image -->
               <img 
-                src={'/images/es/nachos.png'} 
+                src='/images/es/placeholder.png'
                 alt={heroPost.title}
                 class="absolute inset-0 w-full h-full object-cover"
               />
-              <!-- Gradient Overlay -->
               <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent"></div>
               
-              <!-- Content -->
-                <div class="relative z-10 h-full flex flex-col justify-end p-6 md:p-10 lg:p-12">
-                  <div class="flex flex-col xl:flex-row xl:justify-between xl:items-end gap-4">
-                    <h1 class="text-white text-3xl md:text-4xl lg:text-5xl font-black leading-tight">
-                      {heroPost.title}
-                    </h1>
-                    <a 
-                      href={`/${currentLang}/blog/${heroPost.slug}`}
-                      class="w-full xl:w-auto text-center bg-[#1115DB] hover:bg-[#00b85c] text-white font-bold px-6 py-3 rounded-full transition-all transform hover:scale-105 whitespace-nowrap flex-shrink-0"
-                    >
-                      {heroButton}
-                    </a>
-                  </div>
+              <div class="relative z-10 h-full flex flex-col justify-end p-6 md:p-10 lg:p-12">
+                <div class="flex flex-col xl:flex-row xl:justify-between xl:items-end gap-4">
+                  <h1 class="text-white text-3xl md:text-4xl lg:text-5xl font-black leading-tight">
+                    {heroPost.title}
+                  </h1>
+                  <a 
+                    href={`/${currentLang}/blog/${heroPost.slug}`}
+                    class="w-full xl:w-auto text-center bg-[#1115DB] hover:bg-[#00b85c] text-white font-bold px-6 py-3 rounded-full transition-all transform hover:scale-105 whitespace-nowrap flex-shrink-0"
+                  >
+                    {heroButton}
+                  </a>
                 </div>
+              </div>
             </div>
           </section>
         )}
 
-        <!-- Section Title -->
-        <h2 class="text-2xl md:text-3xl font-bold text-black mb-8">{sectionTitle}</h2>
-
-        <!-- Featured News Grid: 1 large left + 2 small right -->
         <section class="mb-12">
+          <h1 class="text-[30px] font-bold pb-[20px]">{currentLang === 'es' ? 'Descubre nuestras noticias' : 'Discover our news'}</h1>
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             
             <!-- Left: Large Featured Card -->
-            {featuredPost && (
-              <a href={`/${currentLang}/blog/${featuredPost.slug}`} class="group block">
-                <div class="relative rounded-[20px] overflow-hidden h-full min-h-[400px] lg:min-h-[500px]">
-                  <img 
-                    src={featuredPost.image || '/images/blog/placeholder.jpg'} 
-                    alt={featuredPost.title}
-                    class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-                  <div class="absolute bottom-0 left-0 right-0 p-6">
-                    <h3 class="text-white text-xl md:text-2xl font-bold mb-2 group-hover:text-green-400 transition-colors">
-                      {featuredPost.title}
-                    </h3>
-                    {featuredPost.summary && (
-                      <p class="text-white/70 text-sm md:text-base line-clamp-2">
-                        {featuredPost.summary}
-                      </p>
-                    )}
+            <div id="featured-container">
+              {paginatedPosts[0] && (
+                <a 
+                  href={`/${currentLang}/blog/${paginatedPosts[0].slug}`} 
+                  class="news-card group block"
+                  data-category={paginatedPosts[0].category || 'other'}
+                  id="featured-card"
+                >
+                  <div class="relative rounded-[20px] overflow-hidden h-[300px] lg:h-[400px]">
+                    <img 
+                      src={paginatedPosts[0].image || '/images/blog/placeholder.jpg'} 
+                      alt={paginatedPosts[0].title}
+                      class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      id="featured-image"
+                    />
                   </div>
-                </div>
-              </a>
-            )}
-
-            <!-- Right: 2 Stacked Cards -->
-            <div class="flex flex-col gap-6">
-              {sidebarPosts.map((post) => (
-                <a href={`/${currentLang}/blog/${post.slug}`} class="group block">
-                  <div class="flex gap-4 items-start">
-                    <!-- Thumbnail -->
-                    <div class="relative w-[140px] md:w-[180px] h-[100px] md:h-[120px] rounded-[12px] overflow-hidden flex-shrink-0">
-                      <img 
-                        src={post.image || '/images/blog/placeholder.jpg'} 
-                        alt={post.title}
-                        class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                    <!-- Text Content -->
-                    <div class="flex-1 py-1">
-                      <h4 class="text-black text-base md:text-lg font-bold mb-2 group-hover:text-orange transition-colors line-clamp-2">
-                        {post.title}
-                      </h4>
-                      {post.summary && (
-                        <p class="text-black/60 text-sm line-clamp-3">
-                          {post.summary}
-                        </p>
-                      )}
-                    </div>
+                  
+                  <div class="pt-4">
+                    <h3 class="text-black text-xl md:text-2xl font-bold mb-2 group-hover:text-black transition-colors" id="featured-title">
+                      {paginatedPosts[0].title}
+                    </h3>
+                    <p class="text-black/60 text-sm md:text-base line-clamp-2" id="featured-summary">
+                      {paginatedPosts[0].summary || ''}
+                    </p>
                   </div>
                 </a>
-              ))}
+              )}
+            </div>
+
+            <!-- Right: Sidebar Cards + Navigation -->
+            <div class="flex flex-col gap-6">
+              <div id="sidebar-container" class="flex flex-col gap-6">
+                {paginatedPosts.slice(1, 3).map((post, index) => (
+                  <a 
+                    href={`/${currentLang}/blog/${post.slug}`} 
+                    class="sidebar-card news-card group block"
+                    data-category={post.category || 'other'}
+                    data-index={index}
+                  >
+                    <div class="flex gap-4 items-start">
+                      <div class="relative w-[140px] md:w-[180px] h-[100px] md:h-[120px] rounded-[12px] overflow-hidden flex-shrink-0">
+                        <img 
+                          src={post.image || '/images/blog/placeholder.jpg'} 
+                          alt={post.title}
+                          class="sidebar-image absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                      <div class="flex-1 py-1">
+                        <h4 class="sidebar-title text-black text-base md:text-lg font-bold mb-2 group-hover:text-black transition-colors line-clamp-2">
+                          {post.title}
+                        </h4>
+                        <p class="sidebar-summary text-black/60 text-sm line-clamp-3">
+                          {post.summary || ''}
+                        </p>
+                      </div>
+                    </div>
+                  </a>
+                ))}
+              </div>
               
               <!-- Navigation Arrows -->
-              <div class="flex justify-end gap-2 mt-auto pt-4">
-                <button 
-                  id="prev-btn"
-                  class="w-10 h-10 rounded-full bg-orange hover:bg-orange-600 text-white flex items-center justify-center transition-colors"
-                  aria-label="Previous"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                  </svg>
-                </button>
-                <button 
-                  id="next-btn"
-                  class="w-10 h-10 rounded-full bg-orange hover:bg-orange-600 text-white flex items-center justify-center transition-colors"
-                  aria-label="Next"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
+              <div class="flex justify-between items-center mt-auto pt-4">
+                <span class=" text-white text-sm" id="page-indicator">
+                  1 / {Math.ceil(paginatedPosts.length / 3)}
+                </span>
+                <div class="flex gap-2">
+                  <button 
+                    id="prev-btn"
+                    class="w-10 h-10 rounded-[8px] bg-gray-300 text-gray-500 flex items-center justify-center transition-colors cursor-not-allowed"
+                    aria-label="Previous"
+                    disabled
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                  </button>
+                  <button 
+                    id="next-btn"
+                    class="w-10 h-10 rounded-[8px] bg-[#FBCC38] hover:bg-[#e5b832] text-black flex items-center justify-center transition-colors"
+                    aria-label="Next"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -214,54 +193,155 @@ const remainingPosts = allPosts.slice(4); // Rest of posts
   </div>
 </MainLayout>
 
-<script define:vars={{ allPosts, currentLang }}>
-  let currentIndex = 0;
-  const posts = allPosts.slice(1); // Exclude hero post
-  
-  function updateFeaturedSection() {
-    // This would update the featured section based on currentIndex
-    // For a full implementation, you'd re-render the cards or use a framework
-  }
+<script define:vars={{ paginatedPosts, currentLang }}>
+  function initBlogPagination() {
+    const posts = paginatedPosts;
+    const postsPerPage = 3; // 1 featured + 2 sidebar
+    const totalPages = Math.ceil(posts.length / postsPerPage);
+    let currentPage = 0;
 
-  document.getElementById('prev-btn')?.addEventListener('click', () => {
-    if (currentIndex > 0) {
-      currentIndex--;
-      updateFeaturedSection();
-    }
-  });
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const pageIndicator = document.getElementById('page-indicator');
+    
+    // Featured card elements
+    const featuredCard = document.getElementById('featured-card');
+    const featuredImage = document.getElementById('featured-image');
+    const featuredTitle = document.getElementById('featured-title');
+    const featuredSummary = document.getElementById('featured-summary');
+    
+    // Sidebar cards
+    const sidebarContainer = document.getElementById('sidebar-container');
 
-  document.getElementById('next-btn')?.addEventListener('click', () => {
-    if (currentIndex < posts.length - 3) {
-      currentIndex++;
-      updateFeaturedSection();
-    }
-  });
-
-  // Filter functionality
-  const filterButtons = document.querySelectorAll('#blogFilters .filter-btn');
-  const newsCards = document.querySelectorAll('.news-card');
-
-  filterButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const filter = btn.getAttribute('data-filter');
+    function updateDisplay() {
+      const startIndex = currentPage * postsPerPage;
+      const pageItems = posts.slice(startIndex, startIndex + postsPerPage);
       
-      // Update active state
-      filterButtons.forEach(b => {
-        b.classList.remove('bg-orange', 'text-white');
-        b.classList.add('bg-orange/20', 'text-orange');
-      });
-      btn.classList.remove('bg-orange/20', 'text-orange');
-      btn.classList.add('bg-orange', 'text-white');
+      // Update featured card (first item of page)
+      if (pageItems[0] && featuredCard && featuredImage && featuredTitle && featuredSummary) {
+        featuredCard.setAttribute('href', `/${currentLang}/blog/${pageItems[0].slug}`);
+        featuredCard.setAttribute('data-category', pageItems[0].category || 'other');
+        featuredImage.setAttribute('src', pageItems[0].image || '/images/blog/placeholder.jpg');
+        featuredImage.setAttribute('alt', pageItems[0].title);
+        featuredTitle.textContent = pageItems[0].title;
+        featuredSummary.textContent = pageItems[0].summary || '';
+      }
+      
+      // Update sidebar cards
+      if (sidebarContainer) {
+        const sidebarCards = sidebarContainer.querySelectorAll('.sidebar-card');
+        const sidebarItems = pageItems.slice(1, 3); // Items 2 and 3 of the page
+        
+        sidebarCards.forEach((card, index) => {
+          if (sidebarItems[index]) {
+            const post = sidebarItems[index];
+            card.setAttribute('href', `/${currentLang}/blog/${post.slug}`);
+            card.setAttribute('data-category', post.category || 'other');
+            card.style.display = 'block';
+            
+            const img = card.querySelector('.sidebar-image');
+            const title = card.querySelector('.sidebar-title');
+            const summary = card.querySelector('.sidebar-summary');
+            
+            if (img) {
+              img.setAttribute('src', post.image || '/images/blog/placeholder.jpg');
+              img.setAttribute('alt', post.title);
+            }
+            if (title) title.textContent = post.title;
+            if (summary) summary.textContent = post.summary || '';
+          } else {
+            // Hide card if no post for this slot
+            card.style.display = 'none';
+          }
+        });
+      }
+      
+      // Update page indicator
+      if (pageIndicator) {
+        pageIndicator.textContent = `${currentPage + 1} / ${totalPages}`;
+      }
+      
+      // Update button states
+      updateButtonStates();
+    }
 
-      // Filter cards
-      newsCards.forEach(card => {
-        const category = card.getAttribute('data-category');
-        if (filter === 'all' || category === filter) {
-          card.style.display = 'block';
+    function updateButtonStates() {
+      if (prevBtn) {
+        if (currentPage === 0) {
+          prevBtn.classList.add('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+          prevBtn.classList.remove('bg-[#FBCC38]', 'hover:bg-[#e5b832]', 'text-black');
+          prevBtn.setAttribute('disabled', 'true');
         } else {
-          card.style.display = 'none';
+          prevBtn.classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+          prevBtn.classList.add('bg-[#FBCC38]', 'hover:bg-[#e5b832]', 'text-black');
+          prevBtn.removeAttribute('disabled');
+        }
+      }
+      
+      if (nextBtn) {
+        if (currentPage >= totalPages - 1) {
+          nextBtn.classList.add('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+          nextBtn.classList.remove('bg-[#FBCC38]', 'hover:bg-[#e5b832]', 'text-black');
+          nextBtn.setAttribute('disabled', 'true');
+        } else {
+          nextBtn.classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+          nextBtn.classList.add('bg-[#FBCC38]', 'hover:bg-[#e5b832]', 'text-black');
+          nextBtn.removeAttribute('disabled');
+        }
+      }
+    }
+
+    // Event listeners
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        if (currentPage > 0) {
+          currentPage--;
+          updateDisplay();
         }
       });
-    });
-  });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        if (currentPage < totalPages - 1) {
+          currentPage++;
+          updateDisplay();
+        }
+      });
+    }
+
+    // Initialize
+    updateButtonStates();
+  }
+
+  // Initialize
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBlogPagination);
+  } else {
+    initBlogPagination();
+  }
+
+  // Re-initialize on Astro page navigation
+  document.addEventListener('astro:page-load', initBlogPagination);
 </script>
+
+<style>
+  .news-card {
+    display: block;
+    text-decoration: none;
+  }
+  
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

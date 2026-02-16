@@ -15,6 +15,8 @@ import enBrands from '../locales/en/brands.json';
 import enNewProducts from '../locales/en/newproducts.json';
 import enGallery from '../locales/en/gallery.json';
 import enAboutUs from '../locales/en/aboutus.json';
+import esBlog from '../locales/es/blog.json';
+import enBlog from '../locales/en/blog.json';
 
 // Tipos para las traducciones
 export type Locale = 'es' | 'en';
@@ -30,7 +32,8 @@ const translations = {
     brands: esBrands,
     newproducts: esNewProducts,
     gallery: esGallery,
-    aboutus: esAboutUs
+    aboutus: esAboutUs,
+    blog: esBlog
   },
   en: {
     common: enCommon,
@@ -40,7 +43,8 @@ const translations = {
     brands: enBrands,
     newproducts: enNewProducts,
     gallery: enGallery,
-    aboutus: enAboutUs
+    aboutus: enAboutUs,
+    blog: enBlog
   }
 };
 
