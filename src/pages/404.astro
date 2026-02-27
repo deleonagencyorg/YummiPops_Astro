@@ -31,80 +31,119 @@ const text = content[currentLang as 'es' | 'en'] || content.es;
 ---
 
 <MainLayout title={text.title} description={text.description}>
-  <div class="min-h-screen bg-primaryCream flex items-center justify-center px-4 py-16">
-    <div class="max-w-4xl mx-auto text-center">
-      
-      <!-- Error Code -->
-      <div class="mb-8">
-        <span class="inline-block text-[#F04F00] font-black text-8xl md:text-9xl opacity-20">
-          404
-        </span>
-      </div>
+  <div class="min-h-screen bg-white flex items-center justify-center px-4 py-12">
 
-      <!-- Main Content -->
-      <div class="mb-12">
-        <h1 class="text-4xl md:text-6xl font-black text-black mb-4 leading-tight">
-          {text.heading}
-        </h1>
-        <p class="text-2xl md:text-3xl font-bold text-[#F04F00] mb-6 italic">
-          {text.subheading}
-        </p>
-        <p class="text-lg md:text-xl text-gray-700 max-w-2xl mx-auto leading-relaxed">
-          {text.description}
-        </p>
-      </div>
+    <!-- Hero card — same style as Products hero -->
+    <div class="relative w-full max-w-5xl bg-[#2392D3] rounded-[30px] md:rounded-[40px] overflow-hidden">
 
-      <!-- Ranchitas Image -->
-      <div class="mb-12 flex justify-center">
-        <img 
-          src="https://snack.yummiespromociones.com/SnacksyummiesAssets/yummi-pops-dragon-hielo.png" 
-          alt="Yummi Pops" 
-          class="w-64 md:w-80 object-contain animate-bounce-slow"
-        />
-      </div>
+      <!-- Background pattern -->
+      <div class="nacho-pattern" style="background-image: url('/images/es/bg-product.png');"></div>
 
-      <!-- Action Buttons -->
-      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-        <a 
-          href={`/${currentLang}`}
-          class="inline-flex items-center gap-2 bg-[#F04F00] text-white font-bold px-8 py-4 rounded-full hover:bg-[#d54500] transition-all hover:shadow-lg transform hover:-translate-y-1"
-        >
-          {text.homeButton}
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-          </svg>
-        </a>
-        
-        <a 
-          href={`/${currentLang}/${currentLang === 'es' ? 'recetas' : 'recipes'}`}
-          class="inline-flex items-center gap-2 bg-[#F04F00] text-white font-bold px-8 py-4 rounded-full hover:bg-[#d54500] font-bold px-8 py-4 rounded-full  transition-all"
-        >
-          {text.recipesButton}
-        </a>
-        
-        <a 
-          href={`/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}`}
-          class="inline-flex items-center gap-2 bg-[#F04F00] text-white font-bold px-8 py-4 rounded-full hover:bg-[#d54500] font-bold px-8 py-4 rounded-full transition-all"
-        >
-          {text.productsButton}
-        </a>
-      </div>
+      <!-- Decorative floating chips -->
+      <img src="/images/es/pop1.png" alt="" class="chip absolute object-contain pointer-events-none" style="width: clamp(45px,6vw,80px); left:2%; top:4%; transform:rotate(-52deg); z-index:5; animation: floatChip 3s ease-in-out infinite;" />
+      <img src="/images/es/pop1.png" alt="" class="chip absolute object-contain pointer-events-none" style="width: clamp(35px,5vw,65px); right:3%; top:8%; transform:rotate(38deg); z-index:5; animation: floatChip 3s ease-in-out infinite 0.7s;" />
+      <img src="/images/es/pop1.png" alt="" class="chip absolute object-contain pointer-events-none" style="width: clamp(40px,5vw,70px); left:3%; bottom:8%; transform:rotate(67deg); z-index:5; animation: floatChip 3s ease-in-out infinite 1.4s;" />
+      <img src="/images/es/pop1.png" alt="" class="chip absolute object-contain pointer-events-none" style="width: clamp(30px,4vw,55px); right:2%; bottom:6%; transform:rotate(-43deg); z-index:5; animation: floatChip 3s ease-in-out infinite 2.1s;" />
 
+      <!-- Content -->
+      <div class="relative z-10 flex flex-col lg:flex-row items-center gap-8 px-8 md:px-14 py-12 md:py-16">
+
+        <!-- Left: text + buttons -->
+        <div class="flex-1 text-white text-center lg:text-left">
+
+          <!-- 404 badge -->
+          <div class="inline-block bg-[#FBCC38] text-black font-black text-sm md:text-base px-5 py-2 rounded-full mb-6 uppercase tracking-widest shadow-md">
+            {text.errorCode}
+          </div>
+
+          <h1 class="text-4xl sm:text-5xl md:text-6xl font-black leading-tight mb-3">
+            {text.heading}
+          </h1>
+          <p class="text-xl md:text-2xl font-bold italic text-[#FBCC38] mb-5">
+            {text.subheading}
+          </p>
+          <p class="text-base md:text-lg leading-relaxed mb-8 max-w-md mx-auto lg:mx-0 text-white/90">
+            {text.description}
+          </p>
+
+          <!-- Buttons -->
+          <div class="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start flex-wrap">
+            <a
+              href={`/${currentLang}`}
+              class="inline-flex items-center justify-center gap-2 bg-white text-black font-bold px-7 py-3 rounded-full hover:bg-[#FBCC38] transition-all hover:shadow-lg transform hover:-translate-y-1"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+              </svg>
+              {text.homeButton}
+            </a>
+            <a
+              href={`/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}`}
+              class="inline-flex items-center justify-center gap-2 bg-[#36D86E] text-white font-bold px-7 py-3 rounded-full hover:bg-[#2bc45e] transition-all hover:shadow-lg transform hover:-translate-y-1"
+            >
+              {text.productsButton}
+            </a>
+            <a
+              href={`/${currentLang}/${currentLang === 'es' ? 'recetas' : 'recipes'}`}
+              class="inline-flex items-center justify-center gap-2 border-2 border-white text-white font-bold px-7 py-3 rounded-full hover:bg-white hover:text-black transition-all transform hover:-translate-y-1"
+            >
+              {text.recipesButton}
+            </a>
+          </div>
+        </div>
+
+        <!-- Right: product montage -->
+        <div class="flex-shrink-0 relative" style="width: min(80vw, 360px); aspect-ratio: 1/1;">
+          <!-- Side bag left -->
+          <div class="absolute" style="width:42%; right:52%; top:22%; transform:rotate(-14deg); z-index:10;">
+            <img
+              src="/images/es/products/product3-pops.png"
+              alt="Yummi Pops"
+              class="w-full h-auto object-contain drop-shadow-xl"
+              style="animation: floatChip 3.5s ease-in-out infinite;"
+            />
+          </div>
+          <!-- Center bag (main) -->
+          <div class="absolute" style="width:54%; left:50%; top:0%; transform:translateX(-50%); z-index:30;">
+            <img
+              src="/images/es/products/product2.png"
+              alt="Yummi Pops Nacho"
+              class="w-full h-auto object-contain drop-shadow-2xl"
+            />
+          </div>
+          <!-- Side bag right -->
+          <div class="absolute" style="width:42%; left:52%; top:22%; transform:rotate(14deg); z-index:10;">
+            <img
+              src="/images/es/products/product1.png"
+              alt="Yummi Pops"
+              class="w-full h-auto object-contain drop-shadow-xl"
+              style="animation: floatChip 3.5s ease-in-out infinite 1.5s;"
+            />
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 </MainLayout>
 
 <style>
-  @keyframes bounce-slow {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-20px);
-    }
+  .nacho-pattern {
+    position: absolute;
+    inset: 0;
+    background-repeat: repeat;
+    background-size: 300px;
+    opacity: 0.08;
+    pointer-events: none;
+    z-index: 0;
   }
-  
-  .animate-bounce-slow {
-    animation: bounce-slow 3s ease-in-out infinite;
+
+  @keyframes floatChip {
+    0%   { transform: translateY(0px); }
+    50%  { transform: translateY(-12px); }
+    100% { transform: translateY(0px); }
   }
+
+  /* chips keep their rotation while floating */
+  .chip { animation-fill-mode: both; }
 </style>
