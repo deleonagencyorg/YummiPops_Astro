@@ -41,7 +41,7 @@ const products = t('items', { namespace: 'products', locale: currentLang }) || [
 const textHome = t('home.text_home', { namespace: 'common', locale: currentLang }) || {};
 const cardVideo = t('cardVideo', { namespace: 'common', locale: currentLang }) || {};
 const brandsList = brandsAssets.brands || [];
-const zibasBrand = brandsList.find((brand: any) => brand.id === 'ranchitas');
+const zibasBrand = brandsList.find((brand: any) => brand.id === 'Yummi Pops');
 const yummiPopProducts = zibasBrand?.products || [];
 
 const commonAssets = t('assets.slider', { namespace: 'common', locale: currentLang }) || [];
@@ -51,7 +51,7 @@ const slides = Array.isArray(commonAssets)
     .map(asset => ({
       desktop: asset.desktop,
       mobile: asset.mobile,
-      alt: asset.alt || "Ranchitas",
+      alt: asset.alt || "Yummi Pops",
       title: asset.title || '',
       subtitle: asset.description || '',
       link: asset.url || asset.link || ''
@@ -98,7 +98,7 @@ const featuredLabel = currentLang==='es' ? 'DESTACADOS' : 'FEATURED';
       />
     </div>
     
-    <!-- Sección de Productos Ranchitas -->
+    <!-- Sección de Productos Yummi Pops -->
     {yummiPopProducts.length > 0 && (
       <section 
         id="products" 

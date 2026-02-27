@@ -1,7 +1,7 @@
 {
   "meta": {
     "home": {
-      "title": "Ranchitas - Enjoy your Ranchitas at any moment",
+      "title": "Yummi Pops - Enjoy your Yummi Pops at any moment",
       "description": "Discover all the ways to crunch your world with recipes and content with explosive flavors. Come and ignite the crunch fire!"
     },
     "contact": {
@@ -10,46 +10,46 @@
     },
     "recipes": {
       "title": "Recipes",
-      "description": "Discover delicious recipes with Ranchitas. From traditional dishes to innovative creations."
+      "description": "Discover delicious recipes with Yummi Pops. From traditional dishes to innovative creations."
     },
     "news": {
       "title": "News",
-      "description": "Stay up to date with the latest news and events from Ranchitas."
+      "description": "Stay up to date with the latest news and events from Yummi Pops."
     },
     "products": {
       "title": "Products",
-      "description": "Discover our complete line of Ranchitas products. Authentic flavor for the whole family."
+      "description": "Discover our complete line of Yummi Pops products. Authentic flavor for the whole family."
     },
     "brands": {
       "title": "Our Snack Brands",
-      "description": "Discover Ranchitas, Zambos, Ranchitas. Each brand with unique and authentic flavors that conquer Central America."
+      "description": "Discover Yummi Pops, Zambos, Yummi Pops. Each brand with unique and authentic flavors that conquer Central America."
     },
     "about_us": {
       "title": "About Us - History and Values",
-      "description": "Learn about the history of Ranchitas, a leading snack company in Central America since 1990. Our mission, values and commitment to quality."
+      "description": "Learn about the history of Yummi Pops, a leading snack company in Central America since 1990. Our mission, values and commitment to quality."
     },
     "yummiesone": {
-      "title": "Ranchitas One",
-      "description": "Discover Ranchitas One, our new exclusive platform for true snack lovers."
+      "title": "Yummi Pops One",
+      "description": "Discover Yummi Pops One, our new exclusive platform for true snack lovers."
     }
   },
   "social_media": {
    "facebook": {
       "name": "Facebook",
-      "url": "https://www.facebook.com/ranchitaslatam",
-      "alt": "Facebook de Ranchitas",
+      "url": "https://www.facebook.com/yummipops",
+      "alt": "Facebook de Yummi Pops",
       "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/facebook.svg"
     },
     "instagram": {
       "name": "Instagram",
-      "url": "https://www.instagram.com/ranchitaslatam/",
-      "alt": "Instagram de Ranchitas",
+      "url": "https://www.instagram.com/yummipops/",
+      "alt": "Instagram de Yummi Pops",
       "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/instagram.svg"
     },
     "tiktok": {
       "name": "TikTok",
-      "url": "https://www.tiktok.com/@ranchitaslatam",
-      "alt": "TikTok de Ranchitas",
+      "url": "https://www.tiktok.com/@yummipops",
+      "alt": "TikTok de Yummi Pops",
       "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/tiktok.svg"
     }
   },
@@ -61,25 +61,25 @@
     "preferences": "Preferences"
   },
   "assets": {
-    "logo": "/images/es/logo.svg",
-    "hero": "/images/es/hero.jpg",
+    "logo": "/images/en/logo.svg",
+    "hero": "/images/en/hero.jpg",
     "slidermask": "https://snack.yummiespromociones.com/snacksyummies/BGHeader_1_.webp",
     "slidermaskmobile": "https://snack.yummiespromociones.com/snacksyummies/bg-front-mobile_1_.webp",
     "slider": [
       {
         "id": "slide2",
-        "desktop": "https://snack.yummiespromociones.com/zibas/banner.webp",
-        "mobile": "https://snack.yummiespromociones.com/zibas/banner-m.webp",
-        "alt": "Ranchitas",
+        "desktop": "https://snack.yummiespromociones.com/yummipops/banner.webp",
+        "mobile": "https://snack.yummiespromociones.com/yummipops/banner-m.webp",
+        "alt": "Yummi Pops",
         "title": "",
         "description": "",
         "link": "#"
       },
       {
         "id": "slide1",
-        "desktop": "https://snack.yummiespromociones.com/zibas/ZIBAS-360_TVC2.mp4",
-        "mobile": "https://snack.yummiespromociones.com/zibas/ZIBAS-360_TVC2.mp4",
-        "alt": "Ranchitas",
+        "desktop": "https://snack.yummiespromociones.com/yummipops/YUMMI-POPS-360_TVC2.mp4",
+        "mobile": "https://snack.yummiespromociones.com/yummipops/YUMMI-POPS-360_TVC2.mp4",
+        "alt": "Yummi Pops",
         "title": "",
         "description": "",
         "link": "#"
@@ -88,8 +88,8 @@
     ]
   },
   "menu_labels": {
-    "open_main_menu": "Abrir menú principal",
-    "explore": "Explorar"
+    "open_main_menu": "Open main menu",
+    "explore": "Explore"
   },
   "menu_items": [
     {
@@ -118,15 +118,15 @@
     }
   ],
   "about_us": {
-    "title": "Conoce Nuestra",
-    "subtitle": "Historia",
+    "title": "Discover Our",
+    "subtitle": "History",
     "content": [
-      "Las mejores papas en un solo lugar."
+      "The best chips in one place."
     ]
   },
   "home": {
     "meta": {
-      "title": " Ranchitas - Disfruta tus Ranchitas en todo momento",
+      "title": " Yummi Pops - Enjoy your Yummi Pops at any moment",
       "description": "Discover all the ways to crunch your world with recipes and content with explosive flavors. Come in and ignite the crunch!"
     },
     "newsletter":{
@@ -157,8 +157,8 @@
       "since": "Since 2000",
       "title": "THE CRUNCH",
       "subtitle": "YOU CAN TRUST",
-      "description": "Ranchitas is the snack that never fails: crispy, tasty, and perfect for any occasion.",
-      "descrition2": "Enjoy them on your own, with friends, or with family—because it’s always a good moment for a crunch.",
+      "description": "Yummi Pops is the snack that never fails: crispy, tasty, and perfect for any occasion.",
+      "descrition2": "Enjoy them on your own, with friends, or with family—because it's always a good moment for a crunch.",
       "button": "Learn more",
       "button2": "Contact us"
     }
@@ -170,13 +170,13 @@
     "choose": "Choose",
     "follow_us": "SOCIAL",
     "contact_us": "Contact Us",
-    "ranchitas": "Ranchitas",
+    "yummipops": "Yummi Pops",
     "help": "Help",
     "instagram_text": "Instagram",
     "facebook_text": "Facebook",
     "tiktok_text": "Tiktok",
-    "email": "customerhelp@zibas.com",
-    "copyright": "Copyright 2025. Ranchitas. All rights reserved.",
+    "email": "customerhelp@yummipops.com",
+    "copyright": "Copyright 2025. Yummi Pops. All rights reserved.",
     "privacy_policy_text": "Privacy Policy",
     "privacy_policy_url": "/en/privacy-policy",
     "products": "Products",
@@ -191,7 +191,7 @@
   "messagetop":[
     {
       "id":"1",
-      "title":"😎 Welcome to Ranchitas! If you're craving a snack, you're in the right place 🎉",
+      "title":"😎 Welcome to Yummi Pops! If you're craving a snack, you're in the right place 🎉",
       "link":""
     }
   ],
@@ -210,16 +210,16 @@
     "titleHighlight": "We Are?",
     "description1": "Discover all the ways to crunch your world with recipes and content with explosive flavors. Come in and ignite the crunch fire!",
     "description2": "",
-    "videoSrc" : "https://snack.yummiespromociones.com/SnacksyummiesAssets/Ranchitas_loop.mp4",
+    "videoSrc" : "https://snack.yummiespromociones.com/SnacksyummiesAssets/Yummi_Pops_loop.mp4",
     "backgroundColor": "#B91C1C"
   },
   "cardQuiz": {
     "badge": "Our Story",
     "title": "Be the first to discover whats new from Yummi Pops",
     "titleHighlight": "",
-    "description1": "Crunch with attitude and let the flavor show who you are. Ready for the challenge? Discover your Ranchitas essence in every bite.",
+    "description1": "Crunch with attitude and let the flavor show who you are. Ready for the challenge? Discover your Yummi Pops essence in every bite.",
     "titleButton": "Take the Quiz",
-    "imageSrc": "https://snack.yummiespromociones.com/SnacksyummiesAssets/Ranchitas_loop.mp4",
+    "imageSrc": "https://snack.yummiespromociones.com/SnacksyummiesAssets/Yummi_Pops_loop.mp4",
     "backgroundColor": "#0041CD"
   }
 }

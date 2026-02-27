@@ -19,8 +19,8 @@ const socialMedia = t('social_media', { namespace: 'common', locale: currentLang
 // Default values
 const pageTitle = title || meta.home.title;
 const pageDescription = description || meta.home.description;
-const pageImage = imageUrl || 'https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-logo-3.webp';
-const pageUrl = canonicalUrl || `https://ranchitas.com/${currentLang}`;
+const pageImage = imageUrl || 'https://snack.yummiespromociones.com/SnacksyummiesAssets/Yummi-pops-3.webp';
+const pageUrl = canonicalUrl || `https://yummipops.com/${currentLang}`;
 
 // Social media URLs
 const facebookUrl = socialMedia?.facebook?.url || '';
@@ -67,9 +67,9 @@ const twitterUrl = socialMedia?.twitter?.url || '';
 <script type="application/ld+json" set:html={JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Organization",
-  "name": "Ranchitas",
-  "url": "https://ranchitas.com",
-  "logo": "https://snack.yummiespromociones.com/snacksyummies/ranchitas-logo.webp",
+  "name": "Yummi Pops",
+  "url": "https://yummipops.com",
+  "logo": "https://snack.yummiespromociones.com/SnacksyummiesAssets/Yummi-pops-3.webp",
   "sameAs": [
     socialMedia.facebook?.url,
     socialMedia.instagram?.url,
@@ -86,7 +86,7 @@ const twitterUrl = socialMedia?.twitter?.url || '';
       "@type": "ListItem",
       "position": 1,
       "name": currentLang === 'es' ? 'Inicio' : 'Home',
-      "item": `https://ranchitas.com/${currentLang}`
+      "item": `https://yummipops.com/${currentLang}`
     }
   ]
 })}></script>

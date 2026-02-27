@@ -41,7 +41,7 @@ const product = products.find((item: Product) => item.id === productId);
 const brandsAssets = t('', { namespace: 'brands', locale: currentLang }) || {};
 const newsAssets = t('', { namespace: 'news', locale: currentLang }) || {};
 const brandsList = brandsAssets.brands || [];
-const zibasBrand = brandsList.find((brand: any) => brand.id === 'ranchitas');
+const zibasBrand = brandsList.find((brand: any) => brand.id === 'Yummi Pops');
 const cardQuizAssets = t('cardQuiz', { namespace: 'common', locale: currentLang }) || {};
 const zibasProducts = (zibasBrand?.products || []).filter((product: any) => product.id !== productId);
 
