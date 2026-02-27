@@ -42,7 +42,7 @@ const textHome = t('home.text_home', { namespace: 'common', locale: currentLang 
 const cardVideo = t('cardVideo', { namespace: 'common', locale: currentLang }) || {};
 const brandsList = brandsAssets.brands || [];
 const zibasBrand = brandsList.find((brand: any) => brand.id === 'ranchitas');
-const zibasProducts = zibasBrand?.products || [];
+const yummiPopProducts = zibasBrand?.products || [];
 
 const commonAssets = t('assets.slider', { namespace: 'common', locale: currentLang }) || [];
 const slides = Array.isArray(commonAssets)
@@ -99,7 +99,7 @@ const featuredLabel = currentLang==='es' ? 'DESTACADOS' : 'FEATURED';
     </div>
     
     <!-- Sección de Productos Ranchitas -->
-    {zibasProducts.length > 0 && (
+    {yummiPopProducts.length > 0 && (
       <section 
         id="products" 
         class="w-full relative"

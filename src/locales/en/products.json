@@ -7,8 +7,8 @@
     "title": "Discover the variety of our",
     "subtitle": "Products",
     "textButton": "Learn more"
-  },
-  "stockist": [
+},
+  "stockist":[
     {
       "id": "sompopopoapp",
       "name": "Sompopop App",
@@ -22,154 +22,185 @@
       "icon": "https://snack.yummiespromociones.com/SnacksyummiesAssets/latorreapp.webp"
     }
   ],
-"items": [
-  {
-    "id": "yummi-pops-nacho",
-    "name": "Yummi Pops Nacho",
-    "image": "/images/en/products/product2.png",
-    "imagetwo": "/images/en/products/product1.png",
-    "badge_icon": "/images/en/products/icon-nachos.png",
-    "background_color": "#36D86E",
-    "background_product": "#3CCF6F",
-    "header_color": "#FFFFFF",
-    "text_color": "#FFFFFF",
-    "header_background": "#E82E30",
-    "color_button": "#FFFFFF",
-    "description": "Crunchy corn snacks with spicy nacho flavor.",
-    "short_description": "Crunchy corn snacks with spicy nacho flavor.",
-    "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
-    "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
-    "sizes": [
-      {
-        "value": "150",
-        "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-clasicas-2.webp"
-      }
-    ],
-    "weight": ["18g", "23g", "25g", "150g"],
-    "category": "nacho"
-  },
-  {
-    "id": "yummi-pops-palomitas",
-    "name": "Yummi Pops Popcorn",
-    "image": "/images/en/products/product3-pops.png",
-    "imagetwo": "/images/en/products/product2-pops.png",
-    "imagethree": "/images/en/products/product1-pops.png",
-    "badge_icon": "/images/en/products/icon-pops.png",
-    "background_color": "#018EDB",
-    "background_product": "#47BBFF",
-    "header_color": "#018EDB",
-    "text_color": "#FFFFFF",
-    "header_background": "#FDE820",
-    "header_text_color": "#5B3F2E",
-    "color_button": "#FFFFFF",
-    "description": "Light and crispy popcorn, perfect for sharing anytime.",
-    "short_description": "Light and crispy popcorn.",
-    "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
-    "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
-    "sizes": [
-      {
-        "value": "150",
-        "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-clasicas-2.webp"
-      }
-    ],
-    "weight": ["18g", "23g", "25g", "150g"],
-    "category": "popcorn"
-  },
-  {
-    "id": "yummi-pops-palomitas-maiz-queso",
-    "name": "Yummi Pops Cheese Popcorn",
-    "image": "/images/en/products/product2-pops.png",
-    "background_color": "#F26900",
-    "background_product": "#F26900",
-    "header_color": "#018EDB",
-    "text_color": "#FFFFFF",
-    "header_background": "#FDE820",
-    "header_text_color": "#5B3F2E",
-    "color_button": "#FFFFFF",
-    "description": "Crispy popcorn coated with delicious cheese flavor, perfect for any occasion.",
-    "short_description": "Crispy cheese-flavored popcorn.",
-    "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
-    "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
-    "sizes": [
-      {
-        "value": "150",
-        "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-clasicas-2.webp"
-      }
-    ],
-    "weight": ["18g", "23g", "25g", "150g"],
-    "category": "popcorn"
-  },
-  {
-    "id": "yummi-pops-nacho-queso-blanco",
-    "name": "Yummi Pops White Cheese Nacho",
-    "image": "/images/en/products/product1.png",
-    "background_color": "#F26900",
-    "background_product": "#0EB3F3",
-    "header_color": "#018EDB",
-    "text_color": "#FFFFFF",
-    "header_background": "#FDE820",
-    "header_text_color": "#5B3F2E",
-    "color_button": "#FFFFFF",
-    "description": "Crunchy corn snacks with smooth white cheese nacho flavor.",
-    "short_description": "Crunchy white cheese nacho corn snacks.",
-    "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
-    "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
-    "sizes": [
-      {
-        "value": "150",
-        "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-clasicas-2.webp"
-      }
-    ],
-    "weight": ["18g", "23g", "25g", "150g"],
-    "category": "nacho"
-  },
-  {
-    "id": "yummi-pops-palomitas-sal-marina",
-    "name": "Yummi Pops Sea Salt Popcorn",
-    "image": "/images/en/products/product1-pops.png",
-    "background_color": "#F26900",
-    "background_product": "#02319D",
-    "header_color": "#018EDB",
-    "text_color": "#FFFFFF",
-    "header_background": "#FDE820",
-    "header_text_color": "#5B3F2E",
-    "color_button": "#FFFFFF",
-    "description": "Light and crispy popcorn seasoned with sea salt for a perfectly balanced flavor.",
-    "short_description": "Sea salt flavored popcorn.",
-    "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
-    "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
-    "sizes": [
-      {
-        "value": "150",
-        "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-clasicas-2.webp"
-      }
-    ],
-    "weight": ["18g", "23g", "25g", "150g"],
-    "category": "popcorn"
-  },
-  {
-    "id": "yummi-pops-mix-sabor-a-queso",
-    "name": "Yummi Pops Cheese Flavor Mix",
-    "image": "/images/en/products/mix.png",
-    "background_color": "#F26900",
-    "background_product": "#FF8928",
-    "header_color": "#018EDB",
-    "text_color": "#FFFFFF",
-    "header_background": "#FDE820",
-    "header_text_color": "#5B3F2E",
-    "color_button": "#FFFFFF",
-    "description": "A delicious mix of crunchy snacks with irresistible cheese flavor.",
-    "short_description": "Crunchy cheese-flavored snack mix.",
-    "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
-    "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
-    "sizes": [
-      {
-        "value": "150",
-        "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-clasicas-2.webp"
-      }
-    ],
-    "weight": ["18g", "23g", "25g", "150g"],
-    "category": "nacho"
-  }
-]
+  "items": [
+    {
+      "id": "yummi-pops-nacho",
+      "name": "Yummi Pops Nacho",
+      "image": "/images/es/products/product2.png",
+      "imagetwo": "/images/es/products/product1.png",
+      "badge_icon": "/images/es/products/icon-nachos.png",
+      "background_color": "#36D86E",  
+      "background_product": "#3CCF6F",
+      "header_color": "#FFFFFF",
+      "text_color":"#FFFFFF",
+      "header_background": "#E82E30",
+      "color_button": "#FFFFFF",
+      "description": "Papas fritas crujientes con sabor a nachos picante",
+      "short_description": "Papas fritas crujientes con sabor a nachos picante",
+      "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
+      "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
+      "sizes": [
+        {
+          "value": "150",
+          "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-clasicas-2.webp"
+        }
+      ],
+      "weight": [
+        "18g",
+        "23g",
+        "25g",
+        "150g"
+      ],
+      "category": "nacho"
+    },
+    {
+      "id": "yummi-pops-palomitas",
+      "name": "Yummi Pops Palomitas",
+      "image": "/images/es/products/product3-pops.png",
+      "imagetwo": "/images/es/products/product2-pops.png",
+      "imagethree": "/images/es/products/product1-pops.png",
+      "badge_icon": "/images/es/products/icon-pops.png",
+      "background_color": "#018EDB",
+      "background_product": "#47BBFF",
+      "header_color": "#018EDB",
+      "text_color":"#FFFFFF",
+      "header_background": "#FDE820",
+      "header_text_color": "#5B3F2E",
+      "color_button": "#FFFFFF",
+      "description":  "Tortillas de maíz crujientes con sabor a pizza, perfectas para compartir en fiestas. Una explosión de sabor en cada mordida que te transportará directo a tu pizzería favorita.",
+      "short_description": "Tortillas de maíz crujientes con sabor a pizza.",
+      "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
+      "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
+      "sizes": [
+        {
+          "value": "150",
+          "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-clasicas-2.webp"
+        }
+      ],
+      "weight": [
+        "18g",
+        "23g",
+        "25g",
+        "150g"
+      ],
+      "category": "palomitas"
+    },
+    {
+      "id": "yummi-pops-palomitas-maiz-queso",
+      "name": "Yummi Pops Palomitas de Maíz Queso",
+      "image": "/images/es/products/product2-pops.png",
+      "background_color": "#F26900",
+      "background_product": "#F26900",
+      "header_color": "#018EDB",
+      "text_color":"#FFFFFF",
+      "header_background": "#FDE820",
+      "header_text_color": "#5B3F2E",
+      "color_button": "#FFFFFF",
+      "description":  "Tortillas de maíz crujientes con sabor a pizza, perfectas para compartir en fiestas. Una explosión de sabor en cada mordida que te transportará directo a tu pizzería favorita.",
+      "short_description": "Tortillas de maíz crujientes con sabor a pizza.",
+      "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
+      "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
+      "sizes": [
+        {
+          "value": "150",
+          "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-clasicas-2.webp"
+        }
+      ],
+      "weight": [
+        "18g",
+        "23g",
+        "25g",
+        "150g"
+      ],
+      "category": "palomitas"
+    },
+        {
+      "id": "yummi-pops-nacho-queso-blanco",
+      "name": "Yummi Pops Nacho Queso Blanco",
+      "image": "/images/es/products/product1.png",
+      "background_color": "#F26900",
+      "background_product": "#0EB3F3",
+      "header_color": "#018EDB",
+      "text_color":"#FFFFFF",
+      "header_background": "#FDE820",
+      "header_text_color": "#5B3F2E",
+      "color_button": "#FFFFFF",
+      "description":  "Tortillas de maíz crujientes con sabor a pizza, perfectas para compartir en fiestas. Una explosión de sabor en cada mordida que te transportará directo a tu pizzería favorita.",
+      "short_description": "Tortillas de maíz crujientes con sabor a pizza.",
+      "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
+      "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
+      "sizes": [
+        {
+          "value": "150",
+          "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-clasicas-2.webp"
+        }
+      ],
+      "weight": [
+        "18g",
+        "23g",
+        "25g",
+        "150g"
+      ],
+      "category": "nacho"
+    },
+    {
+      "id": "yummi-pops-palomitas-sal-marina",
+      "name": "Yummi Pops Palomitas de Maíz Sal Marina",
+      "image": "/images/es/products/product1-pops.png",
+      "background_color": "#F26900",
+      "background_product": "#02319D",
+      "header_color": "#018EDB",
+      "text_color":"#FFFFFF",
+      "header_background": "#FDE820",
+      "header_text_color": "#5B3F2E",
+      "color_button": "#FFFFFF",
+      "description":  "Tortillas de maíz crujientes con sabor a pizza, perfectas para compartir en fiestas. Una explosión de sabor en cada mordida que te transportará directo a tu pizzería favorita.",
+      "short_description": "Tortillas de maíz crujientes con sabor a pizza.",
+      "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
+      "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
+      "sizes": [
+        {
+          "value": "150",
+          "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-clasicas-2.webp"
+        }
+      ],
+      "weight": [
+        "18g",
+        "23g",
+        "25g",
+        "150g"
+      ],
+      "category": "palomitas"
+    },
+    {
+      "id": "yummi-pops-mix-sabor-a-queso",
+      "name": "Yummi Pops Mix Sabor a Queso",
+      "image": "/images/es/products/mix.png",
+      "background_color": "#F26900",
+      "background_product": "#FF8928",
+      "header_color": "#018EDB",
+      "text_color":"#FFFFFF",
+      "header_background": "#FDE820",
+      "header_text_color": "#5B3F2E",
+      "color_button": "#FFFFFF",
+      "description":  "Tortillas de maíz crujientes con sabor a pizza, perfectas para compartir en fiestas. Una explosión de sabor en cada mordida que te transportará directo a tu pizzería favorita.",
+      "short_description": "Tortillas de maíz crujientes con sabor a pizza.",
+      "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
+      "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
+      "sizes": [
+        {
+          "value": "150",
+          "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zibas-clasicas-2.webp"
+        }
+      ],
+      "weight": [
+        "18g",
+        "23g",
+        "25g",
+        "150g"
+      ],
+      "category": "nacho"
+    }
+   
+  ]
 }

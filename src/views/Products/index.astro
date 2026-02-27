@@ -7,10 +7,13 @@ import { getLocale } from '../../i18n/i18n';
 
 const currentLang = getLocale();
 const products = t('items', { namespace: 'products', locale: currentLang }) || [];
-const productsImages = [
-  { image: '/images/es/products/product3-pops.png', name: "Yummi Pops Palomitas" },
-  { image: '/images/es/products/product1-pops.png', name: "Yummi Pops Palomitas" }
-];
+
+// Read category from URL parameter
+const url = Astro.url;
+const urlParams = new URLSearchParams(url.search);
+const selectedCategory = urlParams.get('category') || 'all';
+const heroProducts = (products as any[]).slice(0, 3);
+const productsImages = heroProducts.map((p: any) => ({ image: p.image, name: p.name }));
 
 
 // Textos
@@ -23,8 +26,22 @@ const sectionTitle = currentLang === 'es' ? 'Todos los productos' : 'All product
 const categories = [
   { label: currentLang === 'es' ? 'Todos' : 'All', value: 'all' },
   { label: 'Yummi Pops Nacho', value: 'nacho' },
-  { label: 'Yummi Pops Palomitas', value: 'palomitas' }
+  { label: currentLang === 'es' ? 'Yummi Pops Palomitas' : 'Yummi Pops Popcorn', value: 'palomitas' }
 ];
+
+// Group products by category
+const categoryGroups = [
+  {
+    key: 'nacho',
+    label: 'Yummi Pops Nacho',
+    products: (products as any[]).filter((p: any) => p.category === 'nacho'),
+  },
+  {
+    key: 'palomitas',
+    label: currentLang === 'es' ? 'Yummi Pops Palomitas' : 'Yummi Pops Popcorn',
+    products: (products as any[]).filter((p: any) => p.category === 'palomitas'),
+  },
+].filter(g => g.products.length > 0);
 
 // Features del hero
 const features = [
@@ -74,261 +91,104 @@ const features = [
         </div>
       </div>
 
-      <!-- Lado Derecho - Imágenes de Productos -->
-      <div class="hidden lg:hidden xl:block relative h-[300px] md:h-[400px] lg:h-[500px]">
-        {productsImages.slice(0, 2).map((product: any, index: number) => (
-          <img
-            src={product.image || '/images/products/placeholder.jpg'}
-            alt={product.name}
-            class={`absolute w-64 h-auto object-contain drop-shadow-2xl ${
-              index === 0 
-                ? 'top-0 left-[10px] z-20 transform w-[390px] h-[300px]' 
-                : 'top-[60px] right-0 z-10 transform rotate-[50deg] w-[350px] h-[300px]'
-            }`}
-          />
-        ))}
-      </div>
+      <!-- Lado Derecho - Montaje grupo escalable -->
+      <div class="hidden xl:flex items-center justify-center w-full">
+        <div class="relative w-full" style="aspect-ratio: 5/4;">
 
-      <div class="hidden lg:block xl:hidden relative h-[300px] md:h-[400px] lg:h-[500px]">
-        {productsImages.slice(0, 2).map((product: any, index: number) => (
-          <img
-            src={product.image || '/images/products/placeholder.jpg'}
-            alt={product.name}
-            class={`absolute w-64 h-auto object-contain drop-shadow-2xl ${
-              index === 0 
-                ? 'top-[120px] left-[250px] z-20 transform w-[250px] h-[250px]' 
-                : 'top-[120px] right-[150px] z-10 transform rotate-[30deg] w-[250px] h-[250px]'
-            }`}
-          />
-        ))}
-      </div>
+          <!-- 4 chips decorativos en esquinas -->
+          <img src="/images/es/pop1.png" alt="" class="absolute object-contain" style="width: 14%; left: 0%; top: 2%; transform: rotate(-52deg); z-index: 40; animation: floatChip 3s ease-in-out infinite;" />
+          <img src="/images/es/pop1.png" alt="" class="absolute object-contain" style="width: 13%; right: 0%; top: 5%; transform: rotate(38deg); z-index: 40; animation: floatChip 3s ease-in-out infinite 0.7s;" />
+          <img src="/images/es/pop1.png" alt="" class="absolute object-contain" style="width: 15%; left: 1%; bottom: 2%; transform: rotate(67deg); z-index: 40; animation: floatChip 3s ease-in-out infinite 1.4s;" />
+          <img src="/images/es/pop1.png" alt="" class="absolute object-contain" style="width: 12%; right: 1%; bottom: 4%; transform: rotate(-43deg); z-index: 40; animation: floatChip 3s ease-in-out infinite 2.1s;" />
 
-      <div class="block sm:hidden lg:hidden xl:hidden relative items-center h-[300px] md:h-[400px] lg:h-[500px]">
-        {productsImages.slice(0, 1).map((product: any, index: number) => (
-          <img
-            src={product.image || '/images/products/placeholder.jpg'}
-            alt={product.name}
-            class={`absolute w-64 h-auto object-contain drop-shadow-2xl ${
-              index === 0 
-                ? 'top-[0px] left-[50px] z-20 transform w-[250px] h-[240px]' 
-                : 'top-[50px] right-[50px] z-10 transform rotate-[30deg] w-[250px] h-[250px]'
-            }`}
-          />
-        ))}
-      </div>
+          <!-- Empaque izquierdo -->
+          <div class="absolute" style="width: 36%; right: 54%; top: 18%; transform: rotate(-12deg); z-index: 10;">
+            <img src={productsImages[1]?.image || '/images/products/placeholder.jpg'} alt="chip" class="w-full h-auto object-contain drop-shadow-xl" style="animation: floatChip 3s ease-in-out infinite;" />
+          </div>
+          <!-- Empaque central -->
+          <div class="absolute" style="width: 46%; left: 50%; top: 0%; transform: translateX(-50%); z-index: 30;">
+            <img src={productsImages[0]?.image || '/images/products/placeholder.jpg'} alt={productsImages[0]?.name || 'product'} class="w-full h-auto object-contain drop-shadow-2xl" />
+          </div>
+          <!-- Empaque derecho -->
+          <div class="absolute" style="width: 36%; left: 54%; top: 18%; transform: rotate(12deg); z-index: 10;">
+            <img src={productsImages[2]?.image || productsImages[1]?.image || '/images/products/placeholder.jpg'} alt="chip" class="w-full h-auto object-contain drop-shadow-xl" style="animation: floatChip 3s ease-in-out infinite 1.5s;" />
+          </div>
 
-      <div class="hidden sm:block lg:hidden xl:hidden relative items-center h-[300px] md:h-[400px] lg:h-[500px]">
-        {productsImages.slice(0, 1).map((product: any, index: number) => (
-          <img
-            src={product.image || '/images/products/placeholder.jpg'}
-            alt={product.name}
-            class={`absolute w-64 h-auto object-contain drop-shadow-2xl ${
-              index === 0 
-                ? 'top-[0px] left-[200px] z-20 transform w-[250px] h-[250px]' 
-                : 'top-[50px] right-[50px] z-10 transform rotate-[30deg] w-[250px] h-[250px]'
-            }`}
-          />
-        ))}
-      </div>
-
-      <div class="block xl:hidden text-white md:p-0 p-12">
-          <h1 class="text-4xl md:text-5xl lg:text-6xl font-black leading-tight">
-          {heroTitle}
-          </h1>
-          <p class="text-lg md:text-xl mb-8">
-            {heroSubtitle}
-          </p>
-          
-          <button class="bg-white text-black font-bold px-8 py-3 rounded-full hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg">
-            {heroButton}
-          </button>
         </div>
-    </div>
-  </div>
-</section>
-
-<section class="hidden md:hidden lg:block xl:hidden relative bg-[#2392D3] rounded-[30px]  mx-4 mt-8 mb-12 ">
-  <div class="container mx-auto px-6 md:px-12 py-12 md:py-16 lg:py-20">
-    <div class="grid grid-cols-1 gap-8 items-center">
-      <div class="nacho-pattern" style="background-image: url('/images/es/bg-product.png');"></div>
-      <!-- Lado Izquierdo - Contenido -->
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 pt-2 z-40">
-          {features.map((feature) => (
-            <div class="text-center">
-              <LazyImage
-                src={feature.icon}
-                alt="Feature Icon"
-                class="w-[163px] h-[63px] object-contain mx-auto mb-2"
-              />
-            </div>
-          ))}
-        </div>
-
-      <div class="relative h-[300px] md:h-[400px] lg:h-[500px]">
-        {productsImages.slice(0, 2).map((product: any, index: number) => (
-          <img
-            src={product.image || '/images/products/placeholder.jpg'}
-            alt={product.name}
-            class={`absolute w-64 h-auto object-contain drop-shadow-2xl ${
-              index === 0 
-                ? 'top-[10px] left-[230px] z-20 transform w-[340px] h-[280px]' 
-                : 'top-[50px] right-[120px] z-10 transform rotate-[50deg] w-[280px] h-[250px]'
-            }`}
-          />
-        ))}
-      </div>
-
-      <div class="block xl:hidden text-white md:p-0 p-12">
-          <h1 class="text-4xl md:text-5xl lg:text-6xl font-black leading-tight">
-          {heroTitle}
-          </h1>
-          <p class="text-lg md:text-xl mb-8">
-            {heroSubtitle}
-          </p>
-          
-          <button class="bg-white text-black font-bold px-8 py-3 rounded-full hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg">
-            {heroButton}
-          </button>
       </div>
     </div>
   </div>
 </section>
 
-<section class="hidden md:block lg:hidden xl:hidden relative bg-[#2392D3] rounded-[30px]  mx-4 mt-8 mb-12 ">
-  <div class="container mx-auto px-6 md:px-12 py-12 md:py-16 lg:py-20">
-    <div class="grid grid-cols-1 gap-8 items-center">
-      <div class="nacho-pattern" style="background-image: url('/images/es/bg-product.png');"></div>
-      <!-- Lado Izquierdo - Contenido -->
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 pt-2 z-40">
-          {features.map((feature) => (
-            <div class="text-center">
-              <LazyImage
-                src={feature.icon}
-                alt="Feature Icon"
-                class="w-[163px] h-[63px] object-contain mx-auto mb-2"
-              />
-            </div>
-          ))}
+<!-- Hero responsive unificado: mobile → lg (< 1280px) -->
+<section class="block xl:hidden relative bg-[#2392D3] rounded-[30px] mx-4 mt-8 mb-12 overflow-hidden">
+  <div class="nacho-pattern" style="background-image: url('/images/es/bg-product.png');"></div>
+  <div class="relative z-10 px-6 pt-8 pb-6 md:pt-12 md:pb-8 flex flex-col items-center gap-2">
+
+    <!-- Features icons -->
+    <div class="grid grid-cols-3 gap-3 w-full max-w-xs md:max-w-sm z-40">
+      {features.map((feature) => (
+        <div class="text-center">
+          <LazyImage
+            src={feature.icon}
+            alt="Feature Icon"
+            class="w-full max-w-[80px] md:max-w-[110px] h-auto object-contain mx-auto"
+          />
+        </div>
+      ))}
+    </div>
+
+    <!-- Montaje: grupo escalable como unidad -->
+    <div class="relative w-full flex justify-center">
+      <!-- Grupo escalable: todo dentro escala junto en % -->
+      <div class="relative" style="width: min(90vw, 500px); aspect-ratio: 5/4;">
+
+        <!-- 4 chips decorativos en esquinas (% del grupo) -->
+        <img src="/images/es/pop1.png" alt="" class="absolute object-contain" style="width: 14%; left: 0%; top: 2%; transform: rotate(-55deg); z-index: 40; animation: floatChip 3s ease-in-out infinite;" />
+        <img src="/images/es/pop1.png" alt="" class="absolute object-contain" style="width: 13%; right: 0%; top: 5%; transform: rotate(42deg); z-index: 40; animation: floatChip 3s ease-in-out infinite 0.7s;" />
+        <img src="/images/es/pop1.png" alt="" class="absolute object-contain" style="width: 15%; left: 1%; bottom: 2%; transform: rotate(71deg); z-index: 40; animation: floatChip 3s ease-in-out infinite 1.4s;" />
+        <img src="/images/es/pop1.png" alt="" class="absolute object-contain" style="width: 12%; right: 1%; bottom: 4%; transform: rotate(-38deg); z-index: 40; animation: floatChip 3s ease-in-out infinite 2.1s;" />
+
+        <!-- Empaque izquierdo -->
+        <div class="absolute" style="width: 36%; right: 54%; top: 18%; transform: rotate(-12deg); z-index: 10;">
+          <img src={productsImages[1]?.image || '/images/products/placeholder.jpg'} alt="chip" class="w-full h-auto object-contain drop-shadow-xl" style="animation: floatChip 3s ease-in-out infinite;" />
+        </div>
+        <!-- Empaque central (más grande, al frente) -->
+        <div class="absolute" style="width: 46%; left: 50%; top: 0%; transform: translateX(-50%); z-index: 30;">
+          <img src={productsImages[0]?.image || '/images/products/placeholder.jpg'} alt={productsImages[0]?.name || 'product'} class="w-full h-auto object-contain drop-shadow-2xl" />
+        </div>
+        <!-- Empaque derecho -->
+        <div class="absolute" style="width: 36%; left: 54%; top: 18%; transform: rotate(12deg); z-index: 10;">
+          <img src={productsImages[2]?.image || productsImages[1]?.image || '/images/products/placeholder.jpg'} alt="chip" class="w-full h-auto object-contain drop-shadow-xl" style="animation: floatChip 3s ease-in-out infinite 1.5s;" />
         </div>
 
-      <div class="relative h-[300px] md:h-[400px] lg:h-[500px]">
-        {productsImages.slice(0, 2).map((product: any, index: number) => (
-          <img
-            src={product.image || '/images/products/placeholder.jpg'}
-            alt={product.name}
-            class={`absolute w-64 h-auto object-contain drop-shadow-2xl ${
-              index === 0 
-                ? 'top-[10px] left-[200px] z-20 transform w-[280px] h-[250px]' 
-                : 'top-[50px] right-[120px] z-10 transform rotate-[50deg] w-[220px] h-[250px]'
-            }`}
-          />
-        ))}
-      </div>
-
-      <div class="block xl:hidden text-white md:p-0 p-12">
-          <h1 class="text-4xl md:text-5xl lg:text-6xl font-black leading-tight">
-          {heroTitle}
-          </h1>
-          <p class="text-lg md:text-xl mb-8">
-            {heroSubtitle}
-          </p>
-          
-          <button class="bg-white text-black font-bold px-8 py-3 rounded-full hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg">
-            {heroButton}
-          </button>
       </div>
     </div>
-  </div>
-</section>
 
-<section class="block md:hidden lg:hidden xl:hidden relative bg-[#2392D3] rounded-[30px]  mx-4 mt-8 mb-12 overflow-hidden">
-  <div class="container mx-auto px-6 md:px-12 py-12 md:py-16 lg:py-20">
-    <div class="grid grid-cols-1 gap-8 items-center">
-      <div class="nacho-pattern" style="background-image: url('/images/es/bg-product.png');"></div>
-      <!-- Lado Izquierdo - Contenido -->
-        <div class="grid grid-cols-3 gap-4 pt-2 z-40">
-          {features.map((feature) => (
-            <div class="text-center">
-              <LazyImage
-                src={feature.icon}
-                alt="Feature Icon"
-                class="w-[100px] h-[63px] object-contain mx-auto mb-2"
-              />
-            </div>
-          ))}
-        </div>
-
-      <div class="relative h-[300px] md:h-[400px] lg:h-[500px] ">
-        {productsImages.slice(0, 2).map((product: any, index: number) => (
-          <img
-            src={product.image || '/images/products/placeholder.jpg'}
-            alt={product.name}
-            class={`absolute w-64 h-auto object-contain drop-shadow-2xl ${
-              index === 0 
-                ? 'top-[10px] -left-[10px] z-20 transform w-[255px] h-[220px]' 
-                : 'top-[30px] -right-[30px] z-10 transform rotate-[50deg] w-[220px] h-[220px]'
-            }`}
-          />
-        ))}
-      </div>
-
-      <div class="block xl:hidden text-white md:p-0 pt-[80px]">
-          <h1 class="text-4xl md:text-5xl lg:text-6xl font-black leading-tight">
-          {heroTitle}
-          </h1>
-          <p class="text-lg md:text-xl mb-8">
-            {heroSubtitle}
-          </p>
-          
-          <button class="bg-white text-black font-bold px-8 py-3 rounded-full hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg">
-            {heroButton}
-          </button>
-      </div>
+    <!-- Texto -->
+    <div class="text-white text-center w-full max-w-lg">
+      <h1 class="text-3xl md:text-4xl lg:text-5xl font-black leading-tight mb-3">
+        {heroTitle}
+      </h1>
+      <p class="text-base md:text-lg mb-6">{heroSubtitle}</p>
+      <button class="bg-white text-black font-bold px-8 py-3 rounded-full hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg">
+        {heroButton}
+      </button>
     </div>
+
   </div>
 </section>
 
 <!-- Products Section -->
 <div class="bg-white py-12">
   <div class="container mx-auto px-4">
-    
+
     <!-- Header -->
     <div class="mb-8">
       <h2 class="text-3xl md:text-4xl font-black text-gray-900 mb-6">
         {sectionTitle}
       </h2>
-        <div class="hidden xl:block absolute bottom-0 top-[620px] right-[660px] pointer-events-none z-20">
-          <img src="/images/es/pop1.png" alt="Decorative Pattern" class="w-[120px] h-[159px] object-cover" />
-        </div>
-
-        <div class="hidden xl:block absolute bottom-0 top-[200px] right-[900px] pointer-events-none z-20 rotate-[50deg]">
-          <img src="/images/es/pop1.png" alt="Decorative Pattern" class="w-[150px] h-[150px] object-cover" />
-        </div>
-
-         <div class="hidden md:block lg:hidden xl:hidden absolute bottom-0 top-[550px] right-[490px] pointer-events-none z-20">
-          <img src="/images/es/pop1.png" alt="Decorative Pattern" class="w-[120px] h-[159px] object-cover" />
-        </div>
-
-        <div class="hidden md:block lg:hidden xl:hidden absolute bottom-0 -top-[50px] -left-[620px] pointer-events-none z-20 rotate-[50deg]">
-          <img src="/images/es/pop1.png" alt="Decorative Pattern" class="w-[120px] h-[120px] object-cover" />
-        </div>
-
-        <div class="block md:hidden lg:hidden xl:block absolute bottom-0 top-[550px] right-[280px] pointer-events-none z-20">
-          <img src="/images/es/pop1.png" alt="Decorative Pattern" class="w-[103px] h-[103px] object-cover" />
-        </div>
-
-        <div class="block md:hidden lg:hidden xl:block absolute bottom-0 -top-[390px] -left-[1600px] pointer-events-none z-20 rotate-[50deg]">
-          <img src="/images/es/pop1.png" alt="Decorative Pattern" class="w-[120px] h-[120px] object-cover" />
-        </div>
-
-
-         <div class="hidden md:hidden lg:block xl:hidden absolute bottom-0 top-[630px] right-[560px] pointer-events-none z-20">
-          <img src="/images/es/pop1.png" alt="Decorative Pattern" class="w-[120px] h-[159px] object-cover" />
-        </div>
-
-        <div class="hidden md:hidden lg:block xl:hidden absolute bottom-0 top-[90px] -left-[320px] pointer-events-none z-20 rotate-[50deg]">
-          <img src="/images/es/pop1.png" alt="Decorative Pattern" class="w-[120px] h-[120px] object-cover" />
-        </div>
+      
 
       <!-- Tabs/Filtros -->
       <div class="flex flex-wrap gap-3" id="productTabs">
@@ -354,36 +214,79 @@ const features = [
         {currentLang === 'es' ? 'No hay productos para mostrar.' : 'No products to display.'}
       </p>
     ) : (
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8" id="products-grid">
-        {products.map((product: any) => (
-          <a
-            href={`/${currentLang}/productos/${product.id}`}
-            class="product-card group"
-            data-category={product.category || 'all'}
-          >
-            <div 
-              class="rounded-[30px] p-6 md:p-8 flex flex-col items-center justify-center transition-all duration-300 hover:shadow-2xl transform hover:scale-[1.02] min-h-[350px]"
-              style={{ backgroundColor: product.background_product || '#FFFFFF' }}
-            >
-              <img
-                src={product.image || '/images/products/placeholder.jpg'}
-                alt={product.name}
-                class="w-full max-w-[250px] h-[250px] object-contain drop-shadow-lg group-hover:scale-105 transition-transform duration-300"
-              />
-            </div>
+      <div id="products-container">
 
-            <!-- Título fuera de la tarjeta -->
-            <h3 class="text-xl md:text-2xl font-black text-gray-900 mt-4 leading-tight">
-              {product.name}
-            </h3>
-          </a>
-        ))}
+        {/* === VISTA AGRUPADA (all) === */}
+        <div id="grouped-view">
+          {categoryGroups.map((group) => (
+            <div class="category-group mb-12" data-group={group.key}>
+              <h3 class="text-2xl md:text-3xl font-black text-gray-900 mb-6">{group.label}</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                {group.products.map((product: any) => (
+                  <a
+                    href={`/${currentLang}/productos/${product.id}`}
+                    class="product-card group"
+                    data-category={product.category || 'all'}
+                  >
+                    <div
+                      class="rounded-[30px] p-6 md:p-8 flex flex-col items-center justify-center transition-all duration-300 hover:shadow-2xl transform hover:scale-[1.02] min-h-[350px]"
+                      style={{ backgroundColor: product.background_product || '#FFFFFF' }}
+                    >
+                      <img
+                        src={product.image || '/images/products/placeholder.jpg'}
+                        alt={product.name}
+                        class="w-full max-w-[250px] h-[250px] object-contain drop-shadow-lg group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-black text-gray-900 mt-4 leading-tight">
+                      {product.name}
+                    </h3>
+                  </a>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* === VISTA FILTRADA (categoría específica) === */}
+        <div id="filtered-view" style="display:none">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8" id="products-grid">
+            {(products as any[]).map((product: any) => (
+              <a
+                href={`/${currentLang}/productos/${product.id}`}
+                class="product-card group"
+                data-category={product.category || 'all'}
+              >
+                <div
+                  class="rounded-[30px] p-6 md:p-8 flex flex-col items-center justify-center transition-all duration-300 hover:shadow-2xl transform hover:scale-[1.02] min-h-[350px]"
+                  style={{ backgroundColor: product.background_product || '#FFFFFF' }}
+                >
+                  <img
+                    src={product.image || '/images/products/placeholder.jpg'}
+                    alt={product.name}
+                    class="w-full max-w-[250px] h-[250px] object-contain drop-shadow-lg group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <h3 class="text-xl md:text-2xl font-black text-gray-900 mt-4 leading-tight">
+                  {product.name}
+                </h3>
+              </a>
+            ))}
+          </div>
+        </div>
+
       </div>
     )}
   </div>
 </div>
 
 <style>
+  @keyframes floatChip {
+    0%   { transform: translateY(0px); }
+    50%  { transform: translateY(-14px); }
+    100% { transform: translateY(0px); }
+  }
+
   .product-card {
     display: block;
     text-decoration: none;
@@ -406,46 +309,58 @@ const features = [
 
 <script>
   function initProductFilters() {
-    const tabs = document.querySelectorAll('.tab-btn');
-    const productCards = document.querySelectorAll('.product-card') as NodeListOf<HTMLElement>;
+    const tabs = document.querySelectorAll('.tab-btn') as NodeListOf<HTMLElement>;
+    const groupedView = document.getElementById('grouped-view') as HTMLElement;
+    const filteredView = document.getElementById('filtered-view') as HTMLElement;
+    const filteredCards = filteredView?.querySelectorAll('.product-card') as NodeListOf<HTMLElement>;
 
-    function filterProducts(category: string) {
-      productCards.forEach((card) => {
-        const productCategory = card.getAttribute('data-category');
-        
-        if (category === 'all' || productCategory === category) {
-          card.style.display = 'block';
-          // Fade in animation
-          card.style.opacity = '0';
-          setTimeout(() => {
-            card.style.opacity = '1';
-            card.style.transition = 'opacity 0.3s ease-in-out';
-          }, 10);
+    function applyCategory(category: string) {
+      // Update active tab styles
+      tabs.forEach(t => {
+        if (t.getAttribute('data-category') === category) {
+          t.classList.remove('bg-[#FFF9E6]', 'text-gray-700');
+          t.classList.add('bg-[#F9A825]', 'text-white', 'shadow-md');
         } else {
-          card.style.display = 'none';
-        }
-      });
-    }
-
-    tabs.forEach((tab) => {
-      tab.addEventListener('click', () => {
-        // Update active tab styles
-        tabs.forEach(t => {
           t.classList.remove('bg-[#F9A825]', 'text-white', 'shadow-md');
           t.classList.add('bg-[#FFF9E6]', 'text-gray-700');
-        });
-        
-        tab.classList.remove('bg-[#FFF9E6]', 'text-gray-700');
-        tab.classList.add('bg-[#F9A825]', 'text-white', 'shadow-md');
+        }
+      });
 
-        // Filter products
+      if (category === 'all') {
+        // Show grouped view, hide filtered view
+        groupedView.style.display = 'block';
+        filteredView.style.display = 'none';
+      } else {
+        // Hide grouped view, show filtered view with matching cards
+        groupedView.style.display = 'none';
+        filteredView.style.display = 'block';
+        filteredCards.forEach(card => {
+          card.style.display = card.getAttribute('data-category') === category ? 'block' : 'none';
+        });
+      }
+
+      // Update URL without reload
+      const newUrl = new URL(window.location.href);
+      if (category === 'all') {
+        newUrl.searchParams.delete('category');
+      } else {
+        newUrl.searchParams.set('category', category);
+      }
+      window.history.replaceState({}, '', newUrl);
+    }
+
+    // Bind tab clicks
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
         const category = tab.getAttribute('data-category') || 'all';
-        filterProducts(category);
+        applyCategory(category);
       });
     });
 
-    // Initialize - show all products
-    filterProducts('all');
+    // Apply on load from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialCategory = urlParams.get('category') || 'all';
+    applyCategory(initialCategory);
   }
 
   // Initialize
