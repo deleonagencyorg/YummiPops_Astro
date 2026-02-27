@@ -1,5 +1,5 @@
 ---
-// Componente de productos sin carousel
+// Componente de productos - SEGÚN FIGMA
 interface Product {
   id: string;
   slug: string;
@@ -7,13 +7,14 @@ interface Product {
   description: string;
   short_description: string;
   image: string;
-  imagetwo?: string;  // Segunda imagen (derecha)
-  imagethree?: string; // Tercera imagen (izquierda)
+  imagetwo?: string;
+  imagethree?: string;
   imageMobile?: string;
   background_color?: string;
   text_color?: string;
-  badge_icon?: string; // Icono/badge del producto (ej: "NUNCA fritos", "0% Grasas Trans")
-  badge_text?: string; // Texto del badge si no es imagen
+  badge_icon?: string;
+  badge_text?: string;
+  category?: string;
 }
 
 export interface Props {
@@ -28,15 +29,22 @@ const {
 
 const currentLang = Astro.url.pathname.split('/')[1] === 'es' ? 'es' : 'en';
 
-// Textos según idioma
 const texts = {
   es: {
     title: 'Descubre nuestras líneas',
-    viewAll: 'Ver todo'
+    viewAll: 'Ver todo',
+    categories: {
+      palomitas: 'Yummi Pops Palomitas',
+      nacho: 'Yummi Pops Nacho',
+    }
   },
   en: {
     title: 'Discover our lines',
-    viewAll: 'View all'
+    viewAll: 'View all',
+    categories: {
+      palomitas: 'Yummi Pops Popcorn',
+      nacho: 'Yummi Pops Nacho',
+    }
   }
 };
 
@@ -45,13 +53,33 @@ const productsItems = Array.isArray(products) ? products : [];
 
 import LazyImage from '../LazyImage.astro';
 
-// Colores de fondo para cada producto (puedes ajustar según tus necesidades)
-const backgroundColors = [
-  'from-green-400 to-green-500',
-  'from-blue-500 to-blue-600',
-  'from-orange-400 to-orange-500',
-  'from-purple-400 to-purple-500',
-];
+// Configuración fija por categoría
+const categoryConfig = {
+  palomitas: {
+    background_color: '#018EDB',
+    label: currentTexts.categories.palomitas,
+    badge_icon: '/images/es/products/icon-pops.png',
+  },
+  nacho: {
+    background_color: '#36D86E',
+    label: currentTexts.categories.nacho,
+    badge_icon: '/images/es/products/icon-nachos.png',
+  },
+};
+
+// Agrupar productos por categoría y tomar los primeros 3 de cada una
+const categoryOrder = ['palomitas', 'nacho'] as const;
+
+const categoryCards = categoryOrder.map((cat) => {
+  const catProducts = productsItems.filter((p) => p.category === cat).slice(0, 3);
+  return {
+    category: cat,
+    products: catProducts,
+    ...categoryConfig[cat],
+  };
+}).filter((card) => card.products.length > 0);
+
+const productsPath = currentLang === 'es' ? 'productos' : 'products';
 ---
 
 <div class={`bg-[#FCDC85] py-12 px-4 md:px-8 lg:px-12 ${className}`}>
@@ -63,122 +91,646 @@ const backgroundColors = [
         {currentTexts.title}
       </h2>
       <a 
-        href={`/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}`}
+        href={`/${currentLang}/${productsPath}`}
         class="text-lg md:text-xl font-bold text-gray-900 hover:text-gray-700 transition-colors"
       >
         {currentTexts.viewAll}
       </a>
     </div>
 
-    <!-- Grid de Productos -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-      {productsItems.map((product, index) => (
-        <a 
-          href={`/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}/${product.id}`}
-          class="product-card-link group"
-        >
-          <div 
-            class="rounded-3xl overflow-visible shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02] relative"
-            style={`background: ${product.background_color || `linear-gradient(to bottom right, ${backgroundColors[index % backgroundColors.length]})`}`}
+    <!-- Grid de Categorías -->
+    <div class="products-grid">
+      {categoryCards.map((card) => {
+        const imgs = card.products.map((p) => p.imageMobile || p.image);
+        const count = imgs.length;
+        const layoutClass = count >= 3 ? 'three-images' : count === 2 ? 'two-images' : 'single-image';
+        
+        return (
+          <a 
+            href={`/${currentLang}/${productsPath}?category=${card.category}`}
+            class={`product-card-link group ${layoutClass}`}
           >
-            
-            <!-- Contenedor de Imágenes con composición -->
-            <div class="relative h-64 md:h-80 lg:h-96 flex items-center justify-center p-8 overflow-visible">
-              
-              <!-- Imagen 3 (Izquierda) - Si existe -->
-              {product.imagethree && (
-                <div class="absolute left-0 lg:left-[60px] top-1/2 -translate-y-1/2 w-2/5 h-3/4 z-10">
-                  <LazyImage 
-                    src={product.imagethree} 
-                    alt={`${product.name} - variante`}
-                    class="w-full h-full object-contain drop-shadow-2xl transform -rotate-12 transition-transform duration-300 group-hover:rotate-[-8deg]"
-                  />
-                </div>
-              )}
+            <div 
+              class="product-card"
+              style={`background: ${card.background_color}`}
+            >
+              <div class="product-content">
 
-              <!-- Imagen Principal (Centro) -->
-              <div class="relative z-20 w-3/5 h-full">
-                <LazyImage 
-                  src={product.imageMobile || product.image} 
-                  alt={product.name}
-                  class="w-full h-full object-contain drop-shadow-2xl transition-transform duration-300 group-hover:scale-110"
-                />
+                {/* === 3 IMÁGENES === */}
+                {count >= 3 && (
+                  <>
+                    {/* Imagen Izquierda (atrás) */}
+                    <div class="img-three-left">
+                      <LazyImage 
+                        src={imgs[2]} 
+                        alt={`${card.label} - variante`}
+                        class="product-image"
+                      />
+                    </div>
+
+                    {/* Imagen Centro (frente) */}
+                    <div class="img-three-center">
+                      <LazyImage 
+                        src={imgs[0]} 
+                        alt={card.label}
+                        class="product-image"
+                      />
+                    </div>
+
+                    {/* Imagen Derecha (atrás) */}
+                    <div class="img-three-right">
+                      <LazyImage 
+                        src={imgs[1]} 
+                        alt={`${card.label} - variante`}
+                        class="product-image"
+                      />
+                    </div>
+                  </>
+                )}
+
+                {/* === 2 IMÁGENES === */}
+                {count === 2 && (
+                  <>
+                    {/* Imagen Izquierda (atrás) */}
+                    <div class="img-two-left">
+                      <LazyImage 
+                        src={imgs[0]} 
+                        alt={card.label}
+                        class="product-image"
+                      />
+                    </div>
+
+                    {/* Imagen Derecha (frente) */}
+                    <div class="img-two-right">
+                      <LazyImage 
+                        src={imgs[1]} 
+                        alt={`${card.label} - variante`}
+                        class="product-image"
+                      />
+                    </div>
+                  </>
+                )}
+
+                {/* === 1 IMAGEN === */}
+                {count === 1 && (
+                  <div class="img-single">
+                    <LazyImage 
+                      src={imgs[0]} 
+                      alt={card.label}
+                      class="product-image"
+                    />
+                  </div>
+                )}
+
+                {/* Badge */}
+                {card.badge_icon && (
+                  <div class="product-badge">
+                    <LazyImage 
+                      src={card.badge_icon} 
+                      alt="Badge"
+                      class="w-[80px] xl:w-[200px]"
+                    />
+                  </div>
+                )}
               </div>
-
-              <!-- Imagen 2 (Derecha) - Si existe -->
-              {product.imagetwo && (
-                <div class="absolute right-0 lg:right-[50px] top-1/2 -translate-y-1/2 w-2/5 h-3/4 z-10">
-                  <LazyImage 
-                    src={product.imagetwo} 
-                    alt={`${product.name} - variante`}
-                    class="w-full h-full object-contain drop-shadow-2xl transform rotate-12 transition-transform duration-300 group-hover:rotate-[8deg]"
-                  />
-                </div>
-              )}
-
-              <!-- Badge/Icono del Producto (abajo a la derecha) -->
-              {product.badge_icon && (
-                <div class="absolute bottom-4 right-4 md:bottom-6 md:right-6 lg:bottom-8 lg:right-8 z-30">
-                  <LazyImage 
-                    src={product.badge_icon} 
-                    alt="Badge"
-                    class="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 object-contain drop-shadow-lg"
-                  />
-                </div>
-              )}
-
-              <!-- Badge de Texto (si no hay imagen) -->
-              {product.badge_text && !product.badge_icon && (
-                <div class="absolute bottom-4 right-4 md:bottom-6 md:right-6 lg:bottom-8 lg:right-8 z-30 bg-white/90 backdrop-blur-sm rounded-full px-4 py-2 shadow-lg">
-                  <p class="text-xs md:text-sm font-black text-gray-900 text-center leading-tight">
-                    {product.badge_text}
-                  </p>
-                </div>
-              )}
-
             </div>
-
-          </div>
-             <div class="bg-[#FCDC85] px-6 py-4 md:px-8 md:py-6">
-              <h3 class="text-xl md:text-2xl lg:text-3xl font-black text-gray-900">
-                {product.name}
-              </h3>
-          </div>
-        </a>
-      ))}
+            
+            <!-- Nombre de la categoría -->
+            <div class="product-name">
+              <h3>{card.label}</h3>
+            </div>
+          </a>
+        );
+      })}
     </div>
-    
-
-    <!-- Si solo hay 1 producto, mostrar centrado -->
-    {productsItems.length === 1 && (
-      <style>
-        .grid {
-          justify-items: center;
-        }
-        .product-card-link {
-          max-width: 600px;
-          width: 100%;
-        }
-      </style>
-    )}
 
   </div>
 </div>
 
 <style>
+  .products-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    justify-items: center;
+  }
+
+  @media (min-width: 768px) {
+    .products-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+  }
+
   .product-card-link {
     text-decoration: none;
     display: block;
+    width: 100%;
+    max-width: 600px;
   }
 
-  .product-card-link:focus {
-    outline: 2px solid #F86509;
-    outline-offset: 4px;
+  .product-card {
     border-radius: 1.5rem;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+    overflow: hidden;
   }
 
-  /* Ajustes para que las imágenes laterales no se corten */
-  .product-card-link > div {
+  .product-card-link:hover .product-card {
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    transform: scale(1.02);
+  }
+
+  .product-content {
     position: relative;
+    height: 280px;
+  }
+
+  @media (min-width: 390px) {
+    .product-content {
+      height: 440px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .product-content {
+      height: 420px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .product-content {
+      height: 380px;
+    }
+  }
+
+  .product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 25px rgba(0,0,0,0.3));
+    transition: transform 0.3s ease;
+  }
+
+  /* ==================== */
+  /* CARD CON 2 IMÁGENES  */
+  /* ==================== */
+
+  .img-two-left {
+    position: absolute;
+    left: 2%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 255px;
+    height: 324px;
+    z-index: 10;
+  }
+
+  @media (min-width: 390px) and (max-width: 767px) {
+    .img-two-left {
+      width: 260px !important;
+      height: 350px;
+      left: -10% !important;
+      width: 50%;
+    }
+  }
+
+
+  @media (min-width: 768px) and (max-width: 899px) {
+    .img-two-left {
+      width: 255px !important;
+      height: 300px;
+      left: 2% !important;
+      width: 50%;
+    }
+  }
+
+  @media (min-width: 900px) and (max-width: 1023px) {
+    .img-two-left {
+      width: 255px !important;
+      height: 300px;
+      left: 10% !important;
+      width: 50%;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .img-two-left {
+      left: 14%;
+      width: 48%;
+    }
+  }
+
+  .product-card-link:hover .img-two-left .product-image {
+    transform: rotate(-8deg) scale(1.05);
+  }
+
+  .img-two-right {
+    position: absolute;
+    left: 28%;
+    top: 50%;
+    transform: translateY(-50%) rotate(16deg);
+    width: 210px;
+    height: 267px;
+  }
+
+  @media (min-width: 390px) and (max-width: 767px) {
+    .img-two-right {
+      width: 210px !important;
+      height: 287px !important;
+      left: 38%;
+      width: 50%;
+    }
+  }
+
+
+  @media (min-width: 768px) and (max-width: 899px) {
+    .img-two-right {
+      width: 210px;
+      height: 257px;
+      left: 51%;
+      width: 50%;
+    }
+  }
+
+  @media (min-width: 900px) and (max-width: 1023px) {
+    .img-two-right {
+      width: 210px;
+      height: 257px;
+      left: 51%;
+      width: 50%;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .img-two-right {
+      left: 36%;
+      width: 48%;
+    }
+  }
+
+  .product-card-link:hover .img-two-right .product-image {
+    transform: scale(1.08);
+  }
+
+  /* ==================== */
+  /* CARD CON 3 IMÁGENES  */
+  /* ==================== */
+
+  .img-three-left {
+    position: absolute;
+    left: -2%;
+    top: 50%;
+    transform: translateY(-50%) rotate(-15deg);
+    width: 170px;
+    height: 200px;
+    z-index: 10;
+  }
+
+  @media (min-width: 390px) and (max-width: 767px) {
+    .img-three-left {
+      width: 170px !important;
+      height: 200px !important;
+      left: -1.2% !important;
+      width: 50%;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 899px) {
+    .img-three-left {
+      left: 10%;
+      width: 38%;
+    }
+  }
+
+   @media (min-width: 900px) and (max-width: 1023px) {
+    .img-three-left {
+      width: 170px !important;
+      height: 200px !important;
+      left: 7.1% !important;
+      width: 50%;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .img-three-left {
+      left: 16.5%;
+      width: 36%;
+    }
+  }
+
+  .product-card-link:hover .img-three-left .product-image {
+    transform: rotate(-10deg) scale(1.05);
+  }
+
+  .img-three-center {
+    position: absolute;
+    left: 20%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 255px;
+    height: 324px;
+    z-index: 20;
+  }
+
+  @media (min-width: 390px) and (max-width: 767px) {
+    .img-three-center {
+      width: 255px !important;
+      height: 280px !important;
+      left: 10%;
+      width: 42%;
+    }
+  }
+
+   @media (min-width: 767px) and (max-width: 899px) {
+    .img-three-center {
+      width: 255px !important;
+      height: 260px !important;
+      left: 10%;
+      width: 42%;
+    }
+  }
+
+    @media (min-width: 900px) and (max-width: 1023px) {
+    .img-three-center {
+      width: 255px !important;
+      height: 280px !important;
+      left: 16%;
+      width: 42%;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .img-three-center {
+      left: 30%;
+      width: 40%;
+    }
+  }
+
+  .product-card-link:hover .img-three-center .product-image {
+    transform: scale(1.08);
+  }
+
+  .img-three-right {
+    position: absolute;
+    right: 12%;
+    top: 50%;
+    transform: translateY(-50%) rotate(15deg);
+    width: 170px;
+    height: 200px;
+    z-index: 10;
+  }
+
+  @media (min-width: 390px) and (max-width: 767px) {
+    .img-three-right {
+      right: 7%;
+      width: 38%;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 899px) {
+    .img-three-right {
+      right: 14%;
+      width: 38%;
+    }
+  }
+
+  @media (min-width: 900px) and (max-width: 1023px) {
+    .img-three-right {
+      right: 5%;
+      width: 38%;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .img-three-right {
+      right: 13%;
+      width: 36%;
+    }
+  }
+
+  .product-card-link:hover .img-three-right .product-image {
+    transform: rotate(10deg) scale(1.05);
+  }
+
+  /* ==================== */
+  /* CARD CON 1 IMAGEN    */
+  /* ==================== */
+
+  .img-single {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 65%;
+    height: 90%;
+    z-index: 20;
+  }
+
+  @media (min-width: 768px) {
+    .img-single {
+      width: 60%;
+    }
+  }
+
+  .product-card-link:hover .img-single .product-image {
+    transform: scale(1.1);
+  }
+
+  /* ==================== */
+  /* BADGE                */
+  /* ==================== */
+
+  .product-badge {
+    position: absolute;
+    right: 0.20rem;
+    bottom: 0.75rem;
+    width: 60px;
+    height: 70px;
+    z-index: 30;
+  }
+
+  /* Badge centrado verticalmente (para cards de 2 imágenes) */
+
+  @media (min-width: 390px) and (max-width: 767px) {
+    .product-badge {
+      top: 380px;
+      position: absolute;
+      left: 250px;
+      width: 200px;
+      height: 80px;
+      z-index: 30;
+    }
+    
+    .product-badge.badge-centered {
+      bottom: auto;
+      left: 190px;
+      top: 87%;
+      transform: translateY(-50%);
+      width: 200px;
+      height: 80px;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 899px) {
+
+    .product-badge {
+      top: 350px;
+      position: absolute;
+      left: 220px;
+      width: 60px;
+      height: 70px;
+      z-index: 30;
+    }
+
+    .product-badge.badge-centered {
+      bottom: auto;
+      top: 89%;
+      transform: translateY(-50%);
+      width: 200px;
+      height: 80px;
+    }
+
+    .product-badge {
+      right: 1rem;
+      bottom: 1rem;
+      width: 90px;
+      height: 90px;
+    }
+
+    .product-badge.badge-centered {
+      bottom: auto;
+      right: 1.25rem;
+      width: 100px;
+      height: 100px;
+    }
+  }
+
+  @media (min-width: 900px) and (max-width: 1023px) {
+    .product-badge {
+      top: 380px;
+      position: absolute;
+      left: 290px;
+      width: 60px;
+      height: 70px;
+      z-index: 30;
+    }
+
+    .product-badge.badge-centered {
+      bottom: auto;
+      left: 247px;
+      top: 87%;
+      transform: translateY(-50%);
+      width: 200px;
+      height: 80px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+
+    .product-badge.badge-centered {
+      bottom: auto;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 1rem;
+      width: 80px;
+      height: 80px;
+    }
+    
+    .product-badge {
+      right: 1.5rem;
+      bottom: 1.25rem;
+      width: 110px;
+      height: 110px;
+    }
+
+    .product-badge.badge-centered {
+      bottom: auto;
+      right: 1.5rem;
+      width: 120px;
+      height: 120px;
+    }
+  }
+
+  .badge-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+  }
+
+  .product-badge-text {
+    position: absolute;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    background: rgba(255,255,255,0.95);
+    border-radius: 9999px;
+    padding: 0.75rem 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 30;
+  }
+
+  /* Badge texto centrado verticalmente (para cards de 2 imágenes) */
+  .product-badge-text.badge-text-centered {
+    bottom: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .product-badge-text {
+      right: 1rem;
+      bottom: 1rem;
+      padding: 1rem 1.25rem;
+    }
+
+    .product-badge-text.badge-text-centered {
+      bottom: auto;
+      right: 1.25rem;
+    }
+  }
+
+  .product-badge-text p {
+    font-size: 0.875rem;
+    font-weight: 900;
+    color: #111;
+    text-align: center;
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  /* ==================== */
+  /* NOMBRE DEL PRODUCTO  */
+  /* ==================== */
+
+  .product-name {
+    background: #FCDC85;
+    padding: 1rem 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .product-name {
+      padding: 1.25rem 2rem;
+    }
+  }
+
+  .product-name h3 {
+    font-size: 1.25rem;
+    font-weight: 900;
+    color: #111;
+    margin: 0;
+  }
+
+  @media (min-width: 768px) {
+    .product-name h3 {
+      font-size: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .product-name h3 {
+      font-size: 1.875rem;
+    }
   }
 </style>
