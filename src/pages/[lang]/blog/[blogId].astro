@@ -1,42 +1,37 @@
 ---
-import BlogDetail from '../../../views/Blog/Detail/index.astro';
-import { setLocale, type Locale } from '../../../i18n/i18n';
+// src/pages/[lang]/blog/[blogId].astro
+import { t, setLocale, type Locale } from '../../../i18n/i18n';
 import MainLayout from '../../../layouts/MainLayout.astro';
+import BlogDetail from '../../../views/Blog/Detail/index.astro';
 
-export async function getStaticPaths() {
+export function getStaticPaths() {
   const locales = ['en', 'es'];
-  const paths: any[] = [];
-  // Use a static glob and then filter by locale from the file path
-  const modules = import.meta.glob('../../../locales/*/blog/*.md');
+  const paths = [];
+
   for (const locale of locales) {
-    const allPosts: any[] = [];
-    for (const p in modules) {
-      const parts = p.split('/');
-      const fileLocale = parts[4]; // ../../../locales/<lang>/blog/file.md
-      if (fileLocale !== locale) continue;
-      const mod: any = await modules[p]();
-      const fm = mod.frontmatter || {};
-      if (fm && fm.slug && fm.id) {
-        const content = typeof mod.compiledContent === 'function' ? mod.compiledContent() : '';
-        allPosts.push({ ...fm, content });
-      }
-    }
-    for (const blogPost of allPosts) {
+    // Obtener posts para este idioma usando t()
+    const posts = t('items', { namespace: 'blog', locale: locale as Locale }) || [];
+    
+    // Para cada post, crear una ruta
+    for (const post of posts) {
       paths.push({
-        params: { lang: locale, blogId: blogPost.slug || blogPost.id },
-        props: { blogPost, currentLang: locale as Locale, allBlogPosts: allPosts }
+        params: { lang: locale, blogId: post.slug || post.id },
+        props: { post, currentLang: locale }
       });
     }
   }
+
+  console.log(`Generadas ${paths.length} rutas de blog`);
   return paths;
 }
 
-const { blogPost, currentLang, allBlogPosts } = Astro.props;
+const { post, currentLang } = Astro.props;
 const { lang, blogId } = Astro.params;
 
-// Set locale for this page
+// Establecer el idioma para las traducciones
 setLocale(lang as Locale);
 ---
-<MainLayout title={blogPost.title}>
-  <BlogDetail blogPost={blogPost} currentLang={currentLang} allBlogPosts={allBlogPosts} />
+
+<MainLayout title={post.title}>
+  <BlogDetail currentLang={currentLang} postSlug={blogId} />
 </MainLayout>

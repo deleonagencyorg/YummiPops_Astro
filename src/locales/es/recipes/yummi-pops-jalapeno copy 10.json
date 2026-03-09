@@ -1,11 +1,11 @@
 {
   "date": "2025-09-11",
-  "id": "alitas-de-pollo-crispy-con-ranchitas-nacho-excitante",
-  "slug": "alitas-de-pollo-crispy-con-ranchitas-nacho-excitante",
-  "title": "Alitas de Pollo Crispy con Ranchitas Nacho Excitante",
+  "id": "yummi-pops-jalapeno",
+  "slug": "yummi-pops-jalapeno",
+  "title": "Ceviche con crema de jalapeño Yummi Pops Nacho",
   "people": "9",
   "difficulty": "Media",
-  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/alitas-de-pollo-ranchitas.webp",
+  "image": "/images/es/recipes/popsnachos.png",
   "gallery": [
     "alitas-de-pollo-ranchitas.webp"
   ],
@@ -35,7 +35,7 @@
   ],
 
   "product":[
-    "ranchitas-nacho-excitante"
+    "yummi-pops-jalapeno"
   ],
-  "category": "lunch"
+  "category": "nacho"
 }

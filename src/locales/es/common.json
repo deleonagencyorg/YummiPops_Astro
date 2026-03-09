@@ -1,7 +1,7 @@
 {
   "meta": {
     "home": {
-      "title": "Ranchitas - Disfruta tus Ranchitas en todo momento",
+      "title": "Yummi Pops - Disfruta tus Yummi Pops en todo momento",
       "description": "Conoce todas las formas de Cronchear tu mundo con recetas y contenidos con sabores explosivos. Entra y enciendo el fuego del Cronch!"
     },
     "contact": {
@@ -10,50 +10,50 @@
     },
     "recipes": {
       "title": "Recetas",
-      "description": "Descubre deliciosas recetas con Ranchitas. Desde platos tradicionales hasta creaciones innovadoras."
+      "description": "Descubre deliciosas recetas con Yummi Pops. Desde platos tradicionales hasta creaciones innovadoras."
     },
     "news": {
       "title": "Noticias",
-      "description": "Mantente al día con las últimas noticias y eventos de Ranchitas."
+      "description": "Mantente al día con las últimas noticias y eventos de Yummi Pops."
     },
     "products": {
       "title": "Productos",
-      "description": "Descubre nuestra línea completa de productos Ranchitas. Sabor auténtico para toda la familia."
+      "description": "Descubre nuestra línea completa de productos Yummi Pops. Sabor auténtico para toda la familia."
     },
     "brands": {
       "title": "Nuestras Marcas de Snacks",
-      "description": "Descubre Ranchitas, Zambos, Ranchitas. Cada marca con sabores únicos y auténticos que conquistan Centroamérica."
+      "description": "Descubre Yummi Pops, Zambos, Yummi Pops. Cada marca con sabores únicos y auténticos que conquistan Centroamérica."
     },
     "about_us": {
       "title": "Nosotros - Historia y Valores",
-      "description": "Conoce la historia de Ranchitas, empresa líder en snacks de Centroamérica desde 1990. Nuestra misión, valores y compromiso con la calidad."
+      "description": "Conoce la historia de Yummi Pops, empresa líder en snacks de Centroamérica desde 1990. Nuestra misión, valores y compromiso con la calidad."
     },
     "yummiesone": {
-      "title": "Ranchitas One",
-      "description": "Descubre Ranchitas One, nuestra nueva plataforma exclusiva para los verdaderos amantes de los snacks."
+      "title": "Yummi Pops One",
+      "description": "Descubre Yummi Pops One, nuestra nueva plataforma exclusiva para los verdaderos amantes de los snacks."
     },
     "zibas_creators": {
-      "title": "Ranchitas Creators - Concurso de Creatividad",
-      "description": "Participa en el concurso de creatividad de Ranchitas. Sube tu contenido en video, baile, música, arte, memes e inteligencia artificial y gana premios increíbles."
+      "title": "Yummi Pops Creators - Concurso de Creatividad",
+      "description": "Participa en el concurso de creatividad de Yummi Pops. Sube tu contenido en video, baile, música, arte, memes e inteligencia artificial y gana premios increíbles."
     }
   },
   "social_media": {
    "facebook": {
       "name": "Facebook",
-      "url": "https://www.facebook.com/ranchitaslatam/",
-      "alt": "Facebook de Ranchitas",
+      "url": "https://www.facebook.com/Yummi Popslatam/",
+      "alt": "Facebook de Yummi Pops",
       "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/facebook.svg"
     },
     "instagram": {
       "name": "Instagram",
-      "url": "https://www.instagram.com/ranchitaslatam/",
-      "alt": "Instagram de Ranchitas",
+      "url": "https://www.instagram.com/Yummi Popslatam/",
+      "alt": "Instagram de Yummi Pops",
       "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/instagram.svg"
     },
     "tiktok": {
       "name": "TikTok",
-      "url": "https://www.tiktok.com/@ranchitaslatam",
-      "alt": "TikTok de Ranchitas",
+      "url": "https://www.tiktok.com/@Yummi Popslatam",
+      "alt": "TikTok de Yummi Pops",
       "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/tiktok.svg"
     }
   },
@@ -74,7 +74,7 @@
         "id": "slide2",
         "desktop": "https://snack.yummiespromociones.com/zibas/banner.webp",
         "mobile": "https://snack.yummiespromociones.com/zibas/banner-m.webp",
-        "alt": "Ranchitas",
+        "alt": "Yummi Pops",
         "title": "",
         "description": "",
         "link": "#"
@@ -84,7 +84,7 @@
         "id": "slide1",
         "desktop": "https://snack.yummiespromociones.com/zibas/ZIBAS-360_TVC2.mp4",
         "mobile": "https://snack.yummiespromociones.com/zibas/ZIBAS-360_TVC2.mp4",
-        "alt": "Ranchitas",
+        "alt": "Yummi Pops",
         "title": "",
         "description": "",
         "link": "#"
@@ -100,17 +100,26 @@
     {
       "id": "products",
       "text": "Productos",
-      "href": "/es/productos"
+      "href": "/es/productos",
+      "show": true
     },
     {
       "id": "recipes",
       "text": "Recetas",
-      "href": "/es/recetas"
+      "href": "/es/recetas",
+      "show": true
     },
     {
       "id": "news",
       "text": "Blog",
-      "href": "/es/blog"
+      "href": "/es/blog",
+      "show": true
+    },
+    {
+      "id": "contact",
+      "text": "Contáctanos",
+      "href": "/es/contacto",
+      "show": false
     }
   ],
   "about_us": {
@@ -122,7 +131,7 @@
   },
   "home": {
     "meta": {
-      "title": " Ranchitas - Disfruta tus Ranchitas en todo momento",
+      "title": " Yummi Pops - Disfruta tus Yummi Pops en todo momento",
       "description": "Conoce todas las formas de Cronchear tu mundo con recetas y contenidos con sabores explosivos. Entra y enciendo el fuego del Cronch!"
     },
     "newsletter":{
@@ -132,7 +141,7 @@
     "socialmedia":{
       "title":"Síguenos",
       "tagtitle":"en redes",
-      "description":"Síguenos en nuestras redes sociales - Ranchitas",
+      "description":"Síguenos en nuestras redes sociales - Yummi Pops",
       "newsletter":"Entérate de las noticias y promociones",
       "instagramLinks":[
         {
@@ -153,7 +162,7 @@
       "since": "Desde 2000",
       "title": "EL CRUNCH",
       "subtitle": "MÁS HONESTO",
-      "description": "Ranchitas es el snack que nunca falla: crujiente, sabroso y perfecto para cualquier ocasión.",
+      "description": "Yummi Pops es el snack que nunca falla: crujiente, sabroso y perfecto para cualquier ocasión.",
       "descrition2": "Disfrútalas solo, con amigos o en familia, porque siempre es buen momento para un crunch.",
       "button": "Ver más",
       "button2": "Contactárnos"
@@ -166,13 +175,13 @@
     "choose": "Elige",
     "follow_us": "REDES",
     "contact_us": "Contáctanos",
-    "ranchitas": "Ranchitas",
+    "Yummi Pops": "Yummi Pops",
     "help": "Ayuda",
     "instagram_text": "Instagram",
     "facebook_text": "Facebook",
     "tiktok_text": "Tiktok",
     "email": "ayudacliente@zibas.com",
-    "copyright": "Copyright 2025. Ranchitas. Todos los derechos reservados.",
+    "copyright": "Copyright 2025. Yummi Pops. Todos los derechos reservados.",
     "privacy_policy_text": "Política de Privacidad",
     "privacy_policy_url": "/es/politica-privacidad",
     "products": "Productos",
@@ -187,7 +196,7 @@
   "messagetop":[
     {
       "id":"1",
-      "title":"😎 ¡Bienvenidos a Ranchitas! Si se te antoja un snack, estás en el lugar correcto 🎉",
+      "title":"😎 ¡Bienvenidos a Yummi Pops! Si se te antoja un snack, estás en el lugar correcto 🎉",
       "link":""
     }
   ],
@@ -206,16 +215,16 @@
     "titleHighlight" : "Somos?",
     "description1" : "Conoce todas las formas de Cronchear tu mundo con recetas y contenidos con sabores explosivos. Entra y enciendo el fuego del Cronch!",
     "description2" : "",
-    "videoSrc" : "https://snack.yummiespromociones.com/SnacksyummiesAssets/Ranchitas_loop.mp4",
+    "videoSrc" : "https://snack.yummiespromociones.com/SnacksyummiesAssets/Yummi Pops_loop.mp4",
     "backgroundColor" : "#B91C1C"
   },
   "cardQuiz": {
     "badge" : "Nuestra Historia",
     "title" : "Descubre antes que nadie lo nuevo de Yummi Pops",
     "titleHighlight" : "",
-    "description1" : "Cronchea con actitud y deja que el sabor diga quién eres. ¿Listo para el reto? Descubre tu esencia Ranchitas en cada mordida.",
+    "description1" : "Cronchea con actitud y deja que el sabor diga quién eres. ¿Listo para el reto? Descubre tu esencia Yummi Pops en cada mordida.",
     "titleButton": "Hacer Quiz",
-    "imageSrc" : "https://snack.yummiespromociones.com/SnacksyummiesAssets/Ranchitas_loop.mp4",
+    "imageSrc" : "https://snack.yummiespromociones.com/SnacksyummiesAssets/Yummi Pops_loop.mp4",
     "backgroundColor": "#0041CD"
   }
 }

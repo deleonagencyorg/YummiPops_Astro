@@ -21,10 +21,6 @@ const currentPath = pathname;
 // Obtener los datos de social media y menú desde las traducciones
 const menuItems = t('menu_items', { namespace: 'common', locale: currentLang }) as any[];
 
-const productsData = currentLang === 'es' ? productsEs : productsEn;
-const productsItems = (productsData as any)?.items ?? [];
-const productsBasePath = `/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}`;
-const productsMenuTitle = currentLang === 'es' ? 'Nuestros Productos' : 'Our Products';
 ---
 
 <!-- Desktop Navigation -->
@@ -45,7 +41,7 @@ const productsMenuTitle = currentLang === 'es' ? 'Nuestros Productos' : 'Our Pro
 
   <!-- Menu -->
   <div class="flex space-x-10 relative" id="desktop-menu-items">
-    {menuItems && menuItems.map((item: any) => (
+    {menuItems && menuItems.filter((item: any) => item.show).map((item: any) => (
       item?.id === 'products' ? (
         <div class="group">
           <a
@@ -70,7 +66,7 @@ const productsMenuTitle = currentLang === 'es' ? 'Nuestros Productos' : 'Our Pro
   <div class="flex items-center space-x-4">
     <LanguageSwitcher activeLocale={currentLang} headerColorConfig={headerColorConfig} textColorValue='black'/>
     <a 
-      href={currentLang === 'es' ? 'es/contacto' : 'en/contact'}
+      href={currentLang === 'es' ? '/es/contacto' : '/en/contact'}
       class="bg-black text-white px-[50px] py-3 rounded-full font-semibold 
              shadow-md hover:opacity-90 transition"
     >
