@@ -13,7 +13,7 @@ const url = Astro.url;
 const urlParams = new URLSearchParams(url.search);
 const selectedCategory = urlParams.get('category') || 'all';
 const heroProducts = (products as any[]).slice(0, 3);
-const productsImages = heroProducts.map((p: any) => ({ image: p.image, name: p.name }));
+const productsImages = heroProducts.map((p: any) => ({ image: p.image, name: p.name, isnew: p.isnew }));
 
 
 // Textos
@@ -103,15 +103,42 @@ const features = [
 
           <!-- Empaque izquierdo -->
           <div class="absolute" style="width: 36%; right: 54%; top: 18%; transform: rotate(-12deg); z-index: 10;">
-            <img src={productsImages[1]?.image || '/images/products/placeholder.jpg'} alt="chip" class="w-full h-auto object-contain drop-shadow-xl" style="animation: floatChip 3s ease-in-out infinite;" />
+            <div class="relative">
+              <img src={productsImages[1]?.image || '/images/products/placeholder.jpg'} alt="chip" class="w-full h-auto object-contain drop-shadow-xl" style="animation: floatChip 3s ease-in-out infinite;" />
+              {productsImages[1]?.isnew && (
+                <img 
+                  src={currentLang === 'es' ? 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NUEVO.webp' : 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NEW.webp'}
+                  alt="NEW"
+                  class="product-new-badge-left"
+                />
+              )}
+            </div>
           </div>
           <!-- Empaque central -->
           <div class="absolute" style="width: 46%; left: 50%; top: 0%; transform: translateX(-50%); z-index: 30;">
-            <img src={productsImages[0]?.image || '/images/products/placeholder.jpg'} alt={productsImages[0]?.name || 'product'} class="w-full h-auto object-contain drop-shadow-2xl" />
+            <div class="relative">
+              <img src={productsImages[0]?.image || '/images/products/placeholder.jpg'} alt={productsImages[0]?.name || 'product'} class="w-full h-auto object-contain drop-shadow-2xl" />
+              {productsImages[0]?.isnew && (
+                <img 
+                  src={currentLang === 'es' ? 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NUEVO.webp' : 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NEW.webp'}
+                  alt="NEW"
+                  class="product-new-badge"
+                />
+              )}
+            </div>
           </div>
           <!-- Empaque derecho -->
           <div class="absolute" style="width: 36%; left: 54%; top: 18%; transform: rotate(12deg); z-index: 10;">
-            <img src={productsImages[2]?.image || productsImages[1]?.image || '/images/products/placeholder.jpg'} alt="chip" class="w-full h-auto object-contain drop-shadow-xl" style="animation: floatChip 3s ease-in-out infinite 1.5s;" />
+            <div class="relative">
+              <img src={productsImages[2]?.image || productsImages[1]?.image || '/images/products/placeholder.jpg'} alt="chip" class="w-full h-auto object-contain drop-shadow-xl" style="animation: floatChip 3s ease-in-out infinite 1.5s;" />
+              {productsImages[2]?.isnew && (
+                <img 
+                  src={currentLang === 'es' ? 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NUEVO.webp' : 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NEW.webp'}
+                  alt="NEW"
+                  class="product-new-badge"
+                />
+              )}
+            </div>
           </div>
 
         </div>
@@ -151,15 +178,42 @@ const features = [
 
         <!-- Empaque izquierdo -->
         <div class="absolute" style="width: 36%; right: 54%; top: 18%; transform: rotate(-12deg); z-index: 10;">
-          <img src={productsImages[1]?.image || '/images/products/placeholder.jpg'} alt="chip" class="w-full h-auto object-contain drop-shadow-xl" style="animation: floatChip 3s ease-in-out infinite;" />
+          <div class="relative">
+            <img src={productsImages[1]?.image || '/images/products/placeholder.jpg'} alt="chip" class="w-full h-auto object-contain drop-shadow-xl" style="animation: floatChip 3s ease-in-out infinite;" />
+            {productsImages[1]?.isnew && (
+              <img 
+                src={currentLang === 'es' ? 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NUEVO.webp' : 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NEW.webp'}
+                alt="NEW"
+                class="product-new-badge"
+              />
+            )}
+          </div>
         </div>
         <!-- Empaque central (más grande, al frente) -->
         <div class="absolute" style="width: 46%; left: 50%; top: 0%; transform: translateX(-50%); z-index: 30;">
-          <img src={productsImages[0]?.image || '/images/products/placeholder.jpg'} alt={productsImages[0]?.name || 'product'} class="w-full h-auto object-contain drop-shadow-2xl" />
+          <div class="relative">
+            <img src={productsImages[0]?.image || '/images/products/placeholder.jpg'} alt={productsImages[0]?.name || 'product'} class="w-full h-auto object-contain drop-shadow-2xl" />
+            {productsImages[0]?.isnew && (
+              <img 
+                src={currentLang === 'es' ? 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NUEVO.webp' : 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NEW.webp'}
+                alt="NEW"
+                class="product-new-badge"
+              />
+            )}
+          </div>
         </div>
         <!-- Empaque derecho -->
         <div class="absolute" style="width: 36%; left: 54%; top: 18%; transform: rotate(12deg); z-index: 10;">
-          <img src={productsImages[2]?.image || productsImages[1]?.image || '/images/products/placeholder.jpg'} alt="chip" class="w-full h-auto object-contain drop-shadow-xl" style="animation: floatChip 3s ease-in-out infinite 1.5s;" />
+          <div class="relative">
+            <img src={productsImages[2]?.image || productsImages[1]?.image || '/images/products/placeholder.jpg'} alt="chip" class="w-full h-auto object-contain drop-shadow-xl" style="animation: floatChip 3s ease-in-out infinite 1.5s;" />
+            {productsImages[2]?.isnew && (
+              <img 
+                src={currentLang === 'es' ? 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NUEVO.webp' : 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NEW.webp'}
+                alt="NEW"
+                class="product-new-badge"
+              />
+            )}
+          </div>
         </div>
 
       </div>
@@ -224,12 +278,12 @@ const features = [
               <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                 {group.products.map((product: any) => (
                   <a
-                    href={`/${currentLang}/productos/${product.id}`}
+                    href={`/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}/${product.id}`}
                     class="product-card group"
                     data-category={product.category || 'all'}
                   >
                     <div
-                      class="rounded-[30px] p-6 md:p-8 flex flex-col items-center justify-center transition-all duration-300 hover:shadow-2xl transform hover:scale-[1.02] min-h-[350px]"
+                      class="rounded-[30px] p-6 md:p-8 flex flex-col items-center justify-center transition-all duration-300 hover:shadow-2xl transform hover:scale-[1.02] min-h-[350px] relative"
                       style={{ backgroundColor: product.background_product || '#FFFFFF' }}
                     >
                       <img
@@ -237,6 +291,13 @@ const features = [
                         alt={product.name}
                         class="w-full max-w-[250px] h-[250px] object-contain drop-shadow-lg group-hover:scale-105 transition-transform duration-300"
                       />
+                      {product.isnew && (
+                        <img 
+                          src={currentLang === 'es' ? 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NUEVO.webp' : 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NEW.webp'}
+                          alt="NEW"
+                          class="product-new-badge"
+                        />
+                      )}
                     </div>
                     <h3 class="text-xl md:text-2xl font-black text-gray-900 mt-4 leading-tight">
                       {product.name}
@@ -253,7 +314,7 @@ const features = [
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8" id="products-grid">
             {(products as any[]).map((product: any) => (
               <a
-                href={`/${currentLang}/productos/${product.id}`}
+                href={`/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}/${product.id}`}
                 class="product-card group"
                 data-category={product.category || 'all'}
               >

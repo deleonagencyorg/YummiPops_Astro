@@ -101,12 +101,12 @@ const socialMedia = [
   <div class=" mx-auto px-4 md:px-6 mb-16">
     <div 
       class="rounded-[30px] md:rounded-[40px] overflow-hidden"
-      style={{ backgroundColor: '#0D75C9' }}
+      style={{ backgroundColor: safeProduct.background_color || '#0D75C9' }}
     >
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 p-6 md:p-12 lg:p-16">
         
         <!-- Lado Izquierdo - Imagen del Producto -->
-        <div class="flex items-center justify-center">
+        <div class="flex items-center justify-center relative">
           <img 
             id="product-image"
             src={safeProduct.image} 
@@ -114,6 +114,13 @@ const socialMedia = [
             class="w-full max-w-[450px] h-auto object-contain drop-shadow-2xl"
             transition:name={`product-image-${safeProduct.id}`}
           />
+          {safeProduct.isnew && (
+            <img 
+              src={currentLang === 'es' ? 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NUEVO.webp' : 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NEW.webp'}
+              alt="NEW"
+              class="product-new-badge"
+            />
+          )}
         </div>
 
         <!-- Lado Derecho - Información -->
@@ -266,16 +273,23 @@ const socialMedia = [
         {relatedProducts.slice(0, 3).map((product: any) => (
           <div class="flex flex-col">
             <a 
-            href={`/${currentLang}/productos/${product.id}`}
+            href={`/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}/${product.id}`}
             class="group rounded-[30px] overflow-hidden transition-all duration-300 hover:shadow-2xl transform hover:scale-[1.02]"
             style={{ backgroundColor: product.background_product }}
           >
-            <div class="flex items-center justify-center p-8 h-[300px]">
+            <div class="flex items-center justify-center p-8 h-[300px] relative">
               <img 
                 src={product.image} 
                 alt={product.name}
                 class="w-full max-w-[250px] h-full object-contain drop-shadow-lg group-hover:scale-105 transition-transform duration-300"
               />
+              {product.isnew && (
+                <img 
+                  src={currentLang === 'es' ? 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NUEVO.webp' : 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NEW.webp'}
+                  alt="NEW"
+                  class="product-new-badge"
+                />
+              )}
             </div>
           </a>
             <h3 class="text-xl md:text-2xl font-black text-gray-900 mt-4 leading-tight">

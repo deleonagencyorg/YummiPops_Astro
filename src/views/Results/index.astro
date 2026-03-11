@@ -44,6 +44,13 @@ const uniqueCategories = Object.keys(categories);
                 class="w-full h-full object-cover"
                 transition:name={`product-image-${product.id}`}
               />
+              {product.isnew && (
+                <img 
+                  src={currentLang === 'es' ? 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NUEVO.webp' : 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NEW.webp'}
+                  alt="NEW"
+                  class="product-new-badge"
+                />
+              )}
             </div>
             <div class="p-6">
               <h3 class="text-xl font-bold mb-2">{product.title}</h3>

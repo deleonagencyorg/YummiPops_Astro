@@ -14,6 +14,7 @@ export interface Props {
 const { currentLang, loading = false } = Astro.props;
 
 // Obtener textos del footer desde los archivos de traducción
+const currentYear = new Date().getFullYear();
 const mainText = t('footer.main_text', { namespace: 'common', locale: currentLang });
 const description = t('footer.description', { namespace: 'common', locale: currentLang });
 const followUs = t('footer.follow_us', { namespace: 'common', locale: currentLang });
@@ -22,7 +23,8 @@ const choose = t('footer.choose', { namespace: 'common', locale: currentLang });
 const instagramText = t('footer.instagram_text', { namespace: 'common', locale: currentLang });
 const facebookText = t('footer.facebook_text', { namespace: 'common', locale: currentLang });
 const email = t('footer.email', { namespace: 'common', locale: currentLang });
-const copyrightText = t('footer.copyright', { namespace: 'common', locale: currentLang });
+const copyrightText = t('footer.copyright', { namespace: 'common', locale: currentLang }).replace('{year}', currentYear.toString());
+const contactTitle = t('footer.contact_title', { namespace: 'common', locale: currentLang });
 const ranchitas = t('footer.ranchitas', { namespace: 'common', locale: currentLang });
 const help = t('footer.help', { namespace: 'common', locale: currentLang });
 const tiktokText = t('footer.tiktok_text', { namespace: 'common', locale: currentLang });
@@ -45,7 +47,6 @@ const recipesText = currentLang === 'es' ? 'Recetas' : 'Recipes';
 const blogText = 'Blog';
 const termsText = currentLang === 'es' ? 'Términos y condiciones' : 'Terms and conditions';
 const privacyText = currentLang === 'es' ? 'Política de privacidad' : 'Privacy policy';
-const currentYear = new Date().getFullYear();
 ---
 
 {loading ? (
@@ -74,7 +75,7 @@ const currentYear = new Date().getFullYear();
             <h3 class="text-lg font-bold mb-4 uppercase tracking-wide">
               {exploreText}
             </h3>
-            <nav class="flex flex-wrap justify-center gap-6 md:gap-8">
+            <nav class="flex flex-wrap lg:flex-nowrap justify-center gap-4 md:gap-8">
               <a 
                 href={`/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}`}
                 class="text-base font-semibold hover:text-gray-300 transition-colors"
@@ -159,7 +160,7 @@ const currentYear = new Date().getFullYear();
         <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-400">
           
           <!-- Links legales -->
-          <div class="flex flex-wrap justify-center md:justify-start gap-6">
+          <div class="flex flex-wrap justify-center md:justify-start gap-4 md:gap-6">
             <a 
               href={`/${currentLang}/${currentLang === 'es' ? 'terminos' : 'terms'}`}
               class="hover:text-white transition-colors"
@@ -174,9 +175,40 @@ const currentYear = new Date().getFullYear();
             </a>
           </div>
 
+          <!-- Contact Numbers -->
+          <div class="flex flex-col items-center gap-2">
+            <h4 class="text-center font-semibold">{contactTitle}</h4>
+            <div class="grid grid-cols-2 gap-2 md:gap-4 justify-center">
+              <div class="flex items-center justify-center gap-1">
+                <span>🇭🇳</span>
+                <span>+504 2275-3370</span>
+              </div>
+              <div class="flex items-center justify-center gap-1">
+                <span>🇬🇹</span>
+                <span>+502 2502-7050</span>
+              </div>
+              <div class="flex items-center justify-center gap-1">
+                <span>🇸🇻</span>
+                <span>+503 2510-8300</span>
+              </div>
+              <div class="flex items-center justify-center gap-1">
+                <span>🇳🇮</span>
+                <span>+505 2251-4069</span>
+              </div>
+              <div class="flex items-center justify-center gap-1">
+                <span>🇨🇷</span>
+                <span>+506 2234-7363</span>
+              </div>
+              <div class="flex items-center justify-center gap-1">
+                <span>🇩🇴</span>
+                <span>+1 809 473-1212</span>
+              </div>
+            </div>
+          </div>
+
           <!-- Copyright -->
           <div class="text-center md:text-right">
-            <p>© {currentYear}. Yummi Pops</p>
+            <p>{copyrightText}</p>
           </div>
 
         </div>
