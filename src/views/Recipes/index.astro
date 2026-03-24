@@ -124,28 +124,88 @@ const featuredRecipe = allRecipes[0];
         </svg>
       </div>
 
-      <div class="relative">
-        <select id="productFilter" class="appearance-none bg-white rounded-full px-6 py-3 pr-10 text-base font-medium border-2 border-gray-200 cursor-pointer hover:border-gray-300 transition-colors focus:outline-none focus:border-orange min-w-[200px]">
-          <option value="all">{lineLabel}</option>
-          {uniqueProducts.map(productId => (<option value={productId}>{productMap[productId]?.name || productId}</option>))}
-        </select>
-        <svg class="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none text-gray-600" fill="currentColor" viewBox="0 0 20 20">
-          <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
-        </svg>
+      <div class="relative custom-dropdown-wrapper" id="productFilterWrapper">
+        <button
+          type="button"
+          id="productFilterBtn"
+          class="flex items-center justify-between gap-3 bg-white rounded-full px-6 py-3 text-base font-medium border-2 border-gray-200 cursor-pointer hover:border-gray-300 transition-colors focus:outline-none w-full md:min-w-[220px]"
+          onclick="window.toggleCustomDropdown('productFilter')"
+          aria-expanded="false"
+          aria-haspopup="listbox"
+        >
+          <span id="productFilterLabel">{lineLabel}</span>
+          <svg class="w-4 h-4 flex-shrink-0 transition-transform duration-200" id="productFilterArrow" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+          </svg>
+        </button>
+        <ul
+          id="productFilterDropdown"
+          class="custom-dropdown-panel hidden absolute left-0 bg-white border border-gray-200 rounded-2xl shadow-2xl overflow-y-auto"
+          role="listbox"
+          aria-labelledby="productFilterBtn"
+        >
+          <li>
+            <button type="button" class="custom-dropdown-option selected" data-filter="productFilter" data-value="all" data-label={lineLabel} role="option" aria-selected="true">{lineLabel}</button>
+          </li>
+          {uniqueProducts.map(productId => (
+            <li>
+              <button type="button" class="custom-dropdown-option" data-filter="productFilter" data-value={productId} data-label={productMap[productId]?.name || productId} role="option" aria-selected="false">
+                {productMap[productId]?.name || productId}
+              </button>
+            </li>
+          ))}
+        </ul>
       </div>
 
-      <div class="relative">
-        <select id="typeFilter" class="appearance-none bg-white rounded-full px-6 py-3 pr-10 text-base font-medium border-2 border-gray-200 cursor-pointer hover:border-gray-300 transition-colors focus:outline-none focus:border-orange min-w-[200px]">
-          <option value="all">{categoryLabel}</option>
-          {uniqueCategories.includes('breakfast') && <option value="breakfast">{filterLabels.breakfast}</option>}
-          {uniqueCategories.includes('brunch') && <option value="brunch">{filterLabels.brunch}</option>}
-          {uniqueCategories.includes('lunch') && <option value="lunch">{filterLabels.lunch}</option>}
-          {uniqueCategories.includes('dinner') && <option value="dinner">{filterLabels.dinner}</option>}
-          {uniqueCategories.includes('snack') && <option value="snack">{filterLabels.snack}</option>}
-        </select>
-        <svg class="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none text-gray-600" fill="currentColor" viewBox="0 0 20 20">
-          <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
-        </svg>
+      <div class="relative custom-dropdown-wrapper" id="typeFilterWrapper">
+        <button
+          type="button"
+          id="typeFilterBtn"
+          class="flex items-center justify-between gap-3 bg-white rounded-full px-6 py-3 text-base font-medium border-2 border-gray-200 cursor-pointer hover:border-gray-300 transition-colors focus:outline-none w-full md:min-w-[200px]"
+          onclick="window.toggleCustomDropdown('typeFilter')"
+          aria-expanded="false"
+          aria-haspopup="listbox"
+        >
+          <span id="typeFilterLabel">{categoryLabel}</span>
+          <svg class="w-4 h-4 flex-shrink-0 transition-transform duration-200" id="typeFilterArrow" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+          </svg>
+        </button>
+        <ul
+          id="typeFilterDropdown"
+          class="custom-dropdown-panel hidden absolute left-0 bg-white border border-gray-200 rounded-2xl shadow-2xl overflow-y-auto"
+          role="listbox"
+          aria-labelledby="typeFilterBtn"
+        >
+          <li>
+            <button type="button" class="custom-dropdown-option selected" data-filter="typeFilter" data-value="all" data-label={categoryLabel} role="option" aria-selected="true">{categoryLabel}</button>
+          </li>
+          {uniqueCategories.includes('breakfast') && (
+            <li>
+              <button type="button" class="custom-dropdown-option" data-filter="typeFilter" data-value="breakfast" data-label={filterLabels.breakfast} role="option" aria-selected="false">{filterLabels.breakfast}</button>
+            </li>
+          )}
+          {uniqueCategories.includes('brunch') && (
+            <li>
+              <button type="button" class="custom-dropdown-option" data-filter="typeFilter" data-value="brunch" data-label={filterLabels.brunch} role="option" aria-selected="false">{filterLabels.brunch}</button>
+            </li>
+          )}
+          {uniqueCategories.includes('lunch') && (
+            <li>
+              <button type="button" class="custom-dropdown-option" data-filter="typeFilter" data-value="lunch" data-label={filterLabels.lunch} role="option" aria-selected="false">{filterLabels.lunch}</button>
+            </li>
+          )}
+          {uniqueCategories.includes('dinner') && (
+            <li>
+              <button type="button" class="custom-dropdown-option" data-filter="typeFilter" data-value="dinner" data-label={filterLabels.dinner} role="option" aria-selected="false">{filterLabels.dinner}</button>
+            </li>
+          )}
+          {uniqueCategories.includes('snack') && (
+            <li>
+              <button type="button" class="custom-dropdown-option" data-filter="typeFilter" data-value="snack" data-label={filterLabels.snack} role="option" aria-selected="false">{filterLabels.snack}</button>
+            </li>
+          )}
+        </ul>
       </div>
 
       <!-- Personalize Button - CON ONCLICK DIRECTO -->
@@ -254,6 +314,80 @@ const featuredRecipe = allRecipes[0];
   }
 
   select, input { background-image: none; }
+
+  /* Custom dropdown panel */
+  .custom-dropdown-panel {
+    top: calc(100% + 8px);
+    min-width: 100%;
+    width: max-content;
+    max-width: 340px;
+    max-height: 280px;
+    z-index: 9999;
+  }
+
+  /* On mobile: full width of its container */
+  @media (max-width: 767px) {
+    .custom-dropdown-panel {
+      left: 0 !important;
+      right: 0 !important;
+      width: 100%;
+      max-width: 100%;
+      max-height: 260px;
+    }
+    .custom-dropdown-wrapper {
+      width: 100%;
+    }
+  }
+
+  /* Option items */
+  .custom-dropdown-option {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 0.875rem 1.25rem;
+    font-size: 1rem;        /* 16px – prevents iOS zoom */
+    font-weight: 500;
+    color: #374151;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.15s;
+    line-height: 1.4;
+    min-height: 48px;       /* comfortable touch target */
+  }
+
+  .custom-dropdown-option:hover {
+    background-color: #f9fafb;
+  }
+
+  .custom-dropdown-option.selected {
+    background-color: #eff6ff;
+    color: #2563eb;
+    font-weight: 600;
+  }
+
+  .custom-dropdown-option.selected::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background-color: #2563eb;
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
+    position: relative;
+    top: -1px;
+  }
+
+  /* Divider between options */
+  .custom-dropdown-panel li + li .custom-dropdown-option {
+    border-top: 1px solid #f3f4f6;
+  }
+
+  /* Active border on the trigger button */
+  .custom-dropdown-btn-active {
+    border-color: #F9A825 !important;
+  }
 </style>
 
 <script is:inline>
@@ -262,6 +396,88 @@ window.customDifficulty = 'all';
 window.customTime = 'all';
 window.currentPage = 1;
 window.itemsPerPage = 6; // Recetas por página
+
+// ── Custom dropdown values ──────────────────────────────────────────
+window.productFilterValue = 'all';
+window.typeFilterValue    = 'all';
+
+// Toggle a custom dropdown open/close
+window.toggleCustomDropdown = function(filterId) {
+  var dropdown = document.getElementById(filterId + 'Dropdown');
+  var arrow    = document.getElementById(filterId + 'Arrow');
+  var btn      = document.getElementById(filterId + 'Btn');
+  if (!dropdown) return;
+
+  var isOpen = !dropdown.classList.contains('hidden');
+
+  // Close every dropdown first
+  window.closeAllCustomDropdowns();
+
+  if (!isOpen) {
+    dropdown.classList.remove('hidden');
+    if (arrow) arrow.style.transform = 'rotate(180deg)';
+    if (btn)   {
+      btn.setAttribute('aria-expanded', 'true');
+      btn.classList.add('custom-dropdown-btn-active');
+    }
+  }
+};
+
+// Close all custom dropdowns
+window.closeAllCustomDropdowns = function() {
+  ['productFilter', 'typeFilter'].forEach(function(id) {
+    var dropdown = document.getElementById(id + 'Dropdown');
+    var arrow    = document.getElementById(id + 'Arrow');
+    var btn      = document.getElementById(id + 'Btn');
+    if (dropdown) dropdown.classList.add('hidden');
+    if (arrow)    arrow.style.transform = 'rotate(0deg)';
+    if (btn)      {
+      btn.setAttribute('aria-expanded', 'false');
+      btn.classList.remove('custom-dropdown-btn-active');
+    }
+  });
+};
+
+// Close when tapping/clicking outside
+document.addEventListener('click', function(e) {
+  var wrappers = document.querySelectorAll('.custom-dropdown-wrapper');
+  var inside = false;
+  wrappers.forEach(function(w) { if (w.contains(e.target)) inside = true; });
+  if (!inside) window.closeAllCustomDropdowns();
+});
+
+// Handle option selection (event delegation)
+document.addEventListener('click', function(e) {
+  var option = e.target.closest('.custom-dropdown-option');
+  if (!option) return;
+
+  var filterId = option.getAttribute('data-filter');
+  var value    = option.getAttribute('data-value');
+  var label    = option.getAttribute('data-label');
+
+  // Store value
+  if (filterId === 'productFilter') {
+    window.productFilterValue = value;
+    var lbl = document.getElementById('productFilterLabel');
+    if (lbl) lbl.textContent = label;
+  } else if (filterId === 'typeFilter') {
+    window.typeFilterValue = value;
+    var lbl = document.getElementById('typeFilterLabel');
+    if (lbl) lbl.textContent = label;
+  }
+
+  // Update selected state on options
+  document.querySelectorAll('[data-filter="' + filterId + '"].custom-dropdown-option').forEach(function(opt) {
+    var isSelected = opt.getAttribute('data-value') === value;
+    opt.classList.toggle('selected', isSelected);
+    opt.setAttribute('aria-selected', isSelected ? 'true' : 'false');
+  });
+
+  // Close dropdown & re-filter
+  window.closeAllCustomDropdowns();
+  window.currentPage = 1;
+  window.applyAllFilters();
+});
 
 // Toggle del panel
 window.togglePersonalizePanel = function() {
@@ -343,14 +559,12 @@ window.nextPage = function(totalPages) {
 // Aplicar filtros
 window.applyAllFilters = function() {
   var searchInput = document.getElementById('searchInput');
-  var typeFilter = document.getElementById('typeFilter');
-  var productFilter = document.getElementById('productFilter');
   var recipesGrid = document.getElementById('recipesGrid');
   var noResults = document.getElementById('noResults');
 
-  var searchValue = searchInput ? searchInput.value.toLowerCase().trim() : '';
-  var typeValue = typeFilter ? typeFilter.value : 'all';
-  var productValue = productFilter ? productFilter.value : 'all';
+  var searchValue  = searchInput ? searchInput.value.toLowerCase().trim() : '';
+  var typeValue    = window.typeFilterValue    || 'all';
+  var productValue = window.productFilterValue || 'all';
 
   var cards = document.querySelectorAll('.recipe-card');
   var filteredCards = [];
@@ -469,18 +683,8 @@ function updatePagination(totalPages) {
 // Inicializar filtros básicos
 document.addEventListener('DOMContentLoaded', function() {
   var searchInput = document.getElementById('searchInput');
-  var typeFilter = document.getElementById('typeFilter');
-  var productFilter = document.getElementById('productFilter');
 
   if (searchInput) searchInput.addEventListener('input', function() {
-    window.currentPage = 1; // Reset a página 1 al buscar
-    window.applyAllFilters();
-  });
-  if (typeFilter) typeFilter.addEventListener('change', function() {
-    window.currentPage = 1;
-    window.applyAllFilters();
-  });
-  if (productFilter) productFilter.addEventListener('change', function() {
     window.currentPage = 1;
     window.applyAllFilters();
   });

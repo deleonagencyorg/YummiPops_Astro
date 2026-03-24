@@ -35,56 +35,59 @@ const hoverBackgroundColor = headerColorConfig?.hoverBackgroundColor || 'hover:b
     class={`inline-flex items-center justify-center text-black p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white`}
     aria-expanded="false"
     aria-label={openMenuLabel}
+    data-menu-icon={menuIconSvg}
+    data-close-icon={closeIconSvg}
   >
     <span class="sr-only">{openMenuLabel}</span>
     <div id="menu-icon-container" class="w-8 h-8 flex items-center justify-center" set:html={menuIconSvg}></div>
   </button>
 </div>
 
-<script define:vars={{ astroMenuIconSvg: menuIconSvg, astroCloseIconSvg: closeIconSvg }}>
-// Función para manejar el clic en el botón del menú móvil
-function handleMobileMenuButtonClick(event) {
-  const menuButton = event.currentTarget;
-  const menuIconContainer = document.getElementById('menu-icon-container');
-  const mobileMenu = document.getElementById('mobile-menu');
-  
-  if (mobileMenu && menuIconContainer) {
-    mobileMenu.classList.toggle('hidden');
-    if (!mobileMenu.classList.contains('hidden')) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
-    menuButton.setAttribute('aria-expanded', (!isExpanded).toString());
-    menuIconContainer.innerHTML = isExpanded ? astroMenuIconSvg : astroCloseIconSvg;
+<script is:inline>
+(function () {
+  // Toggle handler – reads SVG from data attributes set on the button element
+  function _mobileMenuToggle() {
+    var btn  = document.getElementById('mobile-menu-button');
+    var ic   = document.getElementById('menu-icon-container');
+    var menu = document.getElementById('mobile-menu');
+    if (!btn || !ic || !menu) return;
+
+    menu.classList.toggle('hidden');
+    var open = !menu.classList.contains('hidden');
+    document.body.style.overflow = open ? 'hidden' : '';
+    btn.setAttribute('aria-expanded', String(open));
+    // Use data attributes so this inline script needs no define:vars
+    ic.innerHTML = open
+      ? (btn.getAttribute('data-close-icon') || '')
+      : (btn.getAttribute('data-menu-icon')  || '');
   }
-}
 
-// Función para inicializar el botón del menú móvil
-function initMobileMenuButton() {
-  const menuButton = document.getElementById('mobile-menu-button');
-  
-  if (menuButton) {
-    // Eliminar cualquier event listener existente para evitar duplicados
-    menuButton.removeEventListener('click', handleMobileMenuButtonClick);
-    menuButton.removeEventListener('touchstart', handleMobileMenuButtonClick);
-    
-    // Agregar event listeners para clic y toque
-    menuButton.addEventListener('click', handleMobileMenuButtonClick);
-    menuButton.addEventListener('touchstart', handleMobileMenuButtonClick, { passive: true });
+  function _initMobileMenuButton() {
+    var btn = document.getElementById('mobile-menu-button');
+    if (!btn) return;
+    // cloneNode(true) removes ALL previously accumulated event listeners
+    // (safe: data attributes and child nodes are preserved)
+    var fresh = btn.cloneNode(true);
+    if (btn.parentNode) btn.parentNode.replaceChild(fresh, btn);
+    fresh.addEventListener('click', _mobileMenuToggle);
+    // NOTE: no touchstart – modern mobile browsers fire click reliably,
+    // adding touchstart caused a double-toggle (open then immediately close)
   }
-}
 
-// Inicializar cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', initMobileMenuButton);
+  // Register document-level listeners only ONCE across all navigations.
+  // With ViewTransitions, scripts re-run on each navigation; without this
+  // guard, astro:page-load would accumulate one extra handler per navigation.
+  if (!window._mobileMenuBtnListenersSet) {
+    window._mobileMenuBtnListenersSet = true;
+    document.addEventListener('astro:page-load',  _initMobileMenuButton);
+    document.addEventListener('astro:after-swap', _initMobileMenuButton);
+  }
 
-// Volver a inicializar cuando cambie el contenido de la página (navegación entre secciones)
-document.addEventListener('astro:page-load', initMobileMenuButton);
-document.addEventListener('astro:after-swap', initMobileMenuButton);
-
-// Asegurarse de que el botón funcione incluso si se carga dinámicamente
-if (document.readyState === 'complete' || document.readyState === 'interactive') {
-  setTimeout(initMobileMenuButton, 100);
-}
+  // Init on first load
+  if (document.readyState !== 'loading') {
+    _initMobileMenuButton();
+  } else {
+    document.addEventListener('DOMContentLoaded', _initMobileMenuButton);
+  }
+}());
 </script>

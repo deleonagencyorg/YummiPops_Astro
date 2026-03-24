@@ -72,9 +72,9 @@ const features = [
             {heroSubtitle}
           </p>
           
-          <button class="bg-white text-black font-bold px-8 py-3 rounded-full hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg">
+          <a href="#productsSection" onclick="event.preventDefault();document.getElementById('productsSection').scrollIntoView({behavior:'smooth'})" class="inline-block bg-white text-black font-bold px-8 py-3 rounded-full hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg cursor-pointer">
             {heroButton}
-          </button>
+          </a>
         </div>
 
         <!-- Features -->
@@ -225,16 +225,16 @@ const features = [
         {heroTitle}
       </h1>
       <p class="text-base md:text-lg mb-6">{heroSubtitle}</p>
-      <button class="bg-white text-black font-bold px-8 py-3 rounded-full hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg">
+      <a href="#productsSection" onclick="event.preventDefault();document.getElementById('productsSection').scrollIntoView({behavior:'smooth'})" class="inline-block bg-white text-black font-bold px-8 py-3 rounded-full hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg cursor-pointer">
         {heroButton}
-      </button>
+      </a>
     </div>
 
   </div>
 </section>
 
 <!-- Products Section -->
-<div class="bg-white py-12">
+<div id="productsSection" class="bg-white py-12">
   <div class="container mx-auto px-4">
 
     <!-- Header -->
