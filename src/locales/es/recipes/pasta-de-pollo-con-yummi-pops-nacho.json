@@ -1,0 +1,32 @@
+{
+  "date": "2025-09-11",
+  "id": "pasta-de-pollo-con-yummi-pops-nacho",
+  "slug": "pasta-de-pollo-con-yummi-pops-nacho",
+  "title": "Pasta de Pollo con Yummi Pops Nacho",
+  "people": "4",
+  "difficulty": "Fácil",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/pasta-de-pollo-con-yummi-pops-nacho.webp",
+  "gallery": [
+    "pasta-de-pollo-con-yummi-pops-nacho.webp"
+  ],
+  "type": "image",
+  "preparation_time": 40,
+  "ingredients": [
+    "1 pechuga de pollo cocida y desmenuzada",
+    "Salpimentar al gusto",
+    "2 cucharadas de mayonesa",
+    "2 cucharadas de leche",
+    "2 tomates pera picados",
+    "Media cebolla morada picada",
+    "3 cucharadas de cilantro picado",
+    "2 cucharadas de jugo de limón",
+    "Una bolsa familiar de Yummi Pops Nacho"
+  ],
+  "instructions": [
+    "Paso 1: El pollo previamente cocido y desmenuzado lo colocamos en un tazón y lo mezclamos con la mayonesa y la leche.",
+    "Paso 2: Ahora podemos agregar el tomate, la cebolla morada, el cilantro y el jugo de limón y mezclamos perfectamente.",
+    "Paso 3: Llevamos nuestra pasta o ensalada de pollo a la refrigeradora por una media hora.",
+    "Paso 4: La servimos con Yummi Pops Nacho."
+  ],
+  "brand": ["yummipops"]
+}

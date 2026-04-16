@@ -1,0 +1,27 @@
+{
+  "date": "2025-09-11",
+  "id": "parfait-yummi-pops-sal-marina",
+  "slug": "parfait-yummi-pops-sal-marina",
+  "title": "Parfait Yummi Pops Sal Marina",
+  "people": "2",
+  "difficulty": "Fácil",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/parfait-yummi-pops-sal-marina.webp",
+  "gallery": [
+    "parfait-yummi-pops-sal-marina.webp"
+  ],
+  "type": "image",
+  "preparation_time": 10,
+  "ingredients": [
+    "Yogurt",
+    "Miel",
+    "Frutos rojos congelados (blueberries, strawberries y raspberries)",
+    "Yummi Pops Sal Marina"
+  ],
+  "instructions": [
+    "Paso 1: En un vaso o copa, vierte un poco de yogurt.",
+    "Paso 2: Agrega frutos rojos congelados.",
+    "Paso 3: Coloca las palomitas de maíz sal marina.",
+    "Paso 4: Repite el proceso hasta llenar el recipiente y vierte un poco de miel."
+  ],
+  "brand": ["yummipops"]
+}

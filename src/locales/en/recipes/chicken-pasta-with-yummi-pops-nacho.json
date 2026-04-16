@@ -1,0 +1,32 @@
+{
+  "date": "2025-09-11",
+  "id": "chicken-pasta-with-yummi-pops-nacho",
+  "slug": "chicken-pasta-with-yummi-pops-nacho",
+  "title": "Chicken Pasta with Yummi Pops Nacho",
+  "people": "4",
+  "difficulty": "Easy",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/pasta-de-pollo-con-yummi-pops-nacho.webp",
+  "gallery": [
+    "pasta-de-pollo-con-yummi-pops-nacho.webp"
+  ],
+  "type": "image",
+  "preparation_time": 40,
+  "ingredients": [
+    "1 cooked and shredded chicken breast",
+    "Season to taste",
+    "2 tablespoons mayonnaise",
+    "2 tablespoons of milk",
+    "2 plum tomatoes chopped",
+    "Half red onion chopped",
+    "3 tablespoons chopped coriander",
+    "2 tablespoons lemon juice",
+    "A family bag of Yummi Pops Nacho"
+  ],
+  "instructions": [
+    "Step 1: Place the previously cooked and shredded chicken in a bowl and mix it with the mayonnaise and milk.",
+    "Step 2: Now we can add the tomato, red onion, cilantro, and lemon juice and mix perfectly.",
+    "Step 3: Take our pasta or chicken salad to the refrigerator for half an hour.",
+    "Step 4: Serve it with Yummi Pops Nacho."
+  ],
+  "brand": ["yummipops"]
+}
