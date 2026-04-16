@@ -1,0 +1,30 @@
+{
+  "date": "2025-09-11",
+  "id": "pico-de-gallo-de-maiz-con-yummi-pops-nacho-queso-blanco",
+  "slug": "pico-de-gallo-de-maiz-con-yummi-pops-nacho-queso-blanco",
+  "title": "Pico de Gallo de Maíz con Yummi Pops Nacho Queso Blanco",
+  "people": "2",
+  "difficulty": "Medio",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/pico-de-gallo.webp",
+  "gallery": [
+    "pico-de-gallo.webp"
+  ],
+  "type": "image",
+  "preparation_time": 10,
+  "ingredients": [
+    "1 taza de tomate picado",
+    "1 taza de chile morado picado",
+    "1 taza de cilantro picado",
+    "1 taza de maíz dulce en grano",
+    "¼ taza de jugo de limón",
+    "Salpimentar al gusto",
+    "1 bolsa de Yummi Pops Nacho Queso Blanco"
+  ],
+  "instructions": [
+    "Paso 1. Mezclar todos los ingredientes en un tazón.",
+    "Paso 2. Dejar reposar para después disfrutar con Yummi Pops Nacho Queso."
+  ],
+  "brand": [
+    "yummipops"
+  ]
+}
