@@ -67,9 +67,35 @@ const safeProduct: Product = {
   nutrition: product.nutrition,
 };
 
-// Verificar si el producto tiene información nutricional
-const hasNutrition = safeProduct.nutrition && 
-  (Array.isArray(safeProduct.nutrition) ? safeProduct.nutrition.length > 0 : Object.keys(safeProduct.nutrition).length > 0);
+// Verificar si el producto tiene información nutricional y filtrar campos vacíos
+const visibleNutritionEntries = (safeProduct.nutrition && typeof safeProduct.nutrition === 'object')
+  ? Object.entries(safeProduct.nutrition).filter(([k, v]) => v !== null && v !== undefined && String(v).trim() !== '')
+  : [];
+
+// Etiquetas traducidas para las claves nutricionales
+const nutritionLabels: Record<string, string> = {
+  servingSize: currentLang === 'es' ? 'Tamaño por porción' : 'Serving Size',
+  servingsPerContainer: currentLang === 'es' ? 'Porciones por envase' : 'Servings Per Container',
+  calories: currentLang === 'es' ? 'Calorías' : 'Calories',
+  fatEnergy: currentLang === 'es' ? 'Energía de la grasa' : 'Fat Energy',
+  cholesterol: currentLang === 'es' ? 'Colesterol' : 'Cholesterol',
+  totalCarbs: currentLang === 'es' ? 'Carbohidratos totales' : 'Total Carbs',
+  dietaryFiber: currentLang === 'es' ? 'Fibra dietética' : 'Dietary Fiber',
+  sugars: currentLang === 'es' ? 'Azúcares' : 'Sugars',
+  protein: currentLang === 'es' ? 'Proteína' : 'Protein',
+  calorieDiet: currentLang === 'es' ? 'Dieta de referencia' : 'Calorie Diet',
+  caloriesPerServing: currentLang === 'es' ? 'Calorías por porción' : 'Calories Per Serving',
+  vitaminD: currentLang === 'es' ? 'Vitamina D' : 'Vitamin D',
+  iron: currentLang === 'es' ? 'Hierro' : 'Iron',
+  calcium: currentLang === 'es' ? 'Calcio' : 'Calcium',
+  potassium: currentLang === 'es' ? 'Potasio' : 'Potassium',
+  sodium: currentLang === 'es' ? 'Sodio' : 'Sodium',
+  saturatedFatVD: currentLang === 'es' ? 'Grasa saturada V D' : 'Saturated Fat V D',
+  transFatVD: currentLang === 'es' ? 'Grasa trans V D' : 'Trans Fat V D',
+  totalFat: currentLang === 'es' ? 'Grasa total' : 'Total Fat'
+};
+
+const hasNutrition = visibleNutritionEntries.length > 0;
 
 // Obtener todos los productos como un array
 const productsData = t('items', { locale: currentLang, namespace: 'products' }) || [];
@@ -179,7 +205,7 @@ const socialMedia = [
               <button 
                 id="nutrition-toggle"
                 class="w-full flex items-center justify-between text-xl md:text-2xl font-bold transition-colors"
-                style={{ color: safeProduct.header_text_color }}
+                style={{ color: '#FFFFFF' }}
               >
                 <span>{currentLang === 'es' ? 'Detalle de nutrición' : 'Nutrition details'}</span>
                 <svg 
@@ -194,11 +220,16 @@ const socialMedia = [
               </button>
               
               <div id="nutrition-content" class="hidden mt-4 space-y-2">
-                <!-- Aquí va la tabla nutricional -->
-                <div class="bg-white/20 rounded-xl p-4 backdrop-blur-sm">
-                  <p class="text-white">
-                    {currentLang === 'es' ? 'Información nutricional disponible' : 'Nutritional information available'}
-                  </p>
+                <!-- Renderizar tabla nutricional desde visibleNutritionEntries (campos no vacíos) -->
+                <div class="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
+                  <dl class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-white">
+                    {visibleNutritionEntries.map(([key, value]) => (
+                      <div class="flex justify-between items-start">
+                        <dt class="font-semibold text-sm leading-tight mr-3">{nutritionLabels[key] || key.replace(/([A-Z])/g, ' $1').replace(/_/g, ' ')}</dt>
+                        <dd class="text-sm text-right">{String(value)}</dd>
+                      </div>
+                    ))}
+                  </dl>
                 </div>
               </div>
             </div>
@@ -292,7 +323,7 @@ const socialMedia = [
               )}
             </div>
           </a>
-            <h3 class="text-xl md:text-2xl font-black text-gray-900 mt-4 leading-tight">
+            <h3 class="text-xl md:text-2xl font-black text-white mt-4 leading-tight">
               {product.name}
             </h3>
           </div>

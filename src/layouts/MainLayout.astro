@@ -1,5 +1,6 @@
 ---
 import GoogleTagManager from '../components/common/GoogleTagManager.astro';
+import GoogleTagManagerNoscript from '../components/common/GoogleTagManagerNoscript.astro';
 import Favicon from '../components/Favicon.astro';
 import { type Locale } from '../i18n/i18n';
 import Header from '../components/common/Header/index.astro';
@@ -55,6 +56,7 @@ if (headerColors) {
     <slot name="head" />
   </head>
   <body class={`font-sans min-h-screen flex flex-col ${className || ''}`}>
+    <GoogleTagManagerNoscript />
     <I18nProvider>
       {!shouldHideHeader && (
         <slot name="header">

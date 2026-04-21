@@ -3,6 +3,8 @@
   "id": "parfait-yummi-pops-sal-marina",
   "slug": "parfait-yummi-pops-sal-marina",
   "title": "Parfait Yummi Pops Sal Marina",
+  "description": "Parfait dulce y salado coronado con Yummi Pops Palomitas Sal Marina para un contraste perfecto.",
+  "category": "palomitas",
   "people": "2",
   "difficulty": "Fácil",
   "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/parfait-yummi-pops-sal-marina.webp",
@@ -23,5 +25,8 @@
     "Paso 3: Coloca las palomitas de maíz sal marina.",
     "Paso 4: Repite el proceso hasta llenar el recipiente y vierte un poco de miel."
   ],
-  "brand": ["yummipops"]
+  "brand": ["yummipops"],
+  "product": [
+    "yummi-pops-palomitas-sal-marina"
+  ]
 }

@@ -31,26 +31,42 @@
     "yummiesone": {
       "title": "Yummi Pops One",
       "description": "Discover Yummi Pops One, our new exclusive platform for true snack lovers."
+    },
+    "privacy": {
+      "title": "Privacy Policy",
+      "description": "Learn about Yummi Pops' privacy policy."
     }
   },
   "social_media": {
    "facebook": {
       "name": "Facebook",
-      "url": "https://www.facebook.com/yummipops",
+      "url": "https://www.facebook.com/SnacksYummies",
       "alt": "Facebook de Yummi Pops",
       "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/facebook.svg"
     },
     "instagram": {
       "name": "Instagram",
-      "url": "https://www.instagram.com/yummipops/",
+      "url": "https://www.instagram.com/snacksyummies/",
       "alt": "Instagram de Yummi Pops",
       "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/instagram.svg"
     },
+    "x": {
+      "name": "X",
+      "url": "https://x.com/SnacksYummies",
+      "alt": "X de Yummi Pops",
+      "iconUrl": "https://snack.yummiespromociones.com/SnacksyummiesAssets/x2.webp"
+    },
     "tiktok": {
       "name": "TikTok",
-      "url": "https://www.tiktok.com/@yummipops",
+      "url": "https://www.tiktok.com/@snacksyummies",
       "alt": "TikTok de Yummi Pops",
       "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/tiktok.svg"
+    },
+    "youtube": {
+      "name": "YouTube",
+      "url": "https://www.youtube.com/@snacksyummiesoficial",
+      "alt": "YouTube de Yummi Pops",
+      "iconUrl": "https://snack.yummiespromociones.com/snacksyummies/youtube.svg"
     }
   },
   "cookie_consent": {
@@ -108,7 +124,7 @@
       "id": "news",
       "text": "Blog",
       "href": "/en/blog",
-      "show": true
+      "show": false
     },
     {
       "id": "contact",

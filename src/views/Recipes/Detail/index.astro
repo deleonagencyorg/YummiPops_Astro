@@ -5,6 +5,7 @@ import LazyImage from '../../../components/common/LazyImage.astro';
 import RecipeCard from '../../../components/recipes/RecipeCard.astro';
 import { t, getLocale } from '../../../i18n/i18n';
 import ShareButton from '../../../components/common/ShareButton.astro';
+import ShareModal from '../../../components/common/ShareModal.astro';
 
 interface RecipeItem {
   id: string;
@@ -313,22 +314,6 @@ const chefTips = recipe.chef_tips || [
 </div>
 
 <script>
-  // Share functionality
-  document.getElementById('shareButton')?.addEventListener('click', async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: document.title,
-          url: window.location.href
-        });
-      } catch (err) {
-        console.log('Error sharing:', err);
-      }
-    } else {
-      alert('Share not supported on this browser');
-    }
-  });
-
   // Copy link functionality
   document.getElementById('copyLinkButton')?.addEventListener('click', async () => {
     try {
@@ -346,3 +331,6 @@ const chefTips = recipe.chef_tips || [
     }
   });
 </script>
+
+<!-- Share modal instance -->
+<ShareModal id="shareModal" url={Astro.url.href} title={recipe.title} description={recipe.description} />

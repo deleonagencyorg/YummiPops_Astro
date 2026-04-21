@@ -116,8 +116,7 @@ const headerColors = {
               </div>
           
               <div class="mt-2 lg:mt-0 lg:w-1/2">
-                <LazyImage 
-                  src="https://snack.yummiespromociones.com/SnacksyummiesAssets/oficinas.webp"
+                <LazyImage
                   alt="Yummies Honduras"
                   class="w-full h-48 md:h-64 object-cover rounded-xl"
                 />
@@ -129,15 +128,11 @@ const headerColors = {
         <!-- Map and Tabs -->
         <div class="order-1 mt-4 z-30">
           <!-- Country Tabs -->
-          <div class="mb-6 flex flex-wrap justify-center gap-2">
+          <div class="mb-6 flex flex-col sm:flex-row sm:flex-wrap sm:justify-center gap-3 items-center">
           {Object.entries(contact.offices.locations).map(([countryCode, location]: [string, any], index: number) => (
             <button 
               data-country-code={countryCode}
-              class={`country-tab px-16 py-4 text-white uppercase text-sm font-semibold transition-all duration-300 flex items-center justify-center gap-2.5
-                ${index === 0 
-                  ? 'h-[54px] bg-[#FBCC38] opacity-100 border border-white !text-black' 
-                  : 'h-[54px] bg-[#FBCC38] opacity-45 hover:opacity-100 text-white'
-                } rounded-[47px]`}
+              class={`country-tab w-full max-w-[340px] sm:w-auto px-8 sm:px-16 py-4 text-white uppercase text-sm font-semibold transition-all duration-300 flex items-center justify-center gap-2.5 h-[54px] bg-[#FBCC38] opacity-100 rounded-[47px]`}
             >
               {location.tab}
             </button>
@@ -212,18 +207,18 @@ const headerColors = {
           
           // Function to handle tab selection
           function handleTabSelection(tab) {
-            // Remove active styles from all tabs
+            // Reset styles for all tabs to yellow background + white text
             tabs.forEach(t => {
               t.classList.remove('bg-orange', 'border', 'border-white');
-              t.classList.add('bg-[#DAD9D9]', '!text-black');
-              t.style.opacity = '0.75';
+              t.classList.add('bg-[#FBCC38]', 'text-white');
+              t.style.opacity = '0.95';
             });
-            
-            // Add active styles to clicked tab
-            tab.classList.remove('bg-[#DAD9D9]', '!text-black');
-            tab.classList.add('bg-orange', 'border', 'border-white');
+
+            // Apply active styles to clicked tab: orange background + white text
+            tab.classList.remove('bg-[#FBCC38]');
+            tab.classList.add('bg-orange', 'border', 'border-white', 'text-white');
             tab.style.opacity = '1';
-            
+
             // Update map based on country code
             const countryCode = tab.getAttribute('data-country-code');
             if (countryCode) {
@@ -240,12 +235,9 @@ const headerColors = {
             });
           });
           
-          // Initialize with first tab
+          // Initialize with first tab (set active styles and show its map)
           if (tabs.length > 0) {
-            const firstCountry = tabs[0].getAttribute('data-country-code');
-            if (firstCountry) {
-              updateMapVisibility(firstCountry);
-            }
+            handleTabSelection(tabs[0]);
           }
         }
         

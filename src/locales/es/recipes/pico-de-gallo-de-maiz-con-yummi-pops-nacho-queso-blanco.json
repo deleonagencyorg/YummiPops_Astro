@@ -3,6 +3,8 @@
   "id": "pico-de-gallo-de-maiz-con-yummi-pops-nacho-queso-blanco",
   "slug": "pico-de-gallo-de-maiz-con-yummi-pops-nacho-queso-blanco",
   "title": "Pico de Gallo de Maíz con Yummi Pops Nacho Queso Blanco",
+  "description": "Pico de gallo de maíz fresco con Yummi Pops Nacho Queso Blanco para un toque crujiente.",
+  "category": "nacho",
   "people": "2",
   "difficulty": "Medio",
   "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/pico-de-gallo.webp",
@@ -26,5 +28,8 @@
   ],
   "brand": [
     "yummipops"
+  ],
+  "product": [
+    "yummi-pops-nacho-queso-blanco"
   ]
 }

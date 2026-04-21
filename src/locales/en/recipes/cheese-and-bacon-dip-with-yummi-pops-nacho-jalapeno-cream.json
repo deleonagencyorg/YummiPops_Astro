@@ -3,6 +3,8 @@
   "id": "cheese-and-bacon-dip-with-yummi-pops-nacho-jalapeno-cream",
   "slug": "cheese-and-bacon-dip-with-yummi-pops-nacho-jalapeno-cream",
   "title": "Cheese and Bacon Dip with Yummi Pops Nacho Jalapeño Cream",
+  "description": "Creamy cheese and bacon dip served with crunchy Yummi Pops Nacho Jalapeño Cream.",
+  "category": "nacho",
   "people": "9",
   "difficulty": "Easy",
   "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/dip-queso-y-tocino-yummi-pops.webp",
@@ -24,5 +26,8 @@
     "Step 3. Add milk if needed to achieve the desired consistency.",
     "Step 4. Serve with the delicious Yummi Pops Nacho."
   ],
-  "brand": ["yummipops"]
+  "brand": ["yummipops"],
+  "product": [
+    "yummi-pops-nacho-jalapeno-cream"
+  ]
 }

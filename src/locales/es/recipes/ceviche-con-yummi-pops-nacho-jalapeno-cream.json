@@ -3,6 +3,8 @@
   "id": "ceviche-con-yummi-pops-nacho-jalapeno-cream",
   "slug": "ceviche-con-yummi-pops-nacho-jalapeno-cream",
   "title": "Ceviche con Yummi Pops Nacho Jalapeño Cream",
+  "description": "Ceviche fresco servido sobre Yummi Pops Nacho Jalapeño Cream para un contraste crujiente y picante.",
+  "category": "nacho",
   "people": "4",
   "difficulty": "Media",
   "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/ceviche-con-yummi-pops-nacho-jalapeno-cream.webp",
@@ -35,5 +37,8 @@
     "Paso 4: Sobre un plato plano, coloca Yummi Pops Nacho Jalapeño Cream.",
     "Paso 5: Coloca en el centro del plato el ceviche y toma un Nacho, coloca un poco de ceviche. Y, disfruta del sabor del Pop."
   ],
-  "brand": ["yummipops"]
+  "brand": ["yummipops"],
+  "product": [
+    "yummi-pops-nacho-jalapeno-cream"
+  ]
 }

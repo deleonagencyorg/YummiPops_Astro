@@ -3,6 +3,8 @@
   "id": "corn-pico-de-gallo-with-yummi-pops-nacho-white-cheese",
   "slug": "corn-pico-de-gallo-with-yummi-pops-nacho-white-cheese",
   "title": "Corn Pico de Gallo with Yummi Pops Nacho White Cheese",
+  "description": "Fresh corn pico de gallo enhanced with crunchy Yummi Pops Nacho White Cheese.",
+  "category": "nacho",
   "people": "2",
   "difficulty": "Medium",
   "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/pico-de-gallo.webp",
@@ -24,5 +26,8 @@
     "Step 1. Mix all the ingredients in a bowl.",
     "Step 2. Let it rest, then enjoy with Yummi Pops Nacho Cheese."
   ],
-  "brand": ["yummipops"]
+  "brand": ["yummipops"],
+  "product": [
+    "yummi-pops-nacho-queso-blanco"
+  ]
 }
