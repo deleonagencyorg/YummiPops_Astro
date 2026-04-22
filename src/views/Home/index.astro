@@ -63,6 +63,7 @@ if (nachoProducts.length > 0) {
     imagetwo: nachoProducts[1]?.image,
     imagethree: nachoProducts[2]?.image,
     background_color: nachoProducts[0].background_color || '#36D86E',
+    badge_icon: 'https://snack.yummiespromociones.com/SnacksyummiesAssets/nunca-fritos.webp',
     anchorLink: `/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}#nacho`
   });
 }
@@ -74,6 +75,7 @@ if (palomitasProducts.length > 0) {
     imagetwo: palomitasProducts[1]?.image,
     imagethree: palomitasProducts[2]?.image,
     background_color: palomitasProducts[0].background_color || '#0082C8',
+    badge_icon: 'https://snack.yummiespromociones.com/SnacksyummiesAssets/grasas-trans.webp',
     anchorLink: `/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}#${currentLang === 'es' ? 'palomitas' : 'popcorn'}`
   });
 }

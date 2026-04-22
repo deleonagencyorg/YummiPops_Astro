@@ -120,7 +120,7 @@ const backgroundColors = [
                     <LazyImage 
                       src={product.badge_icon} 
                       alt="Badge"
-                      class="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 object-contain drop-shadow-lg"
+                      class="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 object-contain drop-shadow-lg badge-scale"
                     />
                   </div>
                 )}
@@ -183,5 +183,13 @@ const backgroundColors = [
   /* Ajustes para que las imágenes laterales no se corten */
   .product-card-link > div {
     position: relative;
+  }
+</style>
+
+<style>
+  .badge-scale {
+    transform: scale(1.2);
+    transform-origin: center;
+    display: inline-block;
   }
 </style>
