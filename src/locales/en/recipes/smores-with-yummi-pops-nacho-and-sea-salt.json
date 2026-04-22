@@ -3,6 +3,8 @@
   "id": "smores-with-yummi-pops-nacho-and-sea-salt",
   "slug": "smores-with-yummi-pops-nacho-and-sea-salt",
   "title": "Smores with Yummi Pops Nacho and Sea Salt",
+  "category": "nacho",
+  "description": "A playful s'mores twist with crunchy Yummi Pops Nacho and a hint of sea salt.",
   "people": "3",
   "difficulty": "Easy",
   "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/smores-yummi-pops-nacho-sal-marina.webp",
@@ -22,5 +24,8 @@
     "Step 2: Crush the cookies over the popcorn. Add the marshmallows.",
     "Step 3: Pour in the melted chocolate, stir and serve."
   ],
-  "brand": ["yummipops"]
+  "brand": ["yummipops"],
+  "product": [
+    "yummi-pops-palomitas-sal-marina"
+  ]
 }

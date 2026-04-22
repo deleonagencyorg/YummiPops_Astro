@@ -3,6 +3,8 @@
   "id": "dip-de-queso-y-tocino-con-yummi-pops-nacho-jalapeno-cream",
   "slug": "dip-de-queso-y-tocino-con-yummi-pops-nacho-jalapeno-cream",
   "title": "Dip de Queso y Tocino con Yummi Pops Nacho Jalapeño Cream",
+  "description": "Dip cremoso de queso y tocino acompañado de Yummi Pops Nacho Jalapeño Cream para mojar.",
+  "category": "nacho",
   "people": "9",
   "difficulty": "Fácil",
   "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/dip-queso-y-tocino-yummi-pops.webp",
@@ -26,5 +28,8 @@
   ],
   "brand": [
     "yummipops"
+  ],
+  "product": [
+    "yummi-pops-nacho-jalapeno-cream"
   ]
 }

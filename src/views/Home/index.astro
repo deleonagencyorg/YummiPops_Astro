@@ -41,8 +41,42 @@ const products = t('items', { namespace: 'products', locale: currentLang }) || [
 const textHome = t('home.text_home', { namespace: 'common', locale: currentLang }) || {};
 const cardVideo = t('cardVideo', { namespace: 'common', locale: currentLang }) || {};
 const brandsList = brandsAssets.brands || [];
-const zibasBrand = brandsList.find((brand: any) => brand.id === 'Yummi Pops');
+const zibasBrand = brandsList.find((brand: any) => {
+  const id = String(brand.id || '').toLowerCase();
+  const slug = String(brand.slug || '').toLowerCase();
+  const title = String(brand.title || '').toLowerCase();
+  return id === 'yummipops' || slug === 'yummipops' || title.includes('yummi pop') || title.includes('yummipops');
+});
 const yummiPopProducts = zibasBrand?.products || [];
+
+// Taejetas de productos home
+const allProducts = products || [];
+const nachoProducts = allProducts.filter((p: any) => p.category === 'nacho');
+const palomitasProducts = allProducts.filter((p: any) => p.category === 'palomitas');
+
+const categoryCards: any[] = [];
+if (nachoProducts.length > 0) {
+  categoryCards.push({
+    id: 'nacho',
+    title: 'YUMMI POPS NACHO',
+    image: nachoProducts[0].image,
+    imagetwo: nachoProducts[1]?.image,
+    imagethree: nachoProducts[2]?.image,
+    background_color: nachoProducts[0].background_color || '#36D86E',
+    anchorLink: `/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}#nacho`
+  });
+}
+if (palomitasProducts.length > 0) {
+  categoryCards.push({
+    id: 'palomitas',
+    title: 'YUMMI POPS PALOMITAS',
+    image: palomitasProducts[0].image,
+    imagetwo: palomitasProducts[1]?.image,
+    imagethree: palomitasProducts[2]?.image,
+    background_color: palomitasProducts[0].background_color || '#0082C8',
+    anchorLink: `/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}#${currentLang === 'es' ? 'palomitas' : 'popcorn'}`
+  });
+}
 
 const commonAssets = t('assets.slider', { namespace: 'common', locale: currentLang }) || [];
 const slides = Array.isArray(commonAssets)
@@ -99,15 +133,15 @@ const featuredLabel = currentLang==='es' ? 'DESTACADOS' : 'FEATURED';
     </div>
     
     <!-- Sección de Productos Yummi Pops -->
-    {yummiPopProducts.length > 0 && (
+    {categoryCards.length > 0 && (
       <section 
         id="products" 
-        class="w-full relative"
+        class="w-full relative mb-7 md:mb-10 lg:mb-14"
         style="background: linear-gradient(to bottom, #FAF0D5 0%, #FAF0D5 25%, white 25%, white 100%);"
       >
         <div class="relative z-30">
           <ProductsCarousel 
-            products={products}
+            products={categoryCards}
           />
         </div>
     

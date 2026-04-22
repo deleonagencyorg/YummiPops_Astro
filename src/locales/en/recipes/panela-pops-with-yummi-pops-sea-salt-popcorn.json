@@ -3,6 +3,8 @@
   "id": "panela-pops-with-yummi-pops-sea-salt-popcorn",
   "slug": "panela-pops-with-yummi-pops-sea-salt-popcorn",
   "title": "Panela Pops with Yummi Pops Sea Salt Popcorn",
+  "description": "Panela pops paired with Yummi Pops sea salt popcorn for a sweet and salty treat.",
+  "category": "popcorn",
   "people": "4",
   "difficulty": "Easy",
   "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/pops-panelas-con-yummi-pops-palomitas-sal-marina.webp",
@@ -22,5 +24,8 @@
     "Step 3. Gradually add the panela syrup into the pots with Yummi Pops Sea Salt Popcorn, stirring until coated with the caramel.",
     "Step 4. Let rest for about an hour until the panela syrup cools, then enjoy the Yummi Pops popcorn balls with panela."
   ],
-  "brand": ["yummipops"]
+  "brand": ["yummipops"],
+  "product": [
+    "yummi-pops-palomitas-sal-marina"
+  ]
 }
