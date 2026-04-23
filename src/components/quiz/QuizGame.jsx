@@ -163,7 +163,7 @@ export default function QuizGame({ lang, quizData, products, recipes, shareId })
 
           <div className="flex justify-center">
             <img
-              src="/images/es/logo/logobanner.png"
+              src="https://snack.yummiespromociones.com/SnacksyummiesAssets/logo-pops2.webp"
               alt="Ranchitas"
               className="h-8 sm:h-9 md:h-10 w-auto max-w-[180px]"
               loading="eager"
