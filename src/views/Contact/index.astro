@@ -89,29 +89,14 @@ const headerColors = {
                 <h3
                   id="officeName"
                   class="text-black font-sans text-3xl sm:text-4xl md:text-5xl lg:text-6xl uppercase font-extrabold mb-2 mt-4 leading-tight"
-                >
-                  {contact.offices.locations["+504"].name}
-                </h3>
+                ></h3>
                 
                 <div class="flex items-start">
-                  <p id="officeAddress" class="text-black leading-relaxed font-semibold text-base md:text-lg lg:text-xl">
-                    {`+ ${contact.offices.locations["+504"].address}`}
-                  </p>
+                  <p id="officeAddress" class="text-black leading-relaxed font-semibold text-base md:text-lg lg:text-xl"></p>
                 </div>
                 
                 <div class="flex items-center">
-                  <div id="officePhones" class="flex flex-col gap-1">
-                    {contact.offices.locations["+504"].phones.map((phone: string) => (
-                      <div>
-                        <a
-                          href={`tel:${phone}`}
-                          class="text-black text-base md:text-lg lg:text-xl hover:text-primary transition-colors"
-                        >
-                          {phone}
-                        </a>
-                      </div>
-                    ))}
-                  </div>
+                  <div id="officePhones" class="flex flex-col gap-1"></div>
                 </div>
               </div>
           
@@ -168,88 +153,72 @@ const headerColors = {
       </div>
     </div>
 
-    <script is:inline>
+    <script is:inline define:vars={{ locationsData: contact.offices.locations }}>
       (function() {
-        // Función que se ejecutará cuando el DOM esté listo
         function initializeCountryTabs() {
-          console.log('Initializing country tabs...');
-          
-          // Get references to all elements that need to be updated
           const tabs = document.querySelectorAll('.country-tab');
           const mapContainers = document.querySelectorAll('[data-map-country]');
-          
-          console.log('Tabs found:', tabs.length);
-          console.log('Map containers found:', mapContainers.length);
-          
-          if (tabs.length === 0) {
-            console.error('No tabs found');
-            return;
-          }
-          
-          // Function to update map visibility
-          function updateMapVisibility(countryCode) {
-            console.log('Updating map for country:', countryCode);
-            
-            // First hide all maps
-            mapContainers.forEach(container => {
-              container.style.display = 'none';
-            });
-            
-            // Then show the selected one
-            const selectedMap = document.querySelector(`[data-map-country="${countryCode}"]`);
-            if (selectedMap) {
-              selectedMap.style.display = 'block';
-              console.log('Map shown for:', countryCode);
-            } else {
-              console.error('No map found for:', countryCode);
+          const officeName = document.getElementById('officeName');
+          const officeAddress = document.getElementById('officeAddress');
+          const officePhones = document.getElementById('officePhones');
+
+          if (tabs.length === 0) return;
+
+          function updateOfficeInfo(countryCode) {
+            const loc = locationsData[countryCode];
+            if (!loc) return;
+
+            if (officeName) officeName.textContent = loc.name;
+            if (officeAddress) officeAddress.textContent = '+ ' + loc.address;
+            if (officePhones) {
+              officePhones.innerHTML = loc.phones.map(function(phone) {
+                return '<div><a href="tel:' + phone + '" class="text-black text-base md:text-lg lg:text-xl hover:text-primary transition-colors">' + phone + '</a></div>';
+              }).join('');
             }
           }
-          
-          // Function to handle tab selection
+
+          function updateMapVisibility(countryCode) {
+            mapContainers.forEach(function(container) {
+              container.style.display = 'none';
+            });
+            const selectedMap = document.querySelector('[data-map-country="' + countryCode + '"]');
+            if (selectedMap) selectedMap.style.display = 'block';
+          }
+
           function handleTabSelection(tab) {
-            // Reset styles for all tabs to yellow background + white text
-            tabs.forEach(t => {
+            tabs.forEach(function(t) {
               t.classList.remove('bg-orange', 'border', 'border-white');
               t.classList.add('bg-[#FBCC38]', 'text-white');
               t.style.opacity = '0.95';
             });
-
-            // Apply active styles to clicked tab: orange background + white text
             tab.classList.remove('bg-[#FBCC38]');
             tab.classList.add('bg-orange', 'border', 'border-white', 'text-white');
             tab.style.opacity = '1';
 
-            // Update map based on country code
             const countryCode = tab.getAttribute('data-country-code');
             if (countryCode) {
               updateMapVisibility(countryCode);
+              updateOfficeInfo(countryCode);
             }
           }
-          
-          // Add click event listeners to tabs
-          tabs.forEach(tab => {
+
+          tabs.forEach(function(tab) {
             tab.addEventListener('click', function(e) {
               e.preventDefault();
-              console.log('Tab clicked:', tab.getAttribute('data-country-code'));
               handleTabSelection(tab);
             });
           });
-          
-          // Initialize with first tab (set active styles and show its map)
-          if (tabs.length > 0) {
-            handleTabSelection(tabs[0]);
-          }
+
+          handleTabSelection(tabs[0]);
         }
-        
-        // Initialize when DOM is ready
+
         if (document.readyState === 'loading') {
           document.addEventListener('DOMContentLoaded', initializeCountryTabs);
         } else {
           initializeCountryTabs();
         }
-        
-        // Also try after a short delay as backup
-        setTimeout(initializeCountryTabs, 100);
+
+        document.addEventListener('astro:page-load', initializeCountryTabs);
       })();
     </script>
   </div>

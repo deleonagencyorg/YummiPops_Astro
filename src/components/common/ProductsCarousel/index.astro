@@ -59,20 +59,20 @@ const backgroundColors = [
   <div class="max-w-7xl mx-auto">
     
     <!-- Header -->
-    <div class="flex justify-between items-center mb-8 px-4">
+    <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-8 px-4 gap-2 md:gap-0">
       <h2 class="text-3xl md:text-4xl lg:text-5xl font-black text-gray-900">
         {currentTexts.title}
       </h2>
       <a 
         href={`/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}`}
-        class="text-lg md:text-xl font-bold text-gray-900 hover:text-gray-700 transition-colors"
+        class="text-lg md:text-xl font-bold text-gray-900 hover:text-gray-700 transition-colors self-start md:self-auto"
       >
         {currentTexts.viewAll}
       </a>
     </div>
 
     <!-- Grid de Productos -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 pt-6 md:pt-8">
       {productsItems.map((product, index) => {
         const defaultHref = `/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}/${product.id}`;
         const linkHref = product.anchorLink || defaultHref;
@@ -86,9 +86,9 @@ const backgroundColors = [
               style={`background: ${product.background_color || `linear-gradient(to bottom right, ${backgroundColors[index % backgroundColors.length]})`}`}
             >
               <!-- Contenedor de Imágenes con composición -->
-              <div class="relative h-64 md:h-80 lg:h-96 flex items-center justify-center p-8 overflow-visible">
+              <div class="relative h-52 md:h-80 lg:h-96 flex items-center justify-center p-4 md:p-8 overflow-hidden md:overflow-visible">
                 {product.imagethree && (
-                  <div class="absolute left-0 lg:left-[60px] top-1/2 -translate-y-1/2 w-2/5 h-3/4 z-10">
+                  <div class="absolute left-[10%] lg:left-[60px] top-1/2 -translate-y-1/2 w-[28%] md:w-2/5 h-[65%] md:h-3/4 z-10">
                     <LazyImage 
                       src={product.imagethree} 
                       alt={`${product.title || product.name} - variante`}
@@ -97,7 +97,7 @@ const backgroundColors = [
                   </div>
                 )}
 
-                <div class="relative z-20 w-3/5 h-full">
+                <div class="relative z-20 w-[44%] md:w-3/5 h-full">
                   <LazyImage 
                     src={product.imageMobile || product.image} 
                     alt={product.title || product.name}
@@ -106,7 +106,7 @@ const backgroundColors = [
                 </div>
 
                 {product.imagetwo && (
-                  <div class="absolute right-0 lg:right-[50px] top-1/2 -translate-y-1/2 w-2/5 h-3/4 z-10">
+                  <div class="absolute right-[10%] lg:right-[50px] top-1/2 -translate-y-1/2 w-[28%] md:w-2/5 h-[65%] md:h-3/4 z-10">
                     <LazyImage 
                       src={product.imagetwo} 
                       alt={`${product.title || product.name} - variante`}
@@ -141,6 +141,13 @@ const backgroundColors = [
                   class="product-new-badge"
                 />
               )}
+
+              <!-- Nombre del producto dentro de la card -->
+              <div class="px-5 pb-5 md:px-8 md:pb-7">
+                <p class="text-sm md:text-base lg:text-lg font-black text-white leading-tight">
+                  {product.categoryTitle || product.title || product.name}
+                </p>
+              </div>
             </div>
             <div class="bg-[#FCDC85] px-6 py-4 md:px-8 md:py-6">
               <h3 class="text-xl md:text-2xl lg:text-3xl font-black text-gray-900">

@@ -91,7 +91,7 @@
       "short_description": "Popcorn with chili, spices, and lime flavor",
       "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
       "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
-      "isnew": true
+      "isnew": false
       ,
       "sizes": [
         {
@@ -288,6 +288,7 @@
       "short_description": "Popcorn with Toreado chili flavor",
       "available": "https://snack.yummiespromociones.com/SnacksyummiesAssets/yummi-chile-toreado.webp",
       "background_image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/yummi-chile-toreado.webp",
+      "isnew": true,
       "sizes": [
         {
           "value": "150",
