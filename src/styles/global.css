@@ -11,45 +11,73 @@ html, body {
   background-color: white;
 }
 
-/* NEW badge positioned at top-right corner */
 .product-new-badge {
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 60px;
-  height: 60px;
+  top: -20px;
+  right: 10px;
+  width: 120px;
+  height: 120px;
   object-fit: contain;
-  z-index: 10;
+  z-index: 50;
   pointer-events: none;
-  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.4));
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
   animation: pulse-badge 2s ease-in-out infinite;
 }
 
 @media (max-width: 768px) {
   .product-new-badge {
-    width: 40px;
-    height: 40px;
+    width: 80px;
+    height: 80px;
+    top: -10px;
+    right: 5px;
+    left: auto;
   }
 }
 
-/* Variant for left-positioned badge (left product in hero) */
 .product-new-badge-left {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 60px;
-  height: 60px;
+  top: -20px;
+  left: 10px;
+  width: 120px;
+  height: 120px;
   object-fit: contain;
-  z-index: 10;
+  z-index: 50;
   pointer-events: none;
-  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.4));
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
   animation: pulse-badge 2s ease-in-out infinite;
 }
 
 @media (max-width: 768px) {
   .product-new-badge-left {
-    width: 40px;
-    height: 40px;
+    width: 80px;
+    height: 80px;
+    top: -10px;
+    left: 5px;
+  }
+}
+
+@media (max-width: 768px) {
+  .product-card-link .product-new-badge,
+  .group .product-new-badge {
+    right: calc(5px + 5%);
+    left: auto;
+  }
+}
+
+@media (min-width: 1024px) {
+  #product-detail .product-new-badge {
+    right: 15%;
+    top: -18px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .product-card-link .product-new-badge,
+  .group .product-new-badge {
+    width: 96px;
+    height: 96px;
+    top: -14px;
+    right: 14px;
   }
 }
 
@@ -59,5 +87,26 @@ html, body {
   }
   50% {
     transform: scale(1.05);
+  }
+}
+
+@media (max-width: 1279px) {
+  .product-new-badge-hero {
+    width: 60px !important;
+    height: 60px !important;
+    top: -8px !important;
+  }
+  .product-new-badge-left.product-new-badge-hero {
+    width: 60px !important;
+    height: 60px !important;
+    top: -8px !important;
+  }
+}
+
+@media (min-width: 1280px) {
+  .product-new-badge-hero,
+  .product-new-badge-left.product-new-badge-hero {
+    width: 72px !important;
+    height: 72px !important;
   }
 }

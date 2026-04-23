@@ -193,6 +193,19 @@ const options = dynamicOptions[locale];
     opacity: 0.5;
     cursor: not-allowed;
   }
+
+  /* Full-row click area for dropdown list items */
+  .cf-dropdown-panel li {
+    display: block;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  .cf-dropdown-panel li button.cf-dropdown-option {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
 </style>
 
 <div class="bg-[#F5F5F5] rounded-2xl p-8 border border-black" transition:name="contact-form">
@@ -200,11 +213,11 @@ const options = dynamicOptions[locale];
     {contact.form.title}
   </h2>
 
-  <form class="space-y-6 shadow-md" id="contactForm" data-locale={locale}>
+  <form class="space-y-6" id="contactForm" data-locale={locale}>
   <!-- Fila para Contact Reason y Country -->
-  <div class="flex flex-col md:flex-row gap-6">
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
     <!-- Contact Reason Dropdown -->
-    <div class="flex-1">
+    <div class="min-w-0">
       <label class="block text-black uppercase font-semibold  mb-2">
         {contact.form.contactReason.label} *
       </label>
@@ -261,7 +274,7 @@ const options = dynamicOptions[locale];
     </div>
 
     <!-- Country Selector -->
-    <div class="flex-1">
+    <div class="min-w-0">
       <label class="block text-black uppercase font-semibold mb-2">
         {countryLabel} *
       </label>
@@ -286,9 +299,9 @@ const options = dynamicOptions[locale];
   </div>
 
   <!-- Fila para City y Name -->
-  <div class="flex flex-col md:flex-row gap-6">
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
     <!-- City Selector -->
-    <div class="flex-1">
+    <div class="min-w-0">
       <label class="block text-black uppercase font-semibold mb-2">
         {cityLabel} *
       </label>
@@ -312,7 +325,7 @@ const options = dynamicOptions[locale];
     </div>
     
     <!-- Name -->
-    <div class="flex-1">
+    <div class="min-w-0">
       <label class="block text-black uppercase font-semibold mb-2">
         {contact.form.fullName.label} *
       </label>
@@ -327,9 +340,9 @@ const options = dynamicOptions[locale];
   </div>
   
   <!-- Fila para Email y Phone -->
-  <div class="flex flex-col md:flex-row gap-6">
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
     <!-- Email -->
-    <div class="flex-1">
+    <div class="min-w-0">
       <label class="block text-black uppercase font-semibold mb-2">
         {contact.form.email.label} *
       </label>
@@ -343,7 +356,7 @@ const options = dynamicOptions[locale];
     </div>
     
     <!-- Phone -->
-    <div class="flex-1">
+    <div class="min-w-0">
       <label class="block text-black uppercase font-semibold mb-2">
         {contact.form.phone.label}
       </label>
@@ -1157,6 +1170,10 @@ const options = dynamicOptions[locale];
 
       fp.addEventListener('click', function (e) {
         var opt = e.target.closest('.cf-dropdown-option');
+        if (!opt) {
+          var li = e.target.closest('li[role="option"]');
+          if (li) opt = li.querySelector('.cf-dropdown-option');
+        }
         if (!opt) return;
         var value   = opt.getAttribute('data-value');
         var display = opt.getAttribute('data-display') || value;
@@ -1219,6 +1236,10 @@ const options = dynamicOptions[locale];
 
       fp.addEventListener('click', function (e) {
         var opt = e.target.closest('.cf-dropdown-option');
+        if (!opt) {
+          var li = e.target.closest('li[role="option"]');
+          if (li) opt = li.querySelector('.cf-dropdown-option');
+        }
         if (!opt) return;
         var value   = opt.getAttribute('data-value');
         var display = opt.getAttribute('data-display') || value;
@@ -1275,6 +1296,10 @@ const options = dynamicOptions[locale];
 
       fp.addEventListener('click', function (e) {
         var opt = e.target.closest('.cf-dropdown-option');
+        if (!opt) {
+          var li = e.target.closest('li[role="option"]');
+          if (li) opt = li.querySelector('.cf-dropdown-option');
+        }
         if (!opt) return;
         var value   = opt.getAttribute('data-value');
         var display = opt.getAttribute('data-display') || value;

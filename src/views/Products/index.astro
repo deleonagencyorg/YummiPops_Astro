@@ -109,7 +109,7 @@ const features = [
                 <img 
                   src={currentLang === 'es' ? 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NUEVO.webp' : 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NEW.webp'}
                   alt="NEW"
-                  class="product-new-badge-left"
+                      class="product-new-badge-left product-new-badge-hero"
                 />
               )}
             </div>
@@ -122,7 +122,7 @@ const features = [
                 <img 
                   src={currentLang === 'es' ? 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NUEVO.webp' : 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NEW.webp'}
                   alt="NEW"
-                  class="product-new-badge"
+                      class="product-new-badge product-new-badge-hero"
                 />
               )}
             </div>
@@ -135,7 +135,7 @@ const features = [
                 <img 
                   src={currentLang === 'es' ? 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NUEVO.webp' : 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NEW.webp'}
                   alt="NEW"
-                  class="product-new-badge"
+                      class="product-new-badge product-new-badge-hero"
                 />
               )}
             </div>
@@ -184,7 +184,7 @@ const features = [
               <img 
                 src={currentLang === 'es' ? 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NUEVO.webp' : 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NEW.webp'}
                 alt="NEW"
-                class="product-new-badge"
+                class="product-new-badge-left product-new-badge-hero"
               />
             )}
           </div>
@@ -197,7 +197,7 @@ const features = [
               <img 
                 src={currentLang === 'es' ? 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NUEVO.webp' : 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NEW.webp'}
                 alt="NEW"
-                class="product-new-badge"
+                class="product-new-badge-left product-new-badge-hero"
               />
             )}
           </div>
@@ -210,7 +210,7 @@ const features = [
               <img 
                 src={currentLang === 'es' ? 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NUEVO.webp' : 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NEW.webp'}
                 alt="NEW"
-                class="product-new-badge"
+                class="product-new-badge product-new-badge-hero"
               />
             )}
           </div>
@@ -301,6 +301,10 @@ const features = [
                           class="product-new-badge"
                         />
                       )}
+                      <!-- Nombre dentro de la card -->
+                      <p class="w-full text-sm md:text-base font-black text-white leading-tight mt-4 text-center">
+                        {product.name}
+                      </p>
                     </div>
                     <h3 class="text-xl md:text-2xl font-black text-white mt-4 leading-tight">
                       {product.name}
@@ -331,6 +335,10 @@ const features = [
                     alt={product.name}
                     class="w-full max-w-[250px] h-[250px] object-contain drop-shadow-lg group-hover:scale-105 transition-transform duration-300"
                   />
+                  <!-- Nombre dentro de la card -->
+                  <p class="w-full text-sm md:text-base font-black text-white leading-tight mt-4 text-center">
+                    {product.name}
+                  </p>
                 </div>
                 <h3 class="text-xl md:text-2xl font-black text-white mt-4 leading-tight">
                   {product.name}

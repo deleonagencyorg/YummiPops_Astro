@@ -29,6 +29,7 @@ interface Product {
   relatedProducts?: string[];
   weight?: string[];
   nutrition?: any;
+  isnew?: boolean;
 }
 
 const { currentLang, productId } = Astro.props;
@@ -65,6 +66,7 @@ const safeProduct: Product = {
   short_description: product.short_description || '',
   weight: Array.isArray(product.weight) ? product.weight : [],
   nutrition: product.nutrition,
+  isnew: product.isnew || false,
 };
 
 // Verificar si el producto tiene información nutricional y filtrar campos vacíos

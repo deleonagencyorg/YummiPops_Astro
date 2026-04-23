@@ -32,8 +32,8 @@ const menuItems = t('menu_items', { namespace: 'common', locale: currentLang }) 
   <div class="flex-shrink-0">
     <a href={`/${currentLang}/`} class="block">
       <img 
-        src="/images/es/logo.png" 
-        alt="Logo" 
+        src={logos.principal.url} 
+        alt={logos.principal.alt || 'Logo'} 
         class="h-[62px] w-[91px]"
       />
     </a>
