@@ -182,7 +182,7 @@ const socialMedia = [
               <div class="flex flex-wrap gap-3">
                 {safeProduct.weight.map((weight, index) => (
                   <button 
-                    class="weight-option px-6 py-3 rounded-full border-2 font-bold text-base md:text-lg transition-all duration-300 hover:scale-105 text-[#0D75C9] bg-white"
+                    class="weight-option px-6 py-3 rounded-full border-2 font-bold text-base md:text-lg transition-all duration-300 hover:scale-105 text-black bg-white"
                     data-weight={weight}
                     data-index={index}
                   >
@@ -371,9 +371,10 @@ const socialMedia = [
         weightOptions.forEach(opt => {
           opt.style.backgroundColor = 'white';
           opt.style.fontWeight = 'bold';
+          opt.style.color = '#000';
         });
         option.style.backgroundColor = 'white';
-        option.style.color = option.style.borderColor || '#000';
+        option.style.color = '#000';
       });
     });
     
