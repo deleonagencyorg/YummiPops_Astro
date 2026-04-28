@@ -1,0 +1,32 @@
+{
+  "date": "2025-09-11",
+  "id": "yummi-pops-sea-salt-parfait",
+  "slug": "yummi-pops-sea-salt-parfait",
+  "title": "Yummi Pops Sea Salt Parfait",
+  "category": "popcorn",
+  "description": "A delightful parfait combining creamy yogurt, sweet honey, and the crunchy goodness of Yummi Pops Sea Salt.",
+  "people": "2",
+  "difficulty": "Easy",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/parfait-yummi-pops-sal-marina.webp",
+  "gallery": [
+    "parfait-yummi-pops-sal-marina.webp"
+  ],
+  "type": "image",
+  "preparation_time": 10,
+  "ingredients": [
+    "Yogurt",
+    "Honey",
+    "Frozen red fruits (blueberries, strawberries and raspberries)",
+    "Yummi Pops Sea Salt"
+  ],
+  "instructions": [
+    "Step 1: In a glass or cup, pour a little yogurt.",
+    "Step 2: Add frozen berries.",
+    "Step 3: Place the sea salt popcorn.",
+    "Step 4: Repeat the process until you fill the container and pour a little honey."
+  ],
+  "brand": ["yummipops"],
+  "product": [
+    "yummi-pops-popcorn-sal-marina"
+  ]
+}
