@@ -1,0 +1,31 @@
+{
+  "date": "2025-09-11",
+  "id": "smores-yummi-pops-nacho-sal-marina",
+  "slug": "smores-yummi-pops-nacho-sal-marina",
+  "title": "Smores con Yummi Pops Nacho y Sal Marina",
+  "category": "palomitas",
+  "description": "Un delicioso s'mores combinando chocolate derretido, galletas crujientes, marshmallows y la crocancia de Yummi Pops Nacho y Sal Marina.",
+  "people": "3",
+  "difficulty": "Fácil",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/smores-yummi-pops-nacho-sal-marina.webp",
+  "gallery": [
+    "smores-yummi-pops-nacho-sal-marina.webp"
+  ],
+  "type": "image",
+  "preparation_time": 10,
+  "ingredients": [
+    "Chocolate derretido",
+    "Trozos de galleta",
+    "Marshmallows",
+    "Yummi Pops Sal Marina"
+  ],
+  "instructions": [
+    "Paso 1: Agrega en un plato hondo los Yummi Pops Sal Marina.",
+    "Paso 2: Tritura las galletas sobre las palomitas. Agrega los marshmallows.",
+    "Paso 3: Vierte el chocolate derretido, revuelve y sirve."
+  ],
+  "brand": ["yummipops"],
+  "product": [
+    "yummi-pops-palomitas-sal-marina"
+  ]
+}
