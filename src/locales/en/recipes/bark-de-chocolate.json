@@ -1,0 +1,31 @@
+{
+    "date": "30/04/2026",
+    "id": "bark-de-chocolate",
+    "slug": "bark-de-chocolate",
+    "title": "Chocolate Bark",
+    "people": "8",
+    "difficulty": "Easy",
+    "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/bark-de-chocolate.webp",
+    "video": "https://youtu.be/i6xS4fL2kRo?si=ouVyQVRBZFHaX1z9",
+    "gallery": [
+        "bark-de-chocolate.webp"
+    ],
+    "type": "image",
+    "preparation_time": 15,
+    "category": "popcorn",
+    "ingredients": [
+        "200 g semi-sweet or dark chocolate",
+        "1 cup Yummi Pops Sal Marina",
+        "Flaky sea salt to taste"
+    ],
+    "instructions": [
+        "Step 1. Melt the chocolate in a double boiler or in the microwave in short intervals, stirring until completely smooth.",
+        "Step 2. Pour the melted chocolate onto a baking sheet lined with parchment paper and spread it into an even layer.",
+        "Step 3. Immediately sprinkle the Yummi Pops Sal Marina, pressing lightly so they adhere, and finish with a touch of flaky sea salt.",
+        "Step 4. Let cool at room temperature or refrigerate until the chocolate is firm. Break into irregular pieces and serve."
+    ],
+  "brand": ["yummipops"],
+  "product": [
+    "yummi-pops-palomitas-sal-marina"
+  ]
+}
