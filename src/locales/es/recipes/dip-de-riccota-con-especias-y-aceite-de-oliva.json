@@ -1,0 +1,34 @@
+{
+    "date": "30/04/2026",
+    "id": "dip-de-riccota-batido-con-especias-y-aceite-de-oliva",
+    "slug": "dip-de-riccota-batido-con-especias-y-aceite-de-oliva",
+    "title": "Dip de Ricota Batido con Especias y Aceite de Oliva",
+    "people": "6",
+    "difficulty": "Fácil",
+    "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/dip-de-riccota.webp",
+    "video": "https://youtu.be/i6xS4fL2kRo?si=ouVyQVRBZFHaX1z9",
+    "gallery": [
+        "dip-de-riccota-batido-con-especias-y-aceite-de-oliva.webp"
+    ],
+    "type": "image",
+    "preparation_time": 10,
+    "category": "nacho",
+    "ingredients": [
+        "1 taza de queso ricotta",
+        "2 cucharadas de aceite de oliva",
+        "1 cucharadita de especias secas al gusto",
+        "Sal al gusto",
+        "Pimienta al gusto",
+        "Aceite de oliva extra para terminar",
+        "Yummi Pops Nacho Jalapeño Cream para servir"
+    ],
+    "instructions": [
+        "Paso 1. Coloca el queso ricotta en un procesador o licuadora y procesa hasta obtener una textura suave y aireada.",
+        "Paso 2. Agrega el aceite de oliva, las especias secas, la sal y la pimienta y vuelve a procesar hasta integrar.",
+        "Paso 3. Sirve el dip en un bol, termina con un chorrito de aceite de oliva por encima y acompaña con Yummi Pops Nacho Jalapeño Cream para mojar."
+    ],
+  "brand": ["yummipops"],
+  "product": [
+    "yummi-pops-nacho-jalapeno-cream"
+  ]
+}

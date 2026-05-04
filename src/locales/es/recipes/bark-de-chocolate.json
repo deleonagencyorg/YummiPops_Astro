@@ -1,0 +1,31 @@
+{
+    "date": "30/04/2026",
+    "id": "bark-de-chocolate",
+    "slug": "bark-de-chocolate",
+    "title": "Bark de chocolate",
+    "people": "8",
+    "difficulty": "Fácil",
+    "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/bark-de-chocolate.webp",
+    "video": "https://youtu.be/i6xS4fL2kRo?si=ouVyQVRBZFHaX1z9",
+    "gallery": [
+        "bark-de-chocolate.webp"
+    ],
+    "type": "image",
+    "preparation_time": 15,
+    "category": "palomitas",
+    "ingredients": [
+        "200 g de chocolate semiamargo o chocolate negro",
+        "1 taza de Yummi Pops Sal Marina",
+        "Sal marina en hojuelas al gusto"
+    ],
+    "instructions": [
+        "Paso 1. Derrite el chocolate a baño maría o en el microondas en intervalos cortos, mezclando hasta que esté completamente suave.",
+        "Paso 2. Vierte el chocolate derretido sobre una bandeja forrada con papel pergamino y espárcelo formando una capa uniforme.",
+        "Paso 3. Espolvorea de inmediato los Yummi Pops Sal Marina presionando ligeramente para que se adhieran y termina con un toque de sal marina en hojuelas.",
+        "Paso 4. Deja enfriar a temperatura ambiente o refrigera hasta que el chocolate esté firme. Rompe en trozos irregulares y sirve."
+    ],
+  "brand": ["yummipops"],
+  "product": [
+    "yummi-pops-palomitas-sal-marina"
+  ]
+}

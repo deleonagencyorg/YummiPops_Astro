@@ -1,0 +1,31 @@
+{
+    "date": "30/04/2026",
+    "id": "mantequilla-y-parmesano",
+    "slug": "mantequilla-y-parmesano",
+    "title": "Butter and Parmesan",
+    "people": "4",
+    "difficulty": "Easy",
+    "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/mantequilla-y-parmesano.webp",
+    "video": "https://youtu.be/i6xS4fL2kRo?si=ouVyQVRBZFHaX1z9",
+    "gallery": [
+        "mantequilla-y-parmesano.webp"
+    ],
+    "type": "image",
+    "preparation_time": 8,
+    "category": "popcorn",
+    "ingredients": [
+        "4 cups Yummi Pops Maíz y Queso",
+        "2 tablespoons butter",
+        "¼ cup finely grated Parmesan cheese"
+    ],
+    "instructions": [
+        "Step 1. Melt the butter in a large skillet over low heat.",
+        "Step 2. Add the Yummi Pops Maíz y Queso and mix gently to coat them evenly without breaking them.",
+        "Step 3. Remove from heat and sprinkle the grated Parmesan cheese, mixing lightly so it adheres with the residual heat.",
+        "Step 4. Serve immediately as a warm and flavorful snack to share."
+    ],
+  "brand": ["yummipops"],
+  "product": [
+    "yummi-pops-palomitas-maiz-queso"
+  ]
+}
