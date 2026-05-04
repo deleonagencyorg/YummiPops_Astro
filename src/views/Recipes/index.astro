@@ -3,6 +3,7 @@
 import { getLocale } from '../../i18n/i18n';
 import './styles.css';
 import RecipeCard from '../../components/recipes/RecipeCard.astro';
+import VideoModal from '../../components/common/VideoModal.astro';
 
 interface Recipe {
   id: string;
@@ -27,6 +28,14 @@ for (const path in recipeModules) {
     allRecipes.push(module.default);
   }
 }
+
+function toDate(s?: string) {
+  if (!s) return 0;
+  const t = Date.parse(s);
+  return isNaN(t) ? 0 : t;
+}
+
+allRecipes.sort((a, b) => toDate((b as any).date) - toDate((a as any).date));
 
 const noRecipesText = currentLang === 'es' ? 'No hay recetas disponibles en este momento.' : 'No recipes available at this time.';
 const noFilterResultsText = currentLang === 'es' ? 'No se encontraron resultados para la selección' : 'No results found for the selection';
@@ -115,10 +124,29 @@ const featuredRecipe = allRecipes[0];
         <div class="nacho-pattern" style="background-image: url('/images/es/bg-product.png');"></div>
         <div class="relative rounded-3xl overflow-hidden z-40">
           <img src={featuredRecipe.image || '/images/recipes/placeholder.jpg'} alt={featuredRecipe.title} class="w-full h-[300px] md:h-[400px] object-cover rounded-3xl" />
+          {(featuredRecipe as any).video && (
+            <button
+              type="button"
+              data-video={(featuredRecipe as any).video}
+              class="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/40 transition-colors cursor-pointer z-10 group/play"
+              aria-label="Reproducir video"
+            >
+              <span class="w-20 h-20 rounded-full bg-[#F9A825] flex items-center justify-center shadow-lg group-hover/play:scale-110 transition-transform">
+                <svg class="w-9 h-9 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+              </span>
+            </button>
+          )}
         </div>
         <div class="text-white space-y-6">
-          <h1 class="text-3xl md:text-4xl lg:text-5xl font-black leading-tight">{featuredRecipe.title}</h1>
+          <a href={`/${currentLang}/${currentLang === 'es' ? 'recetas' : 'recipes'}/${featuredRecipe.id}`} class="block group/hero">
+            <h1 class="text-3xl md:text-4xl lg:text-5xl font-black leading-tight group-hover/hero:text-[#F9A825] transition-colors">{featuredRecipe.title}</h1>
+          </a>
           <p class="text-base md:text-lg">{featuredRecipe.description || (currentLang === 'es' ? 'Descripción no disponible.' : 'Description not available.')}</p>
+          <a href={`/${currentLang}/${currentLang === 'es' ? 'recetas' : 'recipes'}/${featuredRecipe.id}`} class="block text-sm font-light text-white/80 hover:text-[#F9A825] transition-colors">
+            {currentLang === 'es' ? 'Ver más detalles →' : 'View more details →'}
+          </a>
           <a href={`/${currentLang}/${currentLang === 'es' ? 'recetas' : 'recipes'}/${featuredRecipe.id}`} class="inline-block bg-white text-blue-600 font-bold px-8 py-3 rounded-full hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg">{heroButton}</a>
         </div>
       </div>
@@ -268,7 +296,7 @@ const featuredRecipe = allRecipes[0];
         <div id="recipesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {allRecipes.map((recipe: Recipe) => (
             <div class="recipe-card" data-category={(recipe as any).category || 'other'} data-products={(Array.isArray(recipe.product) ? recipe.product : (recipe.product ? [recipe.product] : [])).join(',')} data-title={recipe.title.toLowerCase()} data-difficulty={normalizeDifficulty(recipe)} data-time={recipe.preparation_time}>
-              <RecipeCard image={recipe.image || '/images/recipes/placeholder.jpg'} title={recipe.title} time={`${recipe.preparation_time}MIN`} id={recipe.id} difficulty={recipe.difficulty || (currentLang === 'es' ? 'Fácil' : 'Easy')} product={Array.isArray(recipe.product) ? recipe.product[0] : recipe.product} />
+              <RecipeCard image={recipe.image || '/images/recipes/placeholder.jpg'} title={recipe.title} time={`${recipe.preparation_time}MIN`} id={recipe.id} difficulty={recipe.difficulty || (currentLang === 'es' ? 'Fácil' : 'Easy')} product={Array.isArray(recipe.product) ? recipe.product[0] : recipe.product} video={(recipe as any).video} />
             </div>
           ))}
         </div>
@@ -708,3 +736,5 @@ if (document.readyState === 'loading') {
   initRecipeSearch();
 }
 </script>
+
+<VideoModal />

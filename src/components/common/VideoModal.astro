@@ -1,0 +1,100 @@
+---
+// VideoModal.astro - Modal reutilizable para reproducir videos de YouTube
+---
+
+<!-- Modal de video -->
+<div id="video-modal" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/80 backdrop-blur-sm" aria-hidden="true">
+  <div class="relative w-full max-w-4xl mx-4 aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl">
+    <!-- Botón cerrar -->
+    <button
+      id="video-modal-close"
+      type="button"
+      class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center transition-colors"
+      aria-label="Cerrar video"
+    >
+      <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
+
+    <!-- Iframe de YouTube -->
+    <iframe
+      id="video-modal-iframe"
+      class="w-full h-full"
+      src=""
+      title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen
+    ></iframe>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    if (window.__videoModalInitialized) return;
+    window.__videoModalInitialized = true;
+
+    const modal = document.getElementById('video-modal');
+    const iframe = document.getElementById('video-modal-iframe');
+    const closeBtn = document.getElementById('video-modal-close');
+    if (!modal || !iframe || !closeBtn) return;
+
+    function toEmbedUrl(url) {
+      if (!url) return '';
+      // shorts
+      const shortsMatch = url.match(/youtube\.com\/shorts\/([a-zA-Z0-9_-]+)/);
+      if (shortsMatch) return 'https://www.youtube.com/embed/' + shortsMatch[1];
+      // watch?v=
+      const watchMatch = url.match(/[?&]v=([a-zA-Z0-9_-]+)/);
+      if (watchMatch) return 'https://www.youtube.com/embed/' + watchMatch[1];
+      // youtu.be/
+      const beMatch = url.match(/youtu\.be\/([a-zA-Z0-9_-]+)/);
+      if (beMatch) return 'https://www.youtube.com/embed/' + beMatch[1];
+      // embed/
+      const embedMatch = url.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]+)/);
+      if (embedMatch) return url;
+      return '';
+    }
+
+    function openModal(videoUrl) {
+      const embedUrl = toEmbedUrl(videoUrl);
+      if (!embedUrl) return;
+      iframe.src = embedUrl + '?autoplay=1&rel=0';
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      iframe.src = '';
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    // Delegación de eventos para botones de play
+    document.addEventListener('click', function (e) {
+      const trigger = e.target.closest('[data-video]');
+      if (trigger) {
+        e.preventDefault();
+        const videoUrl = trigger.getAttribute('data-video');
+        if (videoUrl) openModal(videoUrl);
+      }
+    });
+
+    closeBtn.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', function (e) {
+      if (e.target === modal) closeModal();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+        closeModal();
+      }
+    });
+  })();
+</script>

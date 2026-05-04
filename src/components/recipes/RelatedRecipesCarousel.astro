@@ -1,6 +1,7 @@
 ---
 import { getLocale } from '../../i18n/i18n';
 import RecipeCard from './RecipeCard.astro';
+import VideoModal from '../../components/common/VideoModal.astro';
 
 interface RecipeItem {
   id: string;
@@ -36,6 +37,7 @@ const currentLang = getLocale();
                 title={recipe.title}
                 time={`${recipe.preparation_time}MIN`}
                 id={recipe.id}
+                video={(recipe as any).video}
               />
             </div>
           </div>
@@ -138,3 +140,5 @@ const currentLang = getLocale();
     width: 100%;
   }
 </style>
+
+<VideoModal />

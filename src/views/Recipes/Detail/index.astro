@@ -6,6 +6,7 @@ import RecipeCard from '../../../components/recipes/RecipeCard.astro';
 import { t, getLocale } from '../../../i18n/i18n';
 import ShareButton from '../../../components/common/ShareButton.astro';
 import ShareModal from '../../../components/common/ShareModal.astro';
+import VideoModal from '../../../components/common/VideoModal.astro';
 
 interface RecipeItem {
   id: string;
@@ -35,6 +36,14 @@ for (const path in recipeModules) {
     allRecipes.push(mod.default);
   }
 }
+
+function toDate(s?: string) {
+  if (!s) return 0;
+  const t = Date.parse(s);
+  return isNaN(t) ? 0 : t;
+}
+
+allRecipes.sort((a, b) => toDate((b as any).date) - toDate((a as any).date));
 
 // Find current recipe
 const recipe = allRecipes.find((item: RecipeItem) => item.id === recipeId);
@@ -304,6 +313,7 @@ const chefTips = recipe.chef_tips || [
               id={relatedRecipe.id}
               difficulty={relatedRecipe.difficulty || (currentLang === 'es' ? 'Fácil' : 'Easy')}
               product={Array.isArray(relatedRecipe.product) ? relatedRecipe.product[0] : relatedRecipe.product}
+              video={(relatedRecipe as any).video}
             />
           ))}
         </div>
@@ -334,3 +344,5 @@ const chefTips = recipe.chef_tips || [
 
 <!-- Share modal instance -->
 <ShareModal id="shareModal" url={Astro.url.href} title={recipe.title} description={recipe.description} />
+
+<VideoModal />
