@@ -3,7 +3,7 @@
 ---
 
 <!-- Modal de video -->
-<div id="video-modal" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/80 backdrop-blur-sm" aria-hidden="true">
+<div id="video-modal" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/90" aria-hidden="true">
   <div class="relative w-full max-w-4xl mx-4 aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl">
     <!-- Botón cerrar -->
     <button
@@ -31,70 +31,91 @@
 </div>
 
 <script is:inline>
-  (function () {
-    if (window.__videoModalInitialized) return;
-    window.__videoModalInitialized = true;
+  // ─── Helpers
+  window.__videoToEmbedUrl = function (url) {
+    if (!url) return '';
+    var shortsMatch = url.match(/youtube\.com\/shorts\/([a-zA-Z0-9_-]+)/);
+    if (shortsMatch) return 'https://www.youtube.com/embed/' + shortsMatch[1];
+    var watchMatch = url.match(/[?&]v=([a-zA-Z0-9_-]+)/);
+    if (watchMatch) return 'https://www.youtube.com/embed/' + watchMatch[1];
+    var beMatch = url.match(/youtu\.be\/([a-zA-Z0-9_-]+)/);
+    if (beMatch) return 'https://www.youtube.com/embed/' + beMatch[1];
+    var embedMatch = url.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]+)/);
+    if (embedMatch) return url;
+    return '';
+  };
 
-    const modal = document.getElementById('video-modal');
-    const iframe = document.getElementById('video-modal-iframe');
-    const closeBtn = document.getElementById('video-modal-close');
+  window.__openVideoModal = function (videoUrl) {
+    var embedUrl = window.__videoToEmbedUrl(videoUrl);
+    if (!embedUrl) return;
+    var modal  = document.getElementById('video-modal');
+    var iframe = document.getElementById('video-modal-iframe');
+    if (!modal || !iframe) return;
+    iframe.src = embedUrl + '?autoplay=1&rel=0';
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.__closeVideoModal = function () {
+    var modal  = document.getElementById('video-modal');
+    var iframe = document.getElementById('video-modal-iframe');
+    if (!modal || !iframe) return;
+    iframe.src = '';
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  };
+
+  function initVideoModal() {
+    var modal   = document.getElementById('video-modal');
+    var iframe  = document.getElementById('video-modal-iframe');
+    var closeBtn = document.getElementById('video-modal-close');
     if (!modal || !iframe || !closeBtn) return;
 
-    function toEmbedUrl(url) {
-      if (!url) return '';
-      // shorts
-      const shortsMatch = url.match(/youtube\.com\/shorts\/([a-zA-Z0-9_-]+)/);
-      if (shortsMatch) return 'https://www.youtube.com/embed/' + shortsMatch[1];
-      // watch?v=
-      const watchMatch = url.match(/[?&]v=([a-zA-Z0-9_-]+)/);
-      if (watchMatch) return 'https://www.youtube.com/embed/' + watchMatch[1];
-      // youtu.be/
-      const beMatch = url.match(/youtu\.be\/([a-zA-Z0-9_-]+)/);
-      if (beMatch) return 'https://www.youtube.com/embed/' + beMatch[1];
-      // embed/
-      const embedMatch = url.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]+)/);
-      if (embedMatch) return url;
-      return '';
+    var newCloseBtn = closeBtn.cloneNode(true);
+    closeBtn.parentNode.replaceChild(newCloseBtn, closeBtn);
+
+    var newModal = modal; // el backdrop sí puede reutilizarse; usamos flag
+    if (newModal._videoModalBound) {
+    } else {
+      newModal._videoModalBound = true;
+      newModal.addEventListener('click', function (e) {
+        if (e.target === newModal) window.__closeVideoModal();
+      });
     }
 
-    function openModal(videoUrl) {
-      const embedUrl = toEmbedUrl(videoUrl);
-      if (!embedUrl) return;
-      iframe.src = embedUrl + '?autoplay=1&rel=0';
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-      modal.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
-    }
+    newCloseBtn.addEventListener('click', window.__closeVideoModal);
+  }
 
-    function closeModal() {
-      iframe.src = '';
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-      modal.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
-    }
-
-    // Delegación de eventos para botones de play
+  if (!window.__videoClickDelegated) {
+    window.__videoClickDelegated = true;
     document.addEventListener('click', function (e) {
-      const trigger = e.target.closest('[data-video]');
+      var trigger = e.target.closest('[data-video]');
       if (trigger) {
         e.preventDefault();
-        const videoUrl = trigger.getAttribute('data-video');
-        if (videoUrl) openModal(videoUrl);
+        e.stopPropagation();
+        var videoUrl = trigger.getAttribute('data-video');
+        if (videoUrl) window.__openVideoModal(videoUrl);
       }
-    });
-
-    closeBtn.addEventListener('click', closeModal);
-
-    modal.addEventListener('click', function (e) {
-      if (e.target === modal) closeModal();
-    });
+    }, true);
 
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-        closeModal();
+      if (e.key === 'Escape') {
+        var modal = document.getElementById('video-modal');
+        if (modal && !modal.classList.contains('hidden')) {
+          window.__closeVideoModal();
+        }
       }
     });
-  })();
+  }
+
+  document.addEventListener('astro:page-load', initVideoModal);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initVideoModal);
+  } else {
+    initVideoModal();
+  }
 </script>

@@ -31,14 +31,19 @@
     "Yummi Pops Nacho Jalapeño Cream"
   ],
   "instructions": [
-    "Paso 1: Cuece los camarones con limón o agua.",
-    "Paso 2: Sobre un recipiente coloca el camarón. Puedes picarlo, puede ser al gusto.",
-    "Paso 3: Vierte el tomate picado, la cebolla morada, el cilantro, la salsa inglesa, sal y pimienta al gusto. Por último, agrega más limón o solamente ¼ de salsa Kétchup y mezcla.",
-    "Paso 4: Sobre un plato plano, coloca Yummi Pops Nacho Jalapeño Cream.",
-    "Paso 5: Coloca en el centro del plato el ceviche y toma un Nacho, coloca un poco de ceviche. Y, disfruta del sabor del Pop."
+    "Cuece los camarones con limón o agua.",
+    "Sobre un recipiente coloca el camarón. Puedes picarlo, puede ser al gusto.",
+    "Vierte el tomate picado, la cebolla morada, el cilantro, la salsa inglesa, sal y pimienta al gusto. Por último, agrega más limón o solamente ¼ de salsa Kétchup y mezcla.",
+    "Sobre un plato plano, coloca Yummi Pops Nacho Jalapeño Cream.",
+    "Coloca en el centro del plato el ceviche y toma un Nacho, coloca un poco de ceviche. Y, disfruta del sabor del Pop."
   ],
   "brand": ["yummipops"],
   "product": [
     "yummi-pops-nacho-jalapeno-cream"
+  ],
+  "chef_tips": [
+    "Usa camarones bien fríos para obtener un ceviche más fresco y con mejor textura.",
+    "Agrega los Yummi Pops justo antes de servir para que conserven toda su crocancia.",
+    "Ajusta el nivel de picante de la mayonesa Sriracha según el gusto de tus comensales."
   ]
 }

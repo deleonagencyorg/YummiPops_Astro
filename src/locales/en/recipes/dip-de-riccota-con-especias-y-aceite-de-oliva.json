@@ -1,8 +1,8 @@
 {
     "date": "2026-04-30",
-    "id": "dip-de-riccota-batido-con-especias-y-aceite-de-oliva",
-    "slug": "dip-de-riccota-batido-con-especias-y-aceite-de-oliva",
-    "title": "Whipped Ricotta Dip with Spices and Olive Oil",
+    "id": "dip-de-riccota-batido-con-especias-y-yummi-pops-nacho-jalapeno-cream",
+    "slug": "dip-de-riccota-batido-con-especias-y-yummi-pops-nacho-jalapeno-cream",
+    "title": "Whipped Ricotta Dip with Spices and Yummi Pops Nacho Jalapeño Cream",
     "people": "6",
     "difficulty": "Easy",
     "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/dip-de-riccota.webp",
@@ -23,12 +23,17 @@
         "Yummi Pops Nacho Jalapeño Cream for serving"
     ],
     "instructions": [
-        "Step 1. Place the ricotta cheese in a food processor or blender and process until smooth and airy.",
-        "Step 2. Add the olive oil, dried spices, salt, and pepper and process again until combined.",
-        "Step 3. Serve the dip in a bowl, finish with a drizzle of olive oil on top, and accompany with Yummi Pops Nacho Jalapeño Cream for dipping."
+      "Place the ricotta cheese in a food processor or blender and process until smooth and airy.",
+      "Add the olive oil, dried spices, salt, and pepper and process again until combined.",
+      "Serve the dip in a bowl, finish with a drizzle of olive oil on top, and accompany with Yummi Pops Nacho Jalapeño Cream for dipping."
     ],
   "brand": ["yummipops"],
   "product": [
     "yummi-pops-nacho-jalapeno-cream"
+  ],
+  "chef_tips": [
+    "Make sure the ricotta is at room temperature for a smoother, creamier whipped texture.",
+    "Try oregano, thyme, or smoked paprika to add a special depth of flavor to the dip.",
+    "Serve the dip in a wide, shallow bowl so the Yummi Pops are easy to dip without breaking."
   ]
 }
