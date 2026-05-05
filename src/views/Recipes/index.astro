@@ -9,6 +9,7 @@ interface Recipe {
   id: string;
   title: string;
   image?: string;
+  'preview-image'?: string;
   preparation_time: number;
   type?: string;
   category?: string;
@@ -296,7 +297,7 @@ const featuredRecipe = allRecipes[0];
         <div id="recipesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {allRecipes.map((recipe: Recipe) => (
             <div class="recipe-card" data-category={(recipe as any).category || 'other'} data-products={(Array.isArray(recipe.product) ? recipe.product : (recipe.product ? [recipe.product] : [])).join(',')} data-title={recipe.title.toLowerCase()} data-difficulty={normalizeDifficulty(recipe)} data-time={recipe.preparation_time}>
-              <RecipeCard image={recipe.image || '/images/recipes/placeholder.jpg'} title={recipe.title} time={`${recipe.preparation_time}MIN`} id={recipe.id} difficulty={recipe.difficulty || (currentLang === 'es' ? 'Fácil' : 'Easy')} product={Array.isArray(recipe.product) ? recipe.product[0] : recipe.product} video={(recipe as any).video} />
+              <RecipeCard image={(recipe['preview-image'] || recipe.image) || '/images/recipes/placeholder.jpg'} title={recipe.title} time={`${recipe.preparation_time}MIN`} id={recipe.id} difficulty={recipe.difficulty || (currentLang === 'es' ? 'Fácil' : 'Easy')} product={Array.isArray(recipe.product) ? recipe.product[0] : recipe.product} video={(recipe as any).video} />
             </div>
           ))}
         </div>
