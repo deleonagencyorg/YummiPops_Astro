@@ -25,13 +25,18 @@
     "Una bolsa familiar de Yummi Pops Nacho"
   ],
   "instructions": [
-    "Paso 1: El pollo previamente cocido y desmenuzado lo colocamos en un tazón y lo mezclamos con la mayonesa y la leche.",
-    "Paso 2: Ahora podemos agregar el tomate, la cebolla morada, el cilantro y el jugo de limón y mezclamos perfectamente.",
-    "Paso 3: Llevamos nuestra pasta o ensalada de pollo a la refrigeradora por una media hora.",
-    "Paso 4: La servimos con Yummi Pops Nacho."
+    "El pollo previamente cocido y desmenuzado lo colocamos en un tazón y lo mezclamos con la mayonesa y la leche.",
+    "Ahora podemos agregar el tomate, la cebolla morada, el cilantro y el jugo de limón y mezclamos perfectamente.",
+    "Llevamos nuestra pasta o ensalada de pollo a la refrigeradora por una media hora.",
+    "La servimos con Yummi Pops Nacho."
   ],
   "brand": ["yummipops"],
   "product": [
     "yummi-pops-nacho-jalapeno-cream"
+  ],
+  "chef_tips": [
+    "Refrigera la ensalada al menos 30 minutos para que todos los sabores se integren bien.",
+    "Agrega los Yummi Pops Nacho justo al servir para que no pierdan su textura crujiente.",
+    "Puedes sustituir la mayonesa por yogur griego para una versión más ligera y saludable."
   ]
 }

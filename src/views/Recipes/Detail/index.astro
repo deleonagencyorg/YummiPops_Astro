@@ -96,6 +96,11 @@ const chefTips = recipe.chef_tips || [
   currentLang === 'es' ? 'Tamiza bien la harina para evitar grumos' : 'Sift the flour well to avoid lumps',
   currentLang === 'es' ? 'No sobre mezcles para mantener la textura' : 'Don\'t overmix to maintain texture'
 ];
+
+// Numero de porsiones
+const servingsCount = (recipe.servings !== undefined && recipe.servings !== null)
+  ? recipe.servings
+  : (recipe as any).people || null;
 ---
 
 <div class="bg-white min-h-screen">
@@ -135,7 +140,7 @@ const chefTips = recipe.chef_tips || [
           <svg class="w-5 h-5 text-[#F9A825]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
           </svg>
-          <span class="font-medium">{recipe.servings} {currentLang === 'es' ? 'porciones' : 'servings'}</span>
+          <span class="font-medium">{servingsCount ? `${servingsCount} ${currentLang === 'es' ? 'porciones' : 'servings'}` : (currentLang === 'es' ? 'porciones' : 'servings')}</span>
         </div>
 
         <!-- Difficulty -->
@@ -178,6 +183,21 @@ const chefTips = recipe.chef_tips || [
               class="w-full h-full object-cover"
               transition:name={`recipe-image-${recipe.id}`}
             />
+
+            {recipe.video && (
+              <button
+                type="button"
+                data-video={recipe.video}
+                class="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/40 transition-colors rounded-3xl cursor-pointer z-10"
+                aria-label={currentLang === 'es' ? 'Reproducir video' : 'Play video'}
+              >
+                <span class="w-16 h-16 rounded-full bg-[#F9A825] flex items-center justify-center shadow-lg hover:scale-105 transition-transform">
+                  <svg class="w-7 h-7 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z"/>
+                  </svg>
+                </span>
+              </button>
+            )}
           </div>
         )}
 

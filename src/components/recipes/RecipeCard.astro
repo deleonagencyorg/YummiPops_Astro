@@ -49,10 +49,10 @@ function formatProductName(slug: string): string {
 const displayProduct = product ? formatProductName(product) : "";
 ---
 
-<div class="relative">
+<div class="relative overflow-hidden rounded-[2.5rem]">
   <a
     href={recipeLink}
-    class="block group overflow-hidden rounded-[2.5rem] bg-white shadow-lg hover:shadow-2xl transition-all duration-300"
+    class="block group overflow-hidden rounded-[2.5rem] bg-white shadow-lg transition-all duration-300"
     transition:animate="fade"
   >
     <!-- Imagen principal -->
@@ -72,7 +72,7 @@ const displayProduct = product ? formatProductName(product) : "";
     <button
       type="button"
       data-video={video}
-      class="absolute top-0 left-0 w-full h-[250px] flex items-center justify-center bg-black/30 hover:bg-black/40 transition-colors rounded-t-[2.5rem] cursor-pointer z-10 group/play"
+      class="absolute top-0 left-0 w-full h-[250px] flex items-center justify-center bg-black/30 hover:bg-black/40 transition-colors rounded-[2.5rem] cursor-pointer z-10 group/play"
       aria-label="Reproducir video"
     >
       <span class="w-16 h-16 rounded-full bg-[#F9A825] flex items-center justify-center shadow-lg group-hover/play:scale-110 transition-transform">

@@ -14,7 +14,7 @@
     "preparation_time": 15,
     "category": "nacho",
     "ingredients": [
-        "300 g de atún fresco",
+        "300g de atún fresco",
         "1 cucharada de aceite de oliva",
         "1 cucharadita de aceite de ajonjolí",
         "Jugo de 1/2 limón",
@@ -25,12 +25,17 @@
         "Yummi Pops Nacho Queso Blanco para servir"
     ],
     "instructions": [
-        "Paso 1. Coloca el atún en un recipiente frío y agrega el aceite de oliva, el aceite de ajonjolí y el jugo de limón; mezcla suavemente para cubrir el pescado sin romperlo.",
-        "Paso 2. Incorpora la cebolla morada y el cebollín, sazona con sal y pimienta y mezcla con cuidado.",
-        "Paso 3. Sirve el tartar de inmediato, manteniéndolo frío, y acompaña con Yummi Pops Nacho Queso Blanco para mojar y aportar textura crujiente."
+      "Coloca el atún en un recipiente frío y agrega el aceite de oliva, el aceite de ajonjolí y el jugo de limón; mezcla suavemente para cubrir el pescado sin romperlo.",
+      "Incorpora la cebolla morada y el cebollín, sazona con sal y pimienta y mezcla con cuidado.",
+      "Sirve el tartar de inmediato, manteniéndolo frío, y acompaña con Yummi Pops Nacho Queso Blanco para mojar y aportar textura crujiente."
     ],
   "brand": ["yummipops"],
   "product": [
     "yummi-pops-nacho-queso-blanco"
+  ],
+  "chef_tips": [
+    "Usa siempre atún fresco de calidad sashimi para garantizar seguridad alimentaria y mejor sabor.",
+    "Mantén el atún y el bol bien fríos hasta el último momento para conservar su textura óptima.",
+    "Corta el atún en cubos pequeños y uniformes para lograr una presentación elegante y una mejor experiencia en boca."
   ]
 }

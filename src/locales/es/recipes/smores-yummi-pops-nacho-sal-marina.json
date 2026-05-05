@@ -20,12 +20,17 @@
     "Yummi Pops Sal Marina"
   ],
   "instructions": [
-    "Paso 1: Agrega en un plato hondo los Yummi Pops Sal Marina.",
-    "Paso 2: Tritura las galletas sobre las palomitas. Agrega los marshmallows.",
-    "Paso 3: Vierte el chocolate derretido, revuelve y sirve."
+    "Agrega en un plato hondo los Yummi Pops Sal Marina.",
+    "Tritura las galletas sobre las palomitas. Agrega los marshmallows.",
+    "Vierte el chocolate derretido, revuelve y sirve."
   ],
   "brand": ["yummipops"],
   "product": [
     "yummi-pops-palomitas-sal-marina"
+  ],
+  "chef_tips": [
+    "Derrite el chocolate a temperatura baja para que quede fluido y brillante sin quemarse.",
+    "Agrega los marshmallows justo antes de servir para aprovechar toda su suavidad y esponjosidad.",
+    "Mezcla Yummi Pops Sal Marina y Nacho para lograr una combinación de sabores dulce-salado irresistible."
   ]
 }

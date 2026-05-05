@@ -1,8 +1,8 @@
 {
     "date": "2026-04-30",
-    "id": "mantequilla-y-parmesano",
-    "slug": "mantequilla-y-parmesano",
-    "title": "Butter and Parmesan",
+    "id": "yummi-pops-de-queso-with-butter-and-parmesan",
+    "slug": "yummi-pops-de-queso-with-butter-and-parmesan",
+    "title": "Yummi Pops de Queso with Butter and Parmesan",
     "people": "4",
     "difficulty": "Easy",
     "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/mantequilla-y-parmesano.webp",
@@ -19,13 +19,18 @@
         "¼ cup finely grated Parmesan cheese"
     ],
     "instructions": [
-        "Step 1. Melt the butter in a large skillet over low heat.",
-        "Step 2. Add the Yummi Pops Maíz y Queso and mix gently to coat them evenly without breaking them.",
-        "Step 3. Remove from heat and sprinkle the grated Parmesan cheese, mixing lightly so it adheres with the residual heat.",
-        "Step 4. Serve immediately as a warm and flavorful snack to share."
+      "Melt the butter in a large skillet over low heat.",
+      "Add the Yummi Pops Maíz y Queso and mix gently to coat them evenly without breaking them.",
+      "Remove from heat and sprinkle the grated Parmesan cheese, mixing lightly so it adheres with the residual heat.",
+      "Serve immediately as a warm and flavorful snack to share."
     ],
   "brand": ["yummipops"],
   "product": [
     "yummi-pops-palomitas-maiz-queso"
+  ],
+  "chef_tips": [
+    "Use very low heat when melting the butter to prevent it from burning or turning bitter.",
+    "Add the Parmesan off the heat so it clings without melting completely.",
+    "Serve immediately — the Yummi Pops may soften if left to sit for too long."
   ]
 }

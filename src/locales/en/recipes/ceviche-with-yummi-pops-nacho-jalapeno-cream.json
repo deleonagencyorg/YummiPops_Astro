@@ -31,14 +31,19 @@
     "Yummi Pops Nacho Jalapeño Cream"
   ],
   "instructions": [
-    "Step 1: Cook the shrimp with lemon or water.",
-    "Step 2: Place the shrimp in a container. You can chop it, as desired.",
-    "Step 3: Add diced tomato, red onion, cilantro, Worcestershire sauce, salt, and pepper to taste over the shrimp. Finally, add more lemon juice or just ¼ cup of ketchup and mix.",
-    "Step 4: On a flat plate, place Yummi Pops Nacho Jalapeño Cream.",
-    "Step 5: Place the ceviche in the center of the plate and take a nacho, add a little ceviche on top. Then, enjoy the flavor of the Pop."
+    "Cook the shrimp with lemon or water.",
+    "Place the shrimp in a container. You can chop it, as desired.",
+    "Add diced tomato, red onion, cilantro, Worcestershire sauce, salt, and pepper to taste over the shrimp. Finally, add more lemon juice or just ¼ cup of ketchup and mix.",
+    "On a flat plate, place Yummi Pops Nacho Jalapeño Cream.",
+    "Place the ceviche in the center of the plate and take a nacho, add a little ceviche on top. Then, enjoy the flavor of the Pop."
   ],
   "brand": ["yummipops"],
   "product": [
     "yummi-pops-nacho-jalapeno-cream"
+  ],
+  "chef_tips": [
+    "Use well-chilled shrimp for a fresher ceviche with better texture.",
+    "Add the Yummi Pops right before serving to keep them perfectly crunchy.",
+    "Adjust the heat level of the Sriracha mayo to suit your guests' preferences."
   ]
 }
