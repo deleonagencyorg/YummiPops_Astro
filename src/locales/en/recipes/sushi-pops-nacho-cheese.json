@@ -22,11 +22,16 @@
     "Yummi Pops Nacho Queso"
   ],
   "instructions": [
-    "Step 1: Place the Nachos on a flat container. On top, place a piece of Sushi seaweed and a piece of Surimi.",
-    "Step 2: Place chopped chives. And pour Siracha mayonnaise."
+    "Place the Nachos on a flat container. On top, place a piece of Sushi seaweed and a piece of Surimi.",
+    "Place chopped chives. And pour Siracha mayonnaise."
   ],
   "brand": ["yummipops"],
   "product": [
     "yummi-pops-nacho-queso-blanco"
+  ],
+  "chef_tips": [
+    "Use cold cream cheese so it holds its shape and is easier to handle when assembling.",
+    "Slice the surimi into thin, even strips to balance all the flavors in each bite.",
+    "Assemble the bites right before serving so the Yummi Pops stay perfectly crunchy."
   ]
 }

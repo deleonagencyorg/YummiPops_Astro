@@ -22,11 +22,16 @@
     "Yummi Pops Nacho Queso"
   ],
   "instructions": [
-    "Paso 1: Coloca los Nachos sobre un recipiente plano. Encima coloca un trozo de alga para Sushi y un trozo de Surimi.",
-    "Paso 2: Coloca cebollín picado. Y vierte mayonesa de Siracha."
+    "Coloca los Nachos sobre un recipiente plano. Encima coloca un trozo de alga para Sushi y un trozo de Surimi.",
+    "Coloca cebollín picado. Y vierte mayonesa de Siracha."
   ],
   "brand": ["yummipops"],
   "product": [
     "yummi-pops-nacho-queso-blanco"
+  ],
+  "chef_tips": [
+    "Usa queso crema bien frío para que sea más fácil de manejar y se mantenga firme al servir.",
+    "Corta el surimi en tiras delgadas y uniformes para equilibrar los sabores en cada bocado.",
+    "Arma los montaditos justo al momento de servir para que los Yummi Pops conserven toda su crocancia."
   ]
 }

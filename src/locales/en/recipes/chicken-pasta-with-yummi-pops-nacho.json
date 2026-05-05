@@ -25,13 +25,18 @@
     "A family bag of Yummi Pops Nacho"
   ],
   "instructions": [
-    "Step 1: Place the previously cooked and shredded chicken in a bowl and mix it with the mayonnaise and milk.",
-    "Step 2: Now we can add the tomato, red onion, cilantro, and lemon juice and mix perfectly.",
-    "Step 3: Take our pasta or chicken salad to the refrigerator for half an hour.",
-    "Step 4: Serve it with Yummi Pops Nacho."
+    "Place the previously cooked and shredded chicken in a bowl and mix it with the mayonnaise and milk.",
+    "Now we can add the tomato, red onion, cilantro, and lemon juice and mix perfectly.",
+    "Take our pasta or chicken salad to the refrigerator for half an hour.",
+    "Serve it with Yummi Pops Nacho."
   ],
   "brand": ["yummipops"],
   "product": [
     "yummi-pops-nacho-jalapeno-cream"
+  ],
+  "chef_tips": [
+    "Refrigerate the salad for at least 30 minutes so all the flavors meld together beautifully.",
+    "Add the Yummi Pops Nacho just before serving to preserve their signature crunch.",
+    "Swap the mayonnaise for Greek yogurt for a lighter, protein-packed version."
   ]
 }
