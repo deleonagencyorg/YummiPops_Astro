@@ -1,0 +1,37 @@
+{
+    "date": "2026-04-30",
+    "id": "bark-de-chocolate",
+    "slug": "bark-de-chocolate",
+    "title": "Bark de chocolate",
+    "people": "8",
+    "difficulty": "Fácil",
+    "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/17-yummi-pops-sal-marina-bark-de-chocolate1920x840.webp",
+    "preview-image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/17-yummi-pops-sal-marina-bark-de-chocolate800x800.webp",
+    "video": "https://www.youtube.com/shorts/KoHfiuh6iXc",
+    "gallery": [
+        "bark-de-chocolate.webp"
+    ],
+    "type": "image",
+    "preparation_time": 15,
+    "category": "palomitas",
+    "ingredients": [
+        "200g de chocolate semiamargo o chocolate negro",
+        "1 taza de Yummi Pops Sal Marina",
+        "Sal marina en hojuelas al gusto"
+    ],
+    "instructions": [
+      "Derrite el chocolate a baño maría o en el microondas en intervalos cortos, mezclando hasta que esté completamente suave.",
+      "Vierte el chocolate derretido sobre una bandeja forrada con papel pergamino y espárcelo formando una capa uniforme.",
+      "Espolvorea de inmediato los Yummi Pops Sal Marina presionando ligeramente para que se adhieran y termina con un toque de sal marina en hojuelas.",
+      "Deja enfriar a temperatura ambiente o refrigera hasta que el chocolate esté firme. Rompe en trozos irregulares y sirve."
+    ],
+  "brand": ["yummipops"],
+  "product": [
+    "yummi-pops-palomitas-sal-marina"
+  ],
+  "chef_tips": [
+    "Usa chocolate de alta calidad (mínimo 70% cacao) para obtener el mejor sabor y brillo.",
+    "Presiona bien los Yummi Pops sobre el chocolate antes de que endurezca para que se adhieran perfectamente.",
+    "Refrigera el bark al menos 30 minutos para que quede perfectamente firme y fácil de romper."
+  ]
+}

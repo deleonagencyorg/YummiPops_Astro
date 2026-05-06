@@ -4,6 +4,9 @@ import './styles.css';
 import LazyImage from '../../../components/common/LazyImage.astro';
 import RecipeCard from '../../../components/recipes/RecipeCard.astro';
 import { t, getLocale } from '../../../i18n/i18n';
+import ShareButton from '../../../components/common/ShareButton.astro';
+import ShareModal from '../../../components/common/ShareModal.astro';
+import VideoModal from '../../../components/common/VideoModal.astro';
 
 interface RecipeItem {
   id: string;
@@ -33,6 +36,14 @@ for (const path in recipeModules) {
     allRecipes.push(mod.default);
   }
 }
+
+function toDate(s?: string) {
+  if (!s) return 0;
+  const t = Date.parse(s);
+  return isNaN(t) ? 0 : t;
+}
+
+allRecipes.sort((a, b) => toDate((b as any).date) - toDate((a as any).date));
 
 // Find current recipe
 const recipe = allRecipes.find((item: RecipeItem) => item.id === recipeId);
@@ -85,6 +96,11 @@ const chefTips = recipe.chef_tips || [
   currentLang === 'es' ? 'Tamiza bien la harina para evitar grumos' : 'Sift the flour well to avoid lumps',
   currentLang === 'es' ? 'No sobre mezcles para mantener la textura' : 'Don\'t overmix to maintain texture'
 ];
+
+// Numero de porsiones
+const servingsCount = (recipe.servings !== undefined && recipe.servings !== null)
+  ? recipe.servings
+  : (recipe as any).people || null;
 ---
 
 <div class="bg-white min-h-screen">
@@ -124,7 +140,7 @@ const chefTips = recipe.chef_tips || [
           <svg class="w-5 h-5 text-[#F9A825]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
           </svg>
-          <span class="font-medium">{recipe.servings} {currentLang === 'es' ? 'porciones' : 'servings'}</span>
+          <span class="font-medium">{servingsCount ? `${servingsCount} ${currentLang === 'es' ? 'porciones' : 'servings'}` : (currentLang === 'es' ? 'porciones' : 'servings')}</span>
         </div>
 
         <!-- Difficulty -->
@@ -137,16 +153,8 @@ const chefTips = recipe.chef_tips || [
       </div>
 
       <!-- Share Buttons -->
-      <div class="flex gap-3">
-        <button 
-          id="shareButton"
-          class="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors"
-        >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
-          </svg>
-          <span class="font-medium">{shareText}</span>
-        </button>
+      <div class="flex gap-3"> 
+        <ShareButton modalId='shareModal'/>
 
         <button 
           id="copyLinkButton"
@@ -175,6 +183,21 @@ const chefTips = recipe.chef_tips || [
               class="w-full h-full object-cover"
               transition:name={`recipe-image-${recipe.id}`}
             />
+
+            {recipe.video && (
+              <button
+                type="button"
+                data-video={recipe.video}
+                class="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/40 transition-colors rounded-3xl cursor-pointer z-10"
+                aria-label={currentLang === 'es' ? 'Reproducir video' : 'Play video'}
+              >
+                <span class="w-16 h-16 rounded-full bg-[#F9A825] flex items-center justify-center shadow-lg hover:scale-105 transition-transform">
+                  <svg class="w-7 h-7 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z"/>
+                  </svg>
+                </span>
+              </button>
+            )}
           </div>
         )}
 
@@ -228,12 +251,19 @@ const chefTips = recipe.chef_tips || [
               </span>
             </div>
 
-            <div class="rounded-2xl p-6 mb-4">
+            <div class="rounded-2xl p-6 mb-4 relative">
               <img 
                 src={productData.image} 
                 alt={productData.name}
                 class="w-full h-48 object-contain"
               />
+              {productData.isnew && (
+                <img 
+                  src="/images/new-badge.png" 
+                  alt="NEW" 
+                  class="product-new-badge"
+                />
+              )}
             </div>
 
             <h3 class="text-xl font-bold mb-2 text-center">
@@ -303,6 +333,7 @@ const chefTips = recipe.chef_tips || [
               id={relatedRecipe.id}
               difficulty={relatedRecipe.difficulty || (currentLang === 'es' ? 'Fácil' : 'Easy')}
               product={Array.isArray(relatedRecipe.product) ? relatedRecipe.product[0] : relatedRecipe.product}
+              video={(relatedRecipe as any).video}
             />
           ))}
         </div>
@@ -313,22 +344,6 @@ const chefTips = recipe.chef_tips || [
 </div>
 
 <script>
-  // Share functionality
-  document.getElementById('shareButton')?.addEventListener('click', async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: document.title,
-          url: window.location.href
-        });
-      } catch (err) {
-        console.log('Error sharing:', err);
-      }
-    } else {
-      alert('Share not supported on this browser');
-    }
-  });
-
   // Copy link functionality
   document.getElementById('copyLinkButton')?.addEventListener('click', async () => {
     try {
@@ -346,3 +361,8 @@ const chefTips = recipe.chef_tips || [
     }
   });
 </script>
+
+<!-- Share modal instance -->
+<ShareModal id="shareModal" url={Astro.url.href} title={recipe.title} description={recipe.description} />
+
+<VideoModal />

@@ -24,7 +24,14 @@ const routeTranslations = {
   'blog': 'blog'
   // Agregar más rutas según sea necesario
 };
-
+// Secciones con páginas de detalle: al cambiar idioma en un detalle,
+// redirigir al listado en el idioma destino. Key: slug en ES, Value: slug en EN.
+const detailSections: Record<string, string> = {
+  'productos': 'products',
+  'recetas': 'recipes',
+  'blog': 'blog',
+  'noticias': 'news',
+};
 // Extraer la ruta actual y el idioma
 const pathParts = currentPath.split('/').filter(Boolean);
 const currentLocale = pathParts[0] || 'es';
@@ -37,7 +44,21 @@ const getTranslatedPath = (targetLocale: Locale) => {
   
   // Para la ruta raíz (/es o /en)
   if (pathParts.length <= 1) return `/${targetLocale}`;
-  
+    // Detectar página de detalle: /lang/seccion/slug (3+ segmentos)
+  // En ese caso redirigir al listado en el idioma destino
+  if (pathParts.length >= 3) {
+    const section = pathParts[1];
+    const reverseDetail: Record<string, string> = {};
+    for (const [esSlug, enSlug] of Object.entries(detailSections)) {
+      reverseDetail[enSlug] = esSlug;
+    }
+    const esSection = currentLocale === 'es' ? section : (reverseDetail[section] ?? section);
+    const enSection = detailSections[esSection] ?? esSection;
+    if (esSection in detailSections) {
+      const targetSection = targetLocale === 'es' ? esSection : enSection;
+      return `/${targetLocale}/${targetSection}`;
+    }
+  }
   // Si estamos en una ruta mapeada, traducirla
   const translatedRoute = Object.entries(routeTranslations).reduce(
     (acc, [esRoute, enRoute]) => {

@@ -16,6 +16,8 @@ const { currentLang, headerColorConfig } = Astro.props;
 // Obtener los datos de social media y menú desde las traducciones
 const socialMedia = t('social_media', { namespace: 'common', locale: currentLang }) as any;
 const menuItems = t('menu_items', { namespace: 'common', locale: currentLang }) as any[];
+// Ocultar blog mobile
+const mobileMenuItems = (menuItems || []).filter((item: any) => (item.id || item.text || '').toString().toLowerCase() !== 'news');
 
 // Traducciones
 const openMenuLabel = t('menu_labels.open_main_menu', { namespace: 'common', locale: currentLang }) || 'Open main menu';
@@ -29,9 +31,9 @@ const closeMenuLabel = t('menu_labels.close_main_menu', { namespace: 'common', l
     <div class="flex justify-between items-center mb-8">
       <a href={`/${currentLang}/`} class="block">
         <img 
-            src="/images/es/logo/logobanner.png" 
+            src={logos.principal.url}
             alt={logos.principal.alt} 
-            class="h-[28px] w-[120px] md:h-[38px] md:w-[187px] w-auto object-contain"
+            class="h-[28px] md:h-[38px] w-auto object-contain"
           />
       </a>
       <button id="mobile-menu-close" type="button" class="text-white">
@@ -42,7 +44,7 @@ const closeMenuLabel = t('menu_labels.close_main_menu', { namespace: 'common', l
       </button>
     </div>
     <nav class="flex flex-col items-center space-y-3 text-center w-full text-white" id="mobile-menu-items">
-      {menuItems && menuItems.map((item: any) => (
+      {mobileMenuItems && mobileMenuItems.map((item: any) => (
         <div class="w-full">
           <div class="flex items-center justify-center text-white">
             {item.submenu ? (

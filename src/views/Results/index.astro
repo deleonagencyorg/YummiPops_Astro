@@ -19,47 +19,67 @@ const uniqueCategories = Object.keys(categories);
     <h1 class="text-4xl font-bold text-center mb-4">{t('page.title', { namespace: 'products' })}</h1>
     <p class="text-lg text-gray-600 text-center mb-10 max-w-3xl mx-auto">{t('page.description', { namespace: 'products' })}</p>
     
-    <!-- Filtro de categorías -->
+    <!-- Filtro de categorías (mantener por compatibilidad) -->
     <div class="flex flex-wrap justify-center mb-8 gap-2">
       <button type="button" class="category-filter active" data-category="all">
         {categories.all}
       </button>
-      {uniqueCategories.filter(cat => cat !== 'all').map((category) => (
+      {['nacho','palomitas'].map((category) => (
         <button type="button" class="category-filter" data-category={category}>
           {categories[category]}
         </button>
       ))}
     </div>
-    
+
     {products.length === 0 ? (
       <p class="text-center text-gray-500">{t('page.no_products', { namespace: 'products' })}</p>
     ) : (
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="products-grid">
-        {products.map((product: any) => (
-          <div class="product-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300" data-category={product.category} transition:animate="fade">
-            <div class="relative h-48 overflow-hidden">
-              <img 
-                src={product.image || '/images/products/placeholder.jpg'} 
-                alt={product.title} 
-                class="w-full h-full object-cover"
-                transition:name={`product-image-${product.id}`}
-              />
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold mb-2">{product.title}</h3>
-              <p class="text-gray-600 mb-4 line-clamp-2">{product.short_description}</p>
-              <div class="flex justify-between items-center">
-                <div class="text-sm text-gray-500 capitalize">{categories[product.category]}</div>
-                <a 
-                  href={`/${currentLang}/productos/${product.id}`} 
-                  class="inline-block bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-md transition-colors duration-300"
-                >
-                  {t('page.view_details', { namespace: 'products' })}
-                </a>
+      <div id="products-grid">
+        {['nacho','palomitas'].map((cat) => {
+          const catProducts = products.filter((p: any) => p.category === cat);
+          if (!catProducts || catProducts.length === 0) return null;
+          // Determinar id de ancla según idioma
+          const sectionId = currentLang === 'es' ? cat : (cat === 'palomitas' ? 'popcorn' : cat);
+          return (
+            <section id={sectionId} class="mb-12">
+              <h2 class="text-3xl font-black mb-6">{categories[cat]}</h2>
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {catProducts.map((product: any) => (
+                  <div class="product-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300" data-category={product.category} transition:animate="fade">
+                    <div class="relative h-48 overflow-hidden">
+                      <img 
+                        src={product.image || '/images/products/placeholder.jpg'} 
+                        alt={product.name || product.title} 
+                        class="w-full h-full object-cover"
+                        transition:name={`product-image-${product.id}`}
+                      />
+                      {product.isnew && (
+                        <img 
+                          src={currentLang === 'es' ? 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NUEVO.webp' : 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NEW.webp'}
+                          alt="NEW"
+                          class="product-new-badge"
+                        />
+                      )}
+                    </div>
+                    <div class="p-6">
+                      <h3 class="text-xl font-bold mb-2">{product.name || product.title}</h3>
+                      <p class="text-gray-600 mb-4 line-clamp-2">{product.short_description}</p>
+                      <div class="flex justify-between items-center">
+                        <div class="text-sm text-gray-500 capitalize">{categories[product.category]}</div>
+                        <a 
+                          href={`/${currentLang}/productos/${product.id}`} 
+                          class="inline-block bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-md transition-colors duration-300"
+                        >
+                          {t('page.view_details', { namespace: 'products' })}
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
-            </div>
-          </div>
-        ))}
+            </section>
+          )
+        })}
       </div>
     )}
   </div>

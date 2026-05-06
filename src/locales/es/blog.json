@@ -1,0 +1,69 @@
+{
+  "meta": {
+    "title": "Noticias - Yummi Pops",
+    "description": "Mantente al día con nuestras últimas noticias y artículos."
+  },
+  "home": {
+    "title": "Descubre nuestras noticias",
+    "subtitle": "Noticias",
+    "heroButton": "Ver ahora",
+    "sectionTitle": "Descubre nuestras noticias"
+  },
+  "noPostsText": "No hay noticias disponibles en este momento.",
+  "items": [
+    {
+      "id": "nuevos-sabores-yummi-pops",
+      "slug": "nuevos-sabores-yummi-pops",
+      "title": "Una vez más, Yummi Pops Nacho premió a los hondureños.",
+      "summary": "Descubre los increíbles nuevos sabores que tenemos para ti. Una explosión de sabor en cada bocado.",
+      "image": "/images/es/placeholder.png",
+      "published_date": "15/02/2026",
+      "category": "novedades"
+    },
+    {
+      "id": "receta-nachos-fiesta",
+      "slug": "receta-nachos-fiesta",
+      "title": "Una vez más, Yummi Pops Nacho premió a los hondureños.",
+      "summary": "Yummi Pops Nacho premió a los consumidores hondureños con el sorteo de un Samsung Smartwatch.",
+      "image": "/images/es/placeholder.png",
+      "published_date": "10/02/2026",
+      "category": "recetas"
+    },
+    {
+      "id": "promocion-febrero",
+      "slug": "promocion-febrero",
+      "title": "Yummies lanza Nueva Imagen y Promoción",
+      "summary": "Vive tus momentos más intensos",
+      "image": "/images/es/placeholder.png",
+      "published_date": "01/02/2026",
+      "category": "promociones"
+    },
+    {
+      "id": "evento-feria-snacks",
+      "slug": "evento-feria-snacks",
+      "title": "Yummies presenta Yummi Pops, Palomitas de Maíz",
+      "summary": "Snacks Yummies realizó el lanzamiento de su marca Yummi Pops, una nueva y divertida forma de disfrutar de un delicioso snacks.",
+      "image": "/images/es/placeholder.png",
+      "published_date": "25/01/2026",
+      "category": "eventos"
+    },
+    {
+      "id": "receta-palomitas-caramelo",
+      "slug": "receta-palomitas-caramelo",
+      "title": "Receta: Palomitas con caramelo casero",
+      "summary": "Una deliciosa receta para disfrutar las Yummi Pops Palomitas de una manera diferente.",
+      "image": "/images/es/placeholder.png",
+      "published_date": "20/01/2026",
+      "category": "recetas"
+    },
+    {
+      "id": "tips-snacks-saludables",
+      "slug": "tips-snacks-saludables",
+      "title": "Tips para disfrutar snacks de forma saludable",
+      "summary": "Consejos para incorporar tus snacks favoritos en una dieta balanceada.",
+      "image": "/images/es/placeholder.png",
+      "published_date": "15/01/2026",
+      "category": "novedades"
+    }
+  ]
+}

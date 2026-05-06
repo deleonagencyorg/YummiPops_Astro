@@ -1,0 +1,69 @@
+{
+  "meta": {
+    "title": "News - Yummi Pops",
+    "description": "Stay up to date with our latest news and articles."
+  },
+  "home": {
+    "title": "Discover our news",
+    "subtitle": "News",
+    "heroButton": "View now",
+    "sectionTitle": "Discover our news"
+  },
+  "noPostsText": "No news available at this time.",
+  "items": [
+    {
+      "id": "nuevos-sabores-yummi-pops",
+      "slug": "nuevos-sabores-yummi-pops",
+      "title": "Once again, Yummi Pops Nacho rewarded Hondurans.",
+      "summary": "Discover the incredible new flavors we have for you. An explosion of flavor in every bite.",
+      "image": "/images/es/placeholder.png",
+      "published_date": "15/02/2026",
+      "category": "news"
+    },
+    {
+      "id": "receta-nachos-fiesta",
+      "slug": "receta-nachos-fiesta",
+      "title": "Once again, Yummi Pops Nacho rewarded Hondurans.",
+      "summary": "Yummi Pops Nacho rewarded Honduran consumers with a Samsung Smartwatch raffle.",
+      "image": "/images/es/placeholder.png",
+      "published_date": "10/02/2026",
+      "category": "recipes"
+    },
+    {
+      "id": "promocion-febrero",
+      "slug": "promocion-febrero",
+      "title": "Yummies Launches New Image and Promotion",
+      "summary": "Live your most intense moments.",
+      "image": "/images/es/placeholder.png",
+      "published_date": "01/02/2026",
+      "category": "promotions"
+    },
+    {
+      "id": "evento-feria-snacks",
+      "slug": "evento-feria-snacks",
+      "title": "Yummies Introduces Yummi Pops, Popcorn",
+      "summary": "Snacks Yummies launched its Yummi Pops brand, a new and fun way to enjoy a delicious snack.",
+      "image": "/images/es/placeholder.png",
+      "published_date": "25/01/2026",
+      "category": "events"
+    },
+    {
+      "id": "receta-palomitas-caramelo",
+      "slug": "receta-palomitas-caramelo",
+      "title": "Recipe: Homemade Caramel Popcorn",
+      "summary": "A delicious recipe to enjoy Yummi Pops Popcorn in a different way.",
+      "image": "/images/es/placeholder.png",
+      "published_date": "20/01/2026",
+      "category": "recipes"
+    },
+    {
+      "id": "tips-snacks-saludables",
+      "slug": "tips-snacks-saludables",
+      "title": "Tips for Enjoying Snacks in a Healthy Way",
+      "summary": "Tips for incorporating your favorite snacks into a balanced diet.",
+      "image": "/images/es/placeholder.png",
+      "published_date": "15/01/2026",
+      "category": "news"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "date": "2025-09-11",
+  "id": "pasta-de-pollo-con-yummi-pops-nacho",
+  "slug": "pasta-de-pollo-con-yummi-pops-nacho",
+  "title": "Pasta de Pollo con Yummi Pops Nacho",
+  "description": "Pasta cremosa de pollo con Yummi Pops Nacho que aporta textura crujiente.",
+  "category": "nacho",
+  "people": "4",
+  "difficulty": "Fácil",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/pasta-de-pollo-con-yummi-pops-nacho.webp",
+  "gallery": [
+    "pasta-de-pollo-con-yummi-pops-nacho.webp"
+  ],
+  "type": "image",
+  "preparation_time": 40,
+  "ingredients": [
+    "1 pechuga de pollo cocida y desmenuzada",
+    "Salpimentar al gusto",
+    "2 cucharadas de mayonesa",
+    "2 cucharadas de leche",
+    "2 tomates pera picados",
+    "Media cebolla morada picada",
+    "3 cucharadas de cilantro picado",
+    "2 cucharadas de jugo de limón",
+    "Una bolsa familiar de Yummi Pops Nacho"
+  ],
+  "instructions": [
+    "El pollo previamente cocido y desmenuzado lo colocamos en un tazón y lo mezclamos con la mayonesa y la leche.",
+    "Ahora podemos agregar el tomate, la cebolla morada, el cilantro y el jugo de limón y mezclamos perfectamente.",
+    "Llevamos nuestra pasta o ensalada de pollo a la refrigeradora por una media hora.",
+    "La servimos con Yummi Pops Nacho."
+  ],
+  "brand": ["yummipops"],
+  "product": [
+    "yummi-pops-nacho-jalapeno-cream"
+  ],
+  "chef_tips": [
+    "Refrigera la ensalada al menos 30 minutos para que todos los sabores se integren bien.",
+    "Agrega los Yummi Pops Nacho justo al servir para que no pierdan su textura crujiente.",
+    "Puedes sustituir la mayonesa por yogur griego para una versión más ligera y saludable."
+  ]
+}

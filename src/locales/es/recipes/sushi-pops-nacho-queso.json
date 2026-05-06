@@ -1,0 +1,37 @@
+{
+  "date": "2025-09-11",
+  "id": "sushi-pops-nacho-queso",
+  "slug": "sushi-pops-nacho-queso",
+  "title": "Sushi Pops Nacho Queso",
+  "category": "nacho",
+  "description": "Una fusión de sabores de sushi con la crocancia de Yummi Pops Nacho Queso.",
+  "people": "3",
+  "difficulty": "Media",
+  "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/sushi-pops-nacho-queso.webp",
+  "gallery": [
+    "sushi-pops-nacho-queso.webp"
+  ],
+  "type": "image",
+  "preparation_time": 30,
+  "ingredients": [
+    "Queso crema",
+    "Alga para sushi",
+    "Surimi o tiras de carne de cangrejo",
+    "Cebollín picado",
+    "Mayonesa de Siracha",
+    "Yummi Pops Nacho Queso"
+  ],
+  "instructions": [
+    "Coloca los Nachos sobre un recipiente plano. Encima coloca un trozo de alga para Sushi y un trozo de Surimi.",
+    "Coloca cebollín picado. Y vierte mayonesa de Siracha."
+  ],
+  "brand": ["yummipops"],
+  "product": [
+    "yummi-pops-nacho-queso-blanco"
+  ],
+  "chef_tips": [
+    "Usa queso crema bien frío para que sea más fácil de manejar y se mantenga firme al servir.",
+    "Corta el surimi en tiras delgadas y uniformes para equilibrar los sabores en cada bocado.",
+    "Arma los montaditos justo al momento de servir para que los Yummi Pops conserven toda su crocancia."
+  ]
+}

@@ -46,83 +46,66 @@ const headerColors = {
     
 
     <!-- Main Contact Section -->
-    <div class="flex flex-col justify-center px-4 items-center xl:items-start xl:flex-row gap-12 py-12 bg-white">
+    <div class="flex flex-col justify-center px-4 md:px-8 items-center xl:items-start xl:flex-row gap-8 xl:gap-12 py-8 md:py-12 bg-white">
       
       <!-- Left Column - Contact Info -->
-   
-    <div class="w-[100%] xl:w-[50%] pl-8 xl:pl-2 flex flex-col justify-center items-center xl:items-start text-center xl:text-left h-[100%] xl:h-[600px] ">
-        <div class="text-black pb-4 text-[20px]">
+      <div class="w-full xl:w-1/2 flex flex-col justify-center items-center xl:items-start text-center xl:text-left">
+        <div class="text-black pb-3 text-base md:text-lg lg:text-xl">
           {contact.title}
         </div>
-        <h1 class="text-black font-title text-4xl uppercase md:text-6xl lg:text-[85px] font-bold mb-6 italic">
+        <h1 class="text-black font-title text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl uppercase font-bold mb-4 md:mb-6 italic leading-tight">
           {contact.subtitle}
           {contact.subtitleTwo}
         </h1>
         
-        <p class="text-black font-bold text-1xl lg:text-2xl mb-8 leading-relaxed ">
+        <p class="text-black font-bold text-base md:text-lg lg:text-xl mb-6 md:mb-8 leading-relaxed max-w-lg xl:max-w-none">
           {contact.description}
         </p>
-     
-    </div>
+      </div>
       
       <!-- Right Column - Contact Form -->
-      <div class="w-[100%] xl:w-[40%]">
+      <div class="w-full xl:w-1/2">
         <FormContact currentLang={locale} />
       </div>
     </div>
-    <!-- Offices Section -->
-    <div class="mx-auto bg-blue p-8 z-30 relative">
 
-      <h3 class="text-black text-2xl md:text-4xl text-[45px] italic font-title uppercase font-bold mb-4 gap-1 text-center">
+    <!-- Offices Section -->
+    <div class="mx-auto bg-blue px-4 md:px-8 py-8 z-30 relative">
+
+      <h3 class="text-black text-2xl sm:text-3xl md:text-4xl lg:text-5xl italic font-title uppercase font-bold mb-2 text-center">
         <span class="font-title">{contact.offices.title.split(' ')[0]} {contact.offices.title.split(' ')[1]}</span>
       </h3>
-      <h1 class="text-black md:text-4xl text-[45px] italic font-title uppercase font-bold mb-4 gap-1 text-center">
+      <h1 class="text-black text-2xl sm:text-3xl md:text-4xl lg:text-5xl italic font-title uppercase font-bold mb-6 text-center">
         <span class="font-title">{contact.offices.title.split(' ').slice(2).join(' ')}</span>
       </h1>
       
       <!-- Tabs and Office Info -->
       <div class="flex flex-col mb-4">
         <!-- Office Details -->
-        <div class="order-2 w-[90%] mx-auto">
+        <div class="order-2 w-full md:w-[90%] mx-auto">
           <div id="officeInfo" class="bg-blue rounded-2xl">
-            <div class="flex flex-col lg:flex-row justify-between ">
-              <div class="space-y-0">
+            <div class="flex flex-col lg:flex-row justify-between gap-6">
+              <div class="space-y-3">
                 <h3
-                id="officeName"
-                class="text-black font-sans text-[50px] md:text-[80px] lg:text-[80px] md:text-7xl uppercase font-extrabold mb-4 mt-4 leading-tight"
-              >
-                {contact.offices.locations["+504"].name}
-              </h3>
-              
+                  id="officeName"
+                  class="text-black font-sans text-3xl sm:text-4xl md:text-5xl lg:text-6xl uppercase font-extrabold mb-2 mt-4 leading-tight"
+                ></h3>
                 
-                <div class="flex items-start space-x-3">
-                  <p id="officeAddress" class="text-black leading-relaxed font-semibold text-[24px]">  {`+ ${contact.offices.locations["+504"].address}`}</p>
+                <div class="flex items-start">
+                  <p id="officeAddress" class="text-black leading-relaxed font-semibold text-base md:text-lg lg:text-xl"></p>
                 </div>
                 
-                <div class="flex items-center space-x-3">
-                  <div id="officePhones" class="flex flex-col">
-                    {contact.offices.locations["+504"].phones.map((phone: string) => (
-                      <div >
-                        <a
-                          href={`tel:${phone}`}
-                          class="text-black text-[24px] hover:text-primary transition-colors"
-                        >
-                          {phone}
-                        </a>
-                      </div>
-                    ))}
-                  </div>
+                <div class="flex items-center">
+                  <div id="officePhones" class="flex flex-col gap-1"></div>
                 </div>
-                
               </div>
           
-                <div class="mt-2 lg:mt-0">
-                  <LazyImage 
-                    src="https://snack.yummiespromociones.com/SnacksyummiesAssets/oficinas.webp"
-                    alt="Yummies Honduras"
-                    class="w-full h-48 object-cover rounded-xl"
-                  />
-                </div>
+              <div class="mt-2 lg:mt-0 lg:w-1/2">
+                <LazyImage
+                  alt="Yummies Honduras"
+                  class="w-full h-48 md:h-64 object-cover rounded-xl"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -130,15 +113,11 @@ const headerColors = {
         <!-- Map and Tabs -->
         <div class="order-1 mt-4 z-30">
           <!-- Country Tabs -->
-          <div class="mb-6 flex flex-wrap justify-center gap-2">
+          <div class="mb-6 flex flex-col sm:flex-row sm:flex-wrap sm:justify-center gap-3 items-center">
           {Object.entries(contact.offices.locations).map(([countryCode, location]: [string, any], index: number) => (
             <button 
               data-country-code={countryCode}
-              class={`country-tab px-16 py-4 text-white uppercase text-sm font-semibold transition-all duration-300 flex items-center justify-center gap-2.5
-                ${index === 0 
-                  ? 'h-[54px] bg-[#FBCC38] opacity-100 border border-white !text-black' 
-                  : 'h-[54px] bg-[#FBCC38] opacity-45 hover:opacity-100 text-white'
-                } rounded-[47px]`}
+              class={`country-tab w-full max-w-[340px] sm:w-auto px-8 sm:px-16 py-4 text-white uppercase text-sm font-semibold transition-all duration-300 flex items-center justify-center gap-2.5 h-[54px] bg-[#FBCC38] opacity-100 rounded-[47px]`}
             >
               {location.tab}
             </button>
@@ -174,91 +153,72 @@ const headerColors = {
       </div>
     </div>
 
-    <script is:inline>
+    <script is:inline define:vars={{ locationsData: contact.offices.locations }}>
       (function() {
-        // Función que se ejecutará cuando el DOM esté listo
         function initializeCountryTabs() {
-          console.log('Initializing country tabs...');
-          
-          // Get references to all elements that need to be updated
           const tabs = document.querySelectorAll('.country-tab');
           const mapContainers = document.querySelectorAll('[data-map-country]');
-          
-          console.log('Tabs found:', tabs.length);
-          console.log('Map containers found:', mapContainers.length);
-          
-          if (tabs.length === 0) {
-            console.error('No tabs found');
-            return;
-          }
-          
-          // Function to update map visibility
-          function updateMapVisibility(countryCode) {
-            console.log('Updating map for country:', countryCode);
-            
-            // First hide all maps
-            mapContainers.forEach(container => {
-              container.style.display = 'none';
-            });
-            
-            // Then show the selected one
-            const selectedMap = document.querySelector(`[data-map-country="${countryCode}"]`);
-            if (selectedMap) {
-              selectedMap.style.display = 'block';
-              console.log('Map shown for:', countryCode);
-            } else {
-              console.error('No map found for:', countryCode);
+          const officeName = document.getElementById('officeName');
+          const officeAddress = document.getElementById('officeAddress');
+          const officePhones = document.getElementById('officePhones');
+
+          if (tabs.length === 0) return;
+
+          function updateOfficeInfo(countryCode) {
+            const loc = locationsData[countryCode];
+            if (!loc) return;
+
+            if (officeName) officeName.textContent = loc.name;
+            if (officeAddress) officeAddress.textContent = '+ ' + loc.address;
+            if (officePhones) {
+              officePhones.innerHTML = loc.phones.map(function(phone) {
+                return '<div><a href="tel:' + phone + '" class="text-black text-base md:text-lg lg:text-xl hover:text-primary transition-colors">' + phone + '</a></div>';
+              }).join('');
             }
           }
-          
-          // Function to handle tab selection
-          function handleTabSelection(tab) {
-            // Remove active styles from all tabs
-            tabs.forEach(t => {
-              t.classList.remove('bg-orange', 'border', 'border-white');
-              t.classList.add('bg-[#DAD9D9]', '!text-black');
-              t.style.opacity = '0.75';
+
+          function updateMapVisibility(countryCode) {
+            mapContainers.forEach(function(container) {
+              container.style.display = 'none';
             });
-            
-            // Add active styles to clicked tab
-            tab.classList.remove('bg-[#DAD9D9]', '!text-black');
-            tab.classList.add('bg-orange', 'border', 'border-white');
+            const selectedMap = document.querySelector('[data-map-country="' + countryCode + '"]');
+            if (selectedMap) selectedMap.style.display = 'block';
+          }
+
+          function handleTabSelection(tab) {
+            tabs.forEach(function(t) {
+              t.classList.remove('bg-orange', 'border', 'border-white');
+              t.classList.add('bg-[#FBCC38]', 'text-white');
+              t.style.opacity = '0.95';
+            });
+            tab.classList.remove('bg-[#FBCC38]');
+            tab.classList.add('bg-orange', 'border', 'border-white', 'text-white');
             tab.style.opacity = '1';
-            
-            // Update map based on country code
+
             const countryCode = tab.getAttribute('data-country-code');
             if (countryCode) {
               updateMapVisibility(countryCode);
+              updateOfficeInfo(countryCode);
             }
           }
-          
-          // Add click event listeners to tabs
-          tabs.forEach(tab => {
+
+          tabs.forEach(function(tab) {
             tab.addEventListener('click', function(e) {
               e.preventDefault();
-              console.log('Tab clicked:', tab.getAttribute('data-country-code'));
               handleTabSelection(tab);
             });
           });
-          
-          // Initialize with first tab
-          if (tabs.length > 0) {
-            const firstCountry = tabs[0].getAttribute('data-country-code');
-            if (firstCountry) {
-              updateMapVisibility(firstCountry);
-            }
-          }
+
+          handleTabSelection(tabs[0]);
         }
-        
-        // Initialize when DOM is ready
+
         if (document.readyState === 'loading') {
           document.addEventListener('DOMContentLoaded', initializeCountryTabs);
         } else {
           initializeCountryTabs();
         }
-        
-        // Also try after a short delay as backup
-        setTimeout(initializeCountryTabs, 100);
+
+        document.addEventListener('astro:page-load', initializeCountryTabs);
       })();
     </script>
   </div>

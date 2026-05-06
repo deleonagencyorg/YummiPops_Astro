@@ -85,6 +85,13 @@ export const routesConfig: RouteConfig[] = [
     metaTitleKey: 'meta.jurados.title',
     metaDescriptionKey: 'meta.jurados.description',
   },
+  {
+    id: 'privacy',
+    slugs: { es: 'privacidad', en: 'privacy' },
+    contentComponent: '@/views/Privacy/index.astro',
+    metaTitleKey: 'meta.privacy.title',
+    metaDescriptionKey: 'meta.privacy.description',
+  },
   // ... Agrega más rutas aquí
 ];
 

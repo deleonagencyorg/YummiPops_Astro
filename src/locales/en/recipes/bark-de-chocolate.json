@@ -1,0 +1,37 @@
+{
+    "date": "2026-04-30",
+    "id": "bark-de-chocolate",
+    "slug": "bark-de-chocolate",
+    "title": "Chocolate Bark",
+    "people": "8",
+    "difficulty": "Easy",
+    "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/17-yummi-pops-sal-marina-bark-de-chocolate1920x840.webp",
+    "preview-image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/17-yummi-pops-sal-marina-bark-de-chocolate800x800.webp",
+    "video": "https://www.youtube.com/shorts/KoHfiuh6iXc",
+    "gallery": [
+        "bark-de-chocolate.webp"
+    ],
+    "type": "image",
+    "preparation_time": 15,
+    "category": "popcorn",
+    "ingredients": [
+        "200g semi-sweet or dark chocolate",
+        "1 cup Yummi Pops Sal Marina",
+        "Flaky sea salt to taste"
+    ],
+    "instructions": [
+      "Melt the chocolate in a double boiler or in the microwave in short intervals, stirring until completely smooth.",
+      "Pour the melted chocolate onto a baking sheet lined with parchment paper and spread it into an even layer.",
+      "Immediately sprinkle the Yummi Pops Sal Marina, pressing lightly so they adhere, and finish with a touch of flaky sea salt.",
+      "Let cool at room temperature or refrigerate until the chocolate is firm. Break into irregular pieces and serve."
+    ],
+  "brand": ["yummipops"],
+  "product": [
+    "yummi-pops-palomitas-sal-marina"
+  ],
+  "chef_tips": [
+    "Use high-quality chocolate (at least 70% cacao) for the best flavor and shine.",
+    "Press the Yummi Pops firmly onto the chocolate before it sets so they stick perfectly.",
+    "Refrigerate the bark for at least 30 minutes so it sets firm and breaks cleanly into pieces."
+  ]
+}

@@ -10,13 +10,6 @@ interface ProductSize {
   image: string;
 }
 
-interface Stockist {
-  id: string;
-  name: string;
-  icon: string;
-  link: string;
-}
-
 interface Product {
   id: string;
   name: string;
@@ -36,6 +29,7 @@ interface Product {
   relatedProducts?: string[];
   weight?: string[];
   nutrition?: any;
+  isnew?: boolean;
 }
 
 const { currentLang, productId } = Astro.props;
@@ -48,7 +42,7 @@ const product = products.find((item: Product) => item.id === productId);
 const brandsAssets = t('', { namespace: 'brands', locale: currentLang }) || {};
 const newsAssets = t('', { namespace: 'news', locale: currentLang }) || {};
 const brandsList = brandsAssets.brands || [];
-const zibasBrand = brandsList.find((brand: any) => brand.id === 'ranchitas');
+const zibasBrand = brandsList.find((brand: any) => brand.id === 'Yummi Pops');
 const cardQuizAssets = t('cardQuiz', { namespace: 'common', locale: currentLang }) || {};
 const zibasProducts = (zibasBrand?.products || []).filter((product: any) => product.id !== productId);
 
@@ -72,11 +66,38 @@ const safeProduct: Product = {
   short_description: product.short_description || '',
   weight: Array.isArray(product.weight) ? product.weight : [],
   nutrition: product.nutrition,
+  isnew: product.isnew || false,
 };
 
-// Verificar si el producto tiene información nutricional
-const hasNutrition = safeProduct.nutrition && 
-  (Array.isArray(safeProduct.nutrition) ? safeProduct.nutrition.length > 0 : Object.keys(safeProduct.nutrition).length > 0);
+// Verificar si el producto tiene información nutricional y filtrar campos vacíos
+const visibleNutritionEntries = (safeProduct.nutrition && typeof safeProduct.nutrition === 'object')
+  ? Object.entries(safeProduct.nutrition).filter(([k, v]) => v !== null && v !== undefined && String(v).trim() !== '')
+  : [];
+
+// Etiquetas traducidas para las claves nutricionales
+const nutritionLabels: Record<string, string> = {
+  servingSize: currentLang === 'es' ? 'Tamaño por porción' : 'Serving Size',
+  servingsPerContainer: currentLang === 'es' ? 'Porciones por envase' : 'Servings Per Container',
+  calories: currentLang === 'es' ? 'Calorías' : 'Calories',
+  fatEnergy: currentLang === 'es' ? 'Energía de la grasa' : 'Fat Energy',
+  cholesterol: currentLang === 'es' ? 'Colesterol' : 'Cholesterol',
+  totalCarbs: currentLang === 'es' ? 'Carbohidratos totales' : 'Total Carbs',
+  dietaryFiber: currentLang === 'es' ? 'Fibra dietética' : 'Dietary Fiber',
+  sugars: currentLang === 'es' ? 'Azúcares' : 'Sugars',
+  protein: currentLang === 'es' ? 'Proteína' : 'Protein',
+  calorieDiet: currentLang === 'es' ? 'Dieta de referencia' : 'Calorie Diet',
+  caloriesPerServing: currentLang === 'es' ? 'Calorías por porción' : 'Calories Per Serving',
+  vitaminD: currentLang === 'es' ? 'Vitamina D' : 'Vitamin D',
+  iron: currentLang === 'es' ? 'Hierro' : 'Iron',
+  calcium: currentLang === 'es' ? 'Calcio' : 'Calcium',
+  potassium: currentLang === 'es' ? 'Potasio' : 'Potassium',
+  sodium: currentLang === 'es' ? 'Sodio' : 'Sodium',
+  saturatedFatVD: currentLang === 'es' ? 'Grasa saturada' : 'Saturated Fat',
+  transFatVD: currentLang === 'es' ? 'Grasa trans' : 'Trans Fat',
+  totalFat: currentLang === 'es' ? 'Grasa total' : 'Total Fat'
+};
+
+const hasNutrition = visibleNutritionEntries.length > 0;
 
 // Obtener todos los productos como un array
 const productsData = t('items', { locale: currentLang, namespace: 'products' }) || [];
@@ -108,12 +129,12 @@ const socialMedia = [
   <div class=" mx-auto px-4 md:px-6 mb-16">
     <div 
       class="rounded-[30px] md:rounded-[40px] overflow-hidden"
-      style={{ backgroundColor: '#0D75C9' }}
+      style={{ backgroundColor: safeProduct.background_color || '#0D75C9' }}
     >
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 p-6 md:p-12 lg:p-16">
         
         <!-- Lado Izquierdo - Imagen del Producto -->
-        <div class="flex items-center justify-center">
+        <div class="flex items-center justify-center relative">
           <img 
             id="product-image"
             src={safeProduct.image} 
@@ -121,6 +142,13 @@ const socialMedia = [
             class="w-full max-w-[450px] h-auto object-contain drop-shadow-2xl"
             transition:name={`product-image-${safeProduct.id}`}
           />
+          {safeProduct.isnew && (
+            <img 
+              src={currentLang === 'es' ? 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NUEVO.webp' : 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NEW.webp'}
+              alt="NEW"
+              class="product-new-badge"
+            />
+          )}
         </div>
 
         <!-- Lado Derecho - Información -->
@@ -128,8 +156,7 @@ const socialMedia = [
           
           <!-- Título del Producto -->
           <h1 
-            class="text-4xl md:text-5xl lg:text-6xl font-black leading-tight"
-            style={{ color: safeProduct.header_text_color }}
+            class="text-4xl md:text-5xl lg:text-6xl font-black leading-tight text-white"
           >
             {safeProduct.name}
           </h1>
@@ -137,8 +164,7 @@ const socialMedia = [
           <!-- Subtítulo/Descripción -->
           {safeProduct.short_description && (
             <p 
-              class="text-lg md:text-xl"
-              style={{ color: safeProduct.header_text_color }}
+              class="text-lg md:text-xl text-white"
             >
               {safeProduct.short_description}
             </p>
@@ -148,8 +174,7 @@ const socialMedia = [
           {safeProduct.weight && safeProduct.weight.length > 0 && (
             <div class="space-y-4">
               <h3 
-                class="text-xl md:text-2xl font-bold"
-                style={{ color: safeProduct.header_text_color }}
+                class="text-xl md:text-2xl font-bold text-white"
               >
                 {currentLang === 'es' ? 'Disfruta de nuestras presentaciones' : 'Enjoy our presentations'}
               </h3>
@@ -157,12 +182,7 @@ const socialMedia = [
               <div class="flex flex-wrap gap-3">
                 {safeProduct.weight.map((weight, index) => (
                   <button 
-                    class="weight-option px-6 py-3 rounded-full border-2 font-bold text-base md:text-lg transition-all duration-300 hover:scale-105"
-                    style={{ 
-                      borderColor: safeProduct.header_text_color,
-                      color: safeProduct.header_text_color,
-                      backgroundColor: 'transparent'
-                    }}
+                    class="weight-option px-6 py-3 rounded-full border-2 font-bold text-base md:text-lg transition-all duration-300 hover:scale-105 text-black bg-white"
                     data-weight={weight}
                     data-index={index}
                   >
@@ -172,8 +192,7 @@ const socialMedia = [
               </div>
 
               <p 
-                class="text-sm italic"
-                style={{ color: safeProduct.header_text_color }}
+                class="text-sm italic text-white"
               >
                 {currentLang === 'es' 
                   ? 'Tamaño por presentación varía de acuerdo al país' 
@@ -188,7 +207,7 @@ const socialMedia = [
               <button 
                 id="nutrition-toggle"
                 class="w-full flex items-center justify-between text-xl md:text-2xl font-bold transition-colors"
-                style={{ color: safeProduct.header_text_color }}
+                style={{ color: '#FFFFFF' }}
               >
                 <span>{currentLang === 'es' ? 'Detalle de nutrición' : 'Nutrition details'}</span>
                 <svg 
@@ -203,11 +222,16 @@ const socialMedia = [
               </button>
               
               <div id="nutrition-content" class="hidden mt-4 space-y-2">
-                <!-- Aquí va la tabla nutricional -->
-                <div class="bg-white/20 rounded-xl p-4 backdrop-blur-sm">
-                  <p class="text-white">
-                    {currentLang === 'es' ? 'Información nutricional disponible' : 'Nutritional information available'}
-                  </p>
+                <!-- Renderizar tabla nutricional desde visibleNutritionEntries (campos no vacíos) -->
+                <div class="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
+                  <dl class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-white">
+                    {visibleNutritionEntries.map(([key, value]) => (
+                      <div class="flex justify-between items-start">
+                        <dt class="font-semibold text-sm leading-tight mr-3">{nutritionLabels[key] || key.replace(/([A-Z])/g, ' $1').replace(/_/g, ' ')}</dt>
+                        <dd class="text-sm text-right">{String(value)}</dd>
+                      </div>
+                    ))}
+                  </dl>
                 </div>
               </div>
             </div>
@@ -216,8 +240,7 @@ const socialMedia = [
           <!-- Redes Sociales -->
           <div class="space-y-3">
             <h4 
-              class="text-lg font-bold"
-              style={{ color: safeProduct.header_text_color }}
+              class="text-lg font-bold text-white"
             >
               {currentLang === 'es' ? 'Síguenos en nuestras redes sociales' : 'Follow us on social media'}
             </h4>
@@ -283,24 +306,31 @@ const socialMedia = [
         {relatedProducts.slice(0, 3).map((product: any) => (
           <div class="flex flex-col">
             <a 
-            href={`/${currentLang}/productos/${product.id}`}
+            href={`/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}/${product.id}`}
             class="group rounded-[30px] overflow-hidden transition-all duration-300 hover:shadow-2xl transform hover:scale-[1.02]"
-            style={{ backgroundColor: product.background_color }}
+            style={{ backgroundColor: product.background_product }}
           >
-            <!-- Imagen del producto -->
-            <div class="flex items-center justify-center p-8 h-[300px]">
+            <div class="flex items-center justify-center p-8 h-[300px] relative">
               <img 
                 src={product.image} 
                 alt={product.name}
                 class="w-full max-w-[250px] h-full object-contain drop-shadow-lg group-hover:scale-105 transition-transform duration-300"
               />
+              {product.isnew && (
+                <img 
+                  src={currentLang === 'es' ? 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NUEVO.webp' : 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NEW.webp'}
+                  alt="NEW"
+                  class="product-new-badge"
+                />
+              )}
+            </div>
+            <div class="px-6 pb-6 md:pb-8">
+              <p class="text-sm md:text-base lg:text-lg font-black text-white text-center leading-tight">
+                {product.name}
+              </p>
             </div>
           </a>
-            <h3 class="text-xl md:text-2xl font-black text-gray-900 mt-4 leading-tight">
-              {product.name}
-            </h3>
           </div>
-           
         ))}
       </div>
     ) : (
@@ -339,11 +369,12 @@ const socialMedia = [
     weightOptions.forEach((option, index) => {
       option.addEventListener('click', () => {
         weightOptions.forEach(opt => {
-          opt.style.backgroundColor = 'transparent';
+          opt.style.backgroundColor = 'white';
           opt.style.fontWeight = 'bold';
+          opt.style.color = '#000';
         });
-        option.style.backgroundColor = 'black';
-        option.style.color = option.style.borderColor || '#000';
+        option.style.backgroundColor = 'white';
+        option.style.color = '#000';
       });
     });
     

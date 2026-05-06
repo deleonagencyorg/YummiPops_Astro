@@ -1,0 +1,121 @@
+---
+// VideoModal.astro - Modal reutilizable para reproducir videos de YouTube
+---
+
+<!-- Modal de video -->
+<div id="video-modal" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/90" aria-hidden="true">
+  <div class="relative w-full max-w-4xl mx-4 aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl">
+    <!-- Botón cerrar -->
+    <button
+      id="video-modal-close"
+      type="button"
+      class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center transition-colors"
+      aria-label="Cerrar video"
+    >
+      <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
+
+    <!-- Iframe de YouTube -->
+    <iframe
+      id="video-modal-iframe"
+      class="w-full h-full"
+      src=""
+      title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen
+    ></iframe>
+  </div>
+</div>
+
+<script is:inline>
+  // ─── Helpers
+  window.__videoToEmbedUrl = function (url) {
+    if (!url) return '';
+    var shortsMatch = url.match(/youtube\.com\/shorts\/([a-zA-Z0-9_-]+)/);
+    if (shortsMatch) return 'https://www.youtube.com/embed/' + shortsMatch[1];
+    var watchMatch = url.match(/[?&]v=([a-zA-Z0-9_-]+)/);
+    if (watchMatch) return 'https://www.youtube.com/embed/' + watchMatch[1];
+    var beMatch = url.match(/youtu\.be\/([a-zA-Z0-9_-]+)/);
+    if (beMatch) return 'https://www.youtube.com/embed/' + beMatch[1];
+    var embedMatch = url.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]+)/);
+    if (embedMatch) return url;
+    return '';
+  };
+
+  window.__openVideoModal = function (videoUrl) {
+    var embedUrl = window.__videoToEmbedUrl(videoUrl);
+    if (!embedUrl) return;
+    var modal  = document.getElementById('video-modal');
+    var iframe = document.getElementById('video-modal-iframe');
+    if (!modal || !iframe) return;
+    iframe.src = embedUrl + '?autoplay=1&rel=0';
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.__closeVideoModal = function () {
+    var modal  = document.getElementById('video-modal');
+    var iframe = document.getElementById('video-modal-iframe');
+    if (!modal || !iframe) return;
+    iframe.src = '';
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  };
+
+  function initVideoModal() {
+    var modal   = document.getElementById('video-modal');
+    var iframe  = document.getElementById('video-modal-iframe');
+    var closeBtn = document.getElementById('video-modal-close');
+    if (!modal || !iframe || !closeBtn) return;
+
+    var newCloseBtn = closeBtn.cloneNode(true);
+    closeBtn.parentNode.replaceChild(newCloseBtn, closeBtn);
+
+    var newModal = modal; // el backdrop sí puede reutilizarse; usamos flag
+    if (newModal._videoModalBound) {
+    } else {
+      newModal._videoModalBound = true;
+      newModal.addEventListener('click', function (e) {
+        if (e.target === newModal) window.__closeVideoModal();
+      });
+    }
+
+    newCloseBtn.addEventListener('click', window.__closeVideoModal);
+  }
+
+  if (!window.__videoClickDelegated) {
+    window.__videoClickDelegated = true;
+    document.addEventListener('click', function (e) {
+      var trigger = e.target.closest('[data-video]');
+      if (trigger) {
+        e.preventDefault();
+        e.stopPropagation();
+        var videoUrl = trigger.getAttribute('data-video');
+        if (videoUrl) window.__openVideoModal(videoUrl);
+      }
+    }, true);
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        var modal = document.getElementById('video-modal');
+        if (modal && !modal.classList.contains('hidden')) {
+          window.__closeVideoModal();
+        }
+      }
+    });
+  }
+
+  document.addEventListener('astro:page-load', initVideoModal);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initVideoModal);
+  } else {
+    initVideoModal();
+  }
+</script>

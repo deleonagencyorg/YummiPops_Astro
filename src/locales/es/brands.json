@@ -42,14 +42,16 @@
                     "slug": "taqueritos-dragon-de-hielo",
                     "title": "Taqueritos Dragón de Hielo",
                     "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/taqueritos-dragon-de-hielo-2.webp",
-                    "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/taqueritos-dragon-de-hielo-2.webp"
+                    "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/taqueritos-dragon-de-hielo-2.webp",
+                    "isnew": true
                 },
                 {
                     "id": "taqueritos-dragon-de-fuego",
                     "slug": "taqueritos-dragon-de-fuego",
                     "title": "Taqueritos Dragón de Fuego",
                     "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/taqueritos-dragon-de-fuego-2.webp",
-                    "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/taqueritos-dragon-de-fuego-2.webp"
+                    "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/taqueritos-dragon-de-fuego-2.webp",
+                    "isnew": true
                 }
             ]
         },
@@ -111,7 +113,8 @@
                     "slug": "zambos-tajin",
                     "title": "Zambos Tajin",
                     "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zambos-tajin-2.webp",
-                    "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zambos-tajin-2.webp"
+                    "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/zambos-tajin-2.webp",
+                    "isnew": true
                 },{
                     "id": "zambos-yuquitas-chile-toreado",
                     "slug": "zambos-yuquitas-chile-toreado",
@@ -197,7 +200,8 @@
                     "slug": "ranchitas-buffalo-ranch",
                     "title": "Ranchitas Buffalo Ranch",
                     "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/ranchitas-buffalo-ranch-2.webp",
-                    "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/ranchitas-buffalo-ranch-2.webp"
+                    "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/ranchitas-buffalo-ranch-2.webp",
+                    "isnew": true
                 },                {
                     "id": "ranchitas-chile-toreado",
                     "slug": "ranchitas-chile-toreado",
@@ -311,7 +315,8 @@
                     "slug": "ranchitas-buffalo-ranch",
                     "title": "Ranchitas Buffalo Ranch",
                     "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/ranchitas-buffalo-ranch-2.webp",
-                    "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/ranchitas-buffalo-ranch-2.webp"
+                    "imageMobile": "https://snack.yummiespromociones.com/SnacksyummiesAssets/ranchitas-buffalo-ranch-2.webp",
+                    "isnew": true
                 }
                 
             ]

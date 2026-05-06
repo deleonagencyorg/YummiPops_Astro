@@ -1,0 +1,37 @@
+{
+    "date": "2026-04-30",
+    "id": "yummi-pops-de-queso-con-mantequilla-y-parmesano",
+    "slug": "yummi-pops-de-queso-con-mantequilla-y-parmesano",
+    "title": "Yummi Pops de Queso con Mantequilla y Parmesano",
+    "people": "4",
+    "difficulty": "Fácil",
+    "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/18-yummi-pops-maiz-y-queso-mantequilla-y-parmesano1920x840.webp",
+    "preview-image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/18-yummi-pops-maiz-y-queso-mantequilla-y-parmesano800x800.webp",
+    "video": "https://www.youtube.com/shorts/c5BhcW5tL-k",
+    "gallery": [
+        "mantequilla-y-parmesano.webp"
+    ],
+    "type": "image",
+    "preparation_time": 8,
+    "category": "palomitas",
+    "ingredients": [
+        "4 tazas de Yummi Pops Maíz y Queso",
+        "2 cucharadas de mantequilla",
+        "¼ de taza de queso parmesano rallado fino"
+    ],
+    "instructions": [
+      "Derrite la mantequilla en una sartén grande a fuego bajo.",
+      "Agrega los Yummi Pops Maíz y Queso y mezcla suavemente para cubrirlos de manera uniforme sin romperlos.",
+      "Retira del fuego y espolvorea el queso parmesano rallado, mezclando ligeramente para que se adhiera con el calor residual.",
+      "Sirve de inmediato como snack caliente y lleno de sabor para compartir."
+    ],
+  "brand": ["yummipops"],
+  "product": [
+    "yummi-pops-palomitas-maiz-queso"
+  ],
+  "chef_tips": [
+    "Usa fuego muy bajo para derretir la mantequilla y evitar que se queme o amargue.",
+    "Agrega el parmesano fuera del fuego para que se adhiera sin derretirse por completo.",
+    "Sirve de inmediato; los Yummi Pops pueden ablandarse si se dejan reposar demasiado tiempo."
+  ]
+}

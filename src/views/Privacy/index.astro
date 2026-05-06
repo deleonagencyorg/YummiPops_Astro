@@ -1,0 +1,41 @@
+---
+import { getLocale } from '../../i18n/i18n';
+
+const lang = getLocale();
+
+const content = {
+  es: {
+    title: 'Política de Privacidad',
+    paragraphs: [
+      'En Yummi Pops valoramos tu privacidad. Este sitio utiliza cookies y tecnologías similares, incluidos píxeles de seguimiento (tracking pixels), para mejorar tu experiencia, analizar el desempeño del sitio y medir la efectividad de nuestras campañas.',
+      'Los píxeles nos ayudan a recopilar información anónima sobre interacciones en el sitio, como vistas de página y clics, la cual puede asociarse a identificadores publicitarios cuando has dado tu consentimiento. Puedes administrar o retirar tu consentimiento en cualquier momento a través de las configuraciones de cookies de tu navegador.',
+      'Al continuar navegando, aceptas el uso de estas tecnologías según esta política. Si tienes dudas, por favor consulta nuestra sección de contacto.',
+    ],
+  },
+  en: {
+    title: 'Privacy Policy',
+    paragraphs: [
+      'At Yummi Pops, we value your privacy. This site uses cookies and similar technologies, including tracking pixels, to enhance your experience, analyze site performance, and measure the effectiveness of our campaigns.',
+      'Pixels help us collect anonymous information about site interactions, such as page views and clicks, which may be associated with advertising identifiers when you have given your consent. You can manage or withdraw your consent at any time through your browser\'s cookie settings.',
+      'By continuing to browse, you accept the use of these technologies in accordance with this policy. If you have any questions, please visit our contact section.',
+    ],
+  },
+};
+
+const currentContent = lang === 'en' ? content.en : content.es;
+---
+
+<section class="min-h-screen flex items-center justify-center px-6 py-20 bg-white">
+  <div class="max-w-3xl w-full mx-auto text-center">
+    <h1 class="text-3xl md:text-4xl font-bold text-[#0041CD] mb-10">
+      {currentContent.title}
+    </h1>
+    <div class="space-y-6">
+      {currentContent.paragraphs.map((paragraph) => (
+        <p class="text-base md:text-lg text-[#0041CD] leading-relaxed">
+          {paragraph}
+        </p>
+      ))}
+    </div>
+  </div>
+</section>

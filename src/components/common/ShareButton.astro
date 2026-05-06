@@ -14,12 +14,13 @@ const label = derivedLang === 'es' ? 'Compartir' : 'Share';
 ---
 <button
   type="button"
-  class={`flex items-center gap-2 bg-white text-primary font-bold px-4 py-2 rounded-full hover:opacity-90 transition ${className}`}
+  class={`flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors`}
   onclick={`window.showShareModal && window.showShareModal('${modalId}')`}
 >
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
-    <path d="M9.39713 5.30615H8.35547C5.40919 5.30615 3.93605 5.30615 3.02076 6.18483C2.10547 7.06351 2.10547 8.47772 2.10547 11.3062V15.3062C2.10547 18.1346 2.10547 19.5488 3.02076 20.4275C3.93605 21.3062 5.40919 21.3062 8.35547 21.3062H12.5621C15.5084 21.3062 16.9815 21.3062 17.8968 20.4275C18.4898 19.8582 18.6986 19.0641 18.7721 17.8062" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M16.1667 7.80615V4.6597C16.1667 4.46444 16.3316 4.30615 16.535 4.30615C16.6326 4.30615 16.7263 4.3434 16.7954 4.4097L21.5275 8.9526C21.7634 9.17897 21.8958 9.48601 21.8958 9.80615C21.8958 10.1263 21.7634 10.4333 21.5275 10.6597L16.7954 15.2026C16.7263 15.269 16.6326 15.3062 16.535 15.3062C16.3316 15.3062 16.1667 15.1479 16.1667 14.9526V11.8062H13.1157C8.875 11.8062 7.3125 15.3062 7.3125 15.3062V12.8062C7.3125 10.0447 9.64435 7.80615 12.5208 7.80615H16.1667Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+ <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
   </svg>
   {label}
 </button>
+
+

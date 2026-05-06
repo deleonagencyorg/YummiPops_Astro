@@ -1,5 +1,6 @@
 ---
 import { getLocale } from '../../i18n/i18n';
+import VideoModal from '../../components/common/VideoModal.astro';
 
 const currentLang = getLocale();
 
@@ -36,7 +37,7 @@ const {
   detail = false,
   categories = [
     { label: currentLang === 'es' ? 'Con Yummi Pops Nacho' : 'With Yummi Pops Nacho', value: 'nacho' },
-    { label: currentLang === 'es' ? 'Con Yummi Pops Palomitas' : 'With Yummi Pops Popcorn', value: 'palomitas' }
+    { label: currentLang === 'es' ? 'Con Yummi Pops Palomitas' : 'With Yummi Pops Popcorn', value: currentLang === 'es' ? 'palomitas' : 'popcorn' }
   ]
 } = Astro.props;
 
@@ -52,6 +53,14 @@ if (!recipeItems.length) {
   }
 }
 
+function toDate(s?: string) {
+  if (!s) return 0;
+  const t = Date.parse(s);
+  return isNaN(t) ? 0 : t;
+}
+
+recipeItems.sort((a, b) => toDate((b as any).date) - toDate((a as any).date));
+
 // Colores de gradiente para cada tarjeta
 const cardGradients = [
   'from-green-400 to-green-500',
@@ -63,7 +72,7 @@ const cardGradients = [
 ---
 
 <section class="w-full py-12 bg-[#FCDC85]">
-  <div class="max-w-[1600px] mx-auto px-4 md:px-8">
+  <div class="w-full px-4 md:px-8 lg:px-12">
     
     <!-- Header -->
     <div class="flex justify-between items-center mb-8">
@@ -79,12 +88,13 @@ const cardGradients = [
     </div>
 
     <!-- Tabs de categorías -->
-    <div class="flex gap-3 mb-8" id="recipeTabs">
-      {categories.map((category, index) => (
+    <div class="flex gap-3 mb-8 flex-wrap" id="recipeTabs">
+      {categories.map((category) => (
         <button 
           type="button"
-          class={`tab-btn px-8 py-3 rounded-full font-bold text-base transition-all ${index === 0 ? 'bg-white text-gray-900 shadow-md' : 'bg-white/50 text-gray-700'}`}
+          class={`tab-btn px-4 py-2 md:px-8 md:py-3 rounded-full font-bold text-sm md:text-base transition-all bg-white/50 text-gray-700`}
           data-category={category.value}
+          aria-pressed="false"
         >
           {category.label}
         </button>
@@ -100,7 +110,7 @@ const cardGradients = [
         >
           {recipeItems.map((recipe, index) => (
             <div 
-              class="recipe-slide flex-shrink-0 w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"
+              class="recipe-slide flex-shrink-0 w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] relative"
               data-category={recipe.category}
             >
               <a 
@@ -108,23 +118,43 @@ const cardGradients = [
                 class="block group"
               >
                 <!-- Card con gradiente -->
-                <div class={`bg-gradient-to-br ${cardGradients[index % cardGradients.length]} rounded-[30px] overflow-hidden shadow-xl hover:shadow-2xl transition-all transform hover:scale-[1.02] p-6`}>
+                <div class={`rounded-[30px] overflow-hidden`}>
                   
                   <!-- Imagen -->
                   <div class="mb-0">
                     <img 
                       src={recipe.image || "/images/es/products/recipeimage.jpg"}
                       alt={recipe.title}
-                      class="w-full h-[280px] object-cover rounded-[20px]"
+                      class="w-full h-[280px] object-cover transition-transform duration-300 group-hover:scale-[1.05]"
                     />
                   </div>
                 </div>
 
-                <!-- Título fuera de la tarjeta -->
-                <h3 class="text-xl md:text-2xl font-black text-gray-900 mt-4 leading-tight">
+                <!-- Título fuera de la tarjeta (link al detalle) -->
+                <h3 class="text-xl md:text-2xl font-black text-gray-900 mt-4 leading-tight group-hover:text-[#F9A825] transition-colors">
                   {recipe.title}
                 </h3>
+
+                <!-- Ver más detalles -->
+                <span class="block text-sm font-light text-gray-500 mt-1 group-hover:text-[#F9A825] transition-colors">
+                  {currentLang === 'es' ? 'Ver más detalles →' : 'View more details →'}
+                </span>
               </a>
+
+              {(recipe as any).video && (
+                <button
+                  type="button"
+                  data-video={(recipe as any).video}
+                  class="absolute top-0 left-0 w-full h-[280px] flex items-center justify-center bg-black/30 hover:bg-black/40 transition-colors rounded-t-[30px] cursor-pointer z-10 group/play"
+                  aria-label="Reproducir video"
+                >
+                  <span class="w-16 h-16 rounded-full bg-[#F9A825] flex items-center justify-center shadow-lg group-hover/play:scale-110 transition-transform">
+                    <svg class="w-7 h-7 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z"/>
+                    </svg>
+                  </span>
+                </button>
+              )}
             </div>
           ))}
         </div>
@@ -161,6 +191,14 @@ const cardGradients = [
 <style>
   .recipe-slide {
     scroll-snap-align: start;
+  }
+  .tab-btn {
+    color: #111827 !important; /* text-gray-900 */
+  }
+  .tab-btn:focus,
+  .tab-btn:active,
+  .tab-btn:focus-visible {
+    color: #111827 !important;
   }
 </style>
 
@@ -252,15 +290,18 @@ const cardGradients = [
     });
 
     // Event listeners para tabs
+    tabs.forEach(t => t.setAttribute('aria-pressed', 'false'));
     tabs.forEach((tab) => {
       tab.addEventListener('click', () => {
         // Actualizar estilos de tabs
         tabs.forEach(t => {
           t.classList.remove('bg-white', 'shadow-md', 'text-gray-900');
           t.classList.add('bg-white/50', 'text-gray-700');
+          t.setAttribute('aria-pressed', 'false');
         });
         tab.classList.remove('bg-white/50', 'text-gray-700');
         tab.classList.add('bg-white', 'shadow-md', 'text-gray-900');
+        tab.setAttribute('aria-pressed', 'true');
 
         // Filtrar recetas
         const category = tab.getAttribute('data-category') || 'all';
@@ -308,3 +349,5 @@ const cardGradients = [
     initRecipesCarousel();
   });
 </script>
+
+<VideoModal />
