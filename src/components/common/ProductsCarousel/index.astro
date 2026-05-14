@@ -85,7 +85,7 @@ const backgroundColors = [
             class="product-card-link group"
           >
             <div 
-              class="rounded-3xl overflow-visible shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02] relative"
+              class="rounded-3xl overflow-hidden transition-all duration-300 transform hover:scale-[1.02] relative"
               style={`background: ${product.background_color || `linear-gradient(to bottom right, ${backgroundColors[index % backgroundColors.length]})`}`}
             >
               <!-- Contenedor de Imágenes con composición -->
@@ -146,7 +146,7 @@ const backgroundColors = [
               )}
 
             </div>
-            <div class="bg-[#FCDC85] px-6 py-4 md:px-8 md:py-6">
+            <div class="px-6 py-4 md:px-8 md:py-6">
               <h3 class="text-xl md:text-2xl lg:text-3xl font-black text-gray-900">
                 {product.categoryTitle || product.title || product.name}
               </h3>
