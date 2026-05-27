@@ -143,17 +143,17 @@ const cardGradients = [
 
               {(recipe as any).video && (
                 <button
-                  type="button"
-                  data-video={(recipe as any).video}
-                  class="absolute top-0 left-0 w-full h-[280px] flex items-center justify-center bg-black/30 hover:bg-black/40 transition-colors rounded-t-[30px] cursor-pointer z-10 group/play"
-                  aria-label="Reproducir video"
-                >
-                  <span class="w-16 h-16 rounded-full bg-[#F9A825] flex items-center justify-center shadow-lg group-hover/play:scale-110 transition-transform">
-                    <svg class="w-7 h-7 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M8 5v14l11-7z"/>
-                    </svg>
-                  </span>
-                </button>
+                    type="button"
+                    data-video={(recipe as any).video}
+                    class="absolute top-0 left-0 w-full h-[280px] flex items-center justify-center bg-black/30 hover:bg-black/40 transition-colors rounded-[30px] cursor-pointer z-10 group/play overflow-hidden"
+                    aria-label="Reproducir video"
+                  >
+                    <span class="w-16 h-16 rounded-full bg-[#F9A825] flex items-center justify-center group-hover/play:scale-110 transition-transform">
+                      <svg class="w-7 h-7 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                      </svg>
+                    </span>
+                  </button>
               )}
             </div>
           ))}
