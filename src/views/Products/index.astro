@@ -117,14 +117,12 @@ const features = [
           <!-- Empaque central -->
           <div class="absolute" style="width: 46%; left: 50%; top: 0%; transform: translateX(-50%); z-index: 30;">
             <div class="relative">
-              <img src={productsImages[0]?.image || '/images/products/placeholder.jpg'} alt={productsImages[0]?.name || 'product'} class="w-full h-auto object-contain drop-shadow-2xl" />
-              {productsImages[0]?.isnew && (
-                <img 
-                  src={currentLang === 'es' ? 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NUEVO.webp' : 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NEW.webp'}
-                  alt="NEW"
-                      class="product-new-badge product-new-badge-hero"
-                />
-              )}
+              <img src="https://snack.yummiespromociones.com/SnacksyummiesAssets/yummi-chile-toreado.webp" alt={productsImages[0]?.name || 'product'} class="w-full h-auto object-contain drop-shadow-2xl" />
+              <img 
+                src={currentLang === 'es' ? 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NUEVO.webp' : 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NEW.webp'}
+                alt="NEW"
+                class="product-new-badge product-new-badge-hero"
+              />
             </div>
           </div>
           <!-- Empaque derecho -->
@@ -192,14 +190,12 @@ const features = [
         <!-- Empaque central (más grande, al frente) -->
         <div class="absolute" style="width: 46%; left: 50%; top: 0%; transform: translateX(-50%); z-index: 30;">
           <div class="relative">
-            <img src={productsImages[0]?.image || '/images/products/placeholder.jpg'} alt={productsImages[0]?.name || 'product'} class="w-full h-auto object-contain drop-shadow-2xl" />
-            {productsImages[0]?.isnew && (
-              <img 
-                src={currentLang === 'es' ? 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NUEVO.webp' : 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NEW.webp'}
-                alt="NEW"
-                class="product-new-badge-left product-new-badge-hero"
-              />
-            )}
+            <img src="https://snack.yummiespromociones.com/SnacksyummiesAssets/yummi-chile-toreado.webp" alt={productsImages[0]?.name || 'product'} class="w-full h-auto object-contain drop-shadow-2xl" />
+            <img 
+              src={currentLang === 'es' ? 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NUEVO.webp' : 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NEW.webp'}
+              alt="NEW"
+              class="product-new-badge-left product-new-badge-hero"
+            />
           </div>
         </div>
         <!-- Empaque derecho -->
