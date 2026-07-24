@@ -294,6 +294,14 @@ const options = dynamicOptions[locale];
         </button>
         <ul id="cfCountry_panel" class="cf-dropdown-panel hidden" role="listbox"></ul>
       </div>
+      <!-- Open text input for Exportaciones -->
+      <input 
+        type="text" 
+        id="countryTextInput" 
+        placeholder={locale === 'es' ? 'Escribe tu país' : 'Write your country'}
+        disabled
+        class="w-full px-4 py-3 placeholder:text-gray-400 bg-[#F5F5F5] text-black uppercase border-[1.5px] border-black rounded-full focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all hidden h-[56px]"
+      />
     </div>
   </div>
 
@@ -321,6 +329,14 @@ const options = dynamicOptions[locale];
         </button>
         <ul id="cfCity_panel" class="cf-dropdown-panel hidden" role="listbox"></ul>
       </div>
+      <!-- Open text input for Exportaciones -->
+      <input 
+        type="text" 
+        id="cityTextInput" 
+        placeholder={locale === 'es' ? 'Escribe tu ciudad' : 'Write your city'}
+        disabled
+        class="w-full px-4 py-3 placeholder:text-gray-400 bg-[#F5F5F5] text-black uppercase border-[1.5px] border-black rounded-full focus:text-black focus:bg-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all hidden h-[56px]"
+      />
     </div>
     
     <!-- Name -->
@@ -669,13 +685,73 @@ const options = dynamicOptions[locale];
       const selectedReason = this.value;
       console.log('Contact reason changed to:', selectedReason);
       
-      // Enable country selector when a contact reason is selected
-      if (selectedReason && countrySelect) {
-        countrySelect.disabled = false;
-        countrySelect.classList.remove('disabled:opacity-50', 'disabled:cursor-not-allowed');
-      } else if (countrySelect) {
-        countrySelect.disabled = true;
-        countrySelect.classList.add('disabled:opacity-50', 'disabled:cursor-not-allowed');
+      const isExport = selectedReason === 'Exportaciones';
+      const countryTextInput = document.getElementById('countryTextInput');
+      const cityTextInput = document.getElementById('cityTextInput');
+      const cfCountryWrapper = document.getElementById('cfCountry_wrapper');
+      const cfCityWrapper = document.getElementById('cfCity_wrapper');
+
+      if (isExport) {
+        if (cfCountryWrapper) cfCountryWrapper.classList.add('hidden');
+        if (cfCityWrapper) cfCityWrapper.classList.add('hidden');
+
+        if (countryTextInput) {
+          countryTextInput.classList.remove('hidden');
+          countryTextInput.disabled = false;
+          countryTextInput.required = true;
+          countryTextInput.setAttribute('name', 'country');
+        }
+        if (cityTextInput) {
+          cityTextInput.classList.remove('hidden');
+          cityTextInput.disabled = false;
+          cityTextInput.required = true;
+          cityTextInput.setAttribute('name', 'city');
+        }
+
+        if (countrySelect) {
+          countrySelect.disabled = true;
+          countrySelect.removeAttribute('name');
+          countrySelect.required = false;
+        }
+        if (citySelect) {
+          citySelect.disabled = true;
+          citySelect.removeAttribute('name');
+          citySelect.required = false;
+        }
+      } else {
+        if (countryTextInput) {
+          countryTextInput.classList.add('hidden');
+          countryTextInput.disabled = true;
+          countryTextInput.required = false;
+          countryTextInput.value = '';
+          countryTextInput.removeAttribute('name');
+        }
+        if (cityTextInput) {
+          cityTextInput.classList.add('hidden');
+          cityTextInput.disabled = true;
+          cityTextInput.required = false;
+          cityTextInput.value = '';
+          cityTextInput.removeAttribute('name');
+        }
+
+        if (cfCountryWrapper) cfCountryWrapper.classList.remove('hidden');
+        if (cfCityWrapper) cfCityWrapper.classList.remove('hidden');
+
+        if (countrySelect) {
+          countrySelect.setAttribute('name', 'country');
+          countrySelect.required = true;
+          if (selectedReason) {
+            countrySelect.disabled = false;
+            countrySelect.classList.remove('disabled:opacity-50', 'disabled:cursor-not-allowed');
+          } else {
+            countrySelect.disabled = true;
+            countrySelect.classList.add('disabled:opacity-50', 'disabled:cursor-not-allowed');
+          }
+        }
+        if (citySelect) {
+          citySelect.setAttribute('name', 'city');
+          citySelect.required = true;
+        }
       }
       
       updateDynamicFields(selectedReason);
@@ -754,6 +830,25 @@ const options = dynamicOptions[locale];
           
           // Reset form
           this.reset();
+          const countryTextInput = document.getElementById('countryTextInput');
+          const cityTextInput = document.getElementById('cityTextInput');
+          const cfCountryWrapper = document.getElementById('cfCountry_wrapper');
+          const cfCityWrapper = document.getElementById('cfCity_wrapper');
+          if (countryTextInput) {
+            countryTextInput.value = '';
+            countryTextInput.classList.add('hidden');
+            countryTextInput.disabled = true;
+            countryTextInput.removeAttribute('name');
+          }
+          if (cityTextInput) {
+            cityTextInput.value = '';
+            cityTextInput.classList.add('hidden');
+            cityTextInput.disabled = true;
+            cityTextInput.removeAttribute('name');
+          }
+          if (cfCountryWrapper) cfCountryWrapper.classList.remove('hidden');
+          if (cfCityWrapper) cfCityWrapper.classList.remove('hidden');
+
           if (citySelect) {
             citySelect.disabled = true;
             citySelect.classList.add('disabled:bg-gray-100', 'disabled:cursor-not-allowed');
@@ -781,7 +876,7 @@ const options = dynamicOptions[locale];
     
     // Initialize dynamic fields with default contact reason if selected
     if (contactReasonSelect.value) {
-      updateDynamicFields(contactReasonSelect.value);
+      contactReasonSelect.onchange();
     }
   }
 
