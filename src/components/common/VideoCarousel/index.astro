@@ -25,16 +25,8 @@ const { textHome } = Astro.props;
         <!-- Slide 1: Banner 1 -> palomitas -->
         <a href="https://yummipops-qa.yummiespromociones.com/es/productos#palomitas" class="slide block w-full h-full">
           <picture class="w-full h-full block">
-            <source media="(min-width:1024px)" srcset="https://snack.yummiespromociones.com/SnacksyummiesAssets/pops-home-1.jpeg" />
-            <img src="https://snack.yummiespromociones.com/SnacksyummiesAssets/pops-home-1.jpeg" alt="Yummi Pops" class="w-full h-full object-cover" />
-          </picture>
-        </a>
-
-        <!-- Banner 2 -->
-        <a href="https://yummipops-qa.yummiespromociones.com/es/productos#nacho" class="slide block w-full h-full">
-          <picture class="w-full h-full block">
-            <source media="(min-width:1024px)" srcset="https://snack.yummiespromociones.com/SnacksyummiesAssets/pops-home-2.jpeg" />
-            <img src="https://snack.yummiespromociones.com/SnacksyummiesAssets/pops-home-2.jpeg" alt="Yummi Pops" class="w-full h-full object-cover" />
+            <source media="(min-width:1024px)" srcset="https://snack.yummiespromociones.com/SnacksyummiesAssets/pops_desk.webp" />
+            <img src="https://snack.yummiespromociones.com/SnacksyummiesAssets/pops_mob.webp" alt="Yummi Pops" class="w-full h-full object-cover" />
           </picture>
         </a>
       </div>
@@ -82,7 +74,8 @@ const { textHome } = Astro.props;
 
   @media (max-width: 767px) {
     .home-container {
-      height: 200px;
+      height: 430px;
+      max-height: 100vw;
     }
   }
 
@@ -95,7 +88,7 @@ const { textHome } = Astro.props;
     margin-left: -50vw;
     margin-right: -50vw;
   }
-  @media (max-width: 767px) { .carousel { height: 200px; } }
+  @media (max-width: 767px) { .carousel { height: 430px; max-height: 100vw; } }
   @media (min-width: 768px) and (max-width: 1024px) { .carousel { height: 500px; } }
   .slides { position: relative; width: 100%; height: 100%; }
   .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
@@ -110,6 +103,7 @@ const { textHome } = Astro.props;
     function init() {
       const container = document.querySelector('.carousel');
       if (!container) return;
+
       const slides = Array.from(container.querySelectorAll('.slide'));
       const prevBtn = container.querySelector('.carousel-btn.prev');
       const nextBtn = container.querySelector('.carousel-btn.next');
@@ -120,23 +114,43 @@ const { textHome } = Astro.props;
 
       if (slides.length === 0) return;
 
-      slides.forEach((s, i) => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        if (i === 0) btn.classList.add('active');
-        btn.addEventListener('click', () => {
-          show(i);
-          restartAutoplay();
+      if (slides.length <= 1) {
+        if (prevBtn) prevBtn.style.display = 'none';
+        if (nextBtn) nextBtn.style.display = 'none';
+        if (dotsContainer) dotsContainer.style.display = 'none';
+        if (slides[0]) slides[0].style.display = 'block';
+        return;
+      } else {
+        if (prevBtn) prevBtn.style.display = 'flex';
+        if (nextBtn) nextBtn.style.display = 'flex';
+        if (dotsContainer) dotsContainer.style.display = 'flex';
+      }
+
+      if (container.__carouselInitialized) return;
+      container.__carouselInitialized = true;
+
+      if (dotsContainer) {
+        dotsContainer.innerHTML = '';
+        slides.forEach((s, i) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          if (i === 0) btn.classList.add('active');
+          btn.addEventListener('click', () => {
+            show(i);
+            restartAutoplay();
+          });
+          dotsContainer.appendChild(btn);
         });
-        dotsContainer.appendChild(btn);
-      });
+      }
 
       function show(index) {
         current = (index + slides.length) % slides.length;
         slides.forEach((s, i) => {
           s.style.display = i === current ? 'block' : 'none';
         });
-        Array.from(dotsContainer.children).forEach((d, i) => d.classList.toggle('active', i === current));
+        if (dotsContainer) {
+          Array.from(dotsContainer.children).forEach((d, i) => d.classList.toggle('active', i === current));
+        }
       }
 
       function startAutoplay() {
@@ -169,10 +183,9 @@ const { textHome } = Astro.props;
 
       show(0);
       startAutoplay();
-
-      document.addEventListener('astro:page-load', () => setTimeout(() => { show(current); restartAutoplay(); }, 100));
     }
 
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+    document.addEventListener('astro:page-load', init);
   })();
 </script>
