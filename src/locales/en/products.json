@@ -24,6 +24,55 @@
   ],
   "items": [
     {
+      "id": "yummi-pops-nacho-spicy-maple",
+      "name": "Yummi Pops Nacho Spicy Maple",
+      "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/nacho_spicy_maple.webp",
+      "background_color": "#D4AF37",
+      "background_product": "#D4AF37",
+      "header_color": "#AA820A",
+      "text_color": "#FFFFFF",
+      "header_background": "#FDE820",
+      "header_text_color": "#3E2723",
+      "color_button": "#FFFFFF",
+      "description":  "Maple and chili-flavored puffed corn",
+      "short_description": "Maple and chili-flavored puffed corn",
+      "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
+      "background_image": "https://snack.yummiespromociones.com/snacksyummies/nacho_spicy_maple.webp",
+      "isnew": true,
+      "sizes": [
+        {
+          "value": "150",
+          "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/nacho_spicy_maple.webp"
+        }
+      ],
+      "weight": [
+        "33g",
+        "75g"
+      ],
+      "nutrition": {
+        "servingSize": "28g",
+        "servingsPerContainer": "1.18",
+        "calories": "550 kJ (130 kcal)",
+        "fatEnergy": "175 kJ (40 kcal)",
+        "cholesterol": "0mg - 0%",
+        "totalCarbs": "20g - 7%",
+        "dietaryFiber": "1g - 2%",
+        "sugars": "3g",
+        "protein": "1g",
+        "calorieDiet": "8.378 kJ (2000 cal)",
+        "caloriesPerServing": "",
+        "vitaminD": "0%",
+        "iron": "0%",
+        "calcium": "0%",
+        "potassium": "0%",
+        "sodium": "180 mg - 8%",
+        "saturatedFatVD": "2g - 10%",
+        "transFatVD": "0g - 0%",
+        "totalFat": "4.5g - 6%"
+      },
+      "category": "nacho"
+    },
+    {
       "id": "yummi-pops-nacho-jalapeno-cream",
       "name": "Yummi Pops Nacho Jalapeño Cream",
       "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/jalapeno-cream.webp",
