@@ -1,10 +1,6 @@
----
-// VideoModal.astro - Modal reutilizable para reproducir videos de YouTube
----
-
 <!-- Modal de video -->
 <div id="video-modal" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/90" aria-hidden="true">
-  <div id="video-modal-content" class="relative w-full max-w-4xl mx-4 aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl">
+  <div id="video-modal-content" class="relative w-full max-w-4xl mx-4 aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl flex items-center justify-center">
     <!-- Botón cerrar -->
     <button
       id="video-modal-close"
@@ -20,13 +16,22 @@
     <!-- Iframe de YouTube -->
     <iframe
       id="video-modal-iframe"
-      class="w-full h-full"
+      class="w-full h-full hidden"
       src=""
       title="YouTube video player"
       frameborder="0"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
       allowfullscreen
     ></iframe>
+
+    <!-- Reproductor nativo -->
+    <video
+      id="video-modal-player"
+      class="w-full h-full object-contain hidden"
+      controls
+      playsinline
+      preload="metadata"
+    ></video>
   </div>
 </div>
 
@@ -34,9 +39,6 @@
   #video-modal.video-fullscreen {
     align-items: stretch;
     justify-content: center;
-  }
-
-  #video-modal.video-fullscreen {
     background: black;
   }
 
@@ -46,6 +48,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
+    height: 100dvh;
     max-width: none;
     margin: 0;
     border-radius: 0;
@@ -54,7 +57,8 @@
     background: black;
   }
 
-  #video-modal.video-fullscreen #video-modal-iframe {
+  #video-modal.video-fullscreen #video-modal-iframe,
+  #video-modal.video-fullscreen #video-modal-player {
     width: 100%;
     height: 100%;
     border: none;
@@ -66,9 +70,20 @@
     right: 12px;
     z-index: 10010;
   }
+
+  #video-modal.direct-video #video-modal-content {
+    max-height: 85vh;
+    aspect-ratio: auto;
+    height: 80vh;
+  }
 </style>
 
 <script is:inline>
+  function isYouTube(url) {
+    if (!url) return false;
+    return /youtu\.be|youtube\.com/.test(url);
+  }
+
   // ─── Helpers
   window.__videoToEmbedUrl = function (url) {
     if (!url) return '';
@@ -84,61 +99,122 @@
   };
 
   window.__openVideoModal = function (videoUrl) {
-    var embedUrl = window.__videoToEmbedUrl(videoUrl);
-    if (!embedUrl) return;
-    var modal  = document.getElementById('video-modal');
+    if (!videoUrl) return;
+    var modal = document.getElementById('video-modal');
     var iframe = document.getElementById('video-modal-iframe');
-    if (!modal || !iframe) return;
-    var isShorts = /shorts/i.test(videoUrl);
-    var params = '?autoplay=1&rel=0&playsinline=1';
-    iframe.src = embedUrl + params;
+    var videoPlayer = document.getElementById('video-modal-player');
+    if (!modal) return;
 
-    var lang = '';
-    try {
-      lang = (document.documentElement && document.documentElement.lang) || ((location.pathname.match(/^\/(es|en)(\/|$)/) || [])[1]) || '';
-    } catch (e) {
-      lang = '';
-    }
-    lang = (lang || '').toLowerCase();
-    var allowedLangs = ['es', 'en'];
-    var isAllowedLang = allowedLangs.indexOf(lang) !== -1;
     var isMobile = (typeof navigator !== 'undefined' && /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) || (window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
 
-    if (isShorts && isMobile && isAllowedLang) {
-      modal.classList.add('video-fullscreen');
+    if (isYouTube(videoUrl)) {
+      var embedUrl = window.__videoToEmbedUrl(videoUrl);
+      if (!embedUrl) return;
+
+      if (videoPlayer) {
+        videoPlayer.pause();
+        videoPlayer.src = '';
+        videoPlayer.removeAttribute('src');
+        videoPlayer.load();
+        videoPlayer.classList.add('hidden');
+      }
+
+      var isShorts = /shorts/i.test(videoUrl);
+      var params = '?autoplay=1&rel=0&playsinline=1';
+
+      if (iframe) {
+        iframe.src = embedUrl + params;
+        iframe.classList.remove('hidden');
+      }
+
+      var lang = '';
+      try {
+        lang = (document.documentElement && document.documentElement.lang) || ((location.pathname.match(/^\/(es|en)(\/|$)/) || [])[1]) || '';
+      } catch (e) {
+        lang = '';
+      }
+      lang = (lang || '').toLowerCase();
+      var allowedLangs = ['es', 'en'];
+      var isAllowedLang = allowedLangs.indexOf(lang) !== -1;
+
+      if (isShorts && isMobile && isAllowedLang) {
+        modal.classList.add('video-fullscreen');
+        modal.classList.remove('direct-video');
+      } else {
+        modal.classList.remove('video-fullscreen');
+        modal.classList.remove('direct-video');
+      }
     } else {
-      modal.classList.remove('video-fullscreen');
+      if (iframe) {
+        iframe.src = '';
+        iframe.classList.add('hidden');
+      }
+
+      if (isMobile) {
+        modal.classList.add('video-fullscreen');
+        modal.classList.remove('direct-video');
+      } else {
+        modal.classList.add('direct-video');
+        modal.classList.remove('video-fullscreen');
+      }
+
+      if (videoPlayer) {
+        videoPlayer.src = videoUrl;
+        videoPlayer.classList.remove('hidden');
+        videoPlayer.play().catch(function (err) {
+          console.warn('Autoplay prevented by browser:', err);
+        });
+      }
     }
+
     modal.classList.remove('hidden');
     modal.classList.add('flex');
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
   };
 
+  window.openVideoModal = window.__openVideoModal;
+
   window.__closeVideoModal = function () {
-    var modal  = document.getElementById('video-modal');
+    var modal = document.getElementById('video-modal');
     var iframe = document.getElementById('video-modal-iframe');
-    if (!modal || !iframe) return;
-    iframe.src = '';
+    var videoPlayer = document.getElementById('video-modal-player');
+    if (!modal) return;
+
+    if (iframe) {
+      iframe.src = '';
+      iframe.classList.add('hidden');
+    }
+
+    if (videoPlayer) {
+      videoPlayer.pause();
+      videoPlayer.src = '';
+      videoPlayer.removeAttribute('src');
+      videoPlayer.load();
+      videoPlayer.classList.add('hidden');
+    }
+
     modal.classList.add('hidden');
     modal.classList.remove('flex');
     modal.classList.remove('video-fullscreen');
+    modal.classList.remove('direct-video');
     modal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
   };
 
+  window.closeVideoModal = window.__closeVideoModal;
+
   function initVideoModal() {
-    var modal   = document.getElementById('video-modal');
-    var iframe  = document.getElementById('video-modal-iframe');
+    var modal = document.getElementById('video-modal');
+    var iframe = document.getElementById('video-modal-iframe');
     var closeBtn = document.getElementById('video-modal-close');
-    if (!modal || !iframe || !closeBtn) return;
+    if (!modal || !closeBtn) return;
 
     var newCloseBtn = closeBtn.cloneNode(true);
     closeBtn.parentNode.replaceChild(newCloseBtn, closeBtn);
 
-    var newModal = modal; // el backdrop sí puede reutilizarse; usamos flag
-    if (newModal._videoModalBound) {
-    } else {
+    var newModal = modal;
+    if (!newModal._videoModalBound) {
       newModal._videoModalBound = true;
       newModal.addEventListener('click', function (e) {
         if (e.target === newModal) window.__closeVideoModal();
