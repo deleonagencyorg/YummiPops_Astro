@@ -1,5 +1,5 @@
 <!-- Modal de video -->
-<div id="video-modal" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/90" aria-hidden="true">
+<div id="video-modal" class="fixed inset-0 z-[2147483648] isolate hidden items-center justify-center bg-black/90" aria-hidden="true">
   <div id="video-modal-content" class="relative w-full max-w-4xl mx-4 aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl flex items-center justify-center">
     <!-- Botón cerrar -->
     <button
@@ -170,7 +170,19 @@
     modal.classList.remove('hidden');
     modal.classList.add('flex');
     modal.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
+    try {
+      var scrollY = window.scrollY || document.documentElement.scrollTop || 0;
+      document.body.style.position = 'fixed';
+      document.body.style.top = '-' + scrollY + 'px';
+      document.body.style.left = '0';
+      document.body.style.right = '0';
+      document.body.style.width = '100%';
+      document.body.dataset.__scrollY = scrollY;
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+    } catch (e) {
+      document.body.style.overflow = 'hidden';
+    }
   };
 
   window.openVideoModal = window.__openVideoModal;
@@ -199,7 +211,21 @@
     modal.classList.remove('video-fullscreen');
     modal.classList.remove('direct-video');
     modal.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
+    try {
+      var prevScrollY = parseInt(document.body.dataset.__scrollY || '0', 10) || 0;
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      document.body.style.width = '';
+      delete document.body.dataset.__scrollY;
+      window.scrollTo(0, prevScrollY);
+    } catch (e) {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    }
   };
 
   window.closeVideoModal = window.__closeVideoModal;
@@ -209,6 +235,12 @@
     var iframe = document.getElementById('video-modal-iframe');
     var closeBtn = document.getElementById('video-modal-close');
     if (!modal || !closeBtn) return;
+    try {
+      if (modal.parentNode !== document.body) {
+        document.body.appendChild(modal);
+      }
+    } catch (e) {
+    }
 
     var newCloseBtn = closeBtn.cloneNode(true);
     closeBtn.parentNode.replaceChild(newCloseBtn, closeBtn);

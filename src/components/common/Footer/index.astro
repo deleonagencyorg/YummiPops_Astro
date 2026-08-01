@@ -136,10 +136,13 @@ const privacyText = currentLang === 'es' ? 'Política de privacidad' : 'Privacy 
               class="w-10 h-10 flex items-center justify-center hover:opacity-70 transition-opacity"
               aria-label="X"
             >
-              <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
+              <LazyImage
+                src="https://snack.yummiespromociones.com/SnacksyummiesAssets/X%20.svg"
+                alt="X"
+                class="w-6 h-6"
+                color="white"
+                decorative={false}
+              />
             </a>
             <a 
               href={socialMedia?.tiktok?.url || '#'} 
