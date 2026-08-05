@@ -1,11 +1,11 @@
 <!-- Modal de video -->
-<div id="video-modal" class="fixed inset-0 z-[2147483648] isolate hidden items-center justify-center bg-black/90" aria-hidden="true">
-  <div id="video-modal-content" class="relative w-full max-w-4xl mx-4 aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl flex items-center justify-center">
+<div id="video-modal" data-mode="default" class="video-modal-overlay fixed inset-0 z-[2147483648] isolate hidden items-center justify-center bg-black/80 backdrop-blur-sm" aria-hidden="true">
+  <div id="video-modal-content" data-mode="default" class="video-modal-container relative w-full max-w-4xl mx-4 aspect-video bg-black rounded-xl overflow-hidden shadow-2xl flex items-center justify-center">
     <!-- Botón cerrar -->
     <button
       id="video-modal-close"
       type="button"
-      class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center transition-colors"
+      class="video-modal-close absolute top-3 right-3 z-10 text-white bg-black/50 hover:bg-black/70 rounded-full p-2 transition-colors"
       aria-label="Cerrar video"
     >
       <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -16,7 +16,7 @@
     <!-- Iframe de YouTube -->
     <iframe
       id="video-modal-iframe"
-      class="w-full h-full hidden"
+      class="video-modal-iframe w-full h-full hidden"
       src=""
       title="YouTube video player"
       frameborder="0"
@@ -27,54 +27,55 @@
     <!-- Reproductor nativo -->
     <video
       id="video-modal-player"
-      class="w-full h-full object-contain hidden"
+      class="video-modal-player w-full h-full object-cover hidden"
       controls
       playsinline
-      preload="metadata"
+      preload="auto"
     ></video>
   </div>
 </div>
 
 <style is:inline>
-  #video-modal.video-fullscreen {
-    align-items: stretch;
-    justify-content: center;
-    background: black;
-  }
-
-  #video-modal.video-fullscreen #video-modal-content {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    height: 100dvh;
-    max-width: none;
-    margin: 0;
-    border-radius: 0;
-    box-shadow: none;
-    overflow: hidden;
-    background: black;
-  }
-
-  #video-modal.video-fullscreen #video-modal-iframe,
-  #video-modal.video-fullscreen #video-modal-player {
+  .video-modal-iframe {
+    border: none;
     width: 100%;
     height: 100%;
-    border: none;
+    object-fit: contain;
   }
 
-  #video-modal.video-fullscreen #video-modal-close {
-    position: fixed;
-    top: 12px;
-    right: 12px;
-    z-index: 10010;
+  .video-modal-player {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
-  #video-modal.direct-video #video-modal-content {
-    max-height: 85vh;
-    aspect-ratio: auto;
-    height: 80vh;
+  #video-modal-content[data-mode='direct-portrait'],
+  #video-modal-content[data-mode='direct-portrait-mobile'],
+  #video-modal-content[data-mode='shorts-desktop'],
+  #video-modal-content[data-mode='shorts-mobile'] {
+    width: auto;
+    height: 85dvh;
+    max-height: 85dvh;
+    aspect-ratio: 9 / 16;
+    max-width: min(90vw, calc(85dvh * 9 / 16));
+    border-radius: 1rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  }
+
+  #video-modal-content[data-mode='direct-landscape'],
+  #video-modal-content[data-mode='direct-landscape-mobile'] {
+    width: min(90vw, calc(85dvh * 16 / 9));
+    height: auto;
+    max-height: 85dvh;
+    aspect-ratio: 16 / 9;
+    border-radius: 1rem;
+  }
+
+  @media (max-width: 767px) {
+    .video-modal-close {
+      top: calc(0.5rem + env(safe-area-inset-top, 0px));
+      right: calc(0.5rem + env(safe-area-inset-right, 0px));
+    }
   }
 </style>
 
@@ -84,65 +85,66 @@
     return /youtu\.be|youtube\.com/.test(url);
   }
 
-  // ─── Helpers
-  window.__videoToEmbedUrl = function (url) {
+  function extractYouTubeId(url) {
     if (!url) return '';
-    var shortsMatch = url.match(/youtube\.com\/shorts\/([a-zA-Z0-9_-]+)/);
-    if (shortsMatch) return 'https://www.youtube.com/embed/' + shortsMatch[1];
-    var watchMatch = url.match(/[?&]v=([a-zA-Z0-9_-]+)/);
-    if (watchMatch) return 'https://www.youtube.com/embed/' + watchMatch[1];
-    var beMatch = url.match(/youtu\.be\/([a-zA-Z0-9_-]+)/);
-    if (beMatch) return 'https://www.youtube.com/embed/' + beMatch[1];
-    var embedMatch = url.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]+)/);
-    if (embedMatch) return url;
-    return '';
-  };
+    var regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|shorts\/|\&v=)([^#\&\?]*).*/;
+    var match = url.match(regExp);
+    return (match && match[2].length === 11) ? match[2] : '';
+  }
+
+  function isYouTubeShort(url) {
+    if (!url) return false;
+    return /youtube\.com\/shorts\//.test(url);
+  }
+
+  function isMobileViewport() {
+    return window.matchMedia('(max-width: 767px)').matches;
+  }
+
+  function buildEmbedUrl(videoId) {
+    var params = new URLSearchParams({
+      autoplay: '1',
+      controls: '1',
+      playsinline: '1',
+      rel: '0',
+      modestbranding: '1'
+    });
+    return 'https://www.youtube.com/embed/' + videoId + '?' + params.toString();
+  }
+
+  function setDisplayMode(container, modal, mode) {
+    if (modal) modal.dataset.mode = mode;
+    if (container) container.dataset.mode = mode;
+    if (container) container.style.removeProperty('aspect-ratio');
+  }
 
   window.__openVideoModal = function (videoUrl) {
     if (!videoUrl) return;
     var modal = document.getElementById('video-modal');
+    var container = document.getElementById('video-modal-content');
     var iframe = document.getElementById('video-modal-iframe');
     var videoPlayer = document.getElementById('video-modal-player');
-    if (!modal) return;
+    if (!modal || !container) return;
 
-    var isMobile = (typeof navigator !== 'undefined' && /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) || (window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
+    var isMobile = isMobileViewport();
 
     if (isYouTube(videoUrl)) {
-      var embedUrl = window.__videoToEmbedUrl(videoUrl);
-      if (!embedUrl) return;
+      var videoId = extractYouTubeId(videoUrl);
+      if (!videoId) return;
 
       if (videoPlayer) {
         videoPlayer.pause();
-        videoPlayer.src = '';
         videoPlayer.removeAttribute('src');
         videoPlayer.load();
         videoPlayer.classList.add('hidden');
       }
 
-      var isShorts = /shorts/i.test(videoUrl);
-      var params = '?autoplay=1&rel=0&playsinline=1';
-
       if (iframe) {
-        iframe.src = embedUrl + params;
+        var isShort = isYouTubeShort(videoUrl);
+        var displayMode = isShort ? (isMobile ? 'shorts-mobile' : 'shorts-desktop') : 'default';
+        setDisplayMode(container, modal, displayMode);
+        iframe.src = buildEmbedUrl(videoId);
         iframe.classList.remove('hidden');
-      }
-
-      var lang = '';
-      try {
-        lang = (document.documentElement && document.documentElement.lang) || ((location.pathname.match(/^\/(es|en)(\/|$)/) || [])[1]) || '';
-      } catch (e) {
-        lang = '';
-      }
-      lang = (lang || '').toLowerCase();
-      var allowedLangs = ['es', 'en'];
-      var isAllowedLang = allowedLangs.indexOf(lang) !== -1;
-
-      if (isShorts && isMobile && isAllowedLang) {
-        modal.classList.add('video-fullscreen');
-        modal.classList.remove('direct-video');
-      } else {
-        modal.classList.remove('video-fullscreen');
-        modal.classList.remove('direct-video');
       }
     } else {
       if (iframe) {
@@ -150,20 +152,37 @@
         iframe.classList.add('hidden');
       }
 
-      if (isMobile) {
-        modal.classList.add('video-fullscreen');
-        modal.classList.remove('direct-video');
-      } else {
-        modal.classList.add('direct-video');
-        modal.classList.remove('video-fullscreen');
-      }
+      var defaultMode = isMobile ? 'direct-portrait-mobile' : 'direct-portrait';
+      setDisplayMode(container, modal, defaultMode);
 
       if (videoPlayer) {
         videoPlayer.src = videoUrl;
         videoPlayer.classList.remove('hidden');
-        videoPlayer.play().catch(function (err) {
-          console.warn('Autoplay prevented by browser:', err);
-        });
+
+        videoPlayer.onloadedmetadata = function() {
+          var vw = videoPlayer.videoWidth;
+          var vh = videoPlayer.videoHeight;
+          if (vw && vh) {
+            var isPortrait = vh > vw;
+            if (isPortrait) {
+              var mode = isMobile ? 'direct-portrait-mobile' : 'direct-portrait';
+              setDisplayMode(container, modal, mode);
+            } else {
+              var mode = isMobile ? 'direct-landscape-mobile' : 'direct-landscape';
+              setDisplayMode(container, modal, mode);
+            }
+          }
+        };
+
+        videoPlayer.load();
+        var playPromise = videoPlayer.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(function(err) {
+            console.warn('Autoplay unmuted blocked, falling back to muted autoplay:', err);
+            videoPlayer.muted = true;
+            videoPlayer.play();
+          });
+        }
       }
     }
 
@@ -189,9 +208,10 @@
 
   window.__closeVideoModal = function () {
     var modal = document.getElementById('video-modal');
+    var container = document.getElementById('video-modal-content');
     var iframe = document.getElementById('video-modal-iframe');
     var videoPlayer = document.getElementById('video-modal-player');
-    if (!modal) return;
+    if (!modal || !container) return;
 
     if (iframe) {
       iframe.src = '';
@@ -200,16 +220,14 @@
 
     if (videoPlayer) {
       videoPlayer.pause();
-      videoPlayer.src = '';
       videoPlayer.removeAttribute('src');
       videoPlayer.load();
       videoPlayer.classList.add('hidden');
     }
 
+    setDisplayMode(container, modal, 'default');
     modal.classList.add('hidden');
     modal.classList.remove('flex');
-    modal.classList.remove('video-fullscreen');
-    modal.classList.remove('direct-video');
     modal.setAttribute('aria-hidden', 'true');
     try {
       var prevScrollY = parseInt(document.body.dataset.__scrollY || '0', 10) || 0;
@@ -232,15 +250,13 @@
 
   function initVideoModal() {
     var modal = document.getElementById('video-modal');
-    var iframe = document.getElementById('video-modal-iframe');
     var closeBtn = document.getElementById('video-modal-close');
     if (!modal || !closeBtn) return;
     try {
       if (modal.parentNode !== document.body) {
         document.body.appendChild(modal);
       }
-    } catch (e) {
-    }
+    } catch (e) {}
 
     var newCloseBtn = closeBtn.cloneNode(true);
     closeBtn.parentNode.replaceChild(newCloseBtn, closeBtn);
