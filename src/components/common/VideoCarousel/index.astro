@@ -25,8 +25,15 @@ const { textHome } = Astro.props;
         <!-- Slide 1: Banner 1 -> palomitas -->
         <a href="https://yummipops-qa.yummiespromociones.com/es/productos#palomitas" class="slide block w-full h-full">
           <picture class="w-full h-full block">
-            <source media="(min-width:1024px)" srcset="https://snack.yummiespromociones.com/SnacksyummiesAssets/pops_desk.webp" />
-            <img src="https://snack.yummiespromociones.com/SnacksyummiesAssets/pops_mob.webp" alt="Yummi Pops" class="w-full h-full object-cover" />
+            <source media="(min-width:768px)" srcset="https://snack.yummiespromociones.com/SnacksyummiesAssets/pops-banner-popcorn.webp" />
+            <img src="https://snack.yummiespromociones.com/SnacksyummiesAssets/pops-banner-popcorn-mob.webp" alt="Yummi Pops" class="w-full h-full object-cover" />
+          </picture>
+        </a>
+        <!-- Slide 2: Banner 2 -> Nachos -->
+        <a href="https://yummipops-qa.yummiespromociones.com/es/productos#nacho" class="slide block w-full h-full">
+          <picture class="w-full h-full block">
+            <source media="(min-width:768px)" srcset="https://snack.yummiespromociones.com/SnacksyummiesAssets/pops-banner-nacho.webp" />
+            <img src="https://snack.yummiespromociones.com/SnacksyummiesAssets/pops-banner-nacho-mob.webp" alt="Yummi Pops" class="w-full h-full object-cover" />
           </picture>
         </a>
       </div>
@@ -62,24 +69,16 @@ const { textHome } = Astro.props;
 
 <style>
   .home-container {
-    height: 850px;
     width: 100%;
+    height: auto;
   }
 
-  @media (min-width: 768px) and (max-width: 1024px) {
-    .home-container {
-      height: 500px;
-    }
+  .carousel {
+    width: 100%;
+    aspect-ratio: 430 / 430;
+    height: auto;
   }
 
-  @media (max-width: 767px) {
-    .home-container {
-      height: 430px;
-      max-height: 100vw;
-    }
-  }
-
-  .carousel { height: 850px; }
   .carousel.full-bleed {
     width: 100vw;
     position: relative;
@@ -88,10 +87,17 @@ const { textHome } = Astro.props;
     margin-left: -50vw;
     margin-right: -50vw;
   }
-  @media (max-width: 767px) { .carousel { height: 430px; max-height: 100vw; } }
-  @media (min-width: 768px) and (max-width: 1024px) { .carousel { height: 500px; } }
+
+  @media (min-width: 768px) {
+    .carousel {
+      aspect-ratio: 1920 / 1080;
+    }
+  }
+
   .slides { position: relative; width: 100%; height: 100%; }
-  .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+  .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+  .slide picture,
+  .slide img { width: 100%; height: 100%; object-fit: cover; }
   .slide.hidden { display: none; }
   .carousel-btn { backdrop-filter: blur(4px); }
   .dots button { width: 10px; height: 10px; border-radius: 9999px; background: rgba(255,255,255,0.5); border: none; }
