@@ -1,6 +1,6 @@
 ---
 import Layout from '../../layouts/MainLayout.astro';
-import { t } from '../../i18n/i18n';
+import { t, getLocale } from '../../i18n/i18n';
 import type { Locale } from '../../i18n/i18n';
 import type { HeaderColorConfig } from '../../config/headerColors';
 import Breadcrumb from '../../components/common/Breadcrumb/Breadcrumb.astro';
@@ -12,18 +12,19 @@ import LazyImage from '../../components/common/LazyImage.astro';
 import './styles.css';
 
 export interface Props {
-  currentLang: Locale;
-  headerColorConfig: HeaderColorConfig;
+  currentLang?: Locale;
+  headerColorConfig?: HeaderColorConfig;
 }
 
-const { currentLang, headerColorConfig } = Astro.props;
+const { currentLang: passedLang, headerColorConfig } = Astro.props;
+const currentLang = passedLang || getLocale();
 
 // Get translations from common.json
 const title = t('about_us.title', { namespace: 'common', locale: currentLang });
 const metaDescription = t('meta.about_us.description', { namespace: 'common', locale: currentLang });
 
-// Importar contenido específico de aboutus.json
-const aboutUsContent = await import(`../../locales/${currentLang}/aboutus.json`);
+// Obtener contenido de aboutus.json a través de i18n
+const aboutUsContent = t('', { namespace: 'aboutus', locale: currentLang }) || {};
 const historyTitle = aboutUsContent.title;
 const historySubtitle = aboutUsContent.subtitle;
 const historyIntro = aboutUsContent.intro;
