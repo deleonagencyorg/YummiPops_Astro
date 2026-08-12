@@ -11,31 +11,52 @@ interface textHome {
   button2: string;
 }
 
-interface Props {
-  textHome: textHome;
+export interface Banner {
+  id?: string;
+  href: string;
+  desktopImg: string;
+  mobileImg: string;
+  alt?: string;
 }
 
-const { textHome } = Astro.props;
+interface Props {
+  textHome: textHome;
+  banners?: Banner[];
+}
+
+const { textHome, banners: bannersProp } = Astro.props;
+
+// Configuración de banners editable en una variable
+const banners: Banner[] = bannersProp || [
+  {
+    id: 'palomitas',
+    href: 'https://yummipops-qa.yummiespromociones.com/es/productos#palomitas',
+    desktopImg: 'https://snack.yummiespromociones.com/SnacksyummiesAssets/pops-banner-popcorn.webp',
+    mobileImg: 'https://snack.yummiespromociones.com/SnacksyummiesAssets/pops-prueba.webp',
+    alt: 'Yummi Pops',
+  },
+  {
+    id: 'nacho',
+    href: 'https://yummipops-qa.yummiespromociones.com/es/productos#nacho',
+    desktopImg: 'https://snack.yummiespromociones.com/SnacksyummiesAssets/pops-banner-nacho.webp',
+    mobileImg: 'https://snack.yummiespromociones.com/SnacksyummiesAssets/pops-banner-nachos-mob-2.webp',
+    alt: 'Yummi Pops',
+  },
+];
 ---
 
 <div class="home-container bg-white flex items-center">
   <div class="w-full px-0">
     <div class="relative carousel full-bleed overflow-hidden rounded">
       <div class="slides w-full h-full">
-        <!-- Slide 1: Banner 1 -> palomitas -->
-        <a href="https://yummipops-qa.yummiespromociones.com/es/productos#palomitas" class="slide block w-full h-full">
-          <picture class="w-full h-full block">
-            <source media="(min-width:768px)" srcset="https://snack.yummiespromociones.com/SnacksyummiesAssets/pops-banner-popcorn.webp" />
-            <img src="https://snack.yummiespromociones.com/SnacksyummiesAssets/pops-banner-popcorn-mob.webp" alt="Yummi Pops" class="w-full h-full object-cover" />
-          </picture>
-        </a>
-        <!-- Slide 2: Banner 2 -> Nachos -->
-        <a href="https://yummipops-qa.yummiespromociones.com/es/productos#nacho" class="slide block w-full h-full">
-          <picture class="w-full h-full block">
-            <source media="(min-width:768px)" srcset="https://snack.yummiespromociones.com/SnacksyummiesAssets/pops-banner-nacho.webp" />
-            <img src="https://snack.yummiespromociones.com/SnacksyummiesAssets/pops-banner-nacho-mob.webp" alt="Yummi Pops" class="w-full h-full object-cover" />
-          </picture>
-        </a>
+        {banners.map((banner) => (
+          <a href={banner.href} class="slide block w-full h-full">
+            <picture class="w-full h-full block">
+              <source media="(min-width:768px)" srcset={banner.desktopImg} />
+              <img src={banner.mobileImg} alt={banner.alt || "Yummi Pops"} class="w-full h-full object-cover" />
+            </picture>
+          </a>
+        ))}
       </div>
 
       <button class="carousel-btn prev absolute left-3 top-1/2 transform -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center z-20" aria-label="Previous">
