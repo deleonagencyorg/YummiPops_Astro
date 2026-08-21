@@ -35,7 +35,7 @@
     },
     "phone": {
       "label": "Mobile Number",
-      "placeholder": "XXXXXXXX",
+      "placeholder": "Phone number",
       "required": false
     },
     "message": {
@@ -52,16 +52,22 @@
         "tab": "Honduras",
         "name": "Yummies Honduras",
         "address": "Corporación Dinant, In front of Tropical Plants, Suyapa Blvd., 11101 Tegucigalpa, Francisco Morazán, Honduras",
-        "phones": ["2275-3370", "2239-5869", "2235-7521"],
+        "phones": [
+          "2275-3370",
+          "2239-5869",
+          "2235-7521"
+        ],
         "email": "contacto.honduras@yummies.com",
         "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/oficina-honduras.webp",
         "mapEmbed": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3869.703817626697!2d-87.20101878594838!3d14.094653490126237!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f6fa2c8e9523aff%3A0x7ab9968369fb1370!2sCorporaci%C3%B3n%20Dinant!5e0!3m2!1ses!2sgt!4v1611329011085!5m2!1ses!2sgt"
       },
       "+502": {
         "tab": "Guatemala",
-          "name": "Yummies Guatemala",
+        "name": "Yummies Guatemala",
         "address": "Corporación Dinant, 4 Industrial Complex, El Naranjo Blvd. 16-61, Guatemala City",
-        "phones": ["2502-7050"],
+        "phones": [
+          "2502-7050"
+        ],
         "email": "contacto.guatemala@yummies.com",
         "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/oficina-guatemala.webp",
         "mapEmbed": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30881.33176788943!2d-90.5543817869406!3d14.646489876089056!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8589a1d0337bd0cb%3A0xb2ab8a4de6a7dcc4!2sCorporaci%C3%B3n%20Dinant!5e0!3m2!1ses!2sgt!4v1611328904055!5m2!1ses!2sgt"
@@ -70,7 +76,9 @@
         "tab": "El Salvador",
         "name": "Yummies El Salvador",
         "address": "Dinant de El Salvador, S.A. de C.V., National Army Blvd., km 9 1/2, San Bartolo Free Zone entrance, El Salvador",
-        "phones": ["2510-8300"],
+        "phones": [
+          "2510-8300"
+        ],
         "fax": "2295-8243",
         "email": "contacto.elsalvador@yummies.com",
         "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/oficina-elsalvador.webp",
@@ -80,7 +88,10 @@
         "tab": "Nicaragua",
         "name": "Yummies Nicaragua",
         "address": "Corporación Dinant, 4RR2+R3W, Managua, Nicaragua",
-        "phones": ["2251-4069", "2251-4070"],
+        "phones": [
+          "2251-4069",
+          "2251-4070"
+        ],
         "email": "contacto.nicaragua@yummies.com",
         "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/oficina-nicaragua.webp",
         "mapEmbed": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3900.5572478066233!2d-86.20197198597542!3d12.142416891403649!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f73fc23fb350063%3A0xe657362f6f7abec5!2sCorporaci%C3%B3n%20Dinant!5e0!3m2!1ses!2sgt!4v1611329300767!5m2!1ses!2sgt"
@@ -89,7 +100,13 @@
         "tab": "Costa Rica",
         "name": "Yummies Costa Rica",
         "address": "Dinant Warehouses, VWFH+CJQ, San José, San Rafael Arriba de Desamparados, Costa Rica",
-        "phones": ["2234-7363", "2234-7259", "2234-7482", "2234-7044", "2234-6490"],
+        "phones": [
+          "2234-7363",
+          "2234-7259",
+          "2234-7482",
+          "2234-7044",
+          "2234-6490"
+        ],
         "email": "contacto.costarica@yummies.com",
         "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/oficina-costarica.webp",
         "mapEmbed": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3930.723068183398!2d-84.07309458600189!3d9.873585092937915!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8fa0e2ec16f703c9%3A0x9608ff49efdf1534!2sDinant%20Bodegas!5e0!3m2!1ses!2sgt!4v1611329274006!5m2!1ses!2sgt"
@@ -98,10 +115,12 @@
         "tab": "Dominican Republic",
         "name": "Yummies Dominican Republic",
         "address": "Corporacion Dinant (Yummies), F2R8+G25, Santo Domingo 10408, Dominican Republic",
-        "phones": ["473-1212"],
+        "phones": [
+          "473-1212"
+        ],
         "email": "contacto.dominicana@yummies.com",
         "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/oficina-dominicana.webp",
-          "mapEmbed": "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3784.5395630179273!2d-69.98736948469208!3d18.49105258743799!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTjCsDI5JzI3LjgiTiA2OcKwNTknMDUuMyJX!5e0!3m2!1ses!2sdo!4v1700000000000!5m2!1ses!2sdo"
+        "mapEmbed": "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3784.5395630179273!2d-69.98736948469208!3d18.49105258743799!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTjCsDI5JzI3LjgiTiA2OcKwNTknMDUuMyJX!5e0!3m2!1ses!2sdo!4v1700000000000!5m2!1ses!2sdo"
       }
     }
   },
