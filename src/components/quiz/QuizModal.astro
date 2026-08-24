@@ -1,12 +1,13 @@
 ---
-import { type Locale, t } from '../../i18n/i18n';
+import { type Locale, t, getLocale } from '../../i18n/i18n';
 import QuizGame from './QuizGame.jsx';
 
 interface Props {
-  currentLang: Locale;
+  currentLang?: Locale;
 }
 
-const { currentLang } = Astro.props;
+const { currentLang: passedLang } = Astro.props;
+const currentLang = passedLang || getLocale();
 
 const quizData = await import(`../../locales/${currentLang}/quiz.json`);
 const productsData = await import(`../../locales/${currentLang}/products.json`);
