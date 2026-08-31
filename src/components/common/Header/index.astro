@@ -57,24 +57,22 @@ if (headerColors) {
 >
 {headerColorConfig.showMessageCarousel && <MessageCarousel currentLang={currentLang} />}
   <div>
-    <!-- Navbar de Desktop (solo en pantallas lg y superiores) -->
-    <div class="hidden xl:block">
+    <!-- Navbar de Desktop -->
+    <div class="hidden md:block">
       <DesktopNavbar currentLang={currentLang} headerColorConfig={customHeaderConfig} />
     </div>
 
     <!-- Navegación Móvil -->
     <nav 
-      class={`xl:hidden mobile-nav flex justify-between items-center bg-white mt-8 mb-`}
+      class={`md:hidden mobile-nav flex justify-between items-center bg-white px-4 sm:px-6 py-3 my-4 mx-auto w-full max-w-[1400px]`}
     >
       <!-- Logo para Móvil -->
-      <!-- src={logosData.principal.url} -->
-      
       <div class="logo-container">
         <a href={`/${currentLang}/`} class="flex-shrink-0">
           <LocalizedImage
             src={logosData.principal.url}
             alt={logosData.principal.alt || "Yummi Pops Logo"}
-            class="h-[28px] w-[120px] md:h-[38px] md:w-[187px] w-auto object-contain"
+            class="h-[36px] sm:h-[44px] w-auto object-contain"
             loading="eager"
             priority={true}
           />
@@ -90,28 +88,8 @@ if (headerColors) {
 </header>
 
 <style>
-  @media (min-width: 900px) {
-    .mobile-nav {
-      max-width: 850px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-  }
-
-  @media (min-width: 768px) and (max-width: 898px) {
-    .mobile-nav {
-      max-width: 720px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-  }
-
-  @media (max-width: 767px) {
-    .mobile-nav {
-      max-width: 350px;
-      margin-left: auto;
-      margin-right: auto;
-    }
+  .mobile-nav {
+    width: 100%;
   }
 </style>
 
