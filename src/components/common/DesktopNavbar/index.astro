@@ -25,7 +25,7 @@ const menuItems = t('menu_items', { namespace: 'common', locale: currentLang }) 
 
 <!-- Desktop Navigation -->
 <nav 
-  class="hidden md:flex items-center justify-between w-full py-[28px] px-6 bg-white rounded-[25px] mt-6 mx-auto max-w-[1400px]"
+  class="hidden md:flex items-center justify-between w-full py-4 lg:py-[28px] px-4 md:px-6 bg-white rounded-[20px] lg:rounded-[25px] mt-4 lg:mt-6 mx-auto max-w-[1400px] gap-4"
   data-current-lang={currentLang}
 >
   <!-- Logo -->
@@ -34,19 +34,19 @@ const menuItems = t('menu_items', { namespace: 'common', locale: currentLang }) 
       <img 
         src={logos.principal.url} 
         alt={logos.principal.alt || 'Logo'} 
-        class="h-[62px] w-[91px]"
+        class="h-[44px] md:h-[52px] lg:h-[62px] w-auto object-contain"
       />
     </a>
   </div>
 
   <!-- Menu -->
-  <div class="flex space-x-10 relative" id="desktop-menu-items">
+  <div class="flex items-center space-x-6 lg:space-x-10 relative flex-shrink-0" id="desktop-menu-items">
     {menuItems && menuItems.filter((item: any) => item.show).map((item: any) => (
       item?.id === 'products' ? (
         <div class="group">
           <a
             href={item.href}
-            class="text-black font-title text-lg tracking-wide hover:opacity-80 transition inline-flex items-center"
+            class="text-black font-title text-base lg:text-lg tracking-wide hover:opacity-80 transition inline-flex items-center whitespace-nowrap"
           >
             {item.text}
           </a>
@@ -54,8 +54,8 @@ const menuItems = t('menu_items', { namespace: 'common', locale: currentLang }) 
       ) : (
         <a
           href={item.href}
-          class="text-black font-title text-lg tracking-wide 
-                 hover:opacity-80 transition"
+          class="text-black font-title text-base lg:text-lg tracking-wide 
+                 hover:opacity-80 transition whitespace-nowrap"
         >
           {item.text}
         </a>
@@ -63,14 +63,14 @@ const menuItems = t('menu_items', { namespace: 'common', locale: currentLang }) 
     ))}
   </div>
   <!-- Right section: Button + User -->
-  <div class="flex items-center space-x-4">
+  <div class="flex items-center space-x-2 md:space-x-4 flex-shrink-0">
     <LanguageSwitcher activeLocale={currentLang} headerColorConfig={headerColorConfig} textColorValue='black'/>
     <a 
       href={currentLang === 'es' ? '/es/contacto' : '/en/contact'}
-      class="bg-black text-white px-[50px] py-3 rounded-full font-semibold 
-             shadow-md hover:opacity-90 transition"
+      class="bg-black text-white px-5 py-2.5 lg:px-[50px] lg:py-3 rounded-full font-semibold 
+             shadow-md hover:opacity-90 transition flex-shrink-0"
     >
-      <span class="text-[20px]">{currentLang === 'es' ? 'Contáctanos' : 'Contact Us'}</span>
+      <span class="text-sm md:text-base lg:text-[20px] whitespace-nowrap">{currentLang === 'es' ? 'Contáctanos' : 'Contact Us'}</span>
     </a>
   </div>
 </nav>
