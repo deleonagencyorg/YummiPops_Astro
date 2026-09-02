@@ -7,8 +7,8 @@
     "title": "Descubre la variedad de nuestros",
     "subtitle": "Productos",
     "textButton": "Conoce más"
-},
-  "stockist":[
+  },
+  "stockist": [
     {
       "id": "sompopopoapp",
       "name": "Sompopop App",
@@ -23,7 +23,7 @@
     }
   ],
   "items": [
-        {
+    {
       "id": "yummi-pops-nacho-spicy-maple",
       "name": "Yummi Pops Nacho Spicy Maple",
       "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/nacho_spicy_maple.webp",
@@ -34,7 +34,7 @@
       "header_background": "#FDE820",
       "header_text_color": "#3E2723",
       "color_button": "#FFFFFF",
-      "description":  "Maíz inflado bajo presión con sabor a maple y chile",
+      "description": "Maíz inflado bajo presión con sabor a maple y chile",
       "short_description": "Maíz inflado bajo presión con sabor a maple y chile",
       "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
       "background_image": "https://snack.yummiespromociones.com/snacksyummies/nacho_spicy_maple.webp",
@@ -78,10 +78,10 @@
       "image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/jalapeno-cream.webp",
       "imagetwo": "https://snack.yummiespromociones.com/SnacksyummiesAssets/jalapeno-cream.webp",
       "badge_icon": "/images/es/products/icon-nachos.png",
-      "background_color": "#36D86E",  
+      "background_color": "#36D86E",
       "background_product": "#3CCF6F",
       "header_color": "#FFFFFF",
-      "text_color":"#FFFFFF",
+      "text_color": "#FFFFFF",
       "header_background": "#E82E30",
       "color_button": "#FFFFFF",
       "description": "Maíz inflado bajo presión con sabor a queso crema y jalapeño ",
@@ -132,11 +132,11 @@
       "background_color": "#0082C8",
       "background_product": "#0082C8",
       "header_color": "#018EDB",
-      "text_color":"#FFFFFF",
+      "text_color": "#FFFFFF",
       "header_background": "#FDE820",
       "header_text_color": "#5B3F2E",
       "color_button": "#FFFFFF",
-      "description":  "Palomitas de maíz con sabor a chiles, especias y limón",
+      "description": "Palomitas de maíz con sabor a chiles, especias y limón",
       "short_description": "Palomitas de maíz con sabor a chiles, especias y limón",
       "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
       "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
@@ -181,11 +181,11 @@
       "background_color": "#F26900",
       "background_product": "#F26900",
       "header_color": "#018EDB",
-      "text_color":"#FFFFFF",
+      "text_color": "#FFFFFF",
       "header_background": "#FDE820",
       "header_text_color": "#5B3F2E",
       "color_button": "#FFFFFF",
-      "description":  "Palomitas de maíz con sabor a queso",
+      "description": "Palomitas de maíz con sabor a queso",
       "short_description": "Palomitas de maíz con sabor a queso",
       "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
       "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
@@ -230,11 +230,11 @@
       "background_color": "#0EB3F3",
       "background_product": "#0EB3F3",
       "header_color": "#018EDB",
-      "text_color":"#FFFFFF",
+      "text_color": "#FFFFFF",
       "header_background": "#FDE820",
       "header_text_color": "#5B3F2E",
       "color_button": "#FFFFFF",
-      "description":  "Maíz inflado bajo presión con sabor a queso",
+      "description": "Maíz inflado bajo presión con sabor a queso",
       "short_description": "Maíz inflado bajo presión con sabor a queso",
       "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
       "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
@@ -278,11 +278,11 @@
       "background_color": "#02319D",
       "background_product": "#02319D",
       "header_color": "#018EDB",
-      "text_color":"#FFFFFF",
+      "text_color": "#FFFFFF",
       "header_background": "#FDE820",
       "header_text_color": "#5B3F2E",
       "color_button": "#FFFFFF",
-      "description":  "Palomitas de maíz con sabor a sal marina",
+      "description": "Palomitas de maíz con sabor a sal marina",
       "short_description": "Palomitas de maíz con sabor a sal marina",
       "available": "https://snack.yummiespromociones.com/taqueritos/banderas.webp",
       "background_image": "https://snack.yummiespromociones.com/snacksyummies/zibas-grande2.webp",
@@ -326,11 +326,11 @@
       "background_color": "#008C32",
       "background_product": "#008C32",
       "header_color": "#018EDB",
-      "text_color":"#FFFFFF",
+      "text_color": "#FFFFFF",
       "header_background": "#FDE820",
       "header_text_color": "#5B3F2E",
       "color_button": "#FFFFFF",
-      "description":  "Palomitas de maíz con sabor a chiles Toreados",
+      "description": "Palomitas de maíz con sabor a chiles Toreados",
       "short_description": "Palomitas de maíz con sabor a chiles Toreados",
       "available": "https://snack.yummiespromociones.com/SnacksyummiesAssets/yummi-chile-toreado.webp",
       "background_image": "https://snack.yummiespromociones.com/SnacksyummiesAssets/yummi-chile-toreado.webp",
@@ -368,6 +368,5 @@
       },
       "category": "palomitas"
     }
-   
   ]
 }

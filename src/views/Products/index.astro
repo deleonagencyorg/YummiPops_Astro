@@ -348,7 +348,7 @@ const features = [
                 data-category={getCategoryKey(product.category)}
               >
                 <div
-                  class="rounded-[30px] p-6 md:p-8 flex flex-col items-center justify-center transition-all duration-300 hover:shadow-2xl transform hover:scale-[1.02] min-h-[350px]"
+                  class="rounded-[30px] p-6 md:p-8 flex flex-col items-center justify-center transition-all duration-300 hover:shadow-2xl transform hover:scale-[1.02] min-h-[350px] relative"
                   style={{ backgroundColor: product.background_product || product.backgroundColor || '#0D75C9' }}
                 >
                   <img
@@ -356,6 +356,13 @@ const features = [
                     alt={product.name}
                     class="w-full max-w-[250px] h-[250px] object-contain drop-shadow-lg group-hover:scale-105 transition-transform duration-300"
                   />
+                  {product.isnew && (
+                    <img 
+                      src={currentLang === 'es' ? 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NUEVO.webp' : 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NEW.webp'}
+                      alt="NEW"
+                      class="product-new-badge"
+                    />
+                  )}
                   <!-- Nombre dentro de la card -->
                   <p class="w-full text-sm md:text-base font-black text-white leading-tight mt-4 text-center">
                     {product.name}
