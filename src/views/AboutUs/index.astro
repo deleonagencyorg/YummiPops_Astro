@@ -22,8 +22,8 @@ const { currentLang, headerColorConfig } = Astro.props;
 const title = t('about_us.title', { namespace: 'common', locale: currentLang });
 const metaDescription = t('meta.about_us.description', { namespace: 'common', locale: currentLang });
 
-// Importar contenido específico de aboutus.json
-const aboutUsContent = await import(`../../locales/${currentLang}/aboutus.json`);
+const lang = currentLang || 'es';
+const aboutUsContent = await import(`../../locales/${lang}/aboutus.json`);
 const historyTitle = aboutUsContent.title;
 const historySubtitle = aboutUsContent.subtitle;
 const historyIntro = aboutUsContent.intro;

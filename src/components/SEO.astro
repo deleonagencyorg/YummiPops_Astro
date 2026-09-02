@@ -1,62 +1,111 @@
 ---
-import { t, type Locale } from '../../i18n/i18n';
-import config from '../../i18n/config';
+import { t, type Locale } from '../i18n/i18n';
+import config from '../i18n/config';
+
+export interface SEOData {
+  metaTitle?: string;
+  metaDescription?: string;
+  metaKeywords?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string | { url: string };
+  canonicalUrl?: string;
+}
 
 export interface Props {
   currentLang: Locale;
   title?: string;
   description?: string;
+  keywords?: string;
   canonicalUrl?: string;
   imageUrl?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string | { url: string };
+  seoData?: SEOData;
 }
 
-const { currentLang, title, description, canonicalUrl, imageUrl } = Astro.props;
+const {
+  currentLang,
+  title,
+  description,
+  keywords,
+  canonicalUrl,
+  imageUrl,
+  ogTitle,
+  ogDescription,
+  ogImage,
+  seoData
+} = Astro.props;
 
-// Get translations for meta tags
-const meta = t('meta', { namespace: 'common', locale: currentLang }) as any;
-const socialMedia = t('social_media', { namespace: 'common', locale: currentLang }) as any;
+// Obtener traducciones por defecto
+const meta = (t('meta', { namespace: 'common', locale: currentLang }) as any) || {};
+const socialMedia = (t('social_media', { namespace: 'common', locale: currentLang }) as any) || {};
 
-// Default values
-const pageTitle = title || meta.home.title;
-const pageDescription = description || meta.home.description;
-const pageImage = imageUrl || 'https://snack.yummiespromociones.com/SnacksyummiesAssets/logo-pops2.webp';
-const pageUrl = canonicalUrl || `https://yummipops.com/${currentLang}`;
+// Extraer imagen si viene como objeto { url: string }
+const resolveImageUrl = (img?: string | { url: string }): string => {
+  if (!img) return '';
+  if (typeof img === 'string') return img;
+  if (typeof img === 'object' && img.url) return img.url;
+  return '';
+};
 
-// Social media URLs
+const defaultTitle = currentLang === 'es' ? 'Yummi Pops - Deliciosos Snacks' : 'Yummi Pops - Delicious Snacks';
+const defaultDescription = currentLang === 'es' ? 'Descubre los deliciosos snacks Yummi Pops' : 'Discover delicious Yummi Pops snacks';
+const defaultImage = 'https://snack.yummiespromociones.com/SnacksyummiesAssets/logo-pops2.webp';
+const defaultKeywords = currentLang === 'es'
+  ? 'yummi pops, palomitas, nacho, snacks centroamérica, snacks yummies'
+  : 'yummi pops, popcorn, nacho, central america snacks, snacks yummies';
+
+// Prioridad: props directos > seoData del CMS > traducciones locales por defecto
+const pageTitle = title || seoData?.metaTitle || meta?.home?.title || defaultTitle;
+const pageDescription = description || seoData?.metaDescription || meta?.home?.description || defaultDescription;
+const pageKeywords = keywords || seoData?.metaKeywords || defaultKeywords;
+
+const finalOgTitle = ogTitle || seoData?.ogTitle || pageTitle;
+const finalOgDescription = ogDescription || seoData?.ogDescription || pageDescription;
+const rawOgImage = ogImage || seoData?.ogImage || imageUrl;
+const pageImage = resolveImageUrl(rawOgImage) || defaultImage;
+
+const pageUrl = canonicalUrl || seoData?.canonicalUrl || `https://yummipops.com/${currentLang}`;
+
+// URLs Redes Sociales
 const facebookUrl = socialMedia?.facebook?.url || '';
 const instagramUrl = socialMedia?.instagram?.url || '';
 const twitterUrl = socialMedia?.twitter?.url || '';
+---
 
 <!-- Primary Meta Tags -->
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>{pageTitle}</title>
 <meta name="description" content={pageDescription} />
+{pageKeywords && <meta name="keywords" content={pageKeywords} />}
 <meta name="robots" content="index, follow" />
 <link rel="canonical" href={pageUrl} />
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
 <meta property="og:url" content={pageUrl} />
-<meta property="og:title" content={pageTitle} />
-<meta property="og:description" content={pageDescription} />
+<meta property="og:title" content={finalOgTitle} />
+<meta property="og:description" content={finalOgDescription} />
 <meta property="og:image" content={pageImage} />
-<meta property="og:locale" content={currentLang} />
-{config.supportedLocales.map(lang => (
-  <meta property="og:locale:alternate" content={lang} />
+<meta property="og:locale" content={currentLang === 'es' ? 'es_ES' : 'en_US'} />
+{config.supportedLocales.map((lang) => (
+  <meta property="og:locale:alternate" content={lang === 'es' ? 'es_ES' : 'en_US'} />
 ))}
 
 <!-- Image Optimization -->
 <meta name="og:image:width" content="1200" />
 <meta name="og:image:height" content="630" />
-<meta name="og:image:alt" content="Snacks Yummies - ${title || 'Delicious snacks from Central America'}" />
+<meta name="og:image:alt" content={pageTitle} />
 
-<!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={pageUrl} />
-<meta property="twitter:title" content={pageTitle} />
-<meta property="twitter:description" content={pageDescription} />
-<meta property="twitter:image" content={pageImage} />
+<!-- Twitter Card Meta Tags -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={pageUrl} />
+<meta name="twitter:title" content={finalOgTitle} />
+<meta name="twitter:description" content={finalOgDescription} />
+<meta name="twitter:image" content={pageImage} />
 
 <!-- Social Media Links -->
 {facebookUrl && <link rel="me" href={facebookUrl} />}
@@ -91,6 +140,6 @@ const twitterUrl = socialMedia?.twitter?.url || '';
   ]
 })}></script>
 
-<!-- Additional Tags -->
+<!-- Theme Color -->
 <meta name="theme-color" content="#0A3D7E" />
 <meta name="msapplication-TileColor" content="#0A3D7E" />

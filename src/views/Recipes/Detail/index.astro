@@ -1,5 +1,4 @@
 ---
-// src/views/Recipes/Detail/index.astro
 import './styles.css';
 import LazyImage from '../../../components/common/LazyImage.astro';
 import RecipeCard from '../../../components/recipes/RecipeCard.astro';
@@ -7,6 +6,7 @@ import { t, getLocale } from '../../../i18n/i18n';
 import ShareButton from '../../../components/common/ShareButton.astro';
 import ShareModal from '../../../components/common/ShareModal.astro';
 import VideoModal from '../../../components/common/VideoModal.astro';
+import { getRecipeBySlug, getAllRecipes } from '../../../services/api/recipes';
 
 interface RecipeItem {
   id: string;
@@ -15,7 +15,7 @@ interface RecipeItem {
   ingredients: string[];
   instructions: string[];
   preparation_time: number;
-  servings: number;
+  servings?: number;
   difficulty?: string;
   category?: string;
   image?: string;
@@ -26,36 +26,37 @@ interface RecipeItem {
 
 const { currentLang, recipeId } = Astro.props;
 
-// Import all recipe files
+// Intentar obtener la receta desde el CMS
+let cmsRecipe = await getRecipeBySlug(recipeId, currentLang);
+if (!cmsRecipe) {
+  const cmsList = await getAllRecipes(currentLang);
+  cmsRecipe = cmsList.find((item) => item.id === recipeId || item.slug === recipeId) || null;
+}
+
+// Cargar recetas locales como fallback
 const recipeModules = import.meta.glob<{ default: RecipeItem }>("../../../locales/*/recipes/*.json");
-const allRecipes: RecipeItem[] = [];
+const localRecipes: RecipeItem[] = [];
 for (const path in recipeModules) {
   const lang = path.split('/')[4];
   if (lang === currentLang) {
     const mod = await recipeModules[path]();
-    allRecipes.push(mod.default);
+    localRecipes.push(mod.default);
   }
 }
 
-function toDate(s?: string) {
-  if (!s) return 0;
-  const t = Date.parse(s);
-  return isNaN(t) ? 0 : t;
-}
+const recipe = cmsRecipe || localRecipes.find((item: RecipeItem) => item.id === recipeId || (item as any).slug === recipeId);
 
-allRecipes.sort((a, b) => toDate((b as any).date) - toDate((a as any).date));
+const cmsAll = await getAllRecipes(currentLang);
+const allRecipes: RecipeItem[] = cmsAll.length > 0 ? (cmsAll as any) : localRecipes;
 
-// Find current recipe
-const recipe = allRecipes.find((item: RecipeItem) => item.id === recipeId);
-
-// Get related recipes
 const relatedRecipes = allRecipes
-  .filter((item: RecipeItem) => item.id !== recipeId)
+  .filter((item: RecipeItem) => item.id !== recipeId && (item as any).slug !== recipeId)
   .slice(0, 3);
 
 if (!recipe) {
   throw new Error(`Recipe with id ${recipeId} not found`);
 }
+
 
 // Load products using t() function
 const products = t('items', { namespace: 'products', locale: currentLang }) || [];
@@ -275,7 +276,7 @@ const servingsCount = (recipe.servings !== undefined && recipe.servings !== null
             </p>
 
             <a 
-              href={`/${currentLang}/productos/${productData.id}`}
+              href={`/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}/${productData.slug || productData.id}`}
               class="block w-full bg-white text-blue-600 text-center font-bold py-3 rounded-[10px] hover:bg-gray-100 transition-colors"
             >
               {viewProductButton}

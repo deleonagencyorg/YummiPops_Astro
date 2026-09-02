@@ -43,16 +43,25 @@ interface Product {
   weight?: string[];
 }
 
+import { getProductBySlug, getAllProducts } from '../../../services/api/products';
+
 const { currentLang, productId } = Astro.props;
 
-// Obtener datos desde traducciones
+// Obtener datos desde CMS o traducciones
+let cmsProduct = await getProductBySlug(productId, currentLang);
+if (!cmsProduct) {
+  const allCms = await getAllProducts(currentLang);
+  cmsProduct = allCms.find((item) => item.id === productId || item.slug === productId) || null;
+}
+
 const products = t('items', { namespace: 'products', locale: currentLang as Locale }) || [];
-const product = products.find((item: Product) => item.id === productId);
+const localProduct = products.find((item: any) => item.id === productId || item.slug === productId);
 const recipesAssets = t('', { namespace: 'recipes', locale: currentLang }) || {};
 
-// Si el producto no existe, lanzar error
+const product = cmsProduct || localProduct;
+
 if (!product || Object.keys(product).length === 0) {
-  throw new Error(t('errors.product_not_found', { locale: currentLang }));
+  return Astro.redirect(`/${currentLang}/404`);
 }
 
 // Asegurar que todas las propiedades necesarias existan

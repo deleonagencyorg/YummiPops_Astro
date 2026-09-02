@@ -4,21 +4,18 @@ import { routesConfig, findRouteBySlug } from '../../config/routes';
 import { setLocale, t, type Locale } from '../../i18n/i18n';
 import MainLayout from '../../layouts/MainLayout.astro';
 import RecipeDetail from '../../views/Recipes/Detail/index.astro';
+import { getPageBySlug } from '../../services/api/pages';
 
-// Define the expected structure of the dynamically imported modules
 interface PageModule {
-  default: any; // Using 'any' for simplicity with dynamic Astro component imports
+  default: any;
 }
 
-// Obtener todos los posibles componentes de contenido de página
-// La ruta para Astro.glob debe ser relativa desde este archivo o absoluta desde el proyecto.
-// Usaremos una ruta que asume que los componentes están en src/views/*/index.astro
 const pageComponents = await Astro.glob('../../views/*/index.astro');
 
 export async function getStaticPaths() {
   const paths = [];
   for (const route of routesConfig) {
-    if (route.id === 'home') continue; // La página de inicio se maneja en [lang]/index.astro
+    if (route.id === 'home') continue;
 
     for (const lang in route.slugs) {
       paths.push({
@@ -35,121 +32,104 @@ const { routeId } = Astro.props as { routeId: string };
 
 setLocale(lang);
 
-// Logging para depuración
-console.log('URL completa:', Astro.url.pathname);
 const urlParts = Astro.url.pathname.split('/').filter(Boolean);
-console.log('Partes de URL:', urlParts);
 
-// Variables para el renderizado condicional
 let isRecipeDetail = false;
 let recipeData = null;
 let recipeId = '';
 let langCode = '';
 
-// Verificar si es una ruta de detalle de receta
-// Formato: /es/recetas/[id] o /en/recipes/[id]
 if (urlParts.length === 3) {
   langCode = urlParts[0];
   const section = urlParts[1];
   const detailId = urlParts[2];
   
-  console.log(`Verificando ruta: /${langCode}/${section}/${detailId}`);
-  
-  // Verificar si es una ruta de recetas
   const isRecipesRoute = 
     (langCode === 'es' && section === 'recetas') || 
     (langCode === 'en' && section === 'recipes');
   
   if (isRecipesRoute) {
-    console.log(`Detectada ruta de receta: ${detailId}`);
-    
     try {
-      // Cargar datos de recetas directamente
       const allRecipes = t('items', { namespace: 'recipes', locale: langCode as Locale }) || [];
-      console.log(`Total de recetas cargadas: ${allRecipes.length}`);
-      console.log('IDs de recetas disponibles:', allRecipes.map((r: any) => r.id));
-      
       const recipe = allRecipes.find((r: any) => r.id === detailId);
-      console.log('Receta encontrada:', recipe ? recipe.id : 'NO');
       
       if (recipe) {
-        console.log('Renderizando detalle de receta:', recipe.title);
-        // Preparar datos para renderizado en la sección de plantilla
         isRecipeDetail = true;
         recipeData = recipe;
         recipeId = detailId;
       } else {
-        console.error(`Receta con ID ${detailId} no encontrada`);
         return Astro.redirect(`/${langCode}/404`);
       }
     } catch (error) {
-      console.error('Error al cargar receta:', error);
       return Astro.redirect(`/${langCode}/404`);
     }
   }
 }
 
-// Si no es una receta, seguir con el flujo normal de páginas
 let pageTitle = '';
 let pageDescription = '';
+let seoKeywords: string | undefined;
+let ogTitle: string | undefined;
+let ogDescription: string | undefined;
+let ogImage: string | { url: string } | undefined;
 let ContentComponent;
 
 if (!isRecipeDetail) {
-  // Obtener la ruta actual para páginas normales
   const currentRoute = findRouteBySlug(lang, pageSlug);
-  console.log('Ruta encontrada:', currentRoute?.id);
 
-  // Si no es una ruta de detalle o no se encontró la receta, seguir con el flujo normal
   if (!currentRoute) {
-    console.error(`Ruta no encontrada para lang=${lang}, pageSlug=${pageSlug}`);
     return Astro.redirect(`/${lang}/404`);
   }
 
-  // Usar import.meta.glob()
-  // Esto devuelve un objeto donde las claves son las rutas y los valores son funciones para importar el módulo.
   const modules = import.meta.glob('../../views/*/index.astro');
-
-  // DEBUG: Log de los módulos encontrados por import.meta.glob()
-  console.log('Módulos de VISTAS encontrados por import.meta.glob():', Object.keys(modules));
-
-  // Transformar la ruta del contentComponent para que coincida con las claves de import.meta.glob()
-  // Asumimos que [pageSlug].astro está en src/pages/[lang]/ y los componentes en src/components/pages/
-  // Por lo tanto, '@/' se traduce a '../../' desde la perspectiva de [pageSlug].astro para llegar a la raíz de src/
   const targetModulePath = currentRoute.contentComponent.replace('@/', '../../');
-
-  // DEBUG: Log de la ruta del módulo que se busca
-  console.log(`Buscando módulo con ruta: ${targetModulePath} para la ruta ID: ${currentRoute.id}`);
-
-  const moduleLoader = modules[targetModulePath]; // modules es Record<string, () => Promise<any>>
+  const moduleLoader = modules[targetModulePath];
 
   if (!moduleLoader) {
-    console.error(`Cargador de módulo no encontrado para la ruta: ${currentRoute.id}. Se esperaba la ruta: ${targetModulePath}`);
-    console.error('Módulos de VISTAS disponibles de import.meta.glob():', Object.keys(modules));
     return Astro.redirect(`/${lang}/404`);
   }
 
-  const loadedModule = await moduleLoader(); // Ejecutar la función para cargar el módulo
-  const ContentComponentModule = loadedModule as PageModule; // Explicitly cast to PageModule
+  const loadedModule = await moduleLoader();
+  const ContentComponentModule = loadedModule as PageModule;
   ContentComponent = ContentComponentModule.default;
 
   if (!ContentComponent) {
-    console.error(`Componente por defecto no exportado o no encontrado en el módulo: ${targetModulePath} para la ruta ID: ${currentRoute.id}`);
     return Astro.redirect(`/${lang}/404`);
   }
 
-  pageTitle = currentRoute.metaTitleKey ? t(currentRoute.metaTitleKey) : 'Page';
-  pageDescription = currentRoute.metaDescriptionKey ? t(currentRoute.metaDescriptionKey) : '';
+  const cmsPage = await getPageBySlug(pageSlug, lang);
+
+  pageTitle = cmsPage?.metaTitle || (currentRoute.metaTitleKey ? t(currentRoute.metaTitleKey) : 'Page');
+  pageDescription = cmsPage?.metaDescription || (currentRoute.metaDescriptionKey ? t(currentRoute.metaDescriptionKey) : '');
+  seoKeywords = cmsPage?.metaKeywords;
+  ogTitle = cmsPage?.ogTitle || pageTitle;
+  ogDescription = cmsPage?.ogDescription || pageDescription;
+  ogImage = cmsPage?.ogImage || cmsPage?.featuredImage?.url;
 }
 ---
 
 {isRecipeDetail && (
-  <MainLayout title={recipeData.title ?? ''} description="">
+  <MainLayout
+    title={recipeData.title ?? ''}
+    description={recipeData.description || ''}
+    keywords={recipeData.metaKeywords}
+    ogTitle={recipeData.ogTitle || recipeData.title}
+    ogDescription={recipeData.ogDescription || recipeData.description}
+    ogImage={recipeData.ogImage || recipeData.image}
+  >
     <RecipeDetail currentLang={langCode as Locale} recipeId={recipeId} />
   </MainLayout>
 )}
 
 {!isRecipeDetail && (
-  <MainLayout title={pageTitle} description={pageDescription}>
+  <MainLayout
+    title={pageTitle}
+    description={pageDescription}
+    keywords={seoKeywords}
+    ogTitle={ogTitle}
+    ogDescription={ogDescription}
+    ogImage={ogImage}
+  >
     <ContentComponent />
   </MainLayout>
 )}

@@ -1,9 +1,9 @@
 ---
-// src/views/Recipes/index.astro
 import { getLocale } from '../../i18n/i18n';
 import './styles.css';
 import RecipeCard from '../../components/recipes/RecipeCard.astro';
 import VideoModal from '../../components/common/VideoModal.astro';
+import { getAllRecipes } from '../../services/api/recipes';
 
 interface Recipe {
   id: string;
@@ -19,16 +19,21 @@ interface Recipe {
 
 const currentLang = getLocale();
 
+const cmsRecipes = await getAllRecipes(currentLang);
+
 const recipeModules = import.meta.glob<{default: Recipe}>('../../locales/*/recipes/*.json');
-const allRecipes: Recipe[] = [];
+const localRecipes: Recipe[] = [];
 
 for (const path in recipeModules) {
   const lang = path.split('/')[3];
   if (lang === currentLang) {
     const module = await recipeModules[path]();
-    allRecipes.push(module.default);
+    localRecipes.push(module.default);
   }
 }
+
+const allRecipes: Recipe[] = cmsRecipes.length > 0 ? (cmsRecipes as any) : localRecipes;
+
 
 function toDate(s?: string) {
   if (!s) return 0;

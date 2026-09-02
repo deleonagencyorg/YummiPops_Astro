@@ -3,41 +3,63 @@
 import { t, setLocale, type Locale } from '../../../i18n/i18n';
 import MainLayout from '../../../layouts/MainLayout.astro';
 import RecipeDetail from '../../../views/Recipes/Detail/index.astro';
+import { getAllRecipes } from '../../../services/api/recipes';
 
 export async function getStaticPaths() {
   const paths: any[] = [];
-  // Cargar recetas EN
-  const enModules = import.meta.glob('../../../locales/en/recipes/*.json', { eager: true });
-  const enFiles = Object.values(enModules) as any[];
-  for (const mod of enFiles) {
-    const recipe = (mod as any).default;
-    if (!recipe?.id) continue;
-    paths.push({
-      params: { lang: 'en', recipeId: recipe.id },
-      props: { recipe, currentLang: 'en' }
+  const locales = ['en', 'es'];
+
+  for (const locale of locales) {
+    const cmsRecipes = await getAllRecipes(locale);
+    const modules = import.meta.glob('../../../locales/*/recipes/*.json', { eager: true });
+    const localFiles: any[] = [];
+
+    for (const [path, mod] of Object.entries(modules)) {
+      if (path.includes(`/${locale}/`)) {
+        const item = (mod as any)?.default;
+        if (item?.id) localFiles.push(item);
+      }
+    }
+
+    const recipesMap = new Map();
+    localFiles.forEach((r: any) => {
+      if (r.id) recipesMap.set(r.id, r);
+      if (r.slug) recipesMap.set(r.slug, r);
     });
-  }
-  // Cargar recetas ES
-  const esModules = import.meta.glob('../../../locales/es/recipes/*.json', { eager: true });
-  const esFiles = Object.values(esModules) as any[];
-  for (const mod of esFiles) {
-    const recipe = (mod as any).default;
-    if (!recipe?.id) continue;
-    paths.push({
-      params: { lang: 'es', recipeId: recipe.id },
-      props: { recipe, currentLang: 'es' }
+    cmsRecipes.forEach((r: any) => {
+      if (r.id) recipesMap.set(r.id, r);
+      if (r.slug) recipesMap.set(r.slug, r);
     });
+
+    const allRecipes = Array.from(new Set(recipesMap.values()));
+
+    for (const recipe of allRecipes) {
+      const primaryKey = recipe.slug || recipe.id;
+      if (primaryKey) {
+        paths.push({
+          params: { lang: locale, recipeId: primaryKey },
+          props: { recipe, currentLang: locale }
+        });
+      }
+
+      if (recipe.id && recipe.slug && recipe.id !== recipe.slug) {
+        paths.push({
+          params: { lang: locale, recipeId: recipe.id },
+          props: { recipe, currentLang: locale }
+        });
+      }
+    }
   }
+
   return paths;
 }
 
 const { recipe, currentLang } = Astro.props;
 const { lang, recipeId } = Astro.params;
 
-// Establecer el idioma para las traducciones
 setLocale(lang as Locale);
 ---
 
-<MainLayout title={recipe.title}>
+<MainLayout title={recipe?.title || 'Recipe'}>
   <RecipeDetail currentLang={currentLang} recipeId={recipeId} />
 </MainLayout>

@@ -2,8 +2,8 @@
 import { routesConfig, getRouteById } from '../../config/routes';
 import { setLocale, t, type Locale } from '../../i18n/i18n';
 import MainLayout from '../../layouts/MainLayout.astro';
-// Importa el componente de contenido directamente
 import HomePageContent from '../../views/Home/index.astro';
+import { getPageBySlug } from '../../services/api/pages';
 
 export async function getStaticPaths() {
   const homeRoute = getRouteById('home');
@@ -19,117 +19,33 @@ setLocale(lang);
 
 const homeRoute = getRouteById('home');
 if (!homeRoute) {
-  // Manejar el caso en que la ruta 'home' no esté definida, aunque getStaticPaths debería prevenir esto.
-  // Podrías redirigir a 404 o mostrar un error.
   throw new Error("Home route configuration is missing.");
 }
 
-const pageTitle = homeRoute.metaTitleKey ? t(homeRoute.metaTitleKey) : 'Home';
-const pageDescription = homeRoute.metaDescriptionKey ? t(homeRoute.metaDescriptionKey) : '';
+// Intentar cargar la página 'home' o 'inicio' desde el CMS
+const cmsPage = await getPageBySlug('home', lang) || await getPageBySlug('inicio', lang);
 
-const ContentComponent = HomePageContent; // Asignación directa para la página de inicio
+const pageTitle = cmsPage?.metaTitle || (homeRoute.metaTitleKey ? t(homeRoute.metaTitleKey) : 'Yummi Pops');
+const pageDescription = cmsPage?.metaDescription || (homeRoute.metaDescriptionKey ? t(homeRoute.metaDescriptionKey) : '');
+const seoKeywords = cmsPage?.metaKeywords || (lang === 'es' 
+  ? 'yummi pops, palomitas, nacho, snacks centroamérica, snacks yummies'
+  : 'yummi pops, popcorn, nacho, central america snacks, snacks yummies');
 
-// SEO Keywords based on language
-const seoKeywords = lang === 'es' 
-  ? 'snacks centroamérica, taqueritos, zambos, ranchitas, snacks honduras, snacks guatemala, marca líder snacks, snacks yummies'
-  : 'central america snacks, food, honduras snacks, guatemala snacks, leading snack brand, snacks yummies, taqueritos, zambos, ranchitas';
+const ogTitle = cmsPage?.ogTitle || pageTitle;
+const ogDescription = cmsPage?.ogDescription || pageDescription;
+const ogImage = cmsPage?.ogImage || "https://snack.yummiespromociones.com/SnacksyummiesAssets/Yummi-pops-3.webp";
+
+const ContentComponent = HomePageContent;
 ---
-<MainLayout title={pageTitle} description={pageDescription}>
-  <Fragment slot="head">
-    <!-- SEO Meta Tags -->
-    <meta name="keywords" content={seoKeywords}>
-    <meta name="author" content="Snacks Yummies">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href={`https://yummipops.com/${lang}`}>
-    
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content={`Snacks Yummies - ${pageTitle}`}>
-    <meta property="og:description" content={pageDescription}>
-    <meta property="og:image" content="https://snack.yummiespromociones.com/SnacksyummiesAssets/Yummi-pops-3.webp">
-    <meta property="og:url" content={`https://yummipops.com/${lang}`}>
-    <meta property="og:type" content="website"> 
-    <meta property="og:site_name" content="Yummi Pops">
-    <meta property="og:locale" content={lang === 'es' ? 'es_ES' : 'en_US'}>
-    
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content={`Snacks Yummies - ${pageTitle}`}>
-    <meta name="twitter:description" content={pageDescription}>
-    <meta name="twitter:image" content="https://snack.yummiespromociones.com/SnacksyummiesAssets/Yummi-pops-3.webp">
-    <meta name="twitter:site" content="@yummipops">
-    
-    <!-- Structured Data -->
-    <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Yummi Pops",
-      "alternateName": "Yummi Pops",
-      "url": "https://yummipops.com",
-      "logo": "https://snack.yummiespromociones.com/SnacksyummiesAssets/Yummi-pops-3.webp",
-      "description": lang === 'es' ? "Marca líder de snacks en Centroamérica. Taqueritos, Zambos, Ranchitas. Calidad y sabor inigualable." : "Leading snack brand in Central America. Taqueritos, Zambos, Ranchitas. Unmatched quality and flavor.",
-      "foundingDate": "1990",
-      "areaServed": [
-        "Honduras",
-        "Guatemala", 
-        "El Salvador",
-        "Nicaragua",
-        "Costa Rica",
-        "República Dominicana"
-      ],
-      "brand": [
-        {
-          "@type": "Brand",
-          "name": "Yummi Pops",
-          "url": "https://yummipops.com"
-        }
-      ],
-      "sameAs": [
-        "https://www.facebook.com/SnacksYummies",
-        "https://www.instagram.com/SnacksYummies",
-        "https://www.tiktok.com/@SnacksYummies", 
-      ],
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+504-2275-3370",
-        "contactType": "customer service",
-        "availableLanguage": ["Spanish", "English"],
-        "hoursAvailable": "Mo-Fr 08:00-17:00"
-      },
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Barrio Morazán, Frente a Plantas Tropicales, Bulevar Suyapa",
-        "addressLocality": "Tegucigalpa",
-        "addressCountry": "Honduras"
-      }
-    })}></script>
-    
-    <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Yummi Pops",
-      "url": "https://yummipops.com",
-      "description": lang === 'es' ? "Sitio web oficial de Ranchitas, la marca líder de snacks en Centroamérica" : "Official website of Ranchitas, the leading snack brand in Central America",
-      "inLanguage": lang === 'es' ? "es-ES" : "en-US",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": `https://yummipops.com/${lang}/search?q={search_term_string}`,
-        "query-input": "required name=search_term_string"
-      }
-    })}></script>
-    
-    <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": lang === 'es' ? "Inicio" : "Home",
-          "item": `https://yummipops.com/${lang}`
-        }
-      ]
-    })}></script>
-  </Fragment>
+
+<MainLayout
+  title={pageTitle}
+  description={pageDescription}
+  keywords={seoKeywords}
+  ogTitle={ogTitle}
+  ogDescription={ogDescription}
+  ogImage={ogImage}
+  canonicalUrl={`https://yummipops.com/${lang}`}
+>
   <ContentComponent />
 </MainLayout>
-

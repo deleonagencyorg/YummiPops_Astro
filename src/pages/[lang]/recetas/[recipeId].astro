@@ -3,35 +3,54 @@
 import { t, setLocale, type Locale } from '../../../i18n/i18n';
 import MainLayout from '../../../layouts/MainLayout.astro';
 import RecipeDetail from '../../../views/Recipes/Detail/index.astro';
+import { getAllRecipes } from '../../../services/api/recipes';
 
 export async function getStaticPaths() {
   const paths: any[] = [];
   const locale = 'es';
-  // Cargar recetas desde archivos JSON con glob estático
+
+  const cmsRecipes = await getAllRecipes(locale);
   const modules = import.meta.glob('../../../locales/es/recipes/*.json', { eager: true });
-  const files = Object.values(modules) as any[];
-  console.log(`Encontradas ${files.length} recetas para idioma ${locale}`);
-  for (const mod of files) {
-    const recipe = (mod as any).default;
-    if (!recipe?.id) continue;
-    paths.push({
-      params: { lang: locale, recipeId: recipe.id },
-      props: { recipe, currentLang: locale }
-    });
+  const localFiles = Object.values(modules).map((mod: any) => mod?.default).filter(Boolean);
+
+  const recipesMap = new Map();
+  localFiles.forEach((r: any) => {
+    if (r.id) recipesMap.set(r.id, r);
+    if (r.slug) recipesMap.set(r.slug, r);
+  });
+  cmsRecipes.forEach((r: any) => {
+    if (r.id) recipesMap.set(r.id, r);
+    if (r.slug) recipesMap.set(r.slug, r);
+  });
+
+  const allRecipes = Array.from(new Set(recipesMap.values()));
+
+  for (const recipe of allRecipes) {
+    const primaryKey = recipe.slug || recipe.id;
+    if (primaryKey) {
+      paths.push({
+        params: { lang: locale, recipeId: primaryKey },
+        props: { recipe, currentLang: locale }
+      });
+    }
+
+    if (recipe.id && recipe.slug && recipe.id !== recipe.slug) {
+      paths.push({
+        params: { lang: locale, recipeId: recipe.id },
+        props: { recipe, currentLang: locale }
+      });
+    }
   }
-  console.log(`Generadas ${paths.length} rutas de recetas en español`);
+
   return paths;
 }
 
 const { recipe, currentLang } = Astro.props;
 const { lang, recipeId } = Astro.params;
 
-// Establecer el idioma para las traducciones
 setLocale(lang as Locale);
-
-console.log(`Renderizando receta: ${recipeId} en idioma: ${lang}`);
 ---
 
-<MainLayout title={recipe.title}>
+<MainLayout title={recipe?.title || 'Receta'}>
   <RecipeDetail currentLang={currentLang} recipeId={recipeId} />
 </MainLayout>

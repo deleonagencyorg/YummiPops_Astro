@@ -2,24 +2,27 @@
 // src/views/Products/Detail/index.astro
 import { t } from '../../../i18n/i18n';
 import type { Locale } from '../../../i18n/i18n';
+import { getProductBySlug, getAllProducts } from '../../../services/api/products';
 import './styles.css';
 
 // Interfaces locales
 interface ProductSize {
   value: string;
-  image: string;
+  image?: string;
 }
 
 interface Product {
   id: string;
+  slug?: string;
   name: string;
+  category?: string;
   image: string;
   available?: string;
   background_image: string;
   background_color: string;
   header_text_color: string;
   color_button: string;
-  sizes: ProductSize[];
+  sizes: any[];
   description?: string;
   short_description?: string;
   presentaciones?: Array<{
@@ -27,89 +30,194 @@ interface Product {
     icono: string;
   }>;
   relatedProducts?: string[];
-  weight?: string[];
+  weight?: any[];
   nutrition?: any;
   isnew?: boolean;
 }
 
 const { currentLang, productId } = Astro.props;
 
-// Obtener datos desde traducciones
-const productsAssets = t('home', { namespace: 'products', locale: currentLang }) || {};
-const products = t('items', { namespace: 'products', locale: currentLang as Locale }) || [];
-const stockists = t('stockist', { namespace: 'products', locale: currentLang as Locale }) || [];
-const product = products.find((item: Product) => item.id === productId);
-const brandsAssets = t('', { namespace: 'brands', locale: currentLang }) || {};
-const newsAssets = t('', { namespace: 'news', locale: currentLang }) || {};
-const brandsList = brandsAssets.brands || [];
-const zibasBrand = brandsList.find((brand: any) => brand.id === 'Yummi Pops');
-const cardQuizAssets = t('cardQuiz', { namespace: 'common', locale: currentLang }) || {};
-const zibasProducts = (zibasBrand?.products || []).filter((product: any) => product.id !== productId);
+// Intentar obtener el producto desde el CMS por slug o id
+let cmsProduct = await getProductBySlug(productId, currentLang);
+if (!cmsProduct) {
+  const allCms = await getAllProducts(currentLang);
+  cmsProduct = allCms.find((item) => item.id === productId || item.slug === productId) || null;
+}
 
-// Si el producto no existe, lanzar error
+// Fallback a traducciones locales
+const localProducts = t('items', { namespace: 'products', locale: currentLang as Locale }) || [];
+const localProduct = localProducts.find((item: any) => item.id === productId || item.slug === productId);
+
+const product = cmsProduct || localProduct;
+
 if (!product || Object.keys(product).length === 0) {
-  throw new Error(t('errors.product_not_found', { locale: currentLang }));
+  return Astro.redirect(`/${currentLang}/404`);
 }
 
 // Asegurar que todas las propiedades necesarias existan
 const safeProduct: Product = {
   id: product.id || '',
+  slug: product.slug || product.id || '',
   name: product.name || '',
+  category: product.category || '',
   image: product.image || '',
-  background_image: product.background_color || '',
-  background_color: product.background_color || '#0D75C9',
-  header_text_color: product.header_text_color || '#FFFFFF',
-  color_button: product.color_button || '#FFFFFF',
+  background_image: product.background_color || product.backgroundColor || '',
+  background_color: product.background_color || product.backgroundColor || '#0D75C9',
+  header_text_color: product.header_text_color || product.headerTextColor || '#FFFFFF',
+  color_button: product.color_button || product.colorButton || '#FFFFFF',
   sizes: Array.isArray(product.sizes) ? product.sizes : [],
   available: product.available || '',
   description: product.description || '',
-  short_description: product.short_description || '',
+  short_description: product.short_description || product.shortDescription || product.description || '',
   weight: Array.isArray(product.weight) ? product.weight : [],
   nutrition: product.nutrition,
-  isnew: product.isnew || false,
+  isnew: product.isnew || product.isNew || false,
 };
 
-// Verificar si el producto tiene información nutricional y filtrar campos vacíos
-const visibleNutritionEntries = (safeProduct.nutrition && typeof safeProduct.nutrition === 'object')
-  ? Object.entries(safeProduct.nutrition).filter(([k, v]) => v !== null && v !== undefined && String(v).trim() !== '')
-  : [];
-
-// Etiquetas traducidas para las claves nutricionales
-const nutritionLabels: Record<string, string> = {
-  servingSize: currentLang === 'es' ? 'Tamaño por porción' : 'Serving Size',
-  servingsPerContainer: currentLang === 'es' ? 'Porciones por envase' : 'Servings Per Container',
-  calories: currentLang === 'es' ? 'Calorías' : 'Calories',
-  fatEnergy: currentLang === 'es' ? 'Energía de la grasa' : 'Fat Energy',
-  cholesterol: currentLang === 'es' ? 'Colesterol' : 'Cholesterol',
-  totalCarbs: currentLang === 'es' ? 'Carbohidratos totales' : 'Total Carbs',
-  dietaryFiber: currentLang === 'es' ? 'Fibra dietética' : 'Dietary Fiber',
-  sugars: currentLang === 'es' ? 'Azúcares' : 'Sugars',
-  protein: currentLang === 'es' ? 'Proteína' : 'Protein',
-  calorieDiet: currentLang === 'es' ? 'Dieta de referencia' : 'Calorie Diet',
-  caloriesPerServing: currentLang === 'es' ? 'Calorías por porción' : 'Calories Per Serving',
-  vitaminD: currentLang === 'es' ? 'Vitamina D' : 'Vitamin D',
-  iron: currentLang === 'es' ? 'Hierro' : 'Iron',
-  calcium: currentLang === 'es' ? 'Calcio' : 'Calcium',
-  potassium: currentLang === 'es' ? 'Potasio' : 'Potassium',
-  sodium: currentLang === 'es' ? 'Sodio' : 'Sodium',
-  saturatedFatVD: currentLang === 'es' ? 'Grasa saturada' : 'Saturated Fat',
-  transFatVD: currentLang === 'es' ? 'Grasa trans' : 'Trans Fat',
-  totalFat: currentLang === 'es' ? 'Grasa total' : 'Total Fat'
+// Helper para extraer el texto de presentación/tamaño de forma segura
+const formatPresentation = (item: any): string => {
+  if (!item) return '';
+  if (typeof item === 'string') return item;
+  if (typeof item === 'number') return `${item}g`;
+  if (typeof item === 'object') {
+    return item.value || item.label || item.size || item.weight || item.name || '';
+  }
+  return String(item);
 };
 
-const hasNutrition = visibleNutritionEntries.length > 0;
+// Combinar tamaños y pesos evitando duplicados y vacíos
+const presentationsList = [
+  ...safeProduct.weight.map(formatPresentation),
+  ...safeProduct.sizes.map(formatPresentation),
+].filter((val, idx, self) => val && val.trim() !== '' && self.indexOf(val) === idx);
 
-// Obtener todos los productos como un array
-const productsData = t('items', { locale: currentLang, namespace: 'products' }) || [];
-const allProductsArray = Array.isArray(productsData) ? productsData : [];
-
-// Filtrar productos relacionados
-let relatedProducts: any[] = [];
-if (allProductsArray.length > 1) {
-  relatedProducts = allProductsArray
-    .filter((p: any) => p.id !== productId)
-    .slice(0, 6);
+// Parsear información nutricional manteniendo exactamente el diseño original
+interface ParsedNutritionRow {
+  label: string;
+  value: string;
 }
+
+interface ParsedNutrition {
+  title?: string;
+  serving?: string;
+  disclaimer?: string;
+  rows: ParsedNutritionRow[];
+}
+
+function parseNutrition(raw: any, lang: string): ParsedNutrition {
+  if (!raw || typeof raw !== 'object') {
+    return { rows: [] };
+  }
+
+  let serving: string | undefined = undefined;
+  let title: string | undefined = undefined;
+  let disclaimer: string | undefined = undefined;
+  const rows: ParsedNutritionRow[] = [];
+
+  // Estructura del CMS: { title, serving, rows: [{label, value}], disclaimer }
+  if (Array.isArray(raw.rows)) {
+    if (raw.title) title = String(raw.title).trim();
+    if (raw.disclaimer) disclaimer = String(raw.disclaimer).trim();
+    if (raw.serving || raw.servingSize) serving = String(raw.serving || raw.servingSize).trim();
+
+    if (serving) {
+      rows.push({
+        label: lang === 'es' ? 'Tamaño por porción' : 'Serving Size',
+        value: serving
+      });
+    }
+
+    raw.rows
+      .filter((r: any) => r && typeof r === 'object')
+      .forEach((r: any) => {
+        const l = String(r.label || r.Label || r.title || '').trim();
+        const v = String(r.value || r.Value || r.val || '').trim();
+        if (l || v) {
+          rows.push({ label: l, value: v });
+        }
+      });
+
+    return { title, serving, disclaimer, rows };
+  }
+
+  // Estructura de objeto plano local key-value
+  const nutritionLabels: Record<string, string> = {
+    servingSize: lang === 'es' ? 'Tamaño por porción' : 'Serving Size',
+    servingsPerContainer: lang === 'es' ? 'Porciones por envase' : 'Servings Per Container',
+    calories: lang === 'es' ? 'Calorías' : 'Calories',
+    fatEnergy: lang === 'es' ? 'Energía de la grasa' : 'Fat Energy',
+    cholesterol: lang === 'es' ? 'Colesterol' : 'Cholesterol',
+    totalCarbs: lang === 'es' ? 'Carbohidratos totales' : 'Total Carbs',
+    dietaryFiber: lang === 'es' ? 'Fibra dietética' : 'Dietary Fiber',
+    sugars: lang === 'es' ? 'Azúcares' : 'Sugars',
+    protein: lang === 'es' ? 'Proteína' : 'Protein',
+    calorieDiet: lang === 'es' ? 'Dieta de referencia' : 'Calorie Diet',
+    caloriesPerServing: lang === 'es' ? 'Calorías por porción' : 'Calories Per Serving',
+    vitaminD: lang === 'es' ? 'Vitamina D' : 'Vitamin D',
+    iron: lang === 'es' ? 'Hierro' : 'Iron',
+    calcium: lang === 'es' ? 'Calcio' : 'Calcium',
+    potassium: lang === 'es' ? 'Potasio' : 'Potassium',
+    sodium: lang === 'es' ? 'Sodio' : 'Sodium',
+    saturatedFatVD: lang === 'es' ? 'Grasa saturada' : 'Saturated Fat',
+    transFatVD: lang === 'es' ? 'Grasa trans' : 'Trans Fat',
+    totalFat: lang === 'es' ? 'Grasa total' : 'Total Fat'
+  };
+
+  Object.entries(raw).forEach(([k, v]) => {
+    if (v === null || v === undefined || String(v).trim() === '') return;
+    if (k === 'servingSize' || k === 'serving') {
+      serving = String(v).trim();
+      rows.unshift({
+        label: lang === 'es' ? 'Tamaño por porción' : 'Serving Size',
+        value: serving
+      });
+      return;
+    }
+    if (k === 'title') {
+      title = String(v).trim();
+      return;
+    }
+    if (k === 'disclaimer') {
+      disclaimer = String(v).trim();
+      return;
+    }
+    const label = nutritionLabels[k] || k.replace(/([A-Z])/g, ' $1').replace(/_/g, ' ');
+    rows.push({ label, value: String(v).trim() });
+  });
+
+  return { title, serving, disclaimer, rows };
+}
+
+const parsedNutrition = parseNutrition(safeProduct.nutrition, currentLang);
+const hasNutrition = Boolean(
+  parsedNutrition.serving ||
+  parsedNutrition.disclaimer ||
+  parsedNutrition.rows.length > 0
+);
+
+// Obtener productos similares desde el CMS filtrando por la MISMA CATEGORÍA
+const cmsAllProducts = await getAllProducts(currentLang);
+const localProductsList = t('items', { locale: currentLang, namespace: 'products' }) || [];
+
+const catalogForRelated = cmsAllProducts.length > 0 ? cmsAllProducts : localProductsList;
+const currentCategory = (safeProduct.category || '').toLowerCase().trim();
+
+// Filtrar productos excluyendo el actual
+const otherProducts = catalogForRelated.filter(
+  (p: any) => p.id !== safeProduct.id && p.slug !== safeProduct.slug && p.id !== productId && p.slug !== productId
+);
+
+// Filtrar primero los productos que compartan la misma categoría
+let categoryMatchProducts = [];
+if (currentCategory && currentCategory !== 'all') {
+  categoryMatchProducts = otherProducts.filter((p: any) => {
+    const pCategory = (p.category || '').toLowerCase().trim();
+    return pCategory !== '' && (pCategory === currentCategory || pCategory.includes(currentCategory) || currentCategory.includes(pCategory));
+  });
+}
+
+// Si existen productos de la misma categoría, usarlos; de lo contrario fallback a otros productos del catálogo
+const relatedProducts = (categoryMatchProducts.length > 0 ? categoryMatchProducts : otherProducts).slice(0, 6);
 
 // Redes sociales
 const socialMedia = [
@@ -126,10 +234,10 @@ const socialMedia = [
   transition:animate="slide"
 >
   <!-- Hero Section -->
-  <div class=" mx-auto px-4 md:px-6 mb-16">
+  <div class="mx-auto px-4 md:px-6 mb-16">
     <div 
       class="rounded-[30px] md:rounded-[40px] overflow-hidden"
-      style={{ backgroundColor: safeProduct.background_color || '#0D75C9' }}
+      style={{ backgroundColor: safeProduct.background_color }}
     >
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 p-6 md:p-12 lg:p-16">
         
@@ -170,8 +278,8 @@ const socialMedia = [
             </p>
           )}
 
-          <!-- Tamaños Disponibles -->
-          {safeProduct.weight && safeProduct.weight.length > 0 && (
+          <!-- Tamaños Disponibles / Presentaciones (Etiquetas Estáticas en Blanco) -->
+          {presentationsList.length > 0 && (
             <div class="space-y-4">
               <h3 
                 class="text-xl md:text-2xl font-bold text-white"
@@ -180,14 +288,12 @@ const socialMedia = [
               </h3>
               
               <div class="flex flex-wrap gap-3">
-                {safeProduct.weight.map((weight, index) => (
-                  <button 
-                    class="weight-option px-6 py-3 rounded-full border-2 font-bold text-base md:text-lg transition-all duration-300 hover:scale-105 text-black bg-white"
-                    data-weight={weight}
-                    data-index={index}
+                {presentationsList.map((weightText) => (
+                  <span 
+                    class="px-6 py-3 rounded-full font-bold text-base md:text-lg text-gray-900 bg-white shadow-sm inline-block select-none"
                   >
-                    {weight}
-                  </button>
+                    {weightText}
+                  </span>
                 ))}
               </div>
 
@@ -201,13 +307,13 @@ const socialMedia = [
             </div>
           )}
 
-          <!-- Detalle de Nutrición (Acordeón) -->
+          <!-- Detalle de Nutrición (Diseño Original Exacto) -->
           {hasNutrition && (
             <div class="border-t border-b py-4" style={{ borderColor: `${safeProduct.header_text_color}40` }}>
               <button 
                 id="nutrition-toggle"
-                class="w-full flex items-center justify-between text-xl md:text-2xl font-bold transition-colors"
-                style={{ color: '#FFFFFF' }}
+                type="button"
+                class="w-full flex items-center justify-between text-xl md:text-2xl font-bold transition-colors text-white cursor-pointer"
               >
                 <span>{currentLang === 'es' ? 'Detalle de nutrición' : 'Nutrition details'}</span>
                 <svg 
@@ -221,24 +327,31 @@ const socialMedia = [
                 </svg>
               </button>
               
-              <div id="nutrition-content" class="hidden mt-4 space-y-2">
-                <!-- Renderizar tabla nutricional desde visibleNutritionEntries (campos no vacíos) -->
-                <div class="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
-                  <dl class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-white">
-                    {visibleNutritionEntries.map(([key, value]) => (
-                      <div class="flex justify-between items-start">
-                        <dt class="font-semibold text-sm leading-tight mr-3">{nutritionLabels[key] || key.replace(/([A-Z])/g, ' $1').replace(/_/g, ' ')}</dt>
-                        <dd class="text-sm text-right">{String(value)}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                </div>
+              <div id="nutrition-content" class="hidden mt-4 space-y-3">
+                {parsedNutrition.rows.length > 0 && (
+                  <div class="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
+                    <dl class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-white">
+                      {parsedNutrition.rows.map((row) => (
+                        <div class="flex justify-between items-start">
+                          <dt class="font-semibold text-sm leading-tight mr-3">{row.label}</dt>
+                          <dd class="text-sm text-right font-normal">{row.value}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                )}
+
+                {parsedNutrition.disclaimer && (
+                  <p class="text-xs italic text-white/80 mt-2 px-1">
+                    *{parsedNutrition.disclaimer}
+                  </p>
+                )}
               </div>
             </div>
           )}
 
           <!-- Redes Sociales -->
-          <div class="space-y-3">
+          <div class="space-y-3 pt-2">
             <h4 
               class="text-lg font-bold text-white"
             >
@@ -251,7 +364,7 @@ const socialMedia = [
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="w-10 h-10 rounded-full bg-white/90 hover:bg-white flex items-center justify-center transition-all hover:scale-110"
+                  class="w-10 h-10 rounded-full bg-white/90 hover:bg-white flex items-center justify-center transition-all hover:scale-110 shadow-md text-gray-900"
                   aria-label={social.name}
                 >
                   {social.icon === 'instagram' && (
@@ -284,15 +397,15 @@ const socialMedia = [
     </div>
   </div>
 
-  <!-- Productos Similares -->
+  <!-- Productos Similares (Filtrados por Categoría del CMS) -->
   <section class="container mx-auto px-4 md:px-6">
     <div class="flex items-center justify-between mb-8">
       <h2 class="text-3xl md:text-4xl lg:text-5xl font-black text-gray-900">
         {currentLang === 'es' ? 'Productos similares' : 'Similar products'}
       </h2>
       <a 
-        href={`/${currentLang}/productos`}
-        class="hidden md:flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-full font-bold hover:bg-blue-700 transition-colors"
+        href={`/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}`}
+        class="hidden md:flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-full font-bold hover:bg-blue-700 transition-colors shadow-md"
       >
         {currentLang === 'es' ? 'Ver todo' : 'See all'}
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -302,34 +415,34 @@ const socialMedia = [
     </div>
 
     {relatedProducts.length > 0 ? (
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
-        {relatedProducts.slice(0, 3).map((product: any) => (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {relatedProducts.slice(0, 3).map((item: any) => (
           <div class="flex flex-col">
             <a 
-            href={`/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}/${product.id}`}
-            class="group rounded-[30px] overflow-hidden transition-all duration-300 hover:shadow-2xl transform hover:scale-[1.02]"
-            style={{ backgroundColor: product.background_product }}
-          >
-            <div class="flex items-center justify-center p-8 h-[300px] relative">
-              <img 
-                src={product.image} 
-                alt={product.name}
-                class="w-full max-w-[250px] h-full object-contain drop-shadow-lg group-hover:scale-105 transition-transform duration-300"
-              />
-              {product.isnew && (
+              href={`/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}/${item.slug || item.id}`}
+              class="group rounded-[30px] overflow-hidden transition-all duration-300 hover:shadow-2xl transform hover:scale-[1.02] block"
+              style={{ backgroundColor: item.background_product || item.backgroundColor || item.background_color || '#0D75C9' }}
+            >
+              <div class="flex items-center justify-center p-8 h-[300px] relative">
                 <img 
-                  src={currentLang === 'es' ? 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NUEVO.webp' : 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NEW.webp'}
-                  alt="NEW"
-                  class="product-new-badge"
+                  src={item.image || '/images/products/placeholder.jpg'} 
+                  alt={item.name}
+                  class="w-full max-w-[250px] h-full object-contain drop-shadow-lg group-hover:scale-105 transition-transform duration-300"
                 />
-              )}
-            </div>
-            <div class="px-6 pb-6 md:pb-8">
-              <p class="text-sm md:text-base lg:text-lg font-black text-white text-center leading-tight">
-                {product.name}
-              </p>
-            </div>
-          </a>
+                {(item.isnew || item.isNew) && (
+                  <img 
+                    src={currentLang === 'es' ? 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NUEVO.webp' : 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NEW.webp'}
+                    alt="NEW"
+                    class="product-new-badge"
+                  />
+                )}
+              </div>
+              <div class="px-6 pb-6 md:pb-8">
+                <p class="text-sm md:text-base lg:text-lg font-black text-white text-center leading-tight">
+                  {item.name}
+                </p>
+              </div>
+            </a>
           </div>
         ))}
       </div>
@@ -344,8 +457,8 @@ const socialMedia = [
     <!-- Ver todo button (mobile) -->
     <div class="mt-8 flex justify-center md:hidden">
       <a 
-        href={`/${currentLang}/productos`}
-        class="flex items-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-full font-bold hover:bg-blue-700 transition-colors text-lg"
+        href={`/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}`}
+        class="flex items-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-full font-bold hover:bg-blue-700 transition-colors text-lg shadow-md"
       >
         {currentLang === 'es' ? 'Ver todo' : 'See all'}
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -361,29 +474,8 @@ const socialMedia = [
   import { initProductDetail } from './scripts.js';
   
   document.addEventListener('astro:page-load', () => {
-    // Inicializar producto
     initProductDetail();
-    
-    // Weight options - selección de tamaños
-    const weightOptions = document.querySelectorAll<HTMLButtonElement>('.weight-option');
-    weightOptions.forEach((option, index) => {
-      option.addEventListener('click', () => {
-        weightOptions.forEach(opt => {
-          opt.style.backgroundColor = 'white';
-          opt.style.fontWeight = 'bold';
-          opt.style.color = '#000';
-        });
-        option.style.backgroundColor = 'white';
-        option.style.color = '#000';
-      });
-    });
-    
-    // Seleccionar primer tamaño por defecto
-    if (weightOptions.length > 0) {
-      weightOptions[0].click();
-    }
 
-    // Toggle de información nutricional
     const nutritionToggle = document.getElementById('nutrition-toggle');
     const nutritionContent = document.getElementById('nutrition-content');
     const nutritionIcon = document.getElementById('nutrition-icon');
@@ -402,50 +494,4 @@ const socialMedia = [
       });
     }
   });
-</script>
-
-<script is:inline>
-  (function () {
-    function initWhereToBuyModal() {
-      const openBtn = document.getElementById('where-to-buy-open');
-      const modal = document.getElementById('where-to-buy-modal');
-      if (!(openBtn instanceof HTMLButtonElement)) return;
-      if (!(modal instanceof HTMLElement)) return;
-
-      if (modal.dataset.wtbInit === '1') return;
-      modal.dataset.wtbInit = '1';
-
-      const closeBtn = modal.querySelector('[data-wtb-close]');
-      const backdrop = modal.querySelector('[data-wtb-backdrop]');
-
-      const open = () => {
-        modal.classList.remove('hidden');
-        modal.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-      };
-
-      const close = () => {
-        modal.classList.add('hidden');
-        modal.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-      };
-
-      openBtn.addEventListener('click', open);
-
-      if (closeBtn) closeBtn.addEventListener('click', close);
-      if (backdrop) backdrop.addEventListener('click', close);
-
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') close();
-      });
-    }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initWhereToBuyModal);
-    } else {
-      initWhereToBuyModal();
-    }
-
-    document.addEventListener('astro:page-load', initWhereToBuyModal);
-  })();
 </script>
