@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets';
+import { t, getLocale, type Locale } from '../../../i18n/i18n';
 
 interface textHome {
   since: string;
@@ -22,9 +23,14 @@ export interface Banner {
 interface Props {
   textHome: textHome;
   banners?: Banner[];
+  currentLang?: Locale;
 }
 
-const { textHome, banners: bannersProp } = Astro.props;
+const { textHome, banners: bannersProp, currentLang: currentLangProp } = Astro.props;
+const currentLang = currentLangProp || getLocale();
+
+const socialMediaPhrase = t('home.socialmedia.phrase', { namespace: 'common', locale: currentLang }) || 
+  (currentLang === 'es' ? '¡Únete al Crunch! Síguenos en:' : 'Join the Crunch! Follow us on:');
 
 // Configuración de banners editable en una variable
 const banners: Banner[] = bannersProp || [
@@ -72,8 +78,11 @@ const banners: Banner[] = bannersProp || [
 </div>
  
 <!-- iconos sociales en el home -->
-<div class="w-full py-4 sm:py-5 md:py-6 lg:py-8 flex items-center justify-center bg-white">
-  <div class="flex gap-6 sm:gap-8 md:gap-10 items-center justify-center">
+<div class="w-full py-5 sm:py-7 md:py-9 flex flex-row flex-wrap items-center justify-center bg-white gap-3 sm:gap-5 md:gap-6 px-4">
+  <p class="font-title text-black text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold tracking-wide text-center uppercase leading-none m-0">
+    {socialMediaPhrase}
+  </p>
+  <div class="flex gap-3 sm:gap-4 md:gap-5 items-center justify-center">
     <a 
       href="https://www.instagram.com/snacksyummies/" 
       target="_blank" 
@@ -84,7 +93,7 @@ const banners: Banner[] = bannersProp || [
       <img 
         src="https://snack.yummiespromociones.com/SnacksyummiesAssets/Ig.svg" 
         alt="Instagram" 
-        class="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 object-contain" 
+        class="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 lg:w-12 lg:h-12 object-contain" 
       />
     </a>
 
@@ -98,22 +107,20 @@ const banners: Banner[] = bannersProp || [
       <img 
         src="https://snack.yummiespromociones.com/SnacksyummiesAssets/Facebook.svg" 
         alt="Facebook" 
-        class="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 object-contain" 
+        class="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 lg:w-12 lg:h-12 object-contain" 
       />
     </a>
 
     <a 
-      href="https://www.tiktok.com/@snacksyummies" 
+      href="https://www.youtube.com/@snacksyummiesoficial" 
       target="_blank" 
       rel="noopener noreferrer" 
-      aria-label="TikTok"
+      aria-label="YouTube"
       class="inline-flex items-center justify-center transition-transform hover:scale-110 opacity-90 hover:opacity-100"
     >
-      <img 
-        src="https://snack.yummiespromociones.com/SnacksyummiesAssets/Tik.svg" 
-        alt="TikTok" 
-        class="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 object-contain" 
-      />
+      <svg class="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 lg:w-12 lg:h-12 text-black fill-current" viewBox="0 0 24 24">
+        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+      </svg>
     </a>
   </div>
 </div>
