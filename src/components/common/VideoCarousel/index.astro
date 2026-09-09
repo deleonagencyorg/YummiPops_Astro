@@ -30,7 +30,7 @@ const { textHome, banners: bannersProp, currentLang: currentLangProp } = Astro.p
 const currentLang = currentLangProp || getLocale();
 
 const socialMediaPhrase = t('home.socialmedia.phrase', { namespace: 'common', locale: currentLang }) || 
-  (currentLang === 'es' ? '¡Únete al Crunch! Síguenos en:' : 'Join the Crunch! Follow us on:');
+  (currentLang === 'es' ? '¡Únete al pop del sabor! Síguenos en:' : 'Join the pop of flavor! Follow us on:');
 
 // Configuración de banners editable en una variable
 const banners: Banner[] = bannersProp || [
