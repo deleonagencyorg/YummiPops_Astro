@@ -42,7 +42,7 @@
     }
   },
   "social_media": {
-   "facebook": {
+    "facebook": {
       "name": "Facebook",
       "url": "https://www.facebook.com/SnacksYummies",
       "alt": "Facebook de Yummi Pops",
@@ -95,7 +95,6 @@
         "description": "",
         "link": "#"
       },
-   
       {
         "id": "slide1",
         "desktop": "https://snack.yummiespromociones.com/zibas/ZIBAS-360_TVC2.mp4",
@@ -105,7 +104,6 @@
         "description": "",
         "link": "#"
       }
-     
     ]
   },
   "menu_labels": {
@@ -150,28 +148,28 @@
       "title": "- Disfruta tus Yummi Pops en todo momento",
       "description": "Conoce todas las formas de Cronchear tu mundo con recetas y contenidos con sabores explosivos. Entra y enciendo el fuego del Cronch!"
     },
-    "newsletter":{
-      "placeholder":"tucorreo@email.com",
-      "buttonText":"Suscribirse"
+    "newsletter": {
+      "placeholder": "tucorreo@email.com",
+      "buttonText": "Suscribirse"
     },
-    "socialmedia":{
-      "phrase":"¡Únete al pop del sabor! Síguenos en:",
-      "title":"Síguenos",
-      "tagtitle":"en redes",
-      "description":"Síguenos en nuestras redes sociales - Yummi Pops",
-      "newsletter":"Entérate de las noticias y promociones",
-      "instagramLinks":[
+    "socialmedia": {
+      "phrase": "¡Únete al pop de sabor! Síguenos en:",
+      "title": "Síguenos",
+      "tagtitle": "en redes",
+      "description": "Síguenos en nuestras redes sociales - Yummi Pops",
+      "newsletter": "Entérate de las noticias y promociones",
+      "instagramLinks": [
         {
-          "url":"https://www.instagram.com/reel/DNT6raEoqzD/?igsh=MXJsdmh4YWxpMGZseA=="
+          "url": "https://www.instagram.com/reel/DNT6raEoqzD/?igsh=MXJsdmh4YWxpMGZseA=="
         },
         {
-          "url":"https://www.instagram.com/reel/DNL-gGZOW09/?igsh=MTY4eDVzazc5YTliaA=="
+          "url": "https://www.instagram.com/reel/DNL-gGZOW09/?igsh=MTY4eDVzazc5YTliaA=="
         },
         {
-          "url":"https://www.instagram.com/reel/DNHd_ltM-pc/?igsh=OWpnamQ4Y3FmN3Vz"
+          "url": "https://www.instagram.com/reel/DNHd_ltM-pc/?igsh=OWpnamQ4Y3FmN3Vz"
         },
         {
-          "url":"https://www.instagram.com/reel/DNEaatBuSfZ/?igsh=MTZuZjgzZnZ4dzg0dw=="
+          "url": "https://www.instagram.com/reel/DNEaatBuSfZ/?igsh=MTZuZjgzZnZ4dzg0dw=="
         }
       ]
     },
@@ -211,11 +209,11 @@
     "emailPlaceholder": "tucorreo@email.com",
     "subscribe_button": "Suscribirse"
   },
-  "messagetop":[
+  "messagetop": [
     {
-      "id":"1",
-      "title":"😎 ¡Bienvenidos a Yummi Pops! Si se te antoja un snack, estás en el lugar correcto 🎉",
-      "link":""
+      "id": "1",
+      "title": "😎 ¡Bienvenidos a Yummi Pops! Si se te antoja un snack, estás en el lugar correcto 🎉",
+      "link": ""
     }
   ],
   "form_validation": {
@@ -228,21 +226,21 @@
     "success": "¡Gracias por suscribirte!"
   },
   "cardVideo": {
-    "badge" : "Nuestra Historia",
-    "title" : "¿Quiénes",
-    "titleHighlight" : "Somos?",
-    "description1" : "Conoce todas las formas de Cronchear tu mundo con recetas y contenidos con sabores explosivos. Entra y enciendo el fuego del Cronch!",
-    "description2" : "",
-    "videoSrc" : "https://snack.yummiespromociones.com/SnacksyummiesAssets/Yummi Pops_loop.mp4",
-    "backgroundColor" : "#B91C1C"
+    "badge": "Nuestra Historia",
+    "title": "¿Quiénes",
+    "titleHighlight": "Somos?",
+    "description1": "Conoce todas las formas de Cronchear tu mundo con recetas y contenidos con sabores explosivos. Entra y enciendo el fuego del Cronch!",
+    "description2": "",
+    "videoSrc": "https://snack.yummiespromociones.com/SnacksyummiesAssets/Yummi Pops_loop.mp4",
+    "backgroundColor": "#B91C1C"
   },
   "cardQuiz": {
-    "badge" : "Nuestra Historia",
-    "title" : "Descubre antes que nadie lo nuevo de Yummi Pops",
-    "titleHighlight" : "",
-    "description1" : "Cronchea con actitud y deja que el sabor diga quién eres. ¿Listo para el reto? Descubre tu esencia Yummi Pops en cada mordida.",
+    "badge": "Nuestra Historia",
+    "title": "Descubre antes que nadie lo nuevo de Yummi Pops",
+    "titleHighlight": "",
+    "description1": "Cronchea con actitud y deja que el sabor diga quién eres. ¿Listo para el reto? Descubre tu esencia Yummi Pops en cada mordida.",
     "titleButton": "Hacer Quiz",
-    "imageSrc" : "https://snack.yummiespromociones.com/SnacksyummiesAssets/Yummi Pops_loop.mp4",
+    "imageSrc": "https://snack.yummiespromociones.com/SnacksyummiesAssets/Yummi Pops_loop.mp4",
     "backgroundColor": "#0041CD"
   }
 }

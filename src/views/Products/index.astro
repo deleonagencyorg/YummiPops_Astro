@@ -278,18 +278,20 @@ const features = [
                 {group.products.map((product: any) => (
                   <a
                     href={`/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}/${product.id}`}
-                    class="product-card group"
+                    class="product-card group h-full flex flex-col"
                     data-category={product.category || 'all'}
                   >
                     <div
-                      class="rounded-[30px] p-6 md:p-8 flex flex-col items-center justify-center transition-all duration-300 hover:shadow-2xl transform hover:scale-[1.02] min-h-[350px] relative"
+                      class="rounded-[30px] p-6 md:p-8 flex flex-col items-center justify-between h-full min-h-[350px] relative transition-all duration-300 hover:shadow-2xl transform hover:scale-[1.02]"
                       style={{ backgroundColor: product.background_product || '#FFFFFF' }}
                     >
-                      <img
-                        src={product.image || '/images/products/placeholder.jpg'}
-                        alt={product.name}
-                        class="w-full max-w-[250px] h-[250px] object-contain drop-shadow-lg group-hover:scale-105 transition-transform duration-300"
-                      />
+                      <div class="flex-1 flex items-center justify-center w-full min-h-[200px]">
+                        <img
+                          src={product.image || '/images/products/placeholder.jpg'}
+                          alt={product.name}
+                          class="w-full max-w-[250px] max-h-[230px] md:max-h-[250px] object-contain drop-shadow-lg group-hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
                       {product.isnew && (
                         <img 
                           src={currentLang === 'es' ? 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NUEVO.webp' : 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NEW.webp'}
@@ -298,13 +300,12 @@ const features = [
                         />
                       )}
                       <!-- Nombre dentro de la card -->
-                      <p class="w-full text-sm md:text-base font-black text-white leading-tight mt-4 text-center">
-                        {product.name}
-                      </p>
+                      <div class="w-full mt-4 min-h-[2.75rem] flex items-center justify-center">
+                        <p class="text-sm md:text-base font-black text-white leading-snug text-center">
+                          {product.name}
+                        </p>
+                      </div>
                     </div>
-                    <h3 class="text-xl md:text-2xl font-black text-white mt-4 leading-tight">
-                      {product.name}
-                    </h3>
                   </a>
                 ))}
               </div>
@@ -319,18 +320,20 @@ const features = [
             {(products as any[]).map((product: any) => (
               <a
                 href={`/${currentLang}/${currentLang === 'es' ? 'productos' : 'products'}/${product.id}`}
-                class="product-card group"
+                class="product-card group h-full flex flex-col"
                 data-category={product.category || 'all'}
               >
                 <div
-                  class="rounded-[30px] p-6 md:p-8 flex flex-col items-center justify-center transition-all duration-300 hover:shadow-2xl transform hover:scale-[1.02] min-h-[350px] relative"
+                  class="rounded-[30px] p-6 md:p-8 flex flex-col items-center justify-between h-full min-h-[350px] relative transition-all duration-300 hover:shadow-2xl transform hover:scale-[1.02]"
                   style={{ backgroundColor: product.background_product || '#FFFFFF' }}
                 >
-                  <img
-                    src={product.image || '/images/products/placeholder.jpg'}
-                    alt={product.name}
-                    class="w-full max-w-[250px] h-[250px] object-contain drop-shadow-lg group-hover:scale-105 transition-transform duration-300"
-                  />
+                  <div class="flex-1 flex items-center justify-center w-full min-h-[200px]">
+                    <img
+                      src={product.image || '/images/products/placeholder.jpg'}
+                      alt={product.name}
+                      class="w-full max-w-[250px] max-h-[230px] md:max-h-[250px] object-contain drop-shadow-lg group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
                   {product.isnew && (
                     <img 
                       src={currentLang === 'es' ? 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NUEVO.webp' : 'https://snack.yummiespromociones.com/SnacksyummiesAssets/NEW.webp'}
@@ -339,13 +342,12 @@ const features = [
                     />
                   )}
                   <!-- Nombre dentro de la card -->
-                  <p class="w-full text-sm md:text-base font-black text-white leading-tight mt-4 text-center">
-                    {product.name}
-                  </p>
+                  <div class="w-full mt-4 min-h-[2.75rem] flex items-center justify-center">
+                    <p class="text-sm md:text-base font-black text-white leading-snug text-center">
+                      {product.name}
+                    </p>
+                  </div>
                 </div>
-                <h3 class="text-xl md:text-2xl font-black text-white mt-4 leading-tight">
-                  {product.name}
-                </h3>
               </a>
             ))}
           </div>
@@ -364,7 +366,9 @@ const features = [
   }
 
   .product-card {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     text-decoration: none;
   }
 
